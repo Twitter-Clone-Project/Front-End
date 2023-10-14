@@ -1,9 +1,9 @@
 function App() {
-	return (
-		<div className='w-full h-screen text-4xl bg-sky-500 flex text-center justify-center items-center'>
-			Hello Twitter!
-		</div>
-	);
+  return (
+    <div className="flex h-screen w-full items-center justify-center bg-sky-500 text-center text-4xl">
+      Hello Twitter!
+    </div>
+  );
 }
 
 export default App;
