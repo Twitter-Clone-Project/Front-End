@@ -1,6 +1,11 @@
+import * as React from 'react';
+
 function App() {
   return (
-    <div className="flex h-screen w-full items-center justify-center bg-sky-500 text-center text-4xl">
+    <div
+      data-k="dummy"
+      className="flex h-screen w-full items-center justify-center bg-sky-500 text-center text-4xl"
+    >
       Hello Twitter!
     </div>
   );
