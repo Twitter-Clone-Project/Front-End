@@ -2,7 +2,7 @@ import * as React from 'react';
 
 function LandingPage() {
   return (
-    <div className="landingPage mx-auto h-screen p-8 lg:px-16">
+    <div className="landingPage bg-pure-black mx-auto h-screen p-8 lg:px-16">
       <div className="flex h-screen max-w-xl flex-col text-white sm:px-28 lg:w-full lg:max-w-none lg:flex-1 lg:flex-row lg:justify-evenly lg:p-0">
         <div className="mb-10 flex max-w-[30%] basis-2 justify-start lg:max-w-none lg:basis-1/4 ">
           <svg
