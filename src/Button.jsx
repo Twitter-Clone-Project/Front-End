@@ -1,24 +1,44 @@
+/* eslint-disable react/prop-types */
 import * as React from 'react';
 
-
-const Button = (props) => {
-
-    return (
-        <div className='relative w-full h-[38.5px]'>
-            <button className={` absolute rounded-3xl ${props.backGroundColor == "blue" ? 'bg-blue' : ''}  ${props.backGroundColor == "white" ? 'bg-white' : ''}  ${props.backGroundColor == "black" ? 'bg-black' : ''} w-full h-full border ${props.borderColor == "blue" ? 'border-blue' : ''}  ${props.borderColor == "white" ? 'border-white' : ''}  ${props.borderColor == "black" ? 'border-black' : ''}`}></button>
-            <div className='flex absolute pointer-events-none top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full justify-center'>
-                {props.path &&
-                    <svg className='w-5 h-5' viewBox='0 0 24 24'><g ><path d={`${props.path}`}></path></g> </svg>
-                }
-                <label className={`flex text-base font-bold ${props.labelColor == "blue" ? 'text-blue' : ''}  ${props.labelColor == "white" ? 'text-white ' : ''}  ${props.labelColor == "black" ? 'text-black' : ''}  items-start`}>{props.label}</label>
-            </div>
-        </div>
-    );
-
-
-
-
-};
-
+function Button({ backGroundColor, borderColor, labelColor, label, path }) {
+  return (
+    <div className="relative h-[38.5px] w-full">
+      <button
+        type="submit"
+        className={` absolute rounded-3xl ${
+          backGroundColor === 'blue' ? 'bg-blue' : ''
+        }  ${backGroundColor === 'white' ? 'bg-white' : ''}  ${
+          backGroundColor === 'black' ? 'bg-black' : ''
+        } h-full w-full border ${
+          borderColor === 'blue' ? 'border-blue' : ''
+        }  ${borderColor === 'white' ? 'border-white' : ''}  ${
+          borderColor === 'black' ? 'border-black' : ''
+        }`}
+      />
+      <div className="pointer-events-none absolute left-1/2 top-1/2 flex w-full -translate-x-1/2 -translate-y-1/2 transform justify-center">
+        {path && (
+          <svg
+            className="h-5 w-5"
+            viewBox="0 0 24 24"
+          >
+            <g>
+              <path d={`${path}`} />
+            </g>{' '}
+          </svg>
+        )}
+        <span
+          className={`flex text-base font-bold ${
+            labelColor === 'blue' ? 'text-blue' : ''
+          }  ${labelColor === 'white' ? 'text-white ' : ''}  ${
+            labelColor === 'black' ? 'text-black' : ''
+          }  items-start`}
+        >
+          {label}
+        </span>
+      </div>
+    </div>
+  );
+}
 
 export default Button;

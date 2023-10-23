@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 
+// eslint-disable-next-line no-unused-vars
 function EmailInput({ error, setError }) {
   return (
     <div className="relative h-14 w-full items-center justify-center">
@@ -20,9 +21,9 @@ function EmailInput({ error, setError }) {
       >
         Email
       </label>
-      <label className="invisible  absolute left-0 ml-2 mt-14 text-sm text-warning peer-invalid:visible">
+      <span className="invisible  absolute left-0 ml-2 mt-14 text-sm text-warning peer-invalid:visible">
         Please enter a valid email.
-      </label>
+      </span>
     </div>
   );
 }
