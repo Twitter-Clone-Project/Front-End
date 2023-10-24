@@ -2,7 +2,7 @@
 import React from 'react';
 
 // eslint-disable-next-line no-unused-vars
-function EmailInput({ error, setError }) {
+function EmailInput({ error, setError, email, setEmail }) {
   const errorMessage = 'Please enter a valid email.';
   return (
     <div className="relative h-14 w-full items-center justify-center">
@@ -10,16 +10,18 @@ function EmailInput({ error, setError }) {
         placeholder=""
         id="arrow"
         type="email"
+        value={email}
         onChange={(event) => {
           if (event.target.checkValidity()) setError('');
           else setError(errorMessage);
+          setEmail(event.target.value);
         }}
         className={`${
           error !== '' ? 'border-warning focus:border-warning' : ''
         } peer h-full w-full rounded border border-light-gray
-         bg-white pl-2 pt-6 invalid:border-warning focus:border-2
-         focus:border-blue focus:outline-none focus:invalid:border-warning
-         dark:bg-black dark:text-white `}
+         bg-white pl-2 pt-6 text-lg invalid:border-warning
+         focus:border-2 focus:border-blue focus:outline-none
+         focus:invalid:border-warning dark:bg-black dark:text-white`}
       />
       <label
         htmlFor="arrow"
