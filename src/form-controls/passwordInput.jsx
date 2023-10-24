@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 
-function PasswordInput() {
+// eslint-disable-next-line react/prop-types
+function PasswordInput({ password, setPassword }) {
   const [isClicked, setIsClicked] = useState(0);
   const inputEI = useRef(null);
 
@@ -10,8 +11,12 @@ function PasswordInput() {
         ref={inputEI}
         placeholder=""
         id="arrow"
+        value={password}
+        onChange={(event) => {
+          setPassword(event.target.value);
+        }}
         type={isClicked ? 'text' : 'password'}
-        className="peer h-full w-full rounded border border-light-gray bg-white pl-2 pr-8 pt-6 invalid:border-warning focus:border-2 focus:border-blue focus:outline-none focus:invalid:border-warning dark:bg-black dark:text-white"
+        className="peer h-full w-full rounded border border-light-gray bg-white pl-2 pr-8 pt-6 text-lg invalid:border-warning focus:border-2 focus:border-blue focus:outline-none focus:invalid:border-warning dark:bg-black dark:text-white"
       />
       <label
         htmlFor="arrow"

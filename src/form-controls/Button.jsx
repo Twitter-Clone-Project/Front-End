@@ -14,10 +14,12 @@ function Button({
     <div className={`relative h-[38.5px] ${width || 'w-full'}`}>
       <button
         type="submit"
-        className={`absolute flex items-center rounded-3xl p-5 align-middle ${
-          backGroundColor === 'blue' ? 'bg-blue' : ''
-        }  ${backGroundColor === 'white' ? 'bg-white' : ''}  ${
-          backGroundColor === 'black' ? 'bg-black' : ''
+        className={` absolute rounded-3xl ${
+          backGroundColor === 'blue' ? 'bg-blue hover:bg-[#1a8cd8]' : ''
+        }  ${
+          backGroundColor === 'white' ? 'bg-white hover:bg-[#e6e6e6]' : ''
+        }  ${
+          backGroundColor === 'black' ? 'bg-black hover:bg-[#031018]' : ''
         } h-full w-full border ${
           borderColor === 'blue' ? 'border-blue' : ''
         }  ${borderColor === 'white' ? 'border-white' : ''}  ${

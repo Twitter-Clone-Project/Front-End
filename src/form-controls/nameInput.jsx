@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 
 // eslint-disable-next-line no-unused-vars
 
-function NameInput({ error, setError }) {
-  const [Name, setName] = useState('');
+function NameInput({ error, setError, Name, setName }) {
   const [max, setMax] = useState(0);
   const errorMessage = 'What’s your name?';
 
@@ -28,8 +27,8 @@ function NameInput({ error, setError }) {
             ? ' border-warning focus:border-warning'
             : 'border-light-gray focus:border-blue '
         } peer  h-full w-full rounded border  bg-white
-          pl-2  pt-6 focus:border-2  focus:outline-none
-        dark:bg-black dark:text-white`}
+          pl-2  pt-6 text-lg  focus:border-2
+        focus:outline-none dark:bg-black dark:text-white`}
       />
       <label
         htmlFor="arrow"
