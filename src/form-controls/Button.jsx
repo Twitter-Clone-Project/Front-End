@@ -12,7 +12,7 @@ function Button({
   children,
 }) {
   return (
-    <div className={`relative h-[38.5px] ${width || 'w-full'}`}>
+    <div className={`relative flex h-[38.5px] ${width || 'w-full'}`}>
       <button
         type="submit"
         disabled={disabled}
@@ -27,7 +27,9 @@ function Button({
         }  ${borderColor === 'white' ? 'border-white' : ''}  ${
           borderColor === 'black' ? 'border-black' : ''
         } ${borderColor === 'gray' ? 'border-light-gray' : ''}
-        ${borderColor === 'none' ? 'border-none' : ''}`}
+        ${
+          borderColor === 'none' ? 'border-none' : ''
+        } disabled:cursor-not-allowed disabled:bg-light-gray`}
       />
       <div className="pointer-events-none absolute left-1/2 top-1/2 flex w-full -translate-x-1/2 -translate-y-1/2 transform justify-center">
         {path && (
