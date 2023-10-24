@@ -7,9 +7,11 @@ function Button({ backGroundColor, borderColor, labelColor, label, path }) {
       <button
         type="submit"
         className={` absolute rounded-3xl ${
-          backGroundColor === 'blue' ? 'bg-blue' : ''
-        }  ${backGroundColor === 'white' ? 'bg-white' : ''}  ${
-          backGroundColor === 'black' ? 'bg-black' : ''
+          backGroundColor === 'blue' ? 'bg-blue hover:bg-[#1a8cd8]' : ''
+        }  ${
+          backGroundColor === 'white' ? 'bg-white hover:bg-[#e6e6e6]' : ''
+        }  ${
+          backGroundColor === 'black' ? 'bg-black hover:bg-[#031018]' : ''
         } h-full w-full border ${
           borderColor === 'blue' ? 'border-blue' : ''
         }  ${borderColor === 'white' ? 'border-white' : ''}  ${
