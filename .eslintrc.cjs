@@ -29,6 +29,16 @@ module.exports = {
     "max-len": ["error", { "code": 80, "ignoreStrings": true }],
     'camelcase': ['warn', { "properties": "always" }],
     'react/jsx-closing-bracket-location': [1, 'tag-aligned'],
-
+    "jsx-a11y/label-has-associated-control": ["error", {
+      "required": {
+        "some": ["nesting", "id"]
+      }
+    }],
+    "jsx-a11y/label-has-for": ["error", {
+      "required": {
+        "some": ["nesting", "id"]
+      }
+    }],
+    "jsx-a11y/control-has-associated-label": "off"
   },
 }
