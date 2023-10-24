@@ -1,15 +1,15 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import BoxCard from './BoxCard';
-import TextField from '@mui/material/TextField';
 import Button from '../form-controls/Button';
 import NameInput from '../form-controls/nameInput';
 
 function EmailConfirm({ email = 'NA' }) {
+  // eslint-disable-next-line no-unused-vars
   const [code, setCode] = useState('');
   const [err, setError] = useState('');
   return (
-    <div className="confirm flex h-screen w-full items-center justify-center text-black dark:bg-dark-gray dark:text-white">
+    <div className="confirm flex h-screen w-full items-center justify-center text-lg text-black dark:bg-dark-layout dark:text-white">
       <BoxCard>
         <p className="text-start font-semibold">We sent you a code</p>
         <span className="mb-5 py-2 text-start text-sm text-dark-gray">

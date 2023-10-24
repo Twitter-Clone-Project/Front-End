@@ -14,6 +14,7 @@ export default {
       "light-gray": "#AAB8C2",
       "x-light-gray": "#E1E8ED",
       "xx-light-gray": "#F5F8FA",
+      "dark-layout": "#292e33",
       warning: "#F4212E"
     },
   },
