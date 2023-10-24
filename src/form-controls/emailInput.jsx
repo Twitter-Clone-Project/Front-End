@@ -3,6 +3,7 @@ import React from 'react';
 
 // eslint-disable-next-line no-unused-vars
 function EmailInput({ error, setError }) {
+  const errorMessage = 'Please enter a valid email.';
   return (
     <div className="relative h-14 w-full items-center justify-center">
       <input
@@ -10,19 +11,36 @@ function EmailInput({ error, setError }) {
         id="arrow"
         type="email"
         onChange={(event) => {
-          if (event.target.checkValidity()) setError(true);
-          else setError(false);
+          if (event.target.checkValidity()) setError('');
+          else setError(errorMessage);
         }}
-        className="peer h-full w-full rounded border border-light-gray bg-white pl-2 pt-6 invalid:border-warning focus:border-2 focus:border-blue focus:outline-none focus:invalid:border-warning dark:bg-black dark:text-white"
+        className={`${
+          error !== '' ? 'border-warning focus:border-warning' : ''
+        } peer h-full w-full rounded border border-light-gray
+         bg-white pl-2 pt-6 invalid:border-warning focus:border-2
+         focus:border-blue focus:outline-none focus:invalid:border-warning
+         dark:bg-black dark:text-white `}
       />
       <label
         htmlFor="arrow"
-        className="absolute left-0 ml-2 mt-4 cursor-text text-base text-dark-gray transition-all duration-200 peer-invalid:text-warning peer-focus:-top-2 peer-focus:text-xs peer-focus:text-blue  peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:text-xs peer-[:focus:invalid]:text-warning"
+        className={` 
+        ${error !== '' ? 'text-warning peer-focus:text-warning' : ''}
+         absolute left-0 ml-2 mt-4 cursor-text text-base text-dark-gray 
+        transition-all duration-200 
+        peer-invalid:text-warning peer-focus:-top-2 peer-focus:text-xs
+        peer-focus:text-blue  peer-[:not(:placeholder-shown)]:-top-2 
+          peer-[:not(:placeholder-shown)]:text-xs 
+        peer-[:focus:invalid]:text-warning`}
       >
         Email
       </label>
-      <span className="invisible  absolute left-0 ml-2 mt-14 text-sm text-warning peer-invalid:visible">
-        Please enter a valid email.
+      <span
+        className={` 
+      absolute left-0 ml-2 mt-14 text-sm  text-warning   ${
+        error === '' ? 'invisible peer-invalid:visible' : 'visible'
+      }`}
+      >
+        {error === '' ? errorMessage : error}
       </span>
     </div>
   );

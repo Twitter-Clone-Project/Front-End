@@ -2,10 +2,18 @@
 import React, { useState } from 'react';
 
 // eslint-disable-next-line no-unused-vars
+
 function NameInput({ error, setError }) {
   const [Name, setName] = useState('');
   const [max, setMax] = useState(0);
+  const errorMessage = 'What’s your name?';
 
+  const handleInputChange = (event) => {
+    setName(event.target.value);
+    if (max < event.target.value.length) setMax(event.target.value.length);
+    if (event.target.value.length === 0 && max !== 0) setError(errorMessage);
+    else setError('');
+  };
   return (
     <div className="relative h-14 w-full items-center justify-center">
       <input
@@ -14,13 +22,9 @@ function NameInput({ error, setError }) {
         type="text"
         maxLength="50"
         value={Name}
-        onChange={(event) => {
-          setName(event.target.value);
-          if (max < Name.length) setMax(Name.length);
-          if (Name.length === 0 && max !== 0) setError(true);
-        }}
+        onChange={handleInputChange}
         className={`${
-          Name.length === 0 && max !== 0
+          (Name.length === 0 && max !== 0) || error !== ''
             ? ' border-warning focus:border-warning'
             : 'border-light-gray focus:border-blue '
         } peer  h-full w-full rounded border  bg-white
@@ -30,13 +34,14 @@ function NameInput({ error, setError }) {
       <label
         htmlFor="arrow"
         className={`${
-          Name.length === 0 && max !== 0
+          (Name.length === 0 && max !== 0) || error !== ''
             ? 'text-warning peer-focus:text-warning'
             : ' text-dark-gray peer-focus:text-blue'
-        } eer-[:not(:placeholder-shown)]:-top-2 absolute left-0 ml-2 
-          mt-4 cursor-text text-base transition-all duration-200
-          peer-focus:-top-2 peer-focus:text-xs
-          peer-focus:text-blue peer-[:not(:placeholder-shown)]:text-xs`}
+        } absolute left-0 ml-2 mt-4 
+          cursor-text text-base transition-all duration-200 peer-focus:-top-2
+          peer-focus:text-xs peer-focus:text-blue
+          peer-[:not(:placeholder-shown)]:-top-2 
+          peer-[:not(:placeholder-shown)]:text-xs`}
       >
         Name
       </label>
@@ -45,10 +50,12 @@ function NameInput({ error, setError }) {
       </span>
       <span
         className={` ${
-          Name.length === 0 && max !== 0 ? 'visible' : 'invisible'
+          (Name.length === 0 && max !== 0) || error !== ''
+            ? 'visible'
+            : 'invisible'
         }     text-warning"  absolute left-0 ml-2 mt-14 text-sm text-warning`}
       >
-        What’s your name?
+        {error === '' ? errorMessage : error}
       </span>
     </div>
   );
