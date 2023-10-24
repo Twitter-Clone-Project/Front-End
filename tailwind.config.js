@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {},
     colors: {
-      'pure-black': "#0C0D0F",
+      'pure-black': "#000",
       blue: "#1DA1F2",
       black: "#14171A",
       white: "#FFFFFF",
@@ -15,6 +15,8 @@ export default {
       "light-gray": "#AAB8C2",
       "x-light-gray": "#E1E8ED",
       "xx-light-gray": "#F5F8FA",
+      'border-gray': "#2f3336",
+      'light-thin': "#71767b",
       warning: "#F4212E"
     },
     fontFamily: {
