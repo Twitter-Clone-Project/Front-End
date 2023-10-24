@@ -28,8 +28,8 @@ function NameInput({ error, setError }) {
             ? ' border-warning focus:border-warning'
             : 'border-light-gray focus:border-blue '
         } peer  h-full w-full rounded border  bg-white
-          pl-2  pt-6 focus:border-2  focus:outline-none
-        dark:bg-black dark:text-white`}
+          pl-2  pt-6 text-lg  focus:border-2
+        focus:outline-none dark:bg-black dark:text-white`}
       />
       <label
         htmlFor="arrow"

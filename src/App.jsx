@@ -1,4 +1,5 @@
 import * as React from 'react';
+import EmailConfirm from './sign-up/EmailConfirm';
 
 function App() {
   return (
@@ -6,7 +7,7 @@ function App() {
       data-k="dummy"
       className="bg-sky-500 flex h-screen w-full items-center justify-center text-center text-4xl"
     >
-      Hello Twitter!
+      <EmailConfirm />
     </div>
   );
 }

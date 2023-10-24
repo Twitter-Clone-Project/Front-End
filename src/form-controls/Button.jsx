@@ -1,11 +1,19 @@
 /* eslint-disable react/prop-types */
 import * as React from 'react';
 
-function Button({ backGroundColor, borderColor, labelColor, label, path }) {
+function Button({
+  backGroundColor,
+  borderColor,
+  labelColor,
+  label,
+  path,
+  disabled,
+}) {
   return (
-    <div className="relative h-[38.5px] w-full">
+    <div className="relative flex h-[38.5px] w-full">
       <button
         type="submit"
+        disabled={disabled}
         className={` absolute rounded-3xl ${
           backGroundColor === 'blue' ? 'bg-blue' : ''
         }  ${backGroundColor === 'white' ? 'bg-white' : ''}  ${
