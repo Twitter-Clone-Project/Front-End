@@ -2,9 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
 a {
   color: theme(colors.blue);
-  text-align: start;
 }
 a:hover {
   text-decoration: underline;
