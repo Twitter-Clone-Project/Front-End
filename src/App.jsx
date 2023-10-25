@@ -7,7 +7,7 @@ function App() {
       data-k="dummy"
       className="bg-sky-500 flex h-screen w-full items-center justify-center text-center text-4xl"
     >
-      <EmailConfirm />
+      <EmailConfirm email="mahsobhy3@gmail.com" />
     </div>
   );
 }

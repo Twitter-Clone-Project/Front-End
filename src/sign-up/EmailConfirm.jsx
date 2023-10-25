@@ -1,5 +1,6 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+
 import BoxCard from './BoxCard';
 import Button from '../form-controls/Button';
 import NameInput from '../form-controls/nameInput';
@@ -8,11 +9,11 @@ function EmailConfirm({ email = 'NA' }) {
   const [code, setCode] = useState('');
   const [err, setError] = useState('');
   return (
-    <div className="confirm dark:bg-dark-layout flex h-screen w-full items-center justify-center text-lg text-black dark:text-white">
+    <div className="confirm flex h-screen w-full items-center justify-center text-lg text-black dark:bg-dark-layout dark:text-white">
       <BoxCard>
         <p className="text-start font-semibold">We sent you a code</p>
         <span className="mb-5 py-2 text-start text-sm text-dark-gray">
-          Enter it below to confirm {email}
+          Enter it below to confirm <em className="font-semibold">{email}</em>
         </span>
         <div className="mb-52 flex flex-col">
           <NameInput
@@ -39,5 +40,9 @@ function EmailConfirm({ email = 'NA' }) {
     </div>
   );
 }
+
+EmailConfirm.propTypes = {
+  email: PropTypes.string.isRequired,
+};
 
 export default EmailConfirm;
