@@ -36,10 +36,10 @@ function NameInput({ error, setError, Name, setName }) {
           (Name.length === 0 && max !== 0) || error !== ''
             ? 'text-warning peer-focus:text-warning'
             : ' text-dark-gray peer-focus:text-blue'
-        } absolute left-0 ml-2 mt-4 
-          cursor-text text-base transition-all duration-200 peer-focus:-top-2
+        } absolute left-0 ml-2 mt-3 
+          cursor-text text-base transition-all duration-200 peer-focus:-top-1
           peer-focus:text-xs peer-focus:text-blue
-          peer-[:not(:placeholder-shown)]:-top-2 
+          peer-[:not(:placeholder-shown)]:-top-1 
           peer-[:not(:placeholder-shown)]:text-xs`}
       >
         Name

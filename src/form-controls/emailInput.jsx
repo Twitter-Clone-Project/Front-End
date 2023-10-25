@@ -27,10 +27,10 @@ function EmailInput({ error, setError, email, setEmail }) {
         htmlFor="arrow"
         className={` 
         ${error !== '' ? 'text-warning peer-focus:text-warning' : ''}
-         absolute left-0 ml-2 mt-4 cursor-text text-base text-dark-gray 
+         absolute left-0 ml-2 mt-3 cursor-text text-base text-dark-gray 
         transition-all duration-200 
-        peer-invalid:text-warning peer-focus:-top-2 peer-focus:text-xs
-        peer-focus:text-blue  peer-[:not(:placeholder-shown)]:-top-2 
+        peer-invalid:text-warning peer-focus:-top-1 peer-focus:text-xs
+        peer-focus:text-blue  peer-[:not(:placeholder-shown)]:-top-1 
           peer-[:not(:placeholder-shown)]:text-xs 
         peer-[:focus:invalid]:text-warning`}
       >
