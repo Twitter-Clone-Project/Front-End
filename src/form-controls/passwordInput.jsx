@@ -20,7 +20,7 @@ function PasswordInput({ password, setPassword }) {
       />
       <label
         htmlFor="arrow"
-        className="absolute left-0 ml-2 mt-5 cursor-text text-base text-dark-gray transition-all duration-200 peer-invalid:text-warning peer-focus:-top-2 peer-focus:text-xs peer-focus:text-blue  peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:text-xs peer-[:focus:invalid]:text-warning"
+        className="absolute left-0 ml-2 mt-3 cursor-text text-base text-dark-gray transition-all duration-200 peer-invalid:text-warning peer-focus:-top-1 peer-focus:text-xs peer-focus:text-blue  peer-[:not(:placeholder-shown)]:-top-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:focus:invalid]:text-warning"
       >
         Password
       </label>
