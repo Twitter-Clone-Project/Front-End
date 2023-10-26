@@ -3,7 +3,7 @@ import React from 'react';
 
 function BoxCard({ children }) {
   return (
-    <div className="flex w-[35%] min-w-[300px] flex-col rounded-lg border-[1px] border-light-gray p-12 dark:border-none dark:bg-black">
+    <div className="relative flex w-[38%] min-w-[300px] flex-col rounded-lg border-[1px] border-light-gray p-3 dark:border-none dark:bg-black">
       {children}
     </div>
   );
