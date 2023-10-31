@@ -3,7 +3,7 @@ import React from 'react';
 // eslint-disable-next-line react/prop-types
 function BasicInput({ title, value, setValue }) {
   return (
-    <div className="relative h-14 w-full items-center justify-center">
+    <div className="relative h-[56.44px] w-full items-center justify-center  bg-white dark:bg-black">
       <input
         placeholder=""
         id="Normal"
@@ -12,11 +12,22 @@ function BasicInput({ title, value, setValue }) {
           setValue(event.target.value);
         }}
         type="text"
-        className="peer h-full w-full rounded border border-light-gray bg-white pl-2 pr-8 pt-6 text-lg invalid:border-warning focus:border-2 focus:border-blue focus:outline-none focus:invalid:border-warning dark:bg-black dark:text-white"
+        className="
+        peer h-full w-full rounded px-2 pt-4 text-lg
+        outline outline-1 
+        outline-light-gray 
+        focus:outline-2 focus:outline-blue
+        dark:text-white"
       />
       <label
         htmlFor="Normal"
-        className="absolute left-0 ml-2 mt-3 cursor-text text-base text-dark-gray transition-all duration-200 peer-invalid:text-warning peer-focus:-top-1 peer-focus:text-xs peer-focus:text-blue  peer-[:not(:placeholder-shown)]:-top-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:focus:invalid]:text-warning"
+        className="
+        absolute left-2 top-4 cursor-text text-base
+        text-dark-gray transition-all duration-200 
+        peer-focus:top-[6px]
+        peer-focus:text-xs peer-focus:text-blue
+        peer-[:not(:placeholder-shown)]:top-[6px]
+        peer-[:not(:placeholder-shown)]:text-xs"
       >
         {title}
       </label>
