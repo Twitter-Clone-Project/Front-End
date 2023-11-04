@@ -10,7 +10,7 @@ function EmailConfirm({ email = 'NA' }) {
   const [code, setCode] = useState('');
   const [err, setError] = useState('');
   return (
-    <div className="confirm dark:bg-dark-layout flex h-screen w-full items-center justify-center text-lg text-black dark:text-white ">
+    <div className="confirm flex h-screen w-full items-center justify-center text-lg text-black dark:bg-dark-layout dark:text-white ">
       <BoxCard>
         <div className="mx-auto flex max-w-[10%] items-center justify-center align-middle">
           <span className="absolute left-3 top-3 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full hover:bg-light-gray hover:bg-opacity-25">

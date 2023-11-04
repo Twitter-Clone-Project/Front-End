@@ -84,14 +84,14 @@ function SignUpForm() {
                 <PasswordInput
                   password={password}
                   setPassword={setPassword}
-                  label="Password"
+                  title="Password"
                 />
               </div>
               <div className="mb-6 w-full">
                 <PasswordInput
                   password={passwordConfirm}
                   setPassword={setPasswordConfirm}
-                  label="Confirm Password"
+                  title="Confirm Password"
                 />
               </div>
               <div className="mb-4 w-full">
