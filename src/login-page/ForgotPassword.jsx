@@ -1,21 +1,28 @@
+import React, { useState } from 'react';
 import Button from '../form-controls/Button';
 import EmailInput from '../form-controls/emailInput';
 import BasicInput from '../form-controls/BasicInput';
-import Code from './Code'
-import React, { useState } from 'react';
+import Code from './Code';
+
+// eslint-disable-next-line react/prop-types
 function ForgotPassword({ isOpen, onClose }) {
   const [isCodeOpen, setIsCodeOpen] = useState(false);
   const togglePopup = () => {
     setIsCodeOpen(!isCodeOpen);
   };
   const handleClick = () => {
-    setIsCodeOpen(true)
+    setIsCodeOpen(true);
   };
-  if (!isOpen ) {
-    return null; 
+  if (!isOpen) {
+    return null;
   }
   if (isCodeOpen) {
-    return(<Code isOpen={isCodeOpen} onClose={togglePopup} />); 
+    return (
+      <Code
+        isOpen={isCodeOpen}
+        onClose={togglePopup}
+      />
+    );
   }
 
   return (
@@ -23,6 +30,7 @@ function ForgotPassword({ isOpen, onClose }) {
       <div className="popup-content relative flex h-full w-full flex-col items-center justify-center rounded-2xl bg-white md:h-[650px] md:w-[600px] ">
         <div className=" absolute top-0 mt-3 h-[53px]  w-[600px] ">
           <button
+            type="submit"
             className="fixed left-3 top-3 h-[20px] w-[20px]  text-sm  md:absolute md:left-3 md:top-0"
             onClick={onClose}
           >
@@ -30,11 +38,11 @@ function ForgotPassword({ isOpen, onClose }) {
               viewBox="0 0 48 48"
               fill="#5F6368"
             >
-              <path d="M38 12.83L35.17 10 24 21.17 12.83 10 10 12.83 21.17 24 10 35.17 12.83 38 24 26.83 35.17 38 38 35.17 26.83 24z"></path>
+              <path d="M38 12.83L35.17 10 24 21.17 12.83 10 10 12.83 21.17 24 10 35.17 12.83 38 24 26.83 35.17 38 38 35.17 26.83 24z" />
               <path
                 d="M0 0h48v48H0z"
                 fill="none"
-              ></path>
+              />
             </svg>
           </button>
 
@@ -56,21 +64,23 @@ function ForgotPassword({ isOpen, onClose }) {
             <h1 className=" my-3 text-[31px] font-bold ">
               Find your X account
             </h1>
-            <p className="text-[15px] text-dark-gray mb-3">
-              Enter the email and the username associated with your
-              account to change your password.
+            <p className="mb-3 text-[15px] text-dark-gray">
+              Enter the email and the username associated with your account to
+              change your password.
             </p>
             <EmailInput />
-            <div className=" w-[440px] my-3">
-            <BasicInput
-           title="Username"
-          />
+            <div className=" my-3 w-[440px]">
+              <BasicInput title="Username" />
+            </div>
           </div>
-          </div>
-         
-          <button onClick={handleClick}>Show Component</button>
-          <div className=" w-[440px] flex flex-col justify-start">
-            
+
+          <button
+            type="submit"
+            onClick={handleClick}
+          >
+            Show Component
+          </button>
+          <div className=" flex w-[440px] flex-col justify-start">
             <Button
               backGroundColor="black"
               label="Next"
@@ -78,9 +88,7 @@ function ForgotPassword({ isOpen, onClose }) {
               labelColor="white"
               path=""
             />
-            
           </div>
-
         </div>
       </div>
     </div>

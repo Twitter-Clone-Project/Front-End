@@ -9,7 +9,7 @@ function EmailConfirm({ email = 'NA' }) {
   const [code, setCode] = useState('');
   const [err, setError] = useState('');
   return (
-    <div className="confirm flex h-screen w-full items-center justify-center text-lg text-black dark:bg-dark-layout dark:text-white">
+    <div className="confirm dark:bg-dark-layout flex h-screen w-full items-center justify-center text-lg text-black dark:text-white">
       <BoxCard>
         <p className="text-start font-semibold">We sent you a code</p>
         <span className="mb-5 py-2 text-start text-sm text-dark-gray">

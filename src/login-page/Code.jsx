@@ -1,28 +1,36 @@
+/* eslint-disable react/prop-types */
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import Button from '../form-controls/Button';
 import BasicInput from '../form-controls/BasicInput';
-import NewPassword  from './NewPassword';
-import React, { useState } from 'react';
+import NewPassword from './NewPassword';
 
 function Code({ isOpen, onClose, email = 'NA' }) {
-    const [isNewPasswordOpen, setIsNewPasswordOpen] = useState(false);
-    const togglePopup = () => {
-        setIsNewPasswordOpen(!isNewPasswordOpen);
-    };
-    const handleClick = () => {
-        setIsNewPasswordOpen(true)
-    };
-    if (!isOpen ) {
-      return null; 
-    }
-    if (isNewPasswordOpen) {
-      return( <NewPassword isOpen={isOpen} onClose={togglePopup}/>); 
-    }
+  const [isNewPasswordOpen, setIsNewPasswordOpen] = useState(false);
+  const togglePopup = () => {
+    setIsNewPasswordOpen(!isNewPasswordOpen);
+  };
+  const handleClick = () => {
+    setIsNewPasswordOpen(true);
+  };
+  if (!isOpen) {
+    return null;
+  }
+  if (isNewPasswordOpen) {
+    return (
+      <NewPassword
+        isOpen={isOpen}
+        onClose={togglePopup}
+      />
+    );
+  }
 
   return (
     <div className="popup-screen flex h-screen w-full items-center justify-center md:bg-black  md:bg-opacity-50">
       <div className="popup-content relative flex h-full w-full flex-col items-center justify-center rounded-2xl bg-white md:h-[650px] md:w-[600px] ">
         <div className=" absolute top-0 mt-3 h-[53px]  w-[600px] ">
           <button
+            type="submit"
             className="fixed left-3 top-3 h-[20px] w-[20px]  text-sm  md:absolute md:left-3 md:top-0"
             onClick={onClose}
           >
@@ -30,11 +38,11 @@ function Code({ isOpen, onClose, email = 'NA' }) {
               viewBox="0 0 48 48"
               fill="#5F6368"
             >
-              <path d="M38 12.83L35.17 10 24 21.17 12.83 10 10 12.83 21.17 24 10 35.17 12.83 38 24 26.83 35.17 38 38 35.17 26.83 24z"></path>
+              <path d="M38 12.83L35.17 10 24 21.17 12.83 10 10 12.83 21.17 24 10 35.17 12.83 38 24 26.83 35.17 38 38 35.17 26.83 24z" />
               <path
                 d="M0 0h48v48H0z"
                 fill="none"
-              ></path>
+              />
             </svg>
           </button>
 
@@ -53,36 +61,44 @@ function Code({ isOpen, onClose, email = 'NA' }) {
         </div>
         <div className=" flex h-[536px] w-[440px] flex-col items-center justify-between">
           <div className=" flex h-[536px] w-[440px] flex-col items-center justify-between">
-          <div className="flex h-[208px] w-[440px] flex-col justify-start">
-            <h1 className=" my-3 text-[31px] font-bold ">
-              We sent you a code via
-            </h1>
-            <em className="font-semibold">{email}</em>
-            <p className="mb-3 text-[15px] text-dark-gray">
-              Check your email to get your confirmation code. If you need to
-              request a new code, go back and reselect a confirmation.
-            </p>
-            <BasicInput
-           title="Code"
-          />
+            <div className="flex h-[208px] w-[440px] flex-col justify-start">
+              <h1 className=" my-3 text-[31px] font-bold ">
+                We sent you a code via
+              </h1>
+              <em className="font-semibold">{email}</em>
+              <p className="mb-3 text-[15px] text-dark-gray">
+                Check your email to get your confirmation code. If you need to
+                request a new code, go back and reselect a confirmation.
+              </p>
+              <BasicInput title="Code" />
             </div>
-            <button onClick={handleClick}>Show Component</button>
-          
-     <div className=" w-[440px] flex flex-col justify-start">
-            
-            <Button
-              backGroundColor="black"
-              label="Next"
-              borderColor="black"
-              labelColor="white"
-              path=""
-            />
-          </div>
+            <button
+              type="submit"
+              onClick={handleClick}
+            >
+              Show Component
+            </button>
+
+            <div className=" flex w-[440px] flex-col justify-start">
+              <Button
+                backGroundColor="black"
+                label="Next"
+                borderColor="black"
+                labelColor="white"
+                path=""
+              />
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+Code.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  email: PropTypes.string.isRequired,
+};
 
 export default Code;
