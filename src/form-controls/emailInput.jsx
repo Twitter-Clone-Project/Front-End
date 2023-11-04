@@ -20,6 +20,7 @@ function EmailInput({ error, setError, email, setEmail }) {
         peer h-full w-full rounded px-2 pt-4 text-lg
         outline outline-1 
         focus:outline-2 
+        dark:bg-black
         dark:text-white
         ${
           error !== ''

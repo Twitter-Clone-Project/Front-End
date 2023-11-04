@@ -26,6 +26,7 @@ function NameInput({ error, setError, Name, setName }) {
         peer h-full w-full rounded px-2 pt-4 text-lg
         outline outline-1 outline-light-gray 
         focus:outline-2 focus:outline-blue
+        dark:bg-black
         dark:text-white
         ${
           error !== ''

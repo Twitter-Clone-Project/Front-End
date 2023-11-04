@@ -17,6 +17,7 @@ function BasicInput({ title, value, setValue }) {
         outline outline-1 
         outline-light-gray 
         focus:outline-2 focus:outline-blue
+        dark:bg-black
         dark:text-white"
       />
       <label

@@ -21,7 +21,9 @@ function PasswordInput({ title, password, setPassword }) {
         outline outline-1 
         outline-light-gray
         focus:outline-2 focus:outline-blue 
-        dark:text-white"
+        dark:bg-black
+        dark:text-white
+        "
       />
       <label
         htmlFor="arrow"

@@ -5,6 +5,7 @@ import EmailInput from '../form-controls/emailInput';
 import NameInput from '../form-controls/nameInput';
 import DorpDownMenu from '../form-controls/DorpDownMenu';
 import PasswordInput from '../form-controls/passwordInput';
+import BasicInput from '../form-controls/BasicInput';
 
 function SignUpForm() {
   const [name, setName] = useState('');
@@ -29,8 +30,8 @@ function SignUpForm() {
   // };
   return (
     <div className="">
-      <div className="flex h-[auto] w-screen items-center justify-center">
-        <div className="flex h-auto w-2/5 flex-wrap justify-center rounded-lg bg-pure-black">
+      <div className="flex h-[auto] w-full items-center justify-center">
+        <div className="flex w-full flex-wrap justify-center bg-pure-black md:w-2/5 md:rounded-lg">
           <div className="w-full">
             <button
               type="submit"
@@ -53,12 +54,12 @@ function SignUpForm() {
               </p> */}
             </button>
           </div>
-          <div className="w-5/6 pl-0 pt-4 text-white">
+          <div className="mx-auto w-5/6 pt-4 text-center text-white">
             <h1 className="w-full text-3xl font-bold">
               <span>Create your account</span>
             </h1>
           </div>
-          <div className="flex w-5/6 flex-wrap p-8 pl-0">
+          <div className="flex w-5/6 flex-wrap p-3 ">
             <div className="w-full ">
               <div className="mb-6 w-full">
                 <NameInput
@@ -71,12 +72,10 @@ function SignUpForm() {
                 />
               </div>
               <div className="mb-6 w-full">
-                <NameInput
-                  error=""
-                  setError=""
-                  Name={userName}
-                  setName={setUserName}
-                  label="Username"
+                <BasicInput
+                  value={userName}
+                  setValue={setUserName}
+                  title="Username"
                   maxLength="20"
                 />
               </div>
