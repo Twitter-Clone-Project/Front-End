@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import LandingPage from './landingPage/LandingPage';
+// import LandingPage from './landingPage/LandingPage';
 import Login from './login-page/Login';
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
 
   return (
     <div>
-      <LandingPage />
+      {/* <LandingPage /> */}
       <Login
         isOpen={isOpen}
         onClose={togglePopup}

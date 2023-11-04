@@ -61,8 +61,8 @@ function ForgotPassword({ isOpen, onClose }) {
             />
           </svg>
         </div>
-        <div className=" flex h-[536px] w-[440px] flex-col items-center justify-between">
-          <div className="flex h-[208px] w-[440px] flex-col justify-start">
+        <div className=" flex h-[536px] w-[80%] flex-col items-center  justify-between md:w-[440px]  ">
+          <div className="flex h-[208px] w-[100%] flex-col justify-start md:w-[440px]">
             <h1 className=" my-3 text-[31px] font-bold ">
               Find your X account
             </h1>
@@ -70,13 +70,14 @@ function ForgotPassword({ isOpen, onClose }) {
               Enter the email and the username associated with your account to
               change your password.
             </p>
+
             <EmailInput
               error={error}
               setError={setError}
               email={email}
               setEmail={setEmail}
             />
-            <div className=" my-3 w-[440px]">
+            <div className=" my-3 w-[100%]">
               <BasicInput title="Username" />
             </div>
           </div>
@@ -87,7 +88,7 @@ function ForgotPassword({ isOpen, onClose }) {
           >
             Show Component
           </button>
-          <div className=" flex w-[440px] flex-col justify-start">
+          <div className=" flex w-[100%] flex-col justify-start">
             <Button
               backGroundColor="black"
               backGroundColorDark="white"

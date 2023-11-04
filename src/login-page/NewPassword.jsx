@@ -46,8 +46,8 @@ function NewPassword({ isOpen, onClose }) {
             />
           </svg>
         </div>
-        <div className=" flex h-[536px] w-[440px] flex-col items-center justify-between">
-          <div className="flex h-[208px] w-[440px] flex-col justify-start">
+        <div className=" flex h-[536px]  w-[80%] flex-col items-center justify-between md:w-[440px]">
+          <div className="flex h-[208px] w-[100%] flex-col justify-start">
             <h1 className=" my-3 text-[31px] font-bold ">
               Change a new password
             </h1>
@@ -75,7 +75,7 @@ function NewPassword({ isOpen, onClose }) {
               setPassword={setPassword}
               title="Enter a new password"
             />
-            <div className=" my-3 w-[440px]">
+            <div className=" my-3 w-[100%]">
               <PasswordInput
                 password={confirmpassword}
                 setPassword={setConfirmPassword}
@@ -84,7 +84,7 @@ function NewPassword({ isOpen, onClose }) {
             </div>
           </div>
 
-          <div className=" flex w-[440px] flex-col justify-start">
+          <div className=" flex w-[100%] flex-col justify-start">
             <Button
               backGroundColor="black"
               backGroundColorDark="white"

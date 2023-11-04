@@ -59,9 +59,9 @@ function Code({ isOpen, onClose, email = 'NA' }) {
             />
           </svg>
         </div>
-        <div className=" flex h-[536px] w-[440px] flex-col items-center justify-between">
-          <div className=" flex h-[536px] w-[440px] flex-col items-center justify-between">
-            <div className="flex h-[208px] w-[440px] flex-col justify-start">
+        <div className=" flex h-[536px] w-[80%] flex-col items-center justify-between md:w-[440px]">
+          <div className=" flex h-[536px] w-[100%] flex-col items-center justify-between">
+            <div className="flex h-[208px] w-[100%] flex-col justify-start">
               <h1 className=" my-3 text-[31px] font-bold ">
                 We sent you a code via
               </h1>
@@ -79,7 +79,7 @@ function Code({ isOpen, onClose, email = 'NA' }) {
               Show Component
             </button>
 
-            <div className=" flex w-[440px] flex-col justify-start">
+            <div className=" flex w-[100%] flex-col justify-start">
               <Button
                 backGroundColor="black"
                 backGroundColorDark="white"
