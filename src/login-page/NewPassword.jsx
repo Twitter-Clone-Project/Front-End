@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '../form-controls/Button';
-// import EmailInput from '../form-controls/emailInput';
-// import BasicInput from '../form-controls/BasicInput';
 import PasswordInput from '../form-controls/passwordInput';
 
 // eslint-disable-next-line react/prop-types
 function NewPassword({ isOpen, onClose }) {
+  const [password, setPassword] = useState('');
+  const [confirmpassword, setConfirmPassword] = useState('');
   if (!isOpen) {
     return null;
   }
-
+  // if (confirmpassword !== password) {
+  //   console.log('wrong');
+  // }
   return (
     <div className="popup-screen flex h-screen w-full items-center justify-center md:bg-black  md:bg-opacity-50">
-      <div className="popup-content relative flex h-full w-full flex-col items-center justify-center rounded-2xl bg-white md:h-[650px] md:w-[600px] ">
+      <div className="popup-content relative flex h-full w-full flex-col items-center justify-center rounded-2xl bg-white  dark:bg-pure-black dark:text-white md:h-[650px] md:w-[600px] ">
         <div className=" absolute top-0 mt-3 h-[53px]  w-[600px] ">
           <button
             type="submit"
@@ -65,21 +67,31 @@ function NewPassword({ isOpen, onClose }) {
               .
             </p>
             <p className="mb-3 text-[15px] text-dark-gray">
-              You&39;ll be logged out of all active X sessions after your
+              You&#39;ll be logged out of all active X sessions after your
               password is changed.
             </p>
-            <PasswordInput />
+            <PasswordInput
+              password={password}
+              setPassword={setPassword}
+              title="Enter a new password"
+            />
             <div className=" my-3 w-[440px]">
-              <PasswordInput />
+              <PasswordInput
+                password={confirmpassword}
+                setPassword={setConfirmPassword}
+                title="Confirm your password"
+              />
             </div>
           </div>
 
           <div className=" flex w-[440px] flex-col justify-start">
             <Button
               backGroundColor="black"
+              backGroundColorDark="white"
               label="Change password"
               borderColor="black"
               labelColor="white"
+              labelColorDark="black"
               path=""
             />
           </div>
