@@ -1,11 +1,6 @@
 /* eslint-disable react/prop-types */
 import * as React from 'react';
 
-<<<<<<< Updated upstream
-function Button({ backGroundColor, borderColor, labelColor, label, path }) {
-  return (
-    <div className="relative h-[38.5px] w-full">
-=======
 function Button({
   backGroundColor,
   backGroundColorDark,
@@ -21,7 +16,6 @@ function Button({
 }) {
   return (
     <div className={`relative ${hight || 'h-[38.5px]'} ${width || 'w-full'}`}>
->>>>>>> Stashed changes
       <button
         type="submit"
         className={` absolute rounded-3xl ${
@@ -29,14 +23,6 @@ function Button({
         }  ${
           backGroundColor === 'white' ? 'bg-white hover:bg-[#e6e6e6]' : ''
         }  ${
-<<<<<<< Updated upstream
-          backGroundColor === 'black' ? 'bg-black hover:bg-[#031018]' : ''
-        } h-full w-full border ${
-          borderColor === 'blue' ? 'border-blue' : ''
-        }  ${borderColor === 'white' ? 'border-white' : ''}  ${
-          borderColor === 'black' ? 'border-black' : ''
-        }`}
-=======
           backGroundColor === 'black' ? 'bg-pure-black hover:bg-[#031018]' : ''
         }  ${backGroundColor === 'red' ? 'bg-[#f7e1e3] ' : ''} ${
           backGroundColorDark === 'blue'
@@ -59,7 +45,6 @@ function Button({
           borderColor === 'red' ? 'border-[#fdc9ce] dark:border-[#67070f]' : ''
         }
         ${borderColor === 'none' ? 'border-none' : ''}`}
->>>>>>> Stashed changes
       />
       <div className="pointer-events-none absolute left-1/2 top-1/2 flex w-full -translate-x-1/2 -translate-y-1/2 transform justify-center">
         {path && (
