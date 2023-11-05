@@ -8,7 +8,8 @@ import ForgotPassword from './ForgotPassword';
 // eslint-disable-next-line react/prop-types
 function Login({ isOpen, onClose }) {
   const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordOpen, setIsPasswordOpen] = useState(false);
   const togglePopup = () => {
@@ -76,14 +77,16 @@ function Login({ isOpen, onClose }) {
             <hr className=" m-4 w-[125px] text-dark-gray" />
           </div>
           <EmailInput
-            error={error}
-            setError={setError}
+            error={emailError}
+            setError={setEmailError}
             email={email}
             setEmail={setEmail}
           />
           <PasswordInput
             password={password}
             setPassword={setPassword}
+            error={passwordError}
+            setError={setPasswordError}
             title="Password"
           />
           <Button

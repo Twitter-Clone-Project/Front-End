@@ -1,17 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../form-controls/Button';
 import PasswordInput from '../form-controls/passwordInput';
 
 // eslint-disable-next-line react/prop-types
 function NewPassword({ isOpen, onClose }) {
   const [password, setPassword] = useState('');
-  const [confirmpassword, setConfirmPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [confirmError, setConfirmError] = useState('');
+  const passwordLengthCheck = () => {
+    if (confirmPassword.length < 7 && confirmPassword !== '') {
+      setConfirmError(
+        'Your password needs to be at least 8 characters.Please enter a longer one.',
+      );
+    }
+    if (password.length < 7 && password !== '') {
+      setError(
+        'Your password needs to be at least 8 characters.Please enter a longer one.',
+      );
+    }
+  };
+  const passwordCheck = () => {
+    if (
+      confirmPassword !== password &&
+      password !== '' &&
+      confirmPassword !== ''
+    ) {
+      setConfirmError('Passwords do not match');
+    }
+  };
+
+  useEffect(() => {
+    passwordCheck();
+    passwordLengthCheck();
+  });
   if (!isOpen) {
     return null;
   }
-  // if (confirmpassword !== password) {
-  //   console.log('wrong');
-  // }
+
   return (
     <div className="popup-screen flex h-screen w-full items-center justify-center md:bg-black  md:bg-opacity-50">
       <div className="popup-content relative flex h-full w-full flex-col items-center justify-center rounded-2xl bg-white  dark:bg-pure-black dark:text-white md:h-[650px] md:w-[600px] ">
@@ -57,8 +83,10 @@ function NewPassword({ isOpen, onClose }) {
               <span>
                 {' '}
                 <a
-                  href="/"
+                  href="https://help.twitter.com/en/safety-and-security/account-security-tips?ref=password_reset"
                   className="text-blue"
+                  target="_blank"
+                  rel="noreferrer"
                 >
                   {' '}
                   strong password{' '}
@@ -70,15 +98,21 @@ function NewPassword({ isOpen, onClose }) {
               You&#39;ll be logged out of all active X sessions after your
               password is changed.
             </p>
-            <PasswordInput
-              password={password}
-              setPassword={setPassword}
-              title="Enter a new password"
-            />
-            <div className=" my-3 w-[100%]">
+            <div className="my-5 w-[100%]">
               <PasswordInput
-                password={confirmpassword}
+                password={password}
+                setPassword={setPassword}
+                error={error}
+                setError={setError}
+                title="Enter a new password"
+              />
+            </div>
+            <div className=" my-5 w-[100%]">
+              <PasswordInput
+                password={confirmPassword}
                 setPassword={setConfirmPassword}
+                error={confirmError}
+                setError={setConfirmError}
                 title="Confirm your password"
               />
             </div>

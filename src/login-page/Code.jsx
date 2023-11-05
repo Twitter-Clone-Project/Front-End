@@ -7,6 +7,8 @@ import NewPassword from './NewPassword';
 
 function Code({ isOpen, onClose, email = 'NA' }) {
   const [isNewPasswordOpen, setIsNewPasswordOpen] = useState(false);
+  const [error, setError] = useState('');
+  const [codeValue, setCodeValue] = useState('');
   const togglePopup = () => {
     setIsNewPasswordOpen(!isNewPasswordOpen);
   };
@@ -70,7 +72,13 @@ function Code({ isOpen, onClose, email = 'NA' }) {
                 Check your email to get your confirmation code. If you need to
                 request a new code, go back and reselect a confirmation.
               </p>
-              <BasicInput title="Code" />
+              <BasicInput
+                title="Code"
+                value={codeValue}
+                setValue={setCodeValue}
+                error={error}
+                setError={setError}
+              />
             </div>
             <button
               type="submit"
@@ -89,6 +97,18 @@ function Code({ isOpen, onClose, email = 'NA' }) {
                 labelColorDark="black"
                 path=""
               />
+              {/* onClick-->go to landing page */}
+              <div className="my-3">
+                <Button
+                  backGroundColor="white"
+                  backGroundColorDark="black"
+                  label="Cancel"
+                  borderColor="black"
+                  labelColor="black"
+                  labelColorDark="white"
+                  path=""
+                />
+              </div>
             </div>
           </div>
         </div>

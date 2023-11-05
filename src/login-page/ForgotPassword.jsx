@@ -7,7 +7,9 @@ import Code from './Code';
 // eslint-disable-next-line react/prop-types
 function ForgotPassword({ isOpen, onClose }) {
   const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [userNameError, setUserNameError] = useState('');
+  const [userNameValue, setUserNameValue] = useState('');
   const [isCodeOpen, setIsCodeOpen] = useState(false);
   const togglePopup = () => {
     setIsCodeOpen(!isCodeOpen);
@@ -72,13 +74,19 @@ function ForgotPassword({ isOpen, onClose }) {
             </p>
 
             <EmailInput
-              error={error}
-              setError={setError}
+              error={emailError}
+              setError={setEmailError}
               email={email}
               setEmail={setEmail}
             />
             <div className=" my-3 w-[100%]">
-              <BasicInput title="Username" />
+              <BasicInput
+                title="Username"
+                error={userNameError}
+                setError={setUserNameError}
+                value={userNameValue}
+                setValue={setUserNameValue}
+              />
             </div>
           </div>
 
