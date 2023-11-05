@@ -20,9 +20,9 @@ function SignUpForm() {
 
   const [email, setEmail] = useState('');
 
-  function onChange(value) {
-    console.log('Captcha value:', value);
-  }
+  // function onChange(value) {
+  //   console.log('Captcha value:', value);
+  // }
 
   // const [step, setStep] = useState(1);
   // const handleClick = () => {
@@ -30,8 +30,8 @@ function SignUpForm() {
   // };
   return (
     <div className="">
-      <div className="flex h-[auto] w-full items-center justify-center">
-        <div className="flex w-full flex-wrap justify-center bg-pure-black md:w-2/5 md:rounded-lg">
+      <div className="flex h-[auto] w-full items-center justify-center bg-black dark:bg-white ">
+        <div className="flex w-full flex-wrap justify-center bg-white dark:bg-pure-black md:w-2/5 md:rounded-lg">
           <div className="w-full">
             <button
               type="submit"
@@ -46,15 +46,16 @@ function SignUpForm() {
               >
                 <path
                   d="M6.28033 5.21967C5.98744 4.92678 5.51256 4.92678 5.21967 5.21967C4.92678 5.51256 4.92678 5.98744 5.21967 6.28033L8.93934 10L5.21967 13.7197C4.92678 14.0126 4.92678 14.4874 5.21967 14.7803C5.51256 15.0732 5.98744 15.0732 6.28033 14.7803L10 11.0607L13.7197 14.7803C14.0126 15.0732 14.4874 15.0732 14.7803 14.7803C15.0732 14.4874 15.0732 14.0126 14.7803 13.7197L11.0607 10L14.7803 6.28033C15.0732 5.98744 15.0732 5.51256 14.7803 5.21967C14.4874 4.92678 14.0126 4.92678 13.7197 5.21967L10 8.93934L6.28033 5.21967Z"
+                  fill="black"
+                />
+                <path
+                  d="M6.28033 5.21967C5.98744 4.92678 5.51256 4.92678 5.21967 5.21967C4.92678 5.51256 4.92678 5.98744 5.21967 6.28033L8.93934 10L5.21967 13.7197C4.92678 14.0126 4.92678 14.4874 5.21967 14.7803C5.51256 15.0732 5.98744 15.0732 6.28033 14.7803L10 11.0607L13.7197 14.7803C14.0126 15.0732 14.4874 15.0732 14.7803 14.7803C15.0732 14.4874 15.0732 14.0126 14.7803 13.7197L11.0607 10L14.7803 6.28033C15.0732 5.98744 15.0732 5.51256 14.7803 5.21967C14.4874 4.92678 14.0126 4.92678 13.7197 5.21967L10 8.93934L6.28033 5.21967Z"
                   fill="white"
                 />
               </svg>
-              {/* <p className=" px-4 pb-4 text-2xl font-bold text-white">
-                Step {step} of 5
-              </p> */}
             </button>
           </div>
-          <div className="mx-auto w-5/6 pt-4 text-center text-white">
+          <div className="mx-auto w-5/6 pt-4 text-center dark:text-white">
             <h1 className="w-full text-3xl font-bold">
               <span>Create your account</span>
             </h1>
@@ -103,10 +104,10 @@ function SignUpForm() {
               </div>
             </div>
             <div className="py-4">
-              <div className="w-full font-bold text-white">
+              <div className="w-full font-bold dark:text-white">
                 <span>Date of birth</span>
               </div>
-              <div className="text-1xl w-full text-light-thin">
+              <div className="text-1xl w-full dark:text-light-thin">
                 <p>
                   <small className="form-text text-muted">
                     This will not be shown publicly, Confirm your own age, even
@@ -116,7 +117,7 @@ function SignUpForm() {
                 </p>
               </div>
             </div>
-            <div className=" flex w-full justify-between text-white">
+            <div className=" flex w-full justify-between dark:text-white">
               <div className="w-5/12">
                 <DorpDownMenu
                   header="Month"
@@ -310,16 +311,18 @@ function SignUpForm() {
           </div>
 
           <div className="flex w-full flex-wrap justify-center pb-6">
-            <div className="flex justify-center pb-6">
+            <div className="flex justify-center pb-6 pt-2 dark:bg-pure-black ">
               <ReCAPTCHA
                 sitekey="6LfYH-koAAAAANSm9Cz5hmubDirSAQIQZFI7koxP"
-                onChange={onChange}
+                onChange={(value) => {
+                  console.log('Captcha value:', value);
+                }}
               />
             </div>
             <Button
-              backGroundColor="white"
-              borderColor="white"
-              labelColor="pure-black"
+              backGroundColor="black"
+              borderColor="black"
+              labelColor="white"
               label="Next"
               path=""
               width="w-5/6"
