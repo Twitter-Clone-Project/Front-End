@@ -8,7 +8,7 @@ function DorpDownMenu({ header, items }) {
       <select
         name={header}
         id="selector1"
-        className="peer absolute mb-2 mt-4 w-full cursor-pointer  appearance-none bg-white px-2 pt-2 text-base outline-none dark:bg-black "
+        className="dark:bg-pure-black peer absolute mb-2 mt-4 w-full  cursor-pointer appearance-none bg-white px-2 pt-2 text-base outline-none "
       >
         <option
           label=""
@@ -22,7 +22,7 @@ function DorpDownMenu({ header, items }) {
       </select>
       <label
         htmlFor="selector1"
-        className="pointer-events-none absolute left-0 pl-2 pr-2 pt-2 text-[13px] leading-4 text-black peer-focus:text-blue dark:text-white"
+        className="text-pure-black pointer-events-none absolute left-0 pl-2 pr-2 pt-2 text-[13px] leading-4 peer-focus:text-blue dark:text-white"
       >
         {header}
       </label>
