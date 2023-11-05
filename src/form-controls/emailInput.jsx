@@ -20,6 +20,7 @@ function EmailInput({ error, setError, email, setEmail }) {
         peer h-full w-full rounded px-2 pt-4 text-lg
         outline outline-1 
         focus:outline-2 
+        dark:bg-black
         dark:text-white
         ${
           error !== ''
@@ -42,7 +43,7 @@ function EmailInput({ error, setError, email, setEmail }) {
       </label>
       {error !== '' && (
         <span className=" absolute left-2 top-14 text-sm text-warning">
-          {error === '' ? errorMessage : error}
+          {error}
         </span>
       )}
     </div>
