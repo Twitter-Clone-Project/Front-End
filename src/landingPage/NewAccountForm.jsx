@@ -5,11 +5,11 @@ import Button from '../form-controls/Button';
 function NewAccountForm() {
   return (
     <div className="logging flex w-[300px] flex-col">
-      <GoogleSignInBtn />
+      <GoogleSignInBtn label="Sign Up with Google" />
       <div className="relative flex items-center py-1">
-        <div className="border-border-gray flex-grow border-t" />
+        <div className="flex-grow border-t border-border-gray" />
         <p className="px-2 font-thin">or</p>
-        <div className="border-border-gray flex-grow border-t" />
+        <div className="flex-grow border-t border-border-gray" />
       </div>
       <Button
         backGroundColor="blue"
@@ -17,7 +17,7 @@ function NewAccountForm() {
         borderColor="none"
         labelColor="white"
       />
-      <p className="text-light-thin py-2 text-xs font-extralight">
+      <p className="py-2 text-xs font-extralight text-light-thin">
         By signing up, you agree to the <a href="/">Terms of Service</a> and{' '}
         <a href="/">Privacy Policy</a>, including <a href="/">Cookie Use</a>.
       </p>
