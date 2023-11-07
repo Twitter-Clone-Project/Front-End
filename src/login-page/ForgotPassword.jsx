@@ -1,42 +1,18 @@
 import React, { useState } from 'react';
 import Button from '../form-controls/Button';
 import EmailInput from '../form-controls/emailInput';
-import BasicInput from '../form-controls/BasicInput';
-import Code from './Code';
 
-// eslint-disable-next-line react/prop-types
-function ForgotPassword({ isOpen, onClose }) {
+function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
-  const [userNameError, setUserNameError] = useState('');
-  const [userNameValue, setUserNameValue] = useState('');
-  const [isCodeOpen, setIsCodeOpen] = useState(false);
-  const togglePopup = () => {
-    setIsCodeOpen(!isCodeOpen);
-  };
-  const handleClick = () => {
-    setIsCodeOpen(true);
-  };
-  if (!isOpen) {
-    return null;
-  }
-  if (isCodeOpen) {
-    return (
-      <Code
-        isOpen={isCodeOpen}
-        onClose={togglePopup}
-      />
-    );
-  }
 
   return (
-    <div className="popup-screen flex h-screen w-full items-center justify-center md:bg-black  md:bg-opacity-50">
-      <div className="popup-content relative flex h-full w-full flex-col items-center justify-center rounded-2xl bg-white  dark:bg-pure-black dark:text-white md:h-[650px] md:w-[600px] ">
-        <div className=" absolute top-0 mt-3 h-[53px]  w-[600px] ">
+    <div className="popup-screen inset-0 flex h-screen w-full items-center justify-center overflow-auto md:bg-black md:bg-opacity-50">
+      <div className="popup-content relative flex h-full w-full flex-col items-center bg-white py-6 dark:bg-pure-black dark:text-white md:w-[50%] md:rounded-3xl lg:h-[600px] lg:w-[35%] ">
+        <div className=" absolute top-0 flex h-[53px] w-full items-center">
           <button
             type="submit"
-            className="fixed left-3 top-3 h-[20px] w-[20px]  text-sm  md:absolute md:left-3 md:top-0"
-            onClick={onClose}
+            className="absolute left-3 top-3 h-[20px] w-[20px]  text-sm"
           >
             <svg
               viewBox="0 0 48 48"
@@ -54,7 +30,7 @@ function ForgotPassword({ isOpen, onClose }) {
             width="30px"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
-            className=" absolute left-0 right-0 top-0 mx-auto"
+            className="mx-auto"
           >
             {' '}
             <path
@@ -63,8 +39,8 @@ function ForgotPassword({ isOpen, onClose }) {
             />
           </svg>
         </div>
-        <div className=" flex h-[536px] w-[80%] flex-col items-center  justify-between md:w-[440px]  ">
-          <div className="flex h-[208px] w-[100%] flex-col justify-start md:w-[440px]">
+        <div className=" mt-8 flex h-[536px] w-[80%] flex-col items-center justify-between">
+          <div className="flex flex-col justify-start">
             <h1 className=" my-3 text-[31px] font-bold ">
               Find your X account
             </h1>
@@ -79,23 +55,7 @@ function ForgotPassword({ isOpen, onClose }) {
               email={email}
               setEmail={setEmail}
             />
-            <div className=" my-3 w-[100%]">
-              <BasicInput
-                title="Username"
-                error={userNameError}
-                setError={setUserNameError}
-                value={userNameValue}
-                setValue={setUserNameValue}
-              />
-            </div>
           </div>
-
-          <button
-            type="submit"
-            onClick={handleClick}
-          >
-            Show Component
-          </button>
           <div className=" flex w-[100%] flex-col justify-start">
             <Button
               backGroundColor="black"

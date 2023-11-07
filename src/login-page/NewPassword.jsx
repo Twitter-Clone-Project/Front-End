@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Button from '../form-controls/Button';
 import PasswordInput from '../form-controls/passwordInput';
 
-// eslint-disable-next-line react/prop-types
-function NewPassword({ isOpen, onClose }) {
+function NewPassword() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
@@ -34,18 +33,14 @@ function NewPassword({ isOpen, onClose }) {
     passwordCheck();
     passwordLengthCheck();
   });
-  if (!isOpen) {
-    return null;
-  }
 
   return (
-    <div className="popup-screen flex h-screen w-full items-center justify-center md:bg-black  md:bg-opacity-50">
-      <div className="popup-content relative flex h-full w-full flex-col items-center justify-center rounded-2xl bg-white  dark:bg-pure-black dark:text-white md:h-[650px] md:w-[600px] ">
-        <div className=" absolute top-0 mt-3 h-[53px]  w-[600px] ">
+    <div className="popup-screen flex h-screen w-full items-center justify-center md:bg-black md:bg-opacity-50">
+      <div className="popup-content relative my-6 flex h-full w-full flex-col items-center bg-white dark:bg-pure-black dark:text-white md:w-[50%] md:rounded-3xl lg:h-[650px] lg:w-[40%] ">
+        <div className=" absolute top-0 flex h-[53px] w-full items-center">
           <button
             type="submit"
-            className="fixed left-3 top-3 h-[20px] w-[20px]  text-sm  md:absolute md:left-3 md:top-0"
-            onClick={onClose}
+            className="absolute left-3 top-3 h-[20px] w-[20px]  text-sm"
           >
             <svg
               viewBox="0 0 48 48"
@@ -63,7 +58,7 @@ function NewPassword({ isOpen, onClose }) {
             width="30px"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
-            className=" absolute left-0 right-0 top-0 mx-auto"
+            className="mx-auto"
           >
             {' '}
             <path
@@ -72,8 +67,8 @@ function NewPassword({ isOpen, onClose }) {
             />
           </svg>
         </div>
-        <div className=" flex h-[536px]  w-[80%] flex-col items-center justify-between md:w-[440px]">
-          <div className="flex h-[208px] w-[100%] flex-col justify-start">
+        <div className="mt-8 flex h-[536px] w-[80%] flex-col items-center justify-between">
+          <div className="flex w-[100%] flex-col justify-start">
             <h1 className=" my-3 text-[31px] font-bold ">
               Change a new password
             </h1>
@@ -118,7 +113,7 @@ function NewPassword({ isOpen, onClose }) {
             </div>
           </div>
 
-          <div className=" flex w-[100%] flex-col justify-start">
+          <div className="mb-4 flex w-[100%] flex-col justify-start">
             <Button
               backGroundColor="black"
               backGroundColorDark="white"

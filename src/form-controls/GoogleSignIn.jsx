@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Button from './Button';
 
-function GoogleSignInBtn() {
+function GoogleSignInBtn({ label }) {
   return (
     <div>
       <Button
@@ -9,7 +10,7 @@ function GoogleSignInBtn() {
         borderColor="gray"
         labelColor="black"
         path
-        label="Sign Up with Google"
+        label={label}
       >
         <path
           fill="#FFC107"
@@ -31,5 +32,9 @@ function GoogleSignInBtn() {
     </div>
   );
 }
+
+GoogleSignInBtn.propTypes = {
+  label: PropTypes.string.isRequired,
+};
 
 export default GoogleSignInBtn;
