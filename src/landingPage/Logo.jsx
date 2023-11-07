@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function Logo({ type }) {
   return (
@@ -31,5 +32,12 @@ function Logo({ type }) {
     </div>
   );
 }
+Logo.defaultProps = {
+  type: 'bold',
+};
+
+Logo.propTypes = {
+  type: PropTypes.string,
+};
 
 export default Logo;

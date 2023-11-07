@@ -6,6 +6,7 @@ import NameInput from '../form-controls/nameInput';
 import DorpDownMenu from '../form-controls/DorpDownMenu';
 import PasswordInput from '../form-controls/passwordInput';
 import BasicInput from '../form-controls/BasicInput';
+import Logo from '../landingPage/Logo';
 
 function SignUpForm() {
   const [name, setName] = useState('');
@@ -31,11 +32,11 @@ function SignUpForm() {
   return (
     <div className="">
       <div className="flex h-[auto] w-full items-center justify-center bg-black dark:bg-white ">
-        <div className="flex w-full flex-wrap justify-center bg-white dark:bg-pure-black md:w-2/5 md:rounded-lg">
-          <div className="w-full">
+        <div className="flex w-full flex-wrap justify-center bg-white dark:bg-pure-black md:w-[40%] md:min-w-[550px] md:rounded-lg">
+          <div className="relative flex w-full items-center">
             <button
               type="submit"
-              className="bg-gray-300 hover:bg-gray-400 text-gray-800 inline-flex items-start rounded pl-3 pt-4 font-bold"
+              className="bg-gray-300 hover:bg-gray-400 text-gray-800 absolute left-3 top-3 inline-flex items-start rounded font-bold"
             >
               <svg
                 width="25"
@@ -54,6 +55,19 @@ function SignUpForm() {
                 />
               </svg>
             </button>
+            <div className="mx-auto flex w-[12%] items-center justify-center pt-3">
+              <svg
+                width="50%"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512"
+              >
+                {' '}
+                <path
+                  d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
+                  className="fill-black dark:fill-white"
+                />
+              </svg>
+            </div>
           </div>
           <div className="mx-auto w-5/6 pt-4 text-center dark:text-white">
             <h1 className="w-full text-3xl font-bold">
@@ -320,9 +334,9 @@ function SignUpForm() {
               />
             </div>
             <Button
-              backGroundColor="black"
-              borderColor="black"
-              labelColor="white"
+              backGroundColor="white"
+              borderColor="gray"
+              labelColor="black"
               label="Next"
               path=""
               width="w-5/6"
