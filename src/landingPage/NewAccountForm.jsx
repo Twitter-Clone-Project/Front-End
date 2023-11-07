@@ -16,6 +16,7 @@ function NewAccountForm() {
         label="Create account"
         borderColor="none"
         labelColor="white"
+        to="/signup"
       />
       <p className="py-2 text-xs font-extralight text-light-thin">
         By signing up, you agree to the <a href="/">Terms of Service</a> and{' '}
@@ -28,6 +29,7 @@ function NewAccountForm() {
           label="Sign in"
           labelColor="blue"
           borderColor="gray"
+          to="login"
         />
       </div>
     </div>
