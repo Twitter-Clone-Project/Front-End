@@ -6,12 +6,14 @@ import NameInput from '../form-controls/nameInput';
 import DorpDownMenu from '../form-controls/DorpDownMenu';
 import PasswordInput from '../form-controls/passwordInput';
 import BasicInput from '../form-controls/BasicInput';
-import Logo from '../landingPage/Logo';
 
 function SignUpForm() {
   const [name, setName] = useState('');
 
-  const [error, setError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordConfirmError, setPasswordConfirmError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   const [userName, setUserName] = useState('');
 
@@ -79,16 +81,18 @@ function SignUpForm() {
               <div className="mb-6 w-full">
                 <NameInput
                   error=""
-                  setError=""
+                  setError={() => null}
                   Name={name}
                   setName={setName}
-                  label="Name"
+                  title="Name"
                   maxLength="50"
                 />
               </div>
               <div className="mb-6 w-full">
                 <BasicInput
                   value={userName}
+                  error={usernameError}
+                  setError={setUsernameError}
                   setValue={setUserName}
                   title="Username"
                   maxLength="20"
@@ -96,6 +100,8 @@ function SignUpForm() {
               </div>
               <div className="mb-6 w-full">
                 <PasswordInput
+                  error={passwordError}
+                  setError={setPasswordError}
                   password={password}
                   setPassword={setPassword}
                   title="Password"
@@ -103,6 +109,8 @@ function SignUpForm() {
               </div>
               <div className="mb-6 w-full">
                 <PasswordInput
+                  error={passwordConfirmError}
+                  setError={setPasswordConfirmError}
                   password={passwordConfirm}
                   setPassword={setPasswordConfirm}
                   title="Confirm Password"
@@ -110,8 +118,8 @@ function SignUpForm() {
               </div>
               <div className="mb-4 w-full">
                 <EmailInput
-                  error={error}
-                  setError={setError}
+                  error={emailError}
+                  setError={setEmailError}
                   email={email}
                   setEmail={setEmail}
                 />
@@ -156,40 +164,7 @@ function SignUpForm() {
                 {' '}
                 <DorpDownMenu
                   header="Day"
-                  items={[
-                    '',
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11,
-                    12,
-                    13,
-                    14,
-                    15,
-                    16,
-                    17,
-                    18,
-                    19,
-                    20,
-                    21,
-                    22,
-                    23,
-                    24,
-                    25,
-                    26,
-                    27,
-                    28,
-                    29,
-                    30,
-                    31,
-                  ]}
+                  items={Array.from({ length: 31 }, (v, _i) => _i + 1)}
                 />
               </div>
               <div className="w-3/12">

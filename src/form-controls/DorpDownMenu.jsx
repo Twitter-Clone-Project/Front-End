@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import * as React from 'react';
+import { v4 as uuid4 } from 'uuid';
 
 function DorpDownMenu({ header, items }) {
   return (
@@ -8,7 +9,7 @@ function DorpDownMenu({ header, items }) {
       <select
         name={header}
         id="selector1"
-        className="dark:bg-pure-black peer absolute mb-2 mt-4 w-full  cursor-pointer appearance-none bg-white px-2 pt-2 text-base outline-none "
+        className="peer absolute mb-2 mt-4 w-full cursor-pointer  appearance-none bg-white px-2 pt-2 text-base outline-none dark:bg-pure-black "
       >
         <option
           label=""
@@ -17,12 +18,12 @@ function DorpDownMenu({ header, items }) {
           className="hidden"
         />
         {items.map((item) => (
-          <option>{item}</option>
+          <option key={uuid4()}>{item}</option>
         ))}
       </select>
       <label
         htmlFor="selector1"
-        className="text-pure-black pointer-events-none absolute left-0 pl-2 pr-2 pt-2 text-[13px] leading-4 peer-focus:text-blue dark:text-white"
+        className="pointer-events-none absolute left-0 pl-2 pr-2 pt-2 text-[13px] leading-4 text-pure-black peer-focus:text-blue dark:text-white"
       >
         {header}
       </label>

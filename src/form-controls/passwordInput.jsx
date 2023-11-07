@@ -11,7 +11,6 @@ function PasswordInput({ title, password, setPassword, error, setError }) {
       <input
         ref={inputEI}
         placeholder=""
-        id="arrow"
         value={password}
         onChange={(event) => {
           setPassword(event.target.value);
