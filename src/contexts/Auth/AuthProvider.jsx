@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
-import { AuthContext } from './AuthContext';
+import { AuthContext } from '../../hooks/AuthContext';
 
 const initialState = {
   user: null,

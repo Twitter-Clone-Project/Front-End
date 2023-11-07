@@ -7,6 +7,7 @@ import BasicInput from '../form-controls/BasicInput';
 function EmailConfirm({ email }) {
   const [code, setCode] = useState('');
   const [err, setError] = useState('');
+
   return (
     <div className="confirm flex h-screen w-full items-center justify-center text-lg text-black dark:bg-border-gray dark:text-white">
       <BoxCard>

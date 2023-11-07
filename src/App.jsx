@@ -4,6 +4,7 @@ import LandingPage from './components/landingPage/LandingPage';
 import AuthProvider from './contexts/Auth/AuthProvider';
 import Login from './components/login-page/Login';
 import ForgotPassword from './components/login-page/ForgotPassword';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
@@ -30,6 +31,14 @@ function App() {
           <Route
             path="/forgot-password"
             element={<ForgotPassword />}
+          />
+          <Route
+            path="/authenticated"
+            element={
+              <ProtectedRoute>
+                <h1>You Are Authenticated</h1>
+              </ProtectedRoute>
+            }
           />
         </Routes>
       </BrowserRouter>
