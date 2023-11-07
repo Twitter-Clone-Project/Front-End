@@ -2,6 +2,8 @@ import * as React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './landingPage/LandingPage';
 import AuthProvider from './contexts/Auth/AuthProvider';
+import Login from './login-page/Login';
+import ForgotPassword from './login-page/ForgotPassword';
 
 function App() {
   return (
@@ -14,11 +16,7 @@ function App() {
           >
             <Route
               path="/login"
-              element={
-                <h1 className="absolute bottom-0 left-0 top-0 z-50 h-full w-full bg-black bg-opacity-50 text-white">
-                  Login
-                </h1>
-              }
+              element={<Login />}
             />
             <Route
               path="/signup"
@@ -31,11 +29,7 @@ function App() {
           </Route>
           <Route
             path="/forgot-password"
-            element={<h1>Forgot Password</h1>}
-          />
-          <Route
-            path="/email-confirm"
-            element={<h1>Confirm Email</h1>}
+            element={<ForgotPassword />}
           />
         </Routes>
       </BrowserRouter>

@@ -14,15 +14,19 @@ function Button({
   width,
   hight,
   to,
+  disabled,
+  onClick,
   children,
 }) {
   return (
     <div className={`relative ${hight || 'h-[38.5px]'} ${width || 'w-full'}`}>
       {to ? (
-        <Link>
+        <Link to={to}>
           <button
             type="submit"
-            className={` absolute rounded-3xl ${
+            disabled={disabled || false}
+            // eslint-disable-next-line max-len
+            className={`absolute cursor-pointer rounded-3xl  disabled:cursor-not-allowed ${
               backGroundColor === 'blue' ? 'bg-blue hover:bg-[#1a8cd8]' : ''
             }  ${
               backGroundColor === 'white' ? 'bg-white hover:bg-[#e6e6e6]' : ''
@@ -81,7 +85,10 @@ function Button({
         <>
           <button
             type="submit"
-            className={` absolute rounded-3xl ${
+            disabled={disabled || false}
+            onClick={onClick || null}
+            // eslint-disable-next-line max-len
+            className={`absolute cursor-pointer rounded-3xl disabled:cursor-not-allowed ${
               backGroundColor === 'blue' ? 'bg-blue hover:bg-[#1a8cd8]' : ''
             }  ${
               backGroundColor === 'white' ? 'bg-white hover:bg-[#e6e6e6]' : ''

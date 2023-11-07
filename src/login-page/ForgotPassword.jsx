@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import Button from '../form-controls/Button';
 import EmailInput from '../form-controls/emailInput';
+import EmailConfirm from '../sign-up/EmailConfirm';
+import BoxCard from '../sign-up/BoxCard';
 
 function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [isCode, setIsCode] = useState(false);
+  if (isCode) return <EmailConfirm email={email} />;
 
   return (
-    <div className="popup-screen inset-0 flex h-screen w-full items-center justify-center overflow-auto md:bg-black md:bg-opacity-50">
-      <div className="popup-content relative flex h-full w-full flex-col items-center bg-white py-6 dark:bg-pure-black dark:text-white md:w-[50%] md:rounded-3xl lg:h-[600px] lg:w-[35%] ">
-        <div className=" absolute top-0 flex h-[53px] w-full items-center">
+    <div className="popup-screen inset-0 flex h-screen w-full items-center justify-center overflow-auto md:bg-border-gray ">
+      <BoxCard>
+        <div className=" absolute left-0 top-0 flex h-[53px] w-full items-center">
           <button
             type="submit"
             className="absolute left-3 top-3 h-[20px] w-[20px]  text-sm"
@@ -39,7 +43,7 @@ function ForgotPassword() {
             />
           </svg>
         </div>
-        <div className=" mt-8 flex h-[536px] w-[80%] flex-col items-center justify-between">
+        <div className=" mt-8 flex flex-1 flex-col justify-between">
           <div className="flex flex-col justify-start">
             <h1 className=" my-3 text-[31px] font-bold ">
               Find your X account
@@ -61,14 +65,15 @@ function ForgotPassword() {
               backGroundColor="black"
               backGroundColorDark="white"
               label="Next"
+              disabled={emailError !== '' || !email}
               borderColor="black"
               labelColor="white"
               labelColorDark="black"
-              path=""
+              onClick={() => setIsCode(true)}
             />
           </div>
         </div>
-      </div>
+      </BoxCard>
     </div>
   );
 }
