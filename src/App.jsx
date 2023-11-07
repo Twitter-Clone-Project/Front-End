@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import LandingPage from './landingPage/LandingPage';
+import LandingPage from './components/landingPage/LandingPage';
 import AuthProvider from './contexts/Auth/AuthProvider';
-import Login from './login-page/Login';
-import ForgotPassword from './login-page/ForgotPassword';
+import Login from './components/login-page/Login';
+import ForgotPassword from './components/login-page/ForgotPassword';
 
 function App() {
   return (
