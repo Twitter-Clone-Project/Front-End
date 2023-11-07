@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './landingPage/LandingPage';
-import AuthProvider from './contexts/AuthProvider';
+import AuthProvider from './contexts/Auth/AuthProvider';
 
 function App() {
   return (
