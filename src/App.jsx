@@ -13,14 +13,16 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route
-          path="/home"
-          element={<ListNav />}
-        />
-        <Route
           path="/"
           element={
             <div>
-              <ListNav />
+              <ListNav
+                items={[
+                  { path: '/1', label: 'Post' },
+                  { path: '/2', label: 'Replies' },
+                  { path: '/3', label: 'Likes' },
+                ]}
+              />
               <Outlet />
             </div>
           }
