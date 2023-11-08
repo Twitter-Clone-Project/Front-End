@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import Button from '../form-controls/Button';
 import EmailInput from '../form-controls/emailInput';
 import EmailConfirm from '../sign-up/EmailConfirm';
 import BoxCard from '../BoxCard';
 import Spinner from '../Spinner';
+import OwnToaster from '../OwnToaster';
 
 function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -26,10 +27,11 @@ function ForgotPassword() {
         },
       );
       const data = await res.json();
-      if (data.status === false) throw new Error(data.message);
-      setIsCode(true);
+      if (data.status === false) {
+        toast('Incorrect email');
+      } else setIsCode(true);
     } catch (err) {
-      toast('Incorrect email');
+      toast('Something went wrong!\nCheck your connection and try again');
     } finally {
       setIsLoading(false);
     }
@@ -74,7 +76,7 @@ function ForgotPassword() {
           </div>
         </BoxCard>
       )}
-      <Toaster />
+      <OwnToaster />
     </div>
   );
 }

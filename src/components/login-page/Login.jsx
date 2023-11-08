@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import Button from '../form-controls/Button';
 import EmailInput from '../form-controls/emailInput';
 import PasswordInput from '../form-controls/passwordInput';
@@ -8,6 +8,7 @@ import GoogleSignInBtn from '../form-controls/GoogleSignIn';
 import BoxCard from '../BoxCard';
 import { useAuth } from '../../hooks/AuthContext';
 import Spinner from '../Spinner';
+import OwnToaster from '../OwnToaster';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -109,20 +110,7 @@ function Login() {
           </div>
         </BoxCard>
       )}
-      <Toaster
-        reverseOrder
-        position="bottom-center"
-        gutter={5}
-        toastOptions={{
-          // Define default options
-          className: '',
-          duration: 2000,
-          style: {
-            background: '#1DA1F2',
-            color: '#fff',
-          },
-        }}
-      />
+      <OwnToaster />
     </div>
   );
 }

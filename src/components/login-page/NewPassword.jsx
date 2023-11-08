@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router';
 import Button from '../form-controls/Button';
 import PasswordInput from '../form-controls/passwordInput';
 import BoxCard from '../BoxCard';
+import OwnToaster from '../OwnToaster';
+import Spinner from '../Spinner';
 
-function NewPassword() {
+function NewPassword({ email }) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [confirmError, setConfirmError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
   const passwordLengthCheck = () => {
     if (confirmPassword.length < 7 && confirmPassword !== '') {
       setConfirmError(
@@ -30,6 +38,31 @@ function NewPassword() {
     }
   };
 
+  const handleResetPassword = async () => {
+    try {
+      setIsLoading(true);
+      const res = await fetch(
+        `http://${import.meta.env.VITE_API_DOMAIN}auth/resetPassword`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email }),
+        },
+      );
+      const data = await res.json();
+      if (data.status === true) {
+        navigate('/authenticated');
+      } else
+        toast('Something went wrong!\nCheck your connection and try again');
+    } catch (err) {
+      toast('Something went wrong!\nCheck your connection and try again');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     passwordCheck();
     passwordLengthCheck();
@@ -37,68 +70,82 @@ function NewPassword() {
 
   return (
     <div className="popup-screen flex h-screen w-full items-center justify-center md:bg-black md:bg-opacity-50">
-      <BoxCard>
-        <div className="mt-8 flex flex-1 flex-col items-center justify-between">
-          <div className="flex w-[100%] flex-col justify-start">
-            <h1 className=" my-3 text-[31px] font-bold ">
-              Change a new password
-            </h1>
-            <p className="mb-3 text-[15px] text-dark-gray">
-              Make sure your new password is 8 characters or more. Try including
-              numbers, letters, and punctuationmarks for a
-              <span>
-                {' '}
-                <a
-                  href="https://help.twitter.com/en/safety-and-security/account-security-tips?ref=password_reset"
-                  className="text-blue"
-                  target="_blank"
-                  rel="noreferrer"
-                >
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <BoxCard>
+          <div className="mt-8 flex flex-1 flex-col items-center justify-between">
+            <div className="flex w-[100%] flex-col justify-start">
+              <h1 className=" my-3 text-[31px] font-bold ">
+                Change a new password
+              </h1>
+              <p className="mb-3 text-[15px] text-dark-gray">
+                Make sure your new password is 8 characters or more. Try
+                including numbers, letters, and punctuationmarks for a
+                <span>
                   {' '}
-                  strong password{' '}
-                </a>
-              </span>
-              .
-            </p>
-            <p className="mb-3 text-[15px] text-dark-gray">
-              You&#39;ll be logged out of all active X sessions after your
-              password is changed.
-            </p>
-            <div className="my-5 w-[100%]">
-              <PasswordInput
-                password={password}
-                setPassword={setPassword}
-                error={error}
-                setError={setError}
-                title="Enter a new password"
-              />
+                  <a
+                    href="https://help.twitter.com/en/safety-and-security/account-security-tips?ref=password_reset"
+                    className="text-blue"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {' '}
+                    strong password{' '}
+                  </a>
+                </span>
+                .
+              </p>
+              <p className="mb-3 text-[15px] text-dark-gray">
+                You&#39;ll be logged out of all active X sessions after your
+                password is changed.
+              </p>
+              <div className="my-5 w-[100%]">
+                <PasswordInput
+                  password={password}
+                  setPassword={setPassword}
+                  error={error}
+                  setError={setError}
+                  title="Enter a new password"
+                />
+              </div>
+              <div className=" my-5 w-[100%]">
+                <PasswordInput
+                  password={confirmPassword}
+                  setPassword={setConfirmPassword}
+                  error={confirmError}
+                  setError={setConfirmError}
+                  title="Confirm your password"
+                />
+              </div>
             </div>
-            <div className=" my-5 w-[100%]">
-              <PasswordInput
-                password={confirmPassword}
-                setPassword={setConfirmPassword}
-                error={confirmError}
-                setError={setConfirmError}
-                title="Confirm your password"
-              />
-            </div>
-          </div>
 
-          <div className="mb-4 flex w-[100%] flex-1 flex-col justify-end">
-            <Button
-              backGroundColor="black"
-              backGroundColorDark="white"
-              label="Change password"
-              borderColor="black"
-              labelColor="white"
-              labelColorDark="black"
-              path=""
-            />
+            <div className="mb-4 flex w-[100%] flex-1 flex-col justify-end">
+              <Button
+                backGroundColor="black"
+                backGroundColorDark="white"
+                label="Change password"
+                borderColor="black"
+                labelColor="white"
+                labelColorDark="black"
+                disabled={
+                  error !== '' ||
+                  confirmError !== '' ||
+                  !password ||
+                  !confirmPassword
+                }
+                onClick={handleResetPassword}
+                path=""
+              />
+            </div>
           </div>
-        </div>
-      </BoxCard>
+        </BoxCard>
+      )}
+      <OwnToaster />
     </div>
   );
 }
-
+NewPassword.propTypes = {
+  email: PropTypes.string.isRequired,
+};
 export default NewPassword;
