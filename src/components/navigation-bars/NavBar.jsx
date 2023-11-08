@@ -6,12 +6,12 @@ import Button from '../form-controls/Button';
 
 function NavBar({ items }) {
   return (
-    <div className="flex h-screen w-full items-center justify-center dark:bg-pure-black">
-      <div className="flex flex-col items-start justify-start text-start lg:min-w-[225px]">
+    <div className="flex h-screen w-full items-start  justify-center px-6 dark:bg-pure-black">
+      <div className="flex flex-col items-start justify-between gap-1 text-start lg:min-w-[225px]">
         <div className="mb-4 p-3 hover:cursor-pointer hover:rounded-full hover:bg-hover-layout">
           <Link to="/">
             <svg
-              className="inline-block w-[1.75rem] fill-pure-black dark:fill-white"
+              className="inline-block w-[1.9rem] fill-pure-black dark:fill-white"
               viewBox="0 0 24 24"
             >
               <g>
