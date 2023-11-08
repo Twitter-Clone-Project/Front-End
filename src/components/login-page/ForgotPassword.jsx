@@ -1,25 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router';
 import Button from '../form-controls/Button';
 import EmailInput from '../form-controls/emailInput';
 import EmailConfirm from '../sign-up/EmailConfirm';
 import BoxCard from '../BoxCard';
 import Spinner from '../Spinner';
 import OwnToaster from '../OwnToaster';
-import { useAuth } from '../../hooks/AuthContext';
 
 function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
   const [isCode, setIsCode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
-  
-  useEffect(() => {
-    if (isAuthenticated) navigate('/app/', { replace: true });
-  }, [navigate, isAuthenticated]);
 
   const handleForgotPassword = async () => {
     try {

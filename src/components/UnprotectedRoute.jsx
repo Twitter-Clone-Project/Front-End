@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useAuth } from '../hooks/AuthContext';
 
-function ProtectedRoute({ children }) {
+function UnprotectedRoute({ children }) {
   const { isAuthenticated, dispatch } = useAuth();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // useEffect(() => {
   //   const refresh = async () => {
   //     try {
@@ -25,16 +25,15 @@ function ProtectedRoute({ children }) {
   //       console.log(err);
   //     }
   //   };
-  //    if (!isAuthenticated) refresh();
-  //     refresh();
-  // }, [dispatch,isAuthenticated]);
+  //   if (!isAuthenticated) refresh();
+  // }, [dispatch, isAuthenticated]);
 
-  // useEffect(() => {
-  //   if (!isAuthenticated) navigate('/', { replace: true });
-  // }, [isAuthenticated, navigate]);
-  return isAuthenticated ? children : null;
+  useEffect(() => {
+    if (isAuthenticated) navigate('/app', { replace: true });
+  }, [isAuthenticated, navigate]);
+  return isAuthenticated ? null : children;
 }
-ProtectedRoute.propTypes = {
+UnprotectedRoute.propTypes = {
   children: PropTypes.node.isRequired,
 };
-export default ProtectedRoute;
+export default UnprotectedRoute;

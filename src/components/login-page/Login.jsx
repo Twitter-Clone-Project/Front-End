@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import Button from '../form-controls/Button';
@@ -17,11 +17,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { isAuthenticated, dispatch } = useAuth();
-
-  useEffect(() => {
-    if (isAuthenticated) navigate('/app/', { replace: true });
-  }, [navigate, isAuthenticated]);
+  const { dispatch } = useAuth();
 
   const handleLogin = async () => {
     try {
@@ -39,7 +35,7 @@ function Login() {
       const data = await res.json();
       if (data.status === false) throw new Error(data.message);
       dispatch({ type: 'LOGIN', payload: data });
-      navigate('/authenticated');
+      navigate('/app');
     } catch (err) {
       toast('Incorrect email or password');
     } finally {

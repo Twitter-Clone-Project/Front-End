@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import Button from '../form-controls/Button';
 import PasswordInput from '../form-controls/passwordInput';
 import BoxCard from '../BoxCard';
