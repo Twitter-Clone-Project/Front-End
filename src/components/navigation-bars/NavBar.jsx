@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { v4 as uuid4 } from 'uuid';
 import NavItem from './NavItem';
 import Button from '../form-controls/Button';
 
@@ -29,6 +30,7 @@ function NavBar({ items }) {
         </div>
         {items.map((item) => (
           <NavItem
+            key={uuid4()}
             outlinedIcon={item.outlinedIcon}
             filledIcon={item.filledIcon}
             label={item.label}
@@ -70,7 +72,8 @@ function NavBar({ items }) {
 NavBar.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({
-      icon: PropTypes.string.isRequired,
+      outlinedIcon: PropTypes.string.isRequired,
+      filledIcon: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
     }),
