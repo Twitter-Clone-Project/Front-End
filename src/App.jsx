@@ -5,6 +5,7 @@ import AuthProvider from './contexts/Auth/AuthProvider';
 import Login from './components/login-page/Login';
 import ForgotPassword from './components/login-page/ForgotPassword';
 import ProtectedRoute from './components/ProtectedRoute';
+import AppLayout from './components/app-layout/AppLayout';
 
 function App() {
   return (
@@ -33,13 +34,22 @@ function App() {
             element={<ForgotPassword />}
           />
           <Route
-            path="/authenticated"
+            path="/home"
             element={
               <ProtectedRoute>
-                <h1>You Are Authenticated</h1>
+                <AppLayout />
               </ProtectedRoute>
             }
-          />
+          >
+            <Route
+              index
+              element={
+                <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
+                  Home
+                </h1>
+              }
+            />
+          </Route>
         </Routes>
       </BrowserRouter>
     </AuthProvider>

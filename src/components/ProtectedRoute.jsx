@@ -1,10 +1,10 @@
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { AuthContext } from '../hooks/AuthContext';
+import { useAuth } from '../hooks/AuthContext';
 
 function ProtectedRoute({ children }) {
-  const { isAuthenticated, dispatch } = useContext(AuthContext);
+  const { isAuthenticated, dispatch } = useAuth();
   const navigate = useNavigate();
   useEffect(() => {
     const refresh = async () => {
@@ -33,11 +33,7 @@ function ProtectedRoute({ children }) {
   }, [isAuthenticated, navigate]);
   return isAuthenticated ? children : null;
 }
-
 ProtectedRoute.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
+  children: PropTypes.node.isRequired,
 };
 export default ProtectedRoute;
