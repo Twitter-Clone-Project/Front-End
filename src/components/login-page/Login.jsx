@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import Button from '../form-controls/Button';
@@ -17,7 +17,12 @@ function Login() {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { dispatch } = useAuth();
+  const { isAuthenticated, dispatch } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) navigate('/app/', { replace: true });
+  }, [navigate, isAuthenticated]);
+
   const handleLogin = async () => {
     try {
       setIsLoading(true);

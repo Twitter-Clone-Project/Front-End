@@ -1,8 +1,17 @@
 import * as React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import NewAccountForm from './NewAccountForm';
+import { useAuth } from '../../hooks/AuthContext';
 
 function LandingPage() {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) navigate('/app/', { replace: true });
+  }, [navigate, isAuthenticated]);
+
   return (
     <div className="landingPage mx-auto h-screen overflow-auto px-10 dark:bg-pure-black lg:px-16">
       <Outlet />
