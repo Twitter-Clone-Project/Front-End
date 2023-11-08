@@ -1,51 +1,39 @@
 import * as React from 'react';
-import {
-  BrowserRouter,
-  Outlet,
-  Route,
-  Navigate,
-  Routes,
-} from 'react-router-dom';
-import ListNav from './navigation-bars/ListNav';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import LandingPage from './components/landingPage/LandingPage';
+import AuthProvider from './contexts/Auth/AuthProvider';
+import Login from './components/login-page/Login';
+import ForgotPassword from './components/login-page/ForgotPassword';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <div>
-              <ListNav
-                items={[
-                  { path: '/1', label: 'Post' },
-                  { path: '/2', label: 'Replies' },
-                  { path: '/3', label: 'Likes' },
-                ]}
-              />
-              <Outlet />
-            </div>
-          }
-        >
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
           <Route
-            index
-            element={<Navigate to="/1" />}
-          />
+            path="/"
+            element={<LandingPage />}
+          >
+            <Route
+              path="/login"
+              element={<Login />}
+            />
+            <Route
+              path="/signup"
+              element={
+                <h1 className="absolute bottom-0 left-0 top-0 z-50 h-full w-full bg-black bg-opacity-50 text-white">
+                  SignUp
+                </h1>
+              }
+            />
+          </Route>
           <Route
-            path="1"
-            element
+            path="/forgot-password"
+            element={<ForgotPassword />}
           />
-          <Route
-            path="2"
-            element
-          />
-          <Route
-            path="3"
-            element
-          />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

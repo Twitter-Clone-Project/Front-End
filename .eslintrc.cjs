@@ -39,6 +39,7 @@ module.exports = {
         "some": ["nesting", "id"]
       }
     }],
-    "jsx-a11y/control-has-associated-label": "off"
+    "jsx-a11y/control-has-associated-label": "off",
+    "react/jsx-no-constructed-context-values": ['warn'],
   },
 }

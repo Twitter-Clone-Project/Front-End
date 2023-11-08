@@ -1,11 +1,13 @@
 import * as React from 'react';
+import { Outlet } from 'react-router-dom';
 import NewAccountForm from './NewAccountForm';
 
 function LandingPage() {
   return (
-    <div className="landingPage mx-auto h-screen overflow-auto px-8 dark:bg-pure-black lg:px-16">
-      <div className="grid h-screen max-w-xl grid-cols-1 grid-rows-[24px_1fr_56px] flex-col items-start gap-12 py-8 text-black dark:text-white sm:px-28 lg:grid lg:w-full lg:max-w-none lg:grid-cols-2 lg:grid-rows-[1fr_auto] lg:items-center lg:justify-items-center lg:gap-9 lg:p-0">
-        <div className="logo mb-10 flex max-w-[25%] basis-2 items-center justify-center align-middle lg:w-full lg:max-w-none ">
+    <div className="landingPage mx-auto h-screen overflow-auto px-10 dark:bg-pure-black lg:px-16">
+      <Outlet />
+      <div className="grid h-screen max-w-xl grid-cols-1 grid-rows-[24px_1fr_56px] flex-col items-start gap-12 py-6 text-black dark:text-white sm:px-28 lg:grid lg:w-full lg:max-w-none lg:grid-cols-2 lg:grid-rows-[1fr_auto] lg:items-center lg:justify-items-center lg:gap-9 lg:p-0">
+        <div className="logo mb-6 flex max-w-[15%] basis-2 items-center justify-center align-middle lg:w-full lg:max-w-none ">
           <svg
             width="50%"
             xmlns="http://www.w3.org/2000/svg"
@@ -18,8 +20,8 @@ function LandingPage() {
             />
           </svg>
         </div>
-        <div className="content flex max-w-fit flex-col items-start justify-center gap-10 font-bold">
-          <span className="break-words text-5xl font-extrabold sm:text-5xl md:text-6xl">
+        <div className="content flex max-w-fit flex-col items-start justify-center gap-6 font-bold">
+          <span className="break-words text-4xl font-extrabold sm:text-5xl md:text-6xl">
             Happening now
           </span>
           <p className="text-2xl font-extrabold sm:text-3xl">Join today.</p>
