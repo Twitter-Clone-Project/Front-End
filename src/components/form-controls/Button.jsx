@@ -26,7 +26,7 @@ function Button({
             type="submit"
             disabled={disabled || false}
             // eslint-disable-next-line max-len
-            className={`absolute cursor-pointer rounded-3xl  disabled:cursor-not-allowed ${
+            className={`absolute cursor-pointer rounded-full  disabled:cursor-not-allowed ${
               backGroundColor === 'blue' ? 'bg-blue hover:bg-[#1a8cd8]' : ''
             }  ${
               backGroundColor === 'white' ? 'bg-white hover:bg-[#e6e6e6]' : ''
@@ -88,7 +88,7 @@ function Button({
             disabled={disabled || false}
             onClick={onClick || null}
             // eslint-disable-next-line max-len
-            className={`absolute cursor-pointer rounded-3xl disabled:cursor-not-allowed ${
+            className={`absolute cursor-pointer rounded-full disabled:cursor-not-allowed ${
               backGroundColor === 'blue' ? 'bg-blue hover:bg-[#1a8cd8]' : ''
             }  ${
               backGroundColor === 'white' ? 'bg-white hover:bg-[#e6e6e6]' : ''

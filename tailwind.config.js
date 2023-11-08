@@ -15,7 +15,8 @@ export default {
       'border-gray': "#2f3336",
       'light-thin': "#71767b",
       'hover-layout': '#e7e9ea1a',
-      warning: "#F4212E"
+      warning: "#F4212E",
+      "transparent": "#00000000",
     },
     fontFamily: {
       'sans': ['roboto', 'Helvetica', 'Arial']

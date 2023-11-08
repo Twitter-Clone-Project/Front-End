@@ -17,7 +17,7 @@ function ListNav({ items }) {
                 : 'flex-1 text-light-thin hover:no-underline'
             }
           >
-            <p className="hover:bg-hover-layout relative flex-auto p-5 hover:cursor-pointer hover:bg-opacity-10">
+            <p className="relative flex-auto p-5 hover:cursor-pointer hover:bg-hover-layout hover:bg-opacity-10">
               <span>{item.label}</span>
             </p>
           </NavLink>

@@ -28,3 +28,9 @@ a.list-nav-active span:after {
   left: 50%;
   transform: translateX(-50%);
 }
+.filled .outlined {
+  display: none;
+}
+.outlined .filled {
+  display: none;
+}
