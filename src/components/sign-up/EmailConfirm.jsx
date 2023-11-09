@@ -64,7 +64,7 @@ function EmailConfirm({ email }) {
     }
   };
 
-  if (resetPasswordOpen) return <NewPassword />;
+  if (resetPasswordOpen) return <NewPassword email={email} />;
 
   return (
     <div className="confirm flex h-screen w-full items-center justify-center text-lg text-black dark:bg-border-gray dark:text-white">

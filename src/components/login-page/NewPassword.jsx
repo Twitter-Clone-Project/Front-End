@@ -7,6 +7,7 @@ import PasswordInput from '../form-controls/passwordInput';
 import BoxCard from '../BoxCard';
 import OwnToaster from '../OwnToaster';
 import Spinner from '../Spinner';
+import { useAuth } from '../../hooks/AuthContext';
 
 function NewPassword({ email }) {
   const [password, setPassword] = useState('');
@@ -14,6 +15,7 @@ function NewPassword({ email }) {
   const [error, setError] = useState('');
   const [confirmError, setConfirmError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const { dispatch } = useAuth();
   const navigate = useNavigate();
 
   const passwordLengthCheck = () => {
@@ -48,12 +50,20 @@ function NewPassword({ email }) {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ email }),
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+          body: JSON.stringify({
+            email,
+            newPassword: password,
+            newPasswordConfirm: confirmPassword,
+          }),
         },
       );
       const data = await res.json();
       if (data.status === true) {
-        navigate('/authenticated');
+        dispatch({ type: 'LOGIN', payload: data });
+        navigate('/app', { replace: true });
       } else
         toast('Something went wrong!\nCheck your connection and try again');
     } catch (err) {

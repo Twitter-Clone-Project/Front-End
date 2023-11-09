@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useMemo, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { AuthContext } from '../../hooks/AuthContext';
 
@@ -7,7 +7,6 @@ const initialState = {
   isAuthenticated: false,
 };
 function reducer(state, action) {
-  console.log(action.payload);
   switch (action.type) {
     case 'LOGIN':
       return {
@@ -32,7 +31,12 @@ function AuthProvider({ children }) {
     initialState,
   );
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, dispatch }}>
+    <AuthContext.Provider
+      value={useMemo(
+        () => ({ user, isAuthenticated, dispatch }),
+        [user, isAuthenticated, dispatch],
+      )}
+    >
       {children}
     </AuthContext.Provider>
   );
