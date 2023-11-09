@@ -6,7 +6,9 @@ function SearchResults({ selectedTag, setSelectedTag, searchValue }) {
   const [searchResults, setSearchResults] = useState([]);
   useEffect(() => {
     if (searchValue !== '') {
-      fetch('https://654a8f7d1f197d51e492699b.mockapi.io/search')
+      fetch(
+        'https://cb1ad4cc-7394-4166-b581-f659d60dbd21.mock.pstmn.io/ConversationsSearch',
+      )
         .then((response) => response.json())
         .then((data) => {
           setSearchResults(data);
@@ -20,7 +22,7 @@ function SearchResults({ selectedTag, setSelectedTag, searchValue }) {
   return (
     <>
       {searchValue === '' && (
-        <div className=" mt-8 flex items-center justify-center text-[#536471] dark:text-[#71767B]">
+        <div className=" mt-8 flex items-center justify-center text-center text-[15px] text-[#536471] dark:text-[#71767B]">
           Try searching for people, groups, or messages
         </div>
       )}

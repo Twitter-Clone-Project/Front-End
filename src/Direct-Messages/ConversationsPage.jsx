@@ -10,16 +10,13 @@ function ConversationsPage() {
   const [mode, setMode] = useState(false);
 
   return (
-    <div className="h-screen w-full border-x border-[#f0f3f4] bg-white text-black dark:border-[#1e2122] dark:bg-black dark:text-white">
+    <div className="h-screen w-full min-w-[320px] border-x border-[#f0f3f4] bg-white text-black dark:border-[#1e2122] dark:bg-black dark:text-white">
       <div className="flex h-[53px] items-center justify-between px-4">
         <div className="w-full">
           <div className=" py-[2px] text-[20px] ">Messages</div>
         </div>
         <div>
-          <button
-            className=""
-            type="button"
-          >
+          <button type="button">
             <div className="flex h-[34px] w-[34px] items-center justify-center rounded-full hover:bg-[#e7e7e7] dark:hover:bg-[#181919]">
               <svg
                 className="h-5 w-5 fill-black dark:fill-white"
