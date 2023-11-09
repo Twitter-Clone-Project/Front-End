@@ -79,7 +79,7 @@ function NewPassword({ email }) {
   });
 
   return (
-    <div className="popup-screen flex h-screen w-full items-center justify-center md:bg-black md:bg-opacity-50">
+    <div className="popup-screen flex h-screen w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
       {isLoading ? (
         <Spinner />
       ) : (
