@@ -328,14 +328,16 @@ function SignUpForm() {
             </div>
 
             <div className="mt-3 flex w-full flex-wrap justify-center pb-6">
-              <div className="flex justify-center pb-6 pt-2 dark:bg-pure-black ">
-                <ReCAPTCHA
-                  sitekey="6LfYH-koAAAAANSm9Cz5hmubDirSAQIQZFI7koxP"
-                  onChange={() => {
-                    setCapatcha(true);
-                  }}
-                />
-              </div>
+              {false && (
+                <div className="flex justify-center pb-6 pt-2 dark:bg-pure-black ">
+                  <ReCAPTCHA
+                    sitekey="6LfYH-koAAAAANSm9Cz5hmubDirSAQIQZFI7koxP"
+                    onChange={() => {
+                      setCapatcha(true);
+                    }}
+                  />
+                </div>
+              )}
               <Button
                 onClick={handleSignUp}
                 backGroundColor="white"
