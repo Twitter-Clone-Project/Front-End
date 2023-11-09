@@ -44,7 +44,7 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
     try {
       setIsLoading(true);
       const res = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}auth/verifyEmailInFrgtPass`,
+        `http://${import.meta.env.VITE_API_DOMAIN}auth/verifyEmail`,
         {
           method: 'POST',
           headers: {
@@ -93,8 +93,9 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
                 onClick={handleResendCode}
                 className="mt-2 px-2 text-start text-xs"
               >
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a href="#">Didn&#39;t receive email?</a>
+                <span className="text-blue hover:underline">
+                  Didn&#39;t receive email?
+                </span>
               </button>
             </div>
           </div>
