@@ -53,7 +53,7 @@ function SignUpForm() {
   const [dateMonth, setDateMonth] = useState('');
   const [dateDay, setDateDay] = useState('');
   const [dayCount, setDayCount] = useState([]);
-  const [captacha, setCapatcha] = useState(false);
+  const [captacha, setCapatcha] = useState(true);
   const [user, setUser] = useState({});
 
   const totalError =
