@@ -23,30 +23,64 @@ function SignUpForm() {
     November: `30`,
     December: `31`,
   };
+  const [isCode, setIsCode] = useState(false);
   const [name, setName] = useState('');
-
+  const [nameError, setNameError] = useState('');
   const [usernameError, setUsernameError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordConfirmError, setPasswordConfirmError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-
   const [userName, setUserName] = useState('');
-
   const [password, setPassword] = useState('');
-
   const [passwordConfirm, setPasswordConfirm] = useState('');
-
   const [email, setEmail] = useState('');
-
   const [validEmail, setValidEmail] = useState(false);
-
   const [dateYear, setDateYear] = useState('');
-
   const [dateMonth, setDateMonth] = useState('');
-
   const [dateDay, setDateDay] = useState('');
-
   const [dayCount, setDayCount] = useState([]);
+
+  const totalError =
+    nameError ||
+    usernameError ||
+    emailError ||
+    passwordConfirmError ||
+    passwordError ||
+    !name ||
+    !userName ||
+    !email ||
+    !password ||
+    !passwordConfirm ||
+    !dateMonth ||
+    !dateDay ||
+    !dayCount;
+  console.log(totalError);
+
+  const passwordLengthCheck = () => {
+    if (passwordConfirm.length < 7 && passwordConfirm !== '') {
+      setPasswordConfirmError(
+        'Your password needs to be at least 8 characters.Please enter a longer one.',
+      );
+    }
+    if (password.length < 7 && password !== '') {
+      setPasswordError(
+        'Your password needs to be at least 8 characters.Please enter a longer one.',
+      );
+    }
+  };
+  const passwordCheck = () => {
+    if (
+      passwordConfirm !== password &&
+      password !== '' &&
+      passwordConfirm !== ''
+    ) {
+      setPasswordConfirmError('Passwords do not match');
+    }
+  };
+  useEffect(() => {
+    passwordCheck();
+    passwordLengthCheck();
+  });
 
   const handleMonthYearChange = () => {
     let count;
@@ -67,13 +101,15 @@ function SignUpForm() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(handleMonthYearChange, [dateMonth, dateYear]);
 
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    if (validEmail === true) {
-      // console.log('Valid Email');
-      setValidEmail(false);
-    }
-  }, [validEmail]);
+  const handleSignUp = async () => {};
+
+  // useEffect(() => {
+  //   // eslint-disable-next-line no-console
+  //   if (validEmail === true) {
+  //     // console.log('Valid Email');
+  //     setValidEmail(false);
+  //   }
+  // }, [validEmail]);
 
   return (
     <div className="">
@@ -125,22 +161,21 @@ function SignUpForm() {
               <div className="mb-6 w-full">
                 <NameInput
                   title="Name"
-                  error=""
-                  setError={() => null}
+                  error={nameError}
+                  setError={setNameError}
                   Name={name}
                   setName={setName}
                   maxLength="50"
                 />
               </div>
               <div className="mb-6 w-full">
-                <BasicInput
-                  value={userName}
+                <NameInput
+                  Name={userName}
                   error={usernameError}
                   setError={setUsernameError}
-                  setValue={setUserName}
+                  setName={setUserName}
+                  maxLength="25"
                   title="Username"
-                  error=""
-                  setError=""
                 />
               </div>
               <div className="mb-6 w-full">
@@ -159,8 +194,6 @@ function SignUpForm() {
                   password={passwordConfirm}
                   setPassword={setPasswordConfirm}
                   title="Confirm Password"
-                  error=""
-                  setError=""
                 />
               </div>
               <div className="mb-4 w-full">
@@ -224,130 +257,12 @@ function SignUpForm() {
               <div className="w-3/12">
                 <DorpDownMenu
                   header="Year"
-                  items={[
-                    '',
-                    2023,
-                    2022,
-                    2021,
-                    2020,
-                    2019,
-                    2018,
-                    2017,
-                    2016,
-                    2015,
-                    2014,
-                    2013,
-                    2012,
-                    2011,
-                    2010,
-                    2009,
-                    2008,
-                    2007,
-                    2006,
-                    2005,
-                    2004,
-                    2003,
-                    2002,
-                    2001,
-                    2000,
-                    1999,
-                    1998,
-                    1997,
-                    1996,
-                    1995,
-                    1994,
-                    1993,
-                    1992,
-                    1991,
-                    1990,
-                    1989,
-                    1988,
-                    1987,
-                    1986,
-                    1985,
-                    1984,
-                    1983,
-                    1982,
-                    1981,
-                    1980,
-                    1979,
-                    1978,
-                    1977,
-                    1976,
-                    1975,
-                    1974,
-                    1973,
-                    1972,
-                    1971,
-                    1970,
-                    1969,
-                    1968,
-                    1967,
-                    1966,
-                    1965,
-                    1964,
-                    1963,
-                    1962,
-                    1961,
-                    1960,
-                    1959,
-                    1958,
-                    1957,
-                    1956,
-                    1955,
-                    1954,
-                    1953,
-                    1952,
-                    1951,
-                    1950,
-                    1949,
-                    1948,
-                    1947,
-                    1946,
-                    1945,
-                    1944,
-                    1943,
-                    1942,
-                    1941,
-                    1940,
-                    1939,
-                    1938,
-                    1937,
-                    1936,
-                    1935,
-                    1934,
-                    1933,
-                    1932,
-                    1931,
-                    1930,
-                    1929,
-                    1928,
-                    1927,
-                    1926,
-                    1925,
-                    1924,
-                    1923,
-                    1922,
-                    1921,
-                    1920,
-                    1919,
-                    1918,
-                    1917,
-                    1916,
-                    1915,
-                    1914,
-                    1913,
-                    1912,
-                    1911,
-                    1910,
-                    1909,
-                    1908,
-                    1907,
-                    1906,
-                    1905,
-                    1904,
-                    1903,
-                  ]}
+                  items={Array.from(
+                    {
+                      length: new Date().getFullYear() - 1902,
+                    },
+                    (v, _i) => 1903 + _i,
+                  ).reverse()}
                   state={dateYear}
                   setState={setDateYear}
                 />
@@ -366,8 +281,10 @@ function SignUpForm() {
               />
             </div>
             <Button
+              onClick={handleSignUp}
               backGroundColor="white"
               borderColor="gray"
+              disabled={totalError}
               labelColor="black"
               label="Next"
               path=""

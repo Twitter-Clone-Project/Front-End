@@ -13,6 +13,7 @@ function Button({
   disabled,
   width,
   hight,
+  onClick,
   children,
 }) {
   return (
@@ -20,7 +21,9 @@ function Button({
       <button
         type="submit"
         disabled={disabled}
-        className={` absolute rounded-3xl ${
+        onClick={onClick}
+        // eslint-disable-next-line max-len
+        className={`absolute cursor-pointer rounded-full  disabled:cursor-not-allowed ${
           backGroundColor === 'blue' ? 'bg-blue hover:bg-[#1a8cd8]' : ''
         }  ${
           backGroundColor === 'white' ? 'bg-white hover:bg-[#e6e6e6]' : ''
