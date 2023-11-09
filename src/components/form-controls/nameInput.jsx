@@ -18,7 +18,6 @@ function NameInput({ title, error, setError, Name, setName, maxLength }) {
     <div className="relative h-[56.44px] w-full items-center justify-center  bg-white dark:bg-black">
       <input
         placeholder=""
-        id="arrow"
         type="text"
         maxLength={maxLength}
         value={Name}
