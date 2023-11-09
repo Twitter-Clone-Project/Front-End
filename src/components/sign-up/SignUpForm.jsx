@@ -127,9 +127,14 @@ function SignUpForm() {
         passwordConfirm,
         name,
         username: userName,
-        dateOfBirth: `${dateYear}-${getMonthFromString(dateMonth)}-${dateDay}`,
+        dateOfBirth: `${dateYear}-${
+          getMonthFromString(dateMonth) < 10
+            ? `0${getMonthFromString(dateMonth)}`
+            : `${getMonthFromString(dateMonth)}`
+        }-${dateDay < 10 ? `0${dateDay}` : `${dateDay}`}`,
         gRecaptchaResponse: captacha,
       };
+      console.log(JSON.stringify(info));
       const res = await fetch(
         `http://${import.meta.env.VITE_API_DOMAIN}auth/signup`,
         {
@@ -145,6 +150,7 @@ function SignUpForm() {
       );
       const data = await res.json();
       if (data.status === false) {
+        console.log(data);
         throw new Error(data.message);
       }
       dispatch({ type: 'LOGIN', payload: data });

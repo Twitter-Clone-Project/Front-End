@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import BoxCard from '../BoxCard';
 import Button from '../form-controls/Button';
 import BasicInput from '../form-controls/BasicInput';
@@ -8,11 +9,12 @@ import Spinner from '../Spinner';
 import OwnToaster from '../OwnToaster';
 import NewPassword from '../login-page/NewPassword';
 
-function EmailConfirm({ email }) {
+function EmailConfirm({ email, type = 'reset' }) {
   const [code, setCode] = useState('');
   const [err, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
+  const navigate = useNavigate();
   const handleResendCode = async () => {
     try {
       setIsLoading(true);
@@ -54,9 +56,8 @@ function EmailConfirm({ email }) {
       const data = await res.json();
       if (data.status === false) {
         toast('Incorrect code');
-      } else {
-        setResetPasswordOpen(true);
-      }
+      } else if (type === 'reset') setResetPasswordOpen(true);
+      else navigate('/app');
     } catch (error) {
       toast('Something went wrong!\nCheck your connection and try again');
     } finally {
@@ -117,5 +118,6 @@ function EmailConfirm({ email }) {
 
 EmailConfirm.propTypes = {
   email: PropTypes.string.isRequired,
+  type: PropTypes.string,
 };
 export default EmailConfirm;
