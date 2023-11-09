@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Outlet } from 'react-router-dom';
 import NewAccountForm from './NewAccountForm';
-import Logo from './Logo';
 
 function LandingPage() {
   return (

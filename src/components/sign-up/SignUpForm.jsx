@@ -5,7 +5,6 @@ import EmailInput from '../form-controls/emailInput';
 import NameInput from '../form-controls/nameInput';
 import DorpDownMenu from '../form-controls/DorpDownMenu';
 import PasswordInput from '../form-controls/passwordInput';
-import BasicInput from '../form-controls/BasicInput';
 
 function SignUpForm() {
   const daysOfMonth = {
