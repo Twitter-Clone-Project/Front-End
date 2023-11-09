@@ -13,11 +13,11 @@ function BasicInput({ title, value, setValue, error, setError }) {
           setError('');
         }}
         type="text"
-        className={`
-        peer h-full w-full rounded px-2 pt-4 text-lg
+        className="peer h-full w-full rounded px-2 pt-4 text-lg
         outline outline-1 
         outline-light-gray 
         focus:outline-2 focus:outline-blue
+        dark:bg-black
         dark:text-white"
       />
       <label

@@ -18,11 +18,11 @@ function PasswordInput({ title, password, setPassword, error, setError }) {
           setError('');
         }}
         type={isClicked ? 'text' : 'password'}
-        className={`
-        peer h-full w-full rounded px-2 pr-9 pt-4 text-lg
+        className="        peer h-full w-full rounded px-2 pr-9 pt-4 text-lg
         outline outline-1 
         outline-light-gray
         focus:outline-2 focus:outline-blue 
+        dark:bg-black
         dark:text-white"
       />
       <label

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import Button from '../form-controls/Button';
 import EmailInput from '../form-controls/emailInput';
@@ -8,6 +8,21 @@ import PasswordInput from '../form-controls/passwordInput';
 import BasicInput from '../form-controls/BasicInput';
 
 function SignUpForm() {
+  const daysOfMonth = {
+    none: `31`,
+    January: `31`,
+    February: `28`,
+    March: `31`,
+    April: `30`,
+    May: `31`,
+    June: `30`,
+    July: `31`,
+    August: `31`,
+    September: `30`,
+    October: `31`,
+    November: `30`,
+    December: `31`,
+  };
   const [name, setName] = useState('');
 
   const [error, setError] = useState('');
@@ -20,14 +35,43 @@ function SignUpForm() {
 
   const [email, setEmail] = useState('');
 
-  // function onChange(value) {
-  //   console.log('Captcha value:', value);
-  // }
+  const [validEmail, setValidEmail] = useState(false);
 
-  // const [step, setStep] = useState(1);
-  // const handleClick = () => {
-  //   setStep(step++);
-  // };
+  const [dateYear, setDateYear] = useState('');
+
+  const [dateMonth, setDateMonth] = useState('');
+
+  const [dateDay, setDateDay] = useState('');
+
+  const [dayCount, setDayCount] = useState([]);
+
+  const handleMonthYearChange = () => {
+    let count;
+    let days = [];
+    if (dateMonth === '') {
+      count = daysOfMonth.none;
+    } else if (dateMonth === 'February' && dateYear % 4 === 0) {
+      count = 29;
+    } else {
+      count = daysOfMonth[`${dateMonth}`];
+    }
+    for (let index = 0; index < count; index += 1) {
+      // eslint-disable-next-line no-unused-expressions
+      days = days.concat(index + 1);
+    }
+    setDayCount(days);
+  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(handleMonthYearChange, [dateMonth, dateYear]);
+
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    if (validEmail === true) {
+      // console.log('Valid Email');
+      setValidEmail(false);
+    }
+  }, [validEmail]);
+
   return (
     <div className="">
       <div className="flex h-[auto] w-full items-center justify-center bg-black dark:bg-white ">
@@ -64,11 +108,11 @@ function SignUpForm() {
             <div className="w-full ">
               <div className="mb-6 w-full">
                 <NameInput
+                  title="Name"
                   error=""
                   setError=""
                   Name={name}
                   setName={setName}
-                  label="Name"
                   maxLength="50"
                 />
               </div>
@@ -77,11 +121,14 @@ function SignUpForm() {
                   value={userName}
                   setValue={setUserName}
                   title="Username"
-                  maxLength="20"
+                  error=""
+                  setError=""
                 />
               </div>
               <div className="mb-6 w-full">
                 <PasswordInput
+                  error=""
+                  setError=""
                   password={password}
                   setPassword={setPassword}
                   title="Password"
@@ -92,6 +139,8 @@ function SignUpForm() {
                   password={passwordConfirm}
                   setPassword={setPasswordConfirm}
                   title="Confirm Password"
+                  error=""
+                  setError=""
                 />
               </div>
               <div className="mb-4 w-full">
@@ -100,6 +149,8 @@ function SignUpForm() {
                   setError={setError}
                   email={email}
                   setEmail={setEmail}
+                  valid={validEmail}
+                  setValid={setValidEmail}
                 />
               </div>
             </div>
@@ -119,63 +170,35 @@ function SignUpForm() {
             </div>
             <div className=" flex w-full justify-between dark:text-white">
               <div className="w-5/12">
-                <DorpDownMenu
-                  header="Month"
-                  items={[
-                    '',
-                    'January',
-                    'February',
-                    'March',
-                    'April',
-                    'May',
-                    'June',
-                    'July',
-                    'August',
-                    'September',
-                    'October',
-                    'November',
-                    'December',
-                  ]}
-                />
+                <span>
+                  <DorpDownMenu
+                    header="Month"
+                    items={[
+                      '',
+                      'January',
+                      'February',
+                      'March',
+                      'April',
+                      'May',
+                      'June',
+                      'July',
+                      'August',
+                      'September',
+                      'October',
+                      'November',
+                      'December',
+                    ]}
+                    state={dateMonth}
+                    setState={setDateMonth}
+                  />
+                </span>
               </div>
               <div className="w-3/12 ">
-                {' '}
                 <DorpDownMenu
                   header="Day"
-                  items={[
-                    '',
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11,
-                    12,
-                    13,
-                    14,
-                    15,
-                    16,
-                    17,
-                    18,
-                    19,
-                    20,
-                    21,
-                    22,
-                    23,
-                    24,
-                    25,
-                    26,
-                    27,
-                    28,
-                    29,
-                    30,
-                    31,
-                  ]}
+                  items={dayCount}
+                  state={dateDay}
+                  setState={setDateDay}
                 />
               </div>
               <div className="w-3/12">
@@ -305,6 +328,8 @@ function SignUpForm() {
                     1904,
                     1903,
                   ]}
+                  state={dateYear}
+                  setState={setDateYear}
                 />
               </div>
             </div>
@@ -315,12 +340,14 @@ function SignUpForm() {
               <ReCAPTCHA
                 sitekey="6LfYH-koAAAAANSm9Cz5hmubDirSAQIQZFI7koxP"
                 onChange={(value) => {
+                  // eslint-disable-next-line no-console
                   console.log('Captcha value:', value);
                 }}
               />
             </div>
             <Button
               backGroundColor="black"
+              backGroundColorDark="white"
               borderColor="black"
               labelColor="white"
               label="Next"
