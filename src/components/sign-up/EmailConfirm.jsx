@@ -118,12 +118,12 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
 
 EmailConfirm.defaultProps = {
   type: 'reset',
-  use: null,
+  user: null,
 };
 
 EmailConfirm.propTypes = {
   email: PropTypes.string.isRequired,
   type: PropTypes.string,
-  user: PropTypes.objectOf().isRequired,
+  user: PropTypes.objectOf(),
 };
 export default EmailConfirm;

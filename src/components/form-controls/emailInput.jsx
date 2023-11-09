@@ -5,11 +5,9 @@ import React, { useState } from 'react';
 function EmailInput({ error, setError, email, setEmail }) {
   const errorMessage = 'Please enter a valid email.';
   const [value, setValue] = useState('');
-  const [timeoutId, setTimeoutId] = useState(null);
 
   const handleInputChange = (event) => {
     setValue(event.target.value);
-    clearTimeout(timeoutId);
     if (event.target.checkValidity()) {
       setError('');
     } else setError(errorMessage);
