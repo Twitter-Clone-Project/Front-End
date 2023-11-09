@@ -7,6 +7,7 @@ const initialState = {
   isAuthenticated: false,
 };
 function reducer(state, action) {
+  console.log(action.payload);
   switch (action.type) {
     case 'LOGIN':
       return {

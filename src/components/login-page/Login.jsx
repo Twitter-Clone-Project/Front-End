@@ -26,9 +26,12 @@ function Login() {
         `http://${import.meta.env.VITE_API_DOMAIN}auth/signin`,
         {
           method: 'POST',
+          origin: true,
           headers: {
             'Content-Type': 'application/json',
           },
+          credentials: 'include',
+          withCredentials: true,
           body: JSON.stringify({ email, password }),
         },
       );
