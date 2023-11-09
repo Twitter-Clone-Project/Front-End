@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router';
 import Button from '../form-controls/Button';
 import EmailInput from '../form-controls/emailInput';
 import NameInput from '../form-controls/nameInput';
@@ -19,6 +20,7 @@ function getMonthFromString(mon) {
 }
 
 function SignUpForm() {
+  const navigate = useNavigate();
   const daysOfMonth = {
     none: `31`,
     January: `31`,
@@ -174,6 +176,7 @@ function SignUpForm() {
           <div className="flex w-full flex-wrap justify-center bg-white dark:bg-pure-black md:w-[40%] md:min-w-[550px] md:rounded-lg">
             <div className="relative flex w-full items-center">
               <button
+                onClick={() => navigate(-1)}
                 type="submit"
                 className="bg-gray-300 hover:bg-gray-400 text-gray-800 absolute left-3 top-3 inline-flex items-start rounded font-bold"
               >
