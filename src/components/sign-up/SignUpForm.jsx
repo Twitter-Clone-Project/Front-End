@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { Navigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import Button from '../form-controls/Button';
 import EmailInput from '../form-controls/emailInput';
@@ -10,7 +9,6 @@ import PasswordInput from '../form-controls/passwordInput';
 import EmailConfirm from './EmailConfirm';
 import Spinner from '../Spinner';
 import BoxCard from '../BoxCard';
-import { useAuth } from '../../hooks/AuthContext';
 import OwnToaster from '../OwnToaster';
 
 function getMonthFromString(mon) {
@@ -38,7 +36,7 @@ function SignUpForm() {
     December: `31`,
   };
   const [isCode, setIsCode] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isCaptacha, setIsCaptcha] = useState(false);
   const [name, setName] = useState('');
   const [nameError, setNameError] = useState('');
@@ -58,7 +56,7 @@ function SignUpForm() {
   const [captacha, setCapatcha] = useState(
     '6LeousYoAAAAACH0uCm7e4NKQkOWgrZWxmPPCMBZ',
   );
-  const { dispatch } = useAuth();
+  const [user, setUser] = useState({});
 
   const totalError =
     nameError ||
@@ -153,8 +151,8 @@ function SignUpForm() {
         console.log(data);
         throw new Error(data.message);
       }
-      dispatch({ type: 'LOGIN', payload: data });
-      Navigate('/app');
+      setUser(data);
+      setIsCode(true);
     } catch (err) {
       toast(err.message);
     } finally {
@@ -173,13 +171,22 @@ function SignUpForm() {
   //   }
   // }, [validEmail]);
 
-  if (isCode) return <EmailConfirm email={email} />;
+  if (isCode)
+    return (
+      <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
+        <EmailConfirm
+          email={email}
+          data={user}
+          type="signup"
+        />
+      </div>
+    );
   return (
     <div className="">
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
+      <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
+        {isLoading ? (
+          <Spinner />
+        ) : (
           <div className="flex w-full flex-wrap justify-center bg-white dark:bg-pure-black md:w-[40%] md:min-w-[550px] md:rounded-lg">
             {isCaptacha ? (
               <BoxCard>
@@ -377,8 +384,8 @@ function SignUpForm() {
               </>
             )}
           </div>
-        </div>
-      )}
+        )}
+      </div>
       <OwnToaster />
     </div>
   );
