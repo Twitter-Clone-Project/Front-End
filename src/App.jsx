@@ -9,6 +9,7 @@ import AppLayout from './components/app-layout/AppLayout';
 import UnprotectedRoute from './components/UnprotectedRoute';
 import { useAuth } from './hooks/AuthContext';
 import Spinner from './components/Spinner';
+import SignUpForm from './components/sign-up/SignUpForm';
 
 function App() {
   const { dispatch } = useAuth();
@@ -46,98 +47,98 @@ function App() {
       <Spinner />
     </div>
   ) : (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <UnprotectedRoute>
-              <LandingPage />
-            </UnprotectedRoute>
-          }
-        >
+    <div className="h-screen dark:bg-pure-black">
+      <BrowserRouter>
+        <Routes>
           <Route
-            path="/login"
+            path="/"
             element={
               <UnprotectedRoute>
-                <Login />
+                <LandingPage />
+              </UnprotectedRoute>
+            }
+          >
+            <Route
+              path="/login"
+              element={
+                <UnprotectedRoute>
+                  <Login />
+                </UnprotectedRoute>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <UnprotectedRoute>
+                  <SignUpForm />
+                </UnprotectedRoute>
+              }
+            />
+          </Route>
+          <Route
+            path="/forgot-password"
+            element={
+              <UnprotectedRoute>
+                <ForgotPassword />
               </UnprotectedRoute>
             }
           />
           <Route
-            path="/signup"
+            path="/app"
             element={
-              <UnprotectedRoute>
-                <h1 className="absolute bottom-0 left-0 top-0 z-50 h-full w-full bg-black bg-opacity-50 text-white">
-                  SignUp
+              <ProtectedRoute>
+                <AppLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route
+              index
+              element={<Navigate to="home" />}
+            />
+            <Route
+              path="home"
+              element={
+                <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
+                  Home
                 </h1>
-              </UnprotectedRoute>
-            }
-          />
-        </Route>
-        <Route
-          path="/forgot-password"
-          element={
-            <UnprotectedRoute>
-              <ForgotPassword />
-            </UnprotectedRoute>
-          }
-        />
-        <Route
-          path="/app"
-          element={
-            <ProtectedRoute>
-              <AppLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route
-            index
-            element={<Navigate to="home" />}
-          />
-          <Route
-            path="home"
-            element={
-              <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
-                Home
-              </h1>
-            }
-          />
-          <Route
-            path="notifications"
-            element={
-              <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
-                Notifications
-              </h1>
-            }
-          />
-          <Route
-            path=":username"
-            element={
-              <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
-                Profile Page
-              </h1>
-            }
-          />
-          <Route
-            path="settings"
-            element={
-              <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
-                Settings
-              </h1>
-            }
-          />
-          <Route
-            path="messages"
-            element={
-              <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
-                Messages
-              </h1>
-            }
-          />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+              }
+            />
+            <Route
+              path="notifications"
+              element={
+                <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
+                  Notifications
+                </h1>
+              }
+            />
+            <Route
+              path=":username"
+              element={
+                <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
+                  Profile Page
+                </h1>
+              }
+            />
+            <Route
+              path="settings"
+              element={
+                <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
+                  Settings
+                </h1>
+              }
+            />
+            <Route
+              path="messages"
+              element={
+                <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
+                  Messages
+                </h1>
+              }
+            />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 

@@ -9,7 +9,7 @@ function BoxCard({ children, classes, onClose }) {
       className={`relative flex w-full flex-col justify-between rounded-2xl 
       border-[1px] border-light-gray p-12 px-24 text-lg text-black 
       dark:border-none dark:bg-pure-black 
-      dark:text-white md:h-[650px] md:w-[600px] ${classes}`}
+      dark:text-white md:min-h-[650px] md:w-[615px] ${classes}`}
     >
       <div className="absolute left-3 top-0 flex h-[53px] w-full items-center">
         <button
