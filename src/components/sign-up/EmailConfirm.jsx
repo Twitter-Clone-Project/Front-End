@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
 import BoxCard from '../BoxCard';
 import Button from '../form-controls/Button';
 import BasicInput from '../form-controls/BasicInput';
@@ -10,7 +9,7 @@ import OwnToaster from '../OwnToaster';
 import NewPassword from '../login-page/NewPassword';
 import { useAuth } from '../../hooks/AuthContext';
 
-function EmailConfirm({ email, type = 'reset', user }) {
+function EmailConfirm({ email, type = 'reset', user = null }) {
   const [code, setCode] = useState('');
   const [err, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -119,10 +118,12 @@ function EmailConfirm({ email, type = 'reset', user }) {
 
 EmailConfirm.defaultProps = {
   type: 'reset',
+  use: null,
 };
 
 EmailConfirm.propTypes = {
   email: PropTypes.string.isRequired,
   type: PropTypes.string,
+  user: PropTypes.objectOf().isRequired,
 };
 export default EmailConfirm;
