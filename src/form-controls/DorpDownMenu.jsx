@@ -2,7 +2,10 @@
 
 import * as React from 'react';
 
-function DorpDownMenu({ header, items }) {
+function DorpDownMenu({ header, items, state, setState }) {
+  const handleSelectedChange = (event) => {
+    setState(event.target.value);
+  };
   return (
     <div className="relative h-14 w-full rounded outline outline-light-gray focus-within:outline-2 focus-within:outline-blue ">
       <select
@@ -17,12 +20,12 @@ function DorpDownMenu({ header, items }) {
           className="hidden"
         />
         {items.map((item) => (
-          <option>{item}</option>
+          <option className=" text-pure-black dark:text-white ">{item}</option>
         ))}
       </select>
       <label
         htmlFor="selector1"
-        className="pointer-events-none absolute left-0 pl-2 pr-2 pt-2 text-[13px] leading-4 text-black peer-focus:text-blue dark:text-white"
+        className="pointer-events-none absolute left-0 pl-2 pr-2 pt-2 text-[13px] leading-4 text-pure-black peer-focus:text-blue dark:text-white"
       >
         {header}
       </label>
