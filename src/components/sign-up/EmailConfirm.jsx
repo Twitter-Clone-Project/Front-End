@@ -8,13 +8,14 @@ import BasicInput from '../form-controls/BasicInput';
 import Spinner from '../Spinner';
 import OwnToaster from '../OwnToaster';
 import NewPassword from '../login-page/NewPassword';
+import { useAuth } from '../../hooks/AuthContext';
 
-function EmailConfirm({ email, type = 'reset' }) {
+function EmailConfirm({ email, type = 'reset', user }) {
   const [code, setCode] = useState('');
   const [err, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
-  const navigate = useNavigate();
+  const { dispatch } = useAuth();
   const handleResendCode = async () => {
     try {
       setIsLoading(true);
@@ -57,7 +58,7 @@ function EmailConfirm({ email, type = 'reset' }) {
       if (data.status === false) {
         toast('Incorrect code');
       } else if (type === 'reset') setResetPasswordOpen(true);
-      else navigate('/app');
+      else dispatch({ type: 'LOGIN', payload: user });
     } catch (error) {
       toast('Something went wrong!\nCheck your connection and try again');
     } finally {
@@ -115,6 +116,10 @@ function EmailConfirm({ email, type = 'reset' }) {
     </div>
   );
 }
+
+EmailConfirm.defaultProps = {
+  type: 'reset',
+};
 
 EmailConfirm.propTypes = {
   email: PropTypes.string.isRequired,
