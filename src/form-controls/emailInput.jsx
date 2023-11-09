@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 // eslint-disable-next-line no-unused-vars
-function EmailInput({ error, setError, email, setEmail }) {
+function EmailInput({ error, setError, email, setEmail, valid, setValid }) {
   const errorMessage = 'Please enter a valid email.';
   const [value, setValue] = useState('');
   const [timeoutId, setTimeoutId] = useState(null);
@@ -11,8 +11,10 @@ function EmailInput({ error, setError, email, setEmail }) {
     setValue(event.target.value);
     clearTimeout(timeoutId);
     const newTimeouId = setTimeout(() => {
-      if (event.target.checkValidity()) setError('');
-      else setError(errorMessage);
+      if (event.target.checkValidity()) {
+        setError('');
+        setValid(true);
+      } else setError(errorMessage);
       setEmail(event.target.value);
     }, 500);
     setTimeoutId(newTimeouId);

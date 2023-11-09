@@ -3,12 +3,17 @@
 import * as React from 'react';
 import { v4 as uuid4 } from 'uuid';
 
-function DorpDownMenu({ header, items }) {
+// eslint-disable-next-line no-unused-vars
+function DorpDownMenu({ header, items, state, setState }) {
+  const handleSelectedChange = (event) => {
+    setState(event.target.value);
+  };
   return (
     <div className="relative h-14 w-full rounded outline outline-light-gray focus-within:outline-2 focus-within:outline-blue ">
       <select
         name={header}
         id="selector1"
+        onChange={handleSelectedChange}
         className="peer absolute mb-2 mt-4 w-full cursor-pointer  appearance-none bg-white px-2 pt-2 text-base outline-none dark:bg-pure-black "
       >
         <option
