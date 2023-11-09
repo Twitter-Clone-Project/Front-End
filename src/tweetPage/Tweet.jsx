@@ -1,36 +1,18 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { useState } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import ReactButtons from './reactButtons';
 import Media from './Media';
 
-function Tweet() {
-  const [repost, toggleRepost] = useState(false);
+function Tweet({ data }) {
+  const [repost, toggleRepost] = useState(data.isRetweeted);
   const [reply, toggleReply] = useState(false);
-  const [like, toggleLike] = useState(false);
-  const images = [
-    {
-      id: 1,
-      src: 'https://images.pexels.com/photos/18566272/pexels-photo-18566272/free-photo-of-journalists-and-visitors-of-borobudur-interviewed-the-bhante-who-walked-from-thailand-to-indonesia.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      alt: 'media 1',
-    },
-    {
-      id: 2,
-      src: 'https://images.pexels.com/photos/12106470/pexels-photo-12106470.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      alt: 'media 2',
-    },
-    {
-      id: 1,
-      src: 'https://images.pexels.com/photos/16776919/pexels-photo-16776919/free-photo-of-blue-motor-scooter-standing-outside-a-beauty-center.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      alt: 'media 1',
-    },
-    // Add more image objects as needed
-  ];
+  const [like, toggleLike] = useState(data.isLiked);
 
   return (
-    <div className="tweet flex w-[88%] flex-row bg-white   px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white md:w-[598px]">
+    <div className="tweet mt-[0.5px] flex w-[88%] flex-row  border-y-[0.5px] border-y-x-light-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
       <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
-        <div className=" pb-1">
+        <div className={` pb-1 ${data.isRetweet === false ? 'hidden' : ''}`}>
           <svg
             viewBox="0 0 24 24"
             className="ml-[24px] h-[16px] w-[16px] fill-dark-gray  "
@@ -40,31 +22,36 @@ function Tweet() {
         </div>
         <div className="profileImage leftColumn mr-[12px] h-[40px] w-[40px] ">
           <img
-            src="https://images.pexels.com/photos/16776919/pexels-photo-16776919/free-photo-of-blue-motor-scooter-standing-outside-a-beauty-center.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            src={data.user.profileImageURL}
             alt="profileImage"
-            className=" h-[40px] w-[40px] rounded-full object-fill"
+            className=" h-[40px] w-[40px] rounded-full object-cover"
           />
         </div>
       </div>
 
       <div className="rightColumn w-[512px] ">
-        <div className=" retweeted-info h-[16px] pb-4 text-[13px] font-semibold text-dark-gray  ">
+        <div
+          className={` retweeted-info h-[16px] pb-4 text-[13px] font-semibold
+           text-dark-gray ${data.isRetweet === false ? 'hidden' : ''} `}
+        >
           {' '}
-          <span>retweeted name</span> reposted
+          <span>{data.retweetedUser.screenName}</span> reposted
         </div>
         <div className="userInfo flex flex-row">
-          <div className="name  text-[15px] font-bold text-black">name</div>
+          <div className="name  text-[15px] font-bold">
+            {data.user.screenName}
+          </div>
           <div className="userName  text-[15px] text-dark-gray">
             {' '}
-            &ensp;@username
+            &ensp;@ <span>{data.user.userName}</span>
           </div>
           <div className="date text-[15px] text-dark-gray">
             {' '}
-            &ensp;.&ensp;Nov 4
+            &ensp;.&ensp;<span>{data.createdAt}</span>
           </div>
         </div>
-        <div className="caption"> if any</div>
-        <Media images={images} />
+        <div className="caption"> {data.text}</div>
+        <Media images={data.attachmentsURL} />
         <div className="buttons flex h-[32px] flex-row  justify-between">
           <button
             type="submit"
@@ -72,7 +59,7 @@ function Tweet() {
           >
             <ReactButtons
               type="Reply"
-              data={100}
+              data={data.repliesCount}
               clicked={reply}
               toggleClicked={toggleReply}
             />
@@ -83,7 +70,7 @@ function Tweet() {
           >
             <ReactButtons
               type="Repost"
-              data={100}
+              data={data.retweetsCount}
               clicked={repost}
               toggleClicked={toggleRepost}
             />
@@ -94,7 +81,7 @@ function Tweet() {
           >
             <ReactButtons
               type="Like"
-              data={100}
+              data={data.likesCount}
               clicked={like}
               toggleClicked={toggleLike}
             />
@@ -105,9 +92,10 @@ function Tweet() {
   );
 }
 
-// Tweet.propTypes = {
-//   images: PropTypes.object.isRequired,
-// };
+Tweet.propTypes = {
+  // eslint-disable-next-line no-undef
+  data: PropTypes.object.isRequired,
+};
 
 export default Tweet;
 // {data.user.profileImageURL}

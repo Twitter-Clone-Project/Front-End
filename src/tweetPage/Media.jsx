@@ -2,10 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Media({ images }) {
-  console.log(images.length / 2 - 0.5);
   if (images.length % 2 === 0) {
-    // eslint-disable-next-line no-console
-
     return (
       <div
         className={`media4 grid max-h-[512px] max-w-[512px] grid-cols-2
@@ -13,8 +10,8 @@ function Media({ images }) {
       >
         {images.map((image) => (
           <img
-            src={image.src}
-            alt={image.alt}
+            src={image}
+            alt="media"
             className="h-full w-full object-cover"
           />
         ))}
@@ -30,15 +27,15 @@ function Media({ images }) {
        }px]  overflow-hidden rounded-xl `}
     >
       <img
-        src={images[0].src}
-        alt={images[0].alt}
+        src={images[0]}
+        alt="media"
         className="h-full w-full  object-cover"
       />
       <div className={`grid grid-rows-2  gap-[${images.length - 1}px]`}>
         {images3.map((image) => (
           <img
-            src={image.src}
-            alt={image.alt}
+            src={image}
+            alt="media"
             className="h-full w-full object-cover"
           />
         ))}
