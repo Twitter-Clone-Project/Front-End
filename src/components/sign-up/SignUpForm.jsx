@@ -36,7 +36,7 @@ function SignUpForm() {
     December: `31`,
   };
   const [isCode, setIsCode] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isCaptacha, setIsCaptcha] = useState(false);
   const [name, setName] = useState('');
   const [nameError, setNameError] = useState('');
@@ -173,7 +173,7 @@ function SignUpForm() {
 
   if (isCode)
     return (
-      <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
+      <div className="popup-screen absolute bottom-0 left-0 top-4 z-20 flex w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
         <EmailConfirm
           email={email}
           data={user}
