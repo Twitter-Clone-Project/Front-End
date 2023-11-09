@@ -61,13 +61,11 @@ function NewPassword({ email }) {
         },
       );
       const data = await res.json();
-      if (data.status === true) {
-        dispatch({ type: 'LOGIN', payload: data });
-        navigate('/app', { replace: true });
-      } else
-        toast('Something went wrong!\nCheck your connection and try again');
+      if (data.status === 'error') throw new Error(data.message);
+      dispatch({ type: 'LOGIN', payload: data });
+      navigate('/app', { replace: true });
     } catch (err) {
-      toast('Something went wrong!\nCheck your connection and try again');
+      toast(err.message);
     } finally {
       setIsLoading(false);
     }

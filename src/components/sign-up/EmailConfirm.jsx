@@ -54,12 +54,11 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
         },
       );
       const data = await res.json();
-      if (data.status === false) {
-        toast('Incorrect code');
-      } else if (type === 'reset') setResetPasswordOpen(true);
+      if (data.status === 'error') throw new Error(data.message);
+      if (type === 'reset') setResetPasswordOpen(true);
       else dispatch({ type: 'LOGIN', payload: user });
     } catch (error) {
-      toast('Something went wrong!\nCheck your connection and try again');
+      toast(error.message);
     } finally {
       setIsLoading(false);
     }

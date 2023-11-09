@@ -27,11 +27,10 @@ function ForgotPassword() {
         },
       );
       const data = await res.json();
-      if (data.status === false) {
-        toast('Incorrect email');
-      } else setIsCode(true);
+      if (data.status === 'error') throw new Error(data.message);
+      setIsCode(true);
     } catch (err) {
-      toast('Something went wrong!\nCheck your connection and try again');
+      toast(err.message);
     } finally {
       setIsLoading(false);
     }

@@ -36,11 +36,11 @@ function Login() {
         },
       );
       const data = await res.json();
-      if (data.status === false) throw new Error(data.message);
+      if (data.status === 'error') throw new Error(data.message);
       dispatch({ type: 'LOGIN', payload: data });
       navigate('/app');
     } catch (err) {
-      toast('Incorrect email or password');
+      toast(err.message);
     } finally {
       setIsLoading(false);
     }

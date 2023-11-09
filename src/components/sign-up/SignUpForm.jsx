@@ -145,7 +145,7 @@ function SignUpForm() {
         },
       );
       const data = await res.json();
-      if (data.status === false) {
+      if (data.status === 'error') {
         console.log(data);
         throw new Error(data.message);
       }
@@ -181,6 +181,7 @@ function SignUpForm() {
                   sitekey="6LfYH-koAAAAANSm9Cz5hmubDirSAQIQZFI7koxP"
                   onChange={() => {
                     setCapatcha(true);
+                    setNext(false);
                     handleSignUp();
                   }}
                 />

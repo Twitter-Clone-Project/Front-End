@@ -4,11 +4,17 @@ import { Link } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
 import NavItem from './NavItem';
 import Button from '../form-controls/Button';
+import { useAuth } from '../../hooks/AuthContext';
 
 function NavBar({ items }) {
+  const { dispatch } = useAuth();
+  const handleLogout = () => {
+    console.log('sadasdsa');
+    dispatch({ type: 'LOGOUT' });
+  };
   return (
-    <div className="flex h-screen w-full items-start  justify-center px-6 dark:bg-pure-black">
-      <div className="flex flex-col items-start justify-between gap-1 text-start lg:min-w-[225px]">
+    <div className="flex h-screen w-full items-start  justify-center px-3 dark:bg-pure-black">
+      <div className="relative my-3 flex h-full flex-1 flex-col items-start justify-between gap-1 text-start lg:min-w-[225px]">
         <div className="mb-4 p-3 hover:cursor-pointer hover:rounded-full hover:bg-hover-layout">
           <Link to="/">
             <svg
@@ -37,7 +43,7 @@ function NavBar({ items }) {
             path={item.path}
           />
         ))}
-        <div className="mt-3 hidden  w-full flex-1 items-center justify-center rounded-full lg:flex">
+        <div className="mt-2 hidden w-[90%] items-center justify-center rounded-full lg:flex">
           <Button
             label="Post"
             backGroundColor="blue"
@@ -47,7 +53,7 @@ function NavBar({ items }) {
             hight="h-[53px]"
           />
         </div>
-        <div className="mt-3 flex w-full items-center justify-center rounded-full bg-blue p-4 hover:cursor-pointer hover:bg-opacity-90 lg:hidden">
+        <div className="mt-3 flex w-[full] items-center justify-center rounded-full bg-blue p-4 hover:cursor-pointer hover:bg-opacity-90 lg:hidden">
           <button
             type="submit"
             className="flex-1"
@@ -63,6 +69,60 @@ function NavBar({ items }) {
                 />
               </g>
             </svg>
+          </button>
+        </div>
+        <div className="my-6 flex w-full content-start items-start justify-between justify-self-end p-2 hover:cursor-pointer hover:rounded-full hover:bg-hover-layout">
+          <button
+            type="submit"
+            className="group relative flex flex-1 items-center justify-between font-semibold"
+          >
+            <div className="flex items-center justify-center">
+              <img
+                className="flex h-[40px] w-[40px] rounded-full"
+                src="https://a57.foxsports.com/statics.foxsports.com/www.foxsports.com/content/uploads/2023/06/1280/1280/084702d2-messi1.jpg?ve=1&tl=1"
+                alt="user"
+              />
+            </div>
+            <p
+              className="
+                hidden px-4 text-base font-semibold capitalize tracking-wide
+              dark:text-white lg:flex lg:flex-1 lg:flex-col lg:items-start"
+            >
+              Messi
+              <span className="text-sm font-thin text-light-thin">
+                @leo_messi
+              </span>
+            </p>
+            <span className="hidden items-center justify-center px-2 text-xs font-medium tracking-wider dark:text-white lg:flex">
+              &bull;&bull;&bull;
+            </span>
+
+            <div className="absolute bottom-0 left-0 top-0 hidden h-full w-full bg-transparent group-focus-within:flex dark:text-white  ">
+              <div className="absolute bottom-14 left-0 flex w-64 items-center justify-start rounded-2xl py-4 dark:bg-pure-black dark:shadow-[rgba(100,100,100,1)_0px_0.5px_4px]">
+                <div className="flex flex-1 justify-start px-3  hover:bg-hover-layout">
+                  <button
+                    onClick={handleLogout}
+                    type="submit"
+                    className="z-50 flex-1 p-3 text-start"
+                  >
+                    Log Out @leo_messi
+                  </button>
+                </div>
+                <div className="">
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="absolute -bottom-3 left-5 h-5 w-5 rotate-180 drop-shadow-[rgb(51,54,57)_1px_-1px_1px] lg:left-1/2 lg:-translate-x-1/2 "
+                  >
+                    <g>
+                      <path
+                        d="M22 17H2L12 6l10 11z"
+                        className="fill-white dark:fill-pure-black"
+                      />
+                    </g>
+                  </svg>
+                </div>
+              </div>
+            </div>
           </button>
         </div>
       </div>
