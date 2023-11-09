@@ -29,7 +29,9 @@ function Media({ images }) {
       <img
         src={images[0]}
         alt="media"
-        className="h-full w-full  object-cover"
+        className={`h-full  object-cover ${
+          images.length === 1 ? 'rounded-xl' : ''
+        }`}
       />
       <div className={`grid grid-rows-2  gap-[${images.length - 1}px]`}>
         {images3.map((image) => (

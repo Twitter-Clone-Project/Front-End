@@ -41,8 +41,7 @@ function App() {
         text: 'This is a sample tweet 2',
         createdAt: '2023-11-09T12:34:56Z',
         attachmentsURL: [
-          'https://images.pexels.com/photos/18566272/pexels-photo-18566272/free-photo-of-journalists-and-visitors-of-borobudur-interviewed-the-bhante-who-walked-from-thailand-to-indonesia.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-          'https://images.pexels.com/photos/12106470/pexels-photo-12106470.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+          'https://images.pexels.com/photos/16776919/pexels-photo-16776919/free-photo-of-blue-motor-scooter-standing-outside-a-beauty-center.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
         ],
         retweetedUser: {
           userId: '67890',
@@ -65,7 +64,6 @@ function App() {
       },
     ],
   };
-  console.log(tweet.data[0]);
   return (
     <div>
       {tweet.data.map((tweetItem) => (

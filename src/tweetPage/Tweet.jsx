@@ -8,6 +8,24 @@ function Tweet({ data }) {
   const [repost, toggleRepost] = useState(data.isRetweeted);
   const [reply, toggleReply] = useState(false);
   const [like, toggleLike] = useState(data.isLiked);
+  const [repostsCount, setRepostsCount] = useState(data.retweetsCount);
+  const [repliesCount, setRepliesCount] = useState(data.repliesCount);
+  const [likesCount, setLikesCount] = useState(data.likesCount);
+  const handleLike = () => {
+    if (like === true) setLikesCount(likesCount - 1);
+    else setLikesCount(likesCount + 1);
+    toggleLike(!like);
+  };
+  const handleRepost = () => {
+    if (repost === true) setRepostsCount(repostsCount - 1);
+    else setRepostsCount(repostsCount + 1);
+    toggleRepost(!repost);
+  };
+  const handleReply = () => {
+    if (reply === true) setRepliesCount(repliesCount - 1);
+    else setRepliesCount(repliesCount + 1);
+    toggleReply(!reply);
+  };
 
   return (
     <div className="tweet mt-[0.5px] flex w-[88%] flex-row  border-y-[0.5px] border-y-x-light-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
@@ -55,35 +73,32 @@ function Tweet({ data }) {
         <div className="buttons flex h-[32px] flex-row  justify-between">
           <button
             type="submit"
-            onClick={() => toggleReply(!reply)}
+            onClick={() => handleReply()}
           >
             <ReactButtons
               type="Reply"
-              data={data.repliesCount}
+              data={repliesCount}
               clicked={reply}
-              toggleClicked={toggleReply}
             />
           </button>
           <button
             type="submit"
-            onClick={() => toggleRepost(!repost)}
+            onClick={() => handleRepost()}
           >
             <ReactButtons
               type="Repost"
-              data={data.retweetsCount}
+              data={repostsCount}
               clicked={repost}
-              toggleClicked={toggleRepost}
             />
           </button>
           <button
             type="submit"
-            onClick={() => toggleLike(!like)}
+            onClick={() => handleLike()}
           >
             <ReactButtons
               type="Like"
-              data={data.likesCount}
+              data={likesCount}
               clicked={like}
-              toggleClicked={toggleLike}
             />
           </button>
         </div>
@@ -98,7 +113,3 @@ Tweet.propTypes = {
 };
 
 export default Tweet;
-// {data.user.profileImageURL}
-// {data.user.userName}
-// {data.createdAt}
-// {data.text}

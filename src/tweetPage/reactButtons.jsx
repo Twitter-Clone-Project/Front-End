@@ -45,7 +45,7 @@ function reactButtons({ type, data, clicked }) {
             }`}
           />
         </svg>
-        <p className="px-[8px]">{data + 1}</p>
+        <p className="px-[8px]">{data}</p>
       </div>
     );
   }
