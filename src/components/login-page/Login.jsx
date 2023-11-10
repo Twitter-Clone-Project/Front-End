@@ -36,7 +36,7 @@ function Login() {
         },
       );
       const data = await res.json();
-      if (data.status === 'error') throw new Error(data.message);
+      if (data.status === 'deleteIt') throw new Error(data.message);
       dispatch({ type: 'LOGIN', payload: data });
       navigate('/app');
     } catch (err) {
