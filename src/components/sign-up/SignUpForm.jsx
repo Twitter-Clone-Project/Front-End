@@ -175,7 +175,7 @@ function SignUpForm() {
           <Spinner />
         ) : (
           <>
-            {next && (
+            {/* {next && (
               <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center  pb-6 pt-2 md:bg-dark-gray md:bg-opacity-50">
                 <ReCAPTCHA
                   sitekey="6LfYH-koAAAAANSm9Cz5hmubDirSAQIQZFI7koxP"
@@ -186,7 +186,7 @@ function SignUpForm() {
                   }}
                 />
               </div>
-            )}
+            )} */}
             <div className="flex w-full flex-wrap justify-center bg-white dark:bg-pure-black md:w-[40%] md:min-w-[550px] md:rounded-lg">
               <div className="relative flex w-full items-center">
                 <button
@@ -357,7 +357,7 @@ function SignUpForm() {
                   </div>
                 )}
                 <Button
-                  onClick={() => setNext(true)}
+                  onClick={handleSignUp}
                   backGroundColor="white"
                   borderColor="gray"
                   disabled={totalError}
