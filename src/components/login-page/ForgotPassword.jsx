@@ -27,7 +27,7 @@ function ForgotPassword() {
         },
       );
       const data = await res.json();
-      if (data.status === 'error') throw new Error(data.message);
+      if (data.status === false) throw new Error(data.message);
       setIsCode(true);
     } catch (err) {
       toast(err.message);

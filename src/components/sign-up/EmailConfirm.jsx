@@ -29,6 +29,7 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
         },
       );
       const data = await res.json();
+      console.log(data);
       if (data.status === true) {
         toast('Incorrect email');
       } else
@@ -44,7 +45,9 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
     try {
       setIsLoading(true);
       const res = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}auth/verifyEmail`,
+        `http://${import.meta.env.VITE_API_DOMAIN}auth/${
+          type === 'reset' ? 'verifyEmailInFrgtPass' : 'verifyEmail'
+        }`,
         {
           method: 'POST',
           headers: {
@@ -54,6 +57,7 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
         },
       );
       const data = await res.json();
+      console.log(data);
       if (data.status === 'error') throw new Error(data.message);
       if (type === 'reset') setResetPasswordOpen(true);
       else dispatch({ type: 'LOGIN', payload: user });

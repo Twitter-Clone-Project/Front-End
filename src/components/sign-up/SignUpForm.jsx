@@ -145,7 +145,7 @@ function SignUpForm() {
         },
       );
       const data = await res.json();
-      if (data.status === 'error') {
+      if (data.status === false) {
         console.log(data);
         throw new Error(data.message);
       }
