@@ -5,6 +5,7 @@ function BasicInput({ title, value, setValue, error, setError }) {
   return (
     <div className="relative h-[56.44px] w-full items-center justify-center  bg-white dark:bg-black">
       <input
+        data-testid={title}
         placeholder=""
         id="Normal"
         value={value}
@@ -34,7 +35,10 @@ function BasicInput({ title, value, setValue, error, setError }) {
         {title}
       </label>
       {error !== '' && (
-        <span className=" absolute left-2 top-14 text-sm text-warning">
+        <span
+          data-testid="basic-err"
+          className=" absolute left-2 top-14 text-sm text-warning"
+        >
           {error}
         </span>
       )}

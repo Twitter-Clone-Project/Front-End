@@ -6,8 +6,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import AuthProvider from '../../contexts/Auth/AuthProvider';
 import Login from '../../components/login-page/Login';
-import Button from '../../components/form-controls/Button';
-import EmailInput from '../../components/form-controls/emailInput';
 
 describe('Login component', () => {
   const navigate = vi.fn();
@@ -35,34 +33,6 @@ describe('Login component', () => {
   });
   const dispatch = vi.fn();
 
-  // it('btn', () => {
-  //   const { getByTestId } = render(<Button label="btn" />);
-  //   const btn = getByTestId('btn');
-  //   expect(btn).toBeInTheDocument();
-  // });
-  // it('btn2', () => {
-  //   const { getByTestId } = render(
-  //     <Button
-  //       label="btn"
-  //       backGroundColorDark="black"
-  //     />,
-  //   );
-  //   const btn = getByTestId('btn');
-  //   expect(btn).toBeInTheDocument();
-  // });
-  // it('em', () => {
-  //   const { getByTestId } = render(
-  //     <EmailInput
-  //       email="test@example.com"
-  //       setEmail={vi.fn()}
-  //       error=""
-  //       setError={vi.fn()}
-  //     />,
-  //   );
-  //   const btn = getByTestId('emailInput');
-  //   expect(btn).toBeInTheDocument();
-  // });
-
   it('should render the login form', () => {
     const { getByLabelText, getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
@@ -71,18 +41,18 @@ describe('Login component', () => {
         </BrowserRouter>
       </AuthProvider>,
     );
-    const emailInput = getByLabelText('Email');
-    const passwordInput = getByLabelText('Password');
+    const emailInput = getByTestId('Email');
+    const passwordInput = getByTestId('Password');
     const submitButton = getByTestId('Log in');
     const cardBox = getByTestId('box-card');
 
     // show or hide password
-    const showIcon = getByTestId('showIcon');
+    const showIcon = getByTestId('Password-showIcon');
     fireEvent.click(showIcon);
-    const hideIcon = getByTestId('hideIcon');
+    const hideIcon = getByTestId('Password-hideIcon');
     expect(hideIcon).toBeInTheDocument();
     fireEvent.click(hideIcon);
-    expect(getByTestId('showIcon')).toBeInTheDocument();
+    expect(getByTestId('Password-showIcon')).toBeInTheDocument();
 
     expect(emailInput).toBeInTheDocument();
     expect(cardBox).toBeInTheDocument();
@@ -100,8 +70,8 @@ describe('Login component', () => {
       </AuthProvider>,
     );
 
-    const emailInput = getByTestId('emailInput');
-    const passwordInput = getByTestId('passwordInput');
+    const emailInput = getByTestId('Email');
+    const passwordInput = getByTestId('Password');
     const submitButton = getByTestId('Log in');
 
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
@@ -137,8 +107,8 @@ describe('Login component', () => {
       </AuthProvider>,
     );
 
-    const emailInput = getByTestId('emailInput');
-    const passwordInput = getByTestId('passwordInput');
+    const emailInput = getByTestId('Email');
+    const passwordInput = getByTestId('Password');
     const submitButton = getByTestId('Log in');
 
     fireEvent.change(emailInput, { target: { value: 'testexample.com' } });
@@ -162,15 +132,15 @@ describe('Login component', () => {
         </BrowserRouter>
       </AuthProvider>,
     );
-    const emailInput = getByTestId('emailInput');
-    const passwordInput = getByTestId('passwordInput');
+    const emailInput = getByTestId('Email');
+    const passwordInput = getByTestId('Password');
     const submitButton = getByTestId('Log in');
 
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
     fireEvent.change(passwordInput, { target: { value: 'password' } });
 
-    expect(getByTestId('emailInput')).toHaveValue('test@example.com');
-    expect(getByTestId('passwordInput')).toHaveValue('password');
+    expect(getByTestId('Email')).toHaveValue('test@example.com');
+    expect(getByTestId('Password')).toHaveValue('password');
     fireEvent.click(submitButton);
 
     await waitFor(() => {
@@ -195,8 +165,8 @@ describe('Login component', () => {
       </BrowserRouter>,
     );
 
-    const emailInput = getByTestId('emailInput');
-    const passwordInput = getByTestId('passwordInput');
+    const emailInput = getByTestId('Email');
+    const passwordInput = getByTestId('Password');
     const submitButton = getByTestId('Log in');
 
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });

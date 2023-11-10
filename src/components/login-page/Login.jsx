@@ -87,7 +87,7 @@ function Login() {
               borderColor="black"
               labelColor="white"
               labelColorDark="black"
-              // disabled={emailError !== '' || !password || !email}
+              disabled={emailError !== '' || !password || !email}
               onClick={handleLogin}
             />
             <Button

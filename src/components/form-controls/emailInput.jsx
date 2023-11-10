@@ -17,7 +17,7 @@ function EmailInput({ error, setError, email, setEmail }) {
         placeholder=""
         id="arrow"
         type="email"
-        data-testid="emailInput"
+        data-testid="Email"
         value={email}
         onChange={handleInputChange}
         className={`
