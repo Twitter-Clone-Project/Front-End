@@ -24,6 +24,7 @@ function Button({
         <Link to={to}>
           <button
             type="submit"
+            data-testid="signInBtn"
             disabled={disabled || false}
             // eslint-disable-next-line max-len
             className={`absolute cursor-pointer rounded-full  disabled:cursor-not-allowed ${
@@ -86,6 +87,7 @@ function Button({
           <button
             type="submit"
             disabled={disabled || false}
+            data-testid={label}
             onClick={onClick || null}
             // eslint-disable-next-line max-len
             className={`absolute cursor-pointer rounded-full disabled:cursor-not-allowed ${

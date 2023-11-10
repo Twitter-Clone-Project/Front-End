@@ -11,6 +11,7 @@ function PasswordInput({ title, password, setPassword, error, setError }) {
       <input
         ref={inputEI}
         placeholder=""
+        data-testid="passwordInput"
         value={password}
         onChange={(event) => {
           setPassword(event.target.value);
@@ -45,6 +46,7 @@ function PasswordInput({ title, password, setPassword, error, setError }) {
       </label>
       {!isClicked ? (
         <svg
+          data-testid="showIcon"
           onClick={() => {
             setIsClicked(!isClicked);
             inputEI.current.focus();
@@ -58,6 +60,7 @@ function PasswordInput({ title, password, setPassword, error, setError }) {
         </svg>
       ) : (
         <svg
+          data-testid="hideIcon"
           onClick={() => {
             setIsClicked(!isClicked);
             inputEI.current.focus();

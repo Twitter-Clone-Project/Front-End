@@ -6,6 +6,7 @@ function BoxCard({ children, classes, onClose }) {
   const navigate = useNavigate();
   return (
     <div
+      data-testid="box-card"
       className={`relative flex h-full w-full flex-col justify-between 
       rounded-2xl 
       border-[1px] border-light-gray p-12 px-24 text-lg text-black 
@@ -15,6 +16,7 @@ function BoxCard({ children, classes, onClose }) {
       <div className="absolute left-3 top-0 flex h-[53px] w-full items-center">
         <button
           type="submit"
+          data-testid="close-btn"
           onClick={onClose || (() => navigate('/'))}
           className="absolute left-0 top-3 h-[20px] w-[20px]  text-sm"
         >

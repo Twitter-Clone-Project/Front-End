@@ -1,17 +1,14 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React from 'react';
 
 // eslint-disable-next-line no-unused-vars
 function EmailInput({ error, setError, email, setEmail }) {
   const errorMessage = 'Please enter a valid email.';
-  const [value, setValue] = useState('');
-
   const handleInputChange = (event) => {
-    setValue(event.target.value);
+    setEmail(event.target.value);
     if (event.target.checkValidity()) {
       setError('');
     } else setError(errorMessage);
-    setEmail(event.target.value);
   };
 
   return (
@@ -20,7 +17,8 @@ function EmailInput({ error, setError, email, setEmail }) {
         placeholder=""
         id="arrow"
         type="email"
-        value={value}
+        data-testid="emailInput"
+        value={email}
         onChange={handleInputChange}
         className={`
         peer h-full w-full rounded px-2 pt-4 text-lg
@@ -48,7 +46,10 @@ function EmailInput({ error, setError, email, setEmail }) {
         Email
       </label>
       {error !== '' && (
-        <span className=" absolute left-2 top-14 text-sm text-warning">
+        <span
+          data-testid="email-error"
+          className=" absolute left-2 top-14 text-sm text-warning"
+        >
           {error}
         </span>
       )}
