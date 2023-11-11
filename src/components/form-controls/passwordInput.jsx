@@ -10,6 +10,7 @@ function PasswordInput({ title, password, setPassword, error, setError }) {
     <div className="relative h-[56.44px] w-full items-center justify-center  bg-white dark:bg-black">
       <input
         ref={inputEI}
+        id={title}
         placeholder=""
         data-testid={title}
         value={password}
@@ -32,7 +33,7 @@ function PasswordInput({ title, password, setPassword, error, setError }) {
         }`}
       />
       <label
-        htmlFor="arrow"
+        htmlFor={title}
         className={`
         absolute left-2 top-4 cursor-text text-base
         text-dark-gray transition-all duration-200 
