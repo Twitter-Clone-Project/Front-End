@@ -9,7 +9,6 @@ import { useAuth } from '../../hooks/AuthContext';
 function NavBar({ items }) {
   const { dispatch } = useAuth();
   const handleLogout = () => {
-    console.log('sadasdsa');
     dispatch({ type: 'LOGOUT' });
   };
   return (

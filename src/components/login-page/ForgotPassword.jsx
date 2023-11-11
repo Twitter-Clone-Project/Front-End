@@ -39,7 +39,10 @@ function ForgotPassword() {
   if (isCode) return <EmailConfirm email={email} />;
 
   return (
-    <div className="popup-screen inset-0 flex h-screen w-full items-center justify-center overflow-auto md:bg-border-gray ">
+    <div
+      data-testid="forgot-password"
+      className="popup-screen inset-0 flex h-screen w-full items-center justify-center overflow-auto md:bg-border-gray "
+    >
       {isLoading && <Spinner />}
       {!isLoading && (
         <BoxCard>

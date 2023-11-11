@@ -3,31 +3,31 @@ import PropTypes from 'prop-types';
 import Button from './Button';
 
 function GoogleSignInBtn({ label }) {
-  const handleGoogleLogin = async () => {
-    try {
-      const res = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}auth/signWithGoogle`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-      const data = await res.json();
-      if (data.status === false) throw new Error(data.message);
-      window.location.href = data.url;
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const handleGoogleLogin = async () => {
+  //   try {
+  //     const res = await fetch(
+  //       `http://${import.meta.env.VITE_API_DOMAIN}auth/signWithGoogle`,
+  //       {
+  //         method: 'GET',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //       },
+  //     );
+  //     const data = await res.json();
+  //     if (data.status === false) throw new Error(data.message);
+  //     window.location.href = data.url;
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
   return (
     <div>
       <Button
         backGroundColor="white"
         borderColor="gray"
         labelColor="black"
-        onClick={handleGoogleLogin}
+        // onClick={}
         path
         label={label}
       >

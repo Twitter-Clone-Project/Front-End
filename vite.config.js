@@ -13,5 +13,9 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/test/setup.js',
     css: true,
+    coverage: {
+      provider: 'istanbul', // or 'v8'
+      reporter: ['text', 'json', 'html']
+    },
   },
 });

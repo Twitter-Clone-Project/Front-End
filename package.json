@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "lint:fix": "eslint --fix",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
-    "test": "vitest"
+    "test": "vitest --coverage --ui"
   },
   "dependencies": {
     "dotenv": "^16.3.1",
@@ -21,6 +21,7 @@
     "react-dom": "^18.2.0",
     "react-google-recaptcha": "^3.1.0",
     "react-hot-toast": "^2.4.1",
+    "react-router": "^6.18.0",
     "react-router-dom": "^6.18.0",
     "uuid": "^9.0.1"
   },
@@ -31,6 +32,9 @@
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.0.3",
+    "@vitest/coverage-istanbul": "^0.34.6",
+    "@vitest/coverage-v8": "^0.34.6",
+    "@vitest/ui": "^0.34.6",
     "autoprefixer": "^10.4.16",
     "eslint": "^8.51.0",
     "eslint-config-airbnb": "^19.0.4",

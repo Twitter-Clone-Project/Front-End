@@ -17,6 +17,7 @@ function NameInput({ title, error, setError, Name, setName, maxLength }) {
   return (
     <div className="relative h-[56.44px] w-full items-center justify-center  bg-white dark:bg-black">
       <input
+        data-testid={title}
         placeholder=""
         type="text"
         maxLength={maxLength}
@@ -55,7 +56,10 @@ function NameInput({ title, error, setError, Name, setName, maxLength }) {
         {Name.length} / {maxLength}
       </span>
       {error !== '' && (
-        <span className=" absolute left-2 top-14 text-sm text-warning">
+        <span
+          data-testid={`${title}-err`}
+          className=" absolute left-2 top-14 text-sm text-warning"
+        >
           {error}
         </span>
       )}
