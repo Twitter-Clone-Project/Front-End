@@ -70,6 +70,7 @@ function SignUpForm() {
     !passwordConfirm ||
     !dateMonth ||
     !dateDay ||
+    !dateYear ||
     !dayCount ||
     !captacha;
   const passwordLengthCheck = () => {
