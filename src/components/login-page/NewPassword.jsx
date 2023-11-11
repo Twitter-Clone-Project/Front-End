@@ -23,12 +23,12 @@ function NewPassword({ email }) {
       setConfirmError(
         'Your password needs to be at least 8 characters.Please enter a longer one.',
       );
-    }
+    } else setConfirmError('');
     if (password.length < 7 && password !== '') {
       setError(
         'Your password needs to be at least 8 characters.Please enter a longer one.',
       );
-    }
+    } else setError('');
   };
   const passwordCheck = () => {
     if (
@@ -37,7 +37,7 @@ function NewPassword({ email }) {
       confirmPassword !== ''
     ) {
       setConfirmError('Passwords do not match');
-    }
+    } else setConfirmError('');
   };
 
   const handleResetPassword = async () => {
