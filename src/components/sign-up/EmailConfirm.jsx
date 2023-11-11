@@ -42,7 +42,7 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
     try {
       setIsLoading(true);
       const res = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}auth/verifyEmail`,
+        `http://${import.meta.env.VITE_API_DOMAIN}auth/verifyEmailInFrgtPass`,
         {
           method: 'POST',
           headers: {
