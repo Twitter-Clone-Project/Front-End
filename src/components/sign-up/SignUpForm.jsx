@@ -90,7 +90,7 @@ function SignUpForm() {
       passwordConfirm !== ''
     ) {
       setPasswordConfirmError('Passwords do not match');
-    }
+    } else setPasswordConfirmError('');
   };
   useEffect(() => {
     passwordCheck();
