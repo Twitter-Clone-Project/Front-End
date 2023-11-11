@@ -70,6 +70,7 @@ function SignUpForm() {
     !passwordConfirm ||
     !dateMonth ||
     !dateDay ||
+    !dateYear ||
     !dayCount ||
     !captacha;
   const passwordLengthCheck = () => {
@@ -89,7 +90,7 @@ function SignUpForm() {
       passwordConfirm !== ''
     ) {
       setPasswordConfirmError('Passwords do not match');
-    }
+    } else setPasswordConfirmError('');
   };
   useEffect(() => {
     passwordCheck();

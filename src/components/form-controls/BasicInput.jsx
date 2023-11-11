@@ -7,7 +7,7 @@ function BasicInput({ title, value, setValue, error, setError }) {
       <input
         data-testid={title}
         placeholder=""
-        id="Normal"
+        id={title}
         value={value}
         onChange={(event) => {
           setValue(event.target.value);
@@ -22,7 +22,7 @@ function BasicInput({ title, value, setValue, error, setError }) {
         dark:text-white"
       />
       <label
-        htmlFor="Normal"
+        htmlFor={title}
         className={`
         absolute left-2 top-4 cursor-text text-base
         text-dark-gray transition-all duration-200 

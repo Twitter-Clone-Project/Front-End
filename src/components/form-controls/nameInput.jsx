@@ -18,6 +18,7 @@ function NameInput({ title, error, setError, Name, setName, maxLength }) {
     <div className="relative h-[56.44px] w-full items-center justify-center  bg-white dark:bg-black">
       <input
         data-testid={title}
+        id={title}
         placeholder=""
         type="text"
         maxLength={maxLength}
@@ -36,7 +37,7 @@ function NameInput({ title, error, setError, Name, setName, maxLength }) {
         }`}
       />
       <label
-        htmlFor="arrow"
+        htmlFor={title}
         className={` 
         absolute left-2 top-4 cursor-text text-base
         text-dark-gray transition-all duration-200 
