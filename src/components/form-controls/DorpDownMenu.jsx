@@ -12,7 +12,7 @@ function DorpDownMenu({ header, items, state, setState }) {
     <div className="relative h-14 w-full rounded outline outline-light-gray focus-within:outline-2 focus-within:outline-blue ">
       <select
         name={header}
-        id="selector1"
+        id={header}
         value={state}
         data-testid={header}
         onChange={handleSelectedChange}
@@ -29,7 +29,7 @@ function DorpDownMenu({ header, items, state, setState }) {
         ))}
       </select>
       <label
-        htmlFor="selector1"
+        htmlFor={header}
         className="pointer-events-none absolute left-0 pl-2 pr-2 pt-2 text-[13px] leading-4 text-pure-black peer-focus:text-blue dark:text-white"
       >
         {header}

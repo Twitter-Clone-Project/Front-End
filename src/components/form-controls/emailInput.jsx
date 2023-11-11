@@ -15,7 +15,7 @@ function EmailInput({ error, setError, email, setEmail }) {
     <div className="relative h-[56.44px] w-full items-center justify-center  bg-white dark:bg-black">
       <input
         placeholder=""
-        id="arrow"
+        id="email-inp"
         type="email"
         data-testid="Email"
         value={email}
@@ -33,7 +33,7 @@ function EmailInput({ error, setError, email, setEmail }) {
         }`}
       />
       <label
-        htmlFor="arrow"
+        htmlFor="email-inp"
         className={` 
         absolute left-2 top-4 cursor-text text-base
         text-dark-gray transition-all duration-200 
