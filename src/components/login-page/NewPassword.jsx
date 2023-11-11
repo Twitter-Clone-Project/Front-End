@@ -61,7 +61,7 @@ function NewPassword({ email }) {
         },
       );
       const data = await res.json();
-      if (data.status === 'error') throw new Error(data.message);
+      if (data.status === false) throw new Error(data.message);
       dispatch({ type: 'LOGIN', payload: data });
       navigate('/app', { replace: true });
     } catch (err) {
@@ -77,7 +77,10 @@ function NewPassword({ email }) {
   });
 
   return (
-    <div className="popup-screen flex h-screen w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
+    <div
+      data-testid="reset-password"
+      className="popup-screen flex h-screen w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50"
+    >
       {isLoading ? (
         <Spinner />
       ) : (

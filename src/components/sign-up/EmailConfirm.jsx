@@ -29,12 +29,10 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
         },
       );
       const data = await res.json();
-      if (data.status === true) {
-        toast('Incorrect email');
-      } else
-        toast('Something went wrong!\nCheck your connection and try again');
+      if (data.status === false) throw new Error(data.message);
+      toast('Email sent successfully');
     } catch (error) {
-      toast('Something went wrong!\nCheck your connection and try again');
+      toast(error.message);
     } finally {
       setIsLoading(false);
     }
@@ -54,7 +52,8 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
         },
       );
       const data = await res.json();
-      if (data.status === 'error') throw new Error(data.message);
+      if (data.status === false) throw new Error(data.message);
+
       if (type === 'reset') setResetPasswordOpen(true);
       else dispatch({ type: 'LOGIN', payload: user });
     } catch (error) {
@@ -90,6 +89,7 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
               />
               <button
                 type="submit"
+                data-testid="resend-code"
                 onClick={handleResendCode}
                 className="mt-2 px-2 text-start text-xs"
               >

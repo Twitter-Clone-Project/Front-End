@@ -1,11 +1,14 @@
 /* eslint-disable no-shadow */
 import React from 'react';
 import * as router from 'react-router';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, getByText } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import AuthProvider from '../../contexts/Auth/AuthProvider';
 import Login from '../../components/login-page/Login';
+import ForgotPassword from '../../components/login-page/ForgotPassword';
+import NewPassword from '../../components/login-page/NewPassword';
+import EmailConfirm from '../../components/sign-up/EmailConfirm';
 
 describe('Login component', () => {
   const navigate = vi.fn();
@@ -34,7 +37,7 @@ describe('Login component', () => {
   const dispatch = vi.fn();
 
   it('should render the login form', () => {
-    const { getByLabelText, getByTestId } = render(
+    const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
         <BrowserRouter>
           <Login />
@@ -122,7 +125,7 @@ describe('Login component', () => {
     window.fetch.mockResolvedValueOnce({
       ok: false,
       json: () =>
-        Promise.resolve({ status: 'error', message: 'Invalid credentials' }),
+        Promise.resolve({ status: false, message: 'Invalid credentials' }),
     });
 
     const { getByTestId, getByText } = render(
@@ -153,7 +156,7 @@ describe('Login component', () => {
       ok: true,
       json: () =>
         Promise.resolve({
-          status: 'success',
+          status: true,
           data: { user: { name: 'mahmoud' } },
         }),
     });
@@ -174,5 +177,183 @@ describe('Login component', () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => expect(navigate).toHaveBeenCalledWith('/app'));
+  });
+  it('should render forgot password', async () => {
+    window.fetch.mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          status: true,
+        }),
+    });
+    const { getByTestId } = render(
+      <BrowserRouter>
+        <AuthProvider>
+          <ForgotPassword />
+        </AuthProvider>
+      </BrowserRouter>,
+    );
+    const container = getByTestId('forgot-password');
+    const emailInput = getByTestId('Email');
+    const submitButton = getByTestId('Next');
+
+    expect(container).toBeInTheDocument();
+
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(window.fetch).toHaveBeenCalledTimes(1);
+      expect(window.fetch).toHaveBeenCalledWith(
+        `http://${import.meta.env.VITE_API_DOMAIN}auth/forgetPassword`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email: 'test@example.com' }),
+        },
+      );
+      expect(getByTestId('Code')).toBeInTheDocument();
+    });
+  });
+  it('should render forgot password with error', async () => {
+    window.fetch.mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          status: false,
+          message: 'Invalid credentials',
+        }),
+    });
+    const { getByTestId, getByText } = render(
+      <BrowserRouter>
+        <AuthProvider>
+          <ForgotPassword />
+        </AuthProvider>
+      </BrowserRouter>,
+    );
+    const container = getByTestId('forgot-password');
+    const emailInput = getByTestId('Email');
+    const submitButton = getByTestId('Next');
+
+    expect(container).toBeInTheDocument();
+
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(getByText('Invalid credentials')).toBeInTheDocument();
+    });
+  });
+
+  it('should set New Password correctly', async () => {
+    window.fetch.mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          status: true,
+          data: { user: { name: 'mahmoud' } },
+        }),
+    });
+    const { getByTestId } = render(
+      <BrowserRouter>
+        <AuthProvider>
+          <NewPassword email="mahsobhy3@gmail.com" />
+        </AuthProvider>
+      </BrowserRouter>,
+    );
+
+    const passwordConfirmInput = getByTestId('Confirm your password');
+    const passwordInput = getByTestId('Enter a new password');
+
+    expect(passwordConfirmInput).toBeInTheDocument();
+    expect(passwordInput).toBeInTheDocument();
+
+    const submitButton = getByTestId('Change password');
+
+    fireEvent.change(passwordInput, { target: { value: 'pass' } });
+    expect(getByTestId('Enter a new password-err')).toBeInTheDocument();
+    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+    fireEvent.change(passwordConfirmInput, {
+      target: { value: 'pass' },
+    });
+    expect(getByTestId('Confirm your password-err')).toBeInTheDocument();
+    fireEvent.change(passwordConfirmInput, {
+      target: { value: 'password123' },
+    });
+
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(navigate).toHaveBeenCalledWith('/app');
+    });
+  });
+  it('should render New Password with error', async () => {
+    window.fetch.mockResolvedValue({
+      ok: false,
+      json: () =>
+        Promise.resolve({
+          status: false,
+          message: 'Invalid passwords',
+        }),
+    });
+    const { getByTestId, getByText } = render(
+      <BrowserRouter>
+        <AuthProvider>
+          <NewPassword email="mahsobhy3@gmail.com" />
+        </AuthProvider>
+      </BrowserRouter>,
+    );
+
+    const passwordConfirmInput = getByTestId('Confirm your password');
+    const passwordInput = getByTestId('Enter a new password');
+
+    expect(passwordConfirmInput).toBeInTheDocument();
+    expect(passwordInput).toBeInTheDocument();
+
+    const submitButton = getByTestId('Change password');
+
+    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+    fireEvent.change(passwordConfirmInput, {
+      target: { value: 'password123' },
+    });
+
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(getByText('Invalid passwords')).toBeInTheDocument();
+    });
+  });
+
+  it('should render new password after code confirm', async () => {
+    window.fetch.mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          status: true,
+        }),
+    });
+    const { getByTestId } = render(
+      <BrowserRouter>
+        <AuthProvider>
+          <EmailConfirm
+            type="reset"
+            email="mahsobhy3@gmail.com"
+          />
+        </AuthProvider>
+      </BrowserRouter>,
+    );
+
+    const codeInput = getByTestId('Code');
+    fireEvent.change(codeInput, { target: { value: '123456' } });
+
+    const submitButton = getByTestId('Next');
+
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(getByTestId('reset-password')).toBeInTheDocument();
+    });
   });
 });
