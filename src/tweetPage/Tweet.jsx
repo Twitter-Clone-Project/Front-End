@@ -72,6 +72,7 @@ function Tweet({ data }) {
         <Media images={data.attachmentsURL} />
         <div className="buttons flex h-[32px] flex-row  justify-between">
           <button
+            data-testid="reply"
             type="submit"
             onClick={() => handleReply()}
           >
@@ -82,6 +83,7 @@ function Tweet({ data }) {
             />
           </button>
           <button
+            data-testid="repost"
             type="submit"
             onClick={() => handleRepost()}
           >
@@ -92,6 +94,7 @@ function Tweet({ data }) {
             />
           </button>
           <button
+            data-testid="like"
             type="submit"
             onClick={() => handleLike()}
           >

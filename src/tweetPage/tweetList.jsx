@@ -68,8 +68,6 @@ function tweetList() {
       {tweet.data.map((tweetItem) => (
         <Tweet data={tweetItem} />
       ))}
-
-      {/* <LandingPage /> */}
     </div>
   );
 }
