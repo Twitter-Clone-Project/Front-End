@@ -10,6 +10,8 @@ import UnprotectedRoute from './components/UnprotectedRoute';
 import { useAuth } from './hooks/AuthContext';
 import Spinner from './components/Spinner';
 import SignUpForm from './components/sign-up/SignUpForm';
+import FollowerList from './components/userComponents/FollowerList';
+import FollowingList from './components/userComponents/FollowingList';
 
 function App() {
   const { dispatch } = useAuth();
@@ -47,7 +49,7 @@ function App() {
       <Spinner />
     </div>
   ) : (
-    <div className="h-screen dark:bg-pure-black">
+    <div className="flex h-full min-h-screen bg-white dark:bg-pure-black">
       <BrowserRouter>
         <Routes>
           <Route
@@ -136,6 +138,22 @@ function App() {
               }
             />
           </Route>
+          <Route
+            path="following"
+            element={
+              <UnprotectedRoute>
+                <FollowingList />
+              </UnprotectedRoute>
+            }
+          />
+          <Route
+            path="follower"
+            element={
+              <UnprotectedRoute>
+                <FollowerList />
+              </UnprotectedRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>
