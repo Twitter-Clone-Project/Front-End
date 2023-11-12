@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import toast from 'react-hot-toast';
+import PropTypes from 'prop-types';
 import Button from '../form-controls/Button';
 import EmailInput from '../form-controls/emailInput';
 import NameInput from '../form-controls/nameInput';
@@ -18,7 +19,7 @@ function getMonthFromString(mon) {
   }
 }
 
-function SignUpForm() {
+function SignUpForm({ test }) {
   const daysOfMonth = {
     none: `31`,
     January: `31`,
@@ -51,7 +52,7 @@ function SignUpForm() {
   const [dateMonth, setDateMonth] = useState('');
   const [dateDay, setDateDay] = useState('');
   const [dayCount, setDayCount] = useState([]);
-  const [captacha, setCapatcha] = useState('');
+  const [captacha, setCapatcha] = useState(test ? 'Test' : '');
   const [next, setNext] = useState(false);
   const [user, setUser] = useState({});
 
@@ -172,10 +173,11 @@ function SignUpForm() {
           <Spinner />
         ) : (
           <>
-            {next && (
+            {next && !test && (
               <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center  pb-6 pt-2 md:bg-dark-gray md:bg-opacity-50">
                 <ReCAPTCHA
                   sitekey="6LeousYoAAAAACH0uCm7e4NKQkOWgrZWxmPPCMBZ"
+                  data-testid="google-recaptcha"
                   onChange={(val) => {
                     setCapatcha(val);
                     setNext(false);
@@ -311,7 +313,7 @@ function SignUpForm() {
 
                 <div className="mt-3 flex w-full flex-wrap justify-center">
                   <Button
-                    onClick={() => setNext(true)}
+                    onClick={() => (test ? handleSignUp() : setNext(true))}
                     backGroundColor="white"
                     borderColor="gray"
                     disabled={totalError}
@@ -330,5 +332,13 @@ function SignUpForm() {
     </div>
   );
 }
+
+SignUpForm.defaultProps = {
+  test: false,
+};
+
+SignUpForm.propTypes = {
+  test: PropTypes.bool,
+};
 
 export default SignUpForm;

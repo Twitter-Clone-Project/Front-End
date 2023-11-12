@@ -13,6 +13,7 @@
     "test": "vitest --coverage --ui"
   },
   "dependencies": {
+    "@testing-library/jest-dom": "^6.1.4",
     "dotenv": "^16.3.1",
     "encodeurl": "^1.0.2",
     "flowbite": "^2.0.0",
@@ -27,7 +28,6 @@
   },
   "devDependencies": {
     "@kalimahapps/eslint-plugin-tailwind": "^1.0.10",
-    "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.0.0",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
