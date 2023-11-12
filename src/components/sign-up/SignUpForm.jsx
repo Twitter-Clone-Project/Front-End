@@ -127,8 +127,9 @@ function SignUpForm() {
             ? `0${getMonthFromString(dateMonth)}`
             : `${getMonthFromString(dateMonth)}`
         }-${dateDay < 10 ? `0${dateDay}` : `${dateDay}`}`,
-        gRecaptchaResponse: { captacha },
+        gRecaptchaResponse: captacha,
       };
+      console.log(info);
       const res = await fetch(
         `http://${import.meta.env.VITE_API_DOMAIN}auth/signup`,
         {
@@ -179,6 +180,7 @@ function SignUpForm() {
                   sitekey="6LeousYoAAAAACH0uCm7e4NKQkOWgrZWxmPPCMBZ"
                   onChange={(val) => {
                     setCapatcha(val);
+                    console.log(val);
                     setNext(false);
                     handleSignUp();
                   }}
@@ -286,7 +288,7 @@ function SignUpForm() {
                     <div className="w-3/12 ">
                       <DorpDownMenu
                         header="Day"
-                        items={dayCount}
+                        items={['', ...dayCount]}
                         state={dateDay}
                         setState={setDateDay}
                       />
@@ -294,12 +296,15 @@ function SignUpForm() {
                     <div className="w-3/12">
                       <DorpDownMenu
                         header="Year"
-                        items={Array.from(
-                          {
-                            length: new Date().getFullYear() - 1902,
-                          },
-                          (v, _i) => 1903 + _i,
-                        ).reverse()}
+                        items={[
+                          '',
+                          ...Array.from(
+                            {
+                              length: new Date().getFullYear() - 1902,
+                            },
+                            (v, _i) => 1903 + _i,
+                          ).reverse(),
+                        ]}
                         state={dateYear}
                         setState={setDateYear}
                       />
