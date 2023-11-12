@@ -129,7 +129,6 @@ function SignUpForm() {
         }-${dateDay < 10 ? `0${dateDay}` : `${dateDay}`}`,
         gRecaptchaResponse: captacha,
       };
-      console.log(info);
       const res = await fetch(
         `http://${import.meta.env.VITE_API_DOMAIN}auth/signup`,
         {
@@ -145,7 +144,6 @@ function SignUpForm() {
       );
       const data = await res.json();
       if (data.status === false) {
-        console.log(data);
         throw new Error(data.message);
       }
       setUser(data);
@@ -180,7 +178,6 @@ function SignUpForm() {
                   sitekey="6LeousYoAAAAACH0uCm7e4NKQkOWgrZWxmPPCMBZ"
                   onChange={(val) => {
                     setCapatcha(val);
-                    console.log(val);
                     setNext(false);
                     handleSignUp();
                   }}
