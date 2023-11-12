@@ -48,9 +48,13 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
           headers: {
             'Content-Type': 'application/json',
           },
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
           body: JSON.stringify({ email, otp: code }),
         },
       );
+
       const data = await res.json();
       if (data.status === false) throw new Error(data.message);
 

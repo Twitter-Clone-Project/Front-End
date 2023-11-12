@@ -100,7 +100,7 @@ function App() {
             <Route
               path="home"
               element={
-                <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
+                <h1 className="flex h-full items-center justify-center border-x-[1px] border-border-gray dark:text-white">
                   Home
                 </h1>
               }

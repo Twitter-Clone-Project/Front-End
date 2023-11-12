@@ -23,6 +23,9 @@ function ForgotPassword() {
           headers: {
             'Content-Type': 'application/json',
           },
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
           body: JSON.stringify({ email }),
         },
       );
