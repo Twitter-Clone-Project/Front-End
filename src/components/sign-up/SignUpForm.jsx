@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
 import Button from '../form-controls/Button';
 import EmailInput from '../form-controls/emailInput';
 import NameInput from '../form-controls/nameInput';
@@ -20,7 +19,6 @@ function getMonthFromString(mon) {
 }
 
 function SignUpForm() {
-  const navigate = useNavigate();
   const daysOfMonth = {
     none: `31`,
     January: `31`,
@@ -53,7 +51,7 @@ function SignUpForm() {
   const [dateMonth, setDateMonth] = useState('');
   const [dateDay, setDateDay] = useState('');
   const [dayCount, setDayCount] = useState([]);
-  const [captacha, setCapatcha] = useState(true);
+  const [captacha, setCapatcha] = useState('');
   const [next, setNext] = useState(false);
   const [user, setUser] = useState({});
 
@@ -71,8 +69,7 @@ function SignUpForm() {
     !dateMonth ||
     !dateDay ||
     !dateYear ||
-    !dayCount ||
-    !captacha;
+    !dayCount;
   const passwordLengthCheck = () => {
     if (passwordConfirm.length < 7 && passwordConfirm !== '') {
       setPasswordConfirmError(
@@ -130,7 +127,7 @@ function SignUpForm() {
             ? `0${getMonthFromString(dateMonth)}`
             : `${getMonthFromString(dateMonth)}`
         }-${dateDay < 10 ? `0${dateDay}` : `${dateDay}`}`,
-        gRecaptchaResponse: '6LeousYoAAAAACH0uCm7e4NKQkOWgrZWxmPPCMBZ',
+        gRecaptchaResponse: { captacha },
       };
       const res = await fetch(
         `http://${import.meta.env.VITE_API_DOMAIN}auth/signup`,
@@ -176,18 +173,18 @@ function SignUpForm() {
           <Spinner />
         ) : (
           <>
-            {/* {next && (
+            {next && (
               <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center  pb-6 pt-2 md:bg-dark-gray md:bg-opacity-50">
                 <ReCAPTCHA
-                  sitekey="6LfYH-koAAAAANSm9Cz5hmubDirSAQIQZFI7koxP"
-                  onChange={() => {
-                    setCapatcha(true);
+                  sitekey="6LeousYoAAAAACH0uCm7e4NKQkOWgrZWxmPPCMBZ"
+                  onChange={(val) => {
+                    setCapatcha(val);
                     setNext(false);
                     handleSignUp();
                   }}
                 />
               </div>
-            )} */}
+            )}
             <div className="flex w-full flex-wrap justify-center bg-white dark:bg-pure-black md:w-[40%] md:min-w-[550px] md:rounded-lg">
               <BoxCard classes="py-6 px-16 items-center mx-auto">
                 <div className="mx-auto w-5/6 pt-2 text-center dark:text-white">
@@ -311,18 +308,8 @@ function SignUpForm() {
                 </div>
 
                 <div className="mt-3 flex w-full flex-wrap justify-center">
-                  {false && (
-                    <div className="flex justify-center pb-6 pt-2 dark:bg-pure-black ">
-                      <ReCAPTCHA
-                        sitekey="6LfYH-koAAAAANSm9Cz5hmubDirSAQIQZFI7koxP"
-                        onChange={() => {
-                          setCapatcha(true);
-                        }}
-                      />
-                    </div>
-                  )}
                   <Button
-                    onClick={handleSignUp}
+                    onClick={() => setNext(true)}
                     backGroundColor="white"
                     borderColor="gray"
                     disabled={totalError}
