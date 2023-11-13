@@ -70,7 +70,7 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
   if (resetPasswordOpen) return <NewPassword email={email} />;
 
   return (
-    <div className="confirm flex min-h-full w-full items-center justify-center text-lg text-black dark:bg-border-gray dark:text-white">
+    <div className="confirm mx-auto flex min-h-full w-full flex-1 flex-col items-center justify-center text-lg text-black dark:bg-border-gray dark:text-white">
       {isLoading ? (
         <Spinner />
       ) : (
@@ -83,7 +83,7 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
               Enter it below to confirm{' '}
               <em className="font-semibold">{email || null}</em>
             </span>
-            <div className="mb-52 flex flex-col">
+            <div className=" flex flex-col">
               <BasicInput
                 title="Code"
                 value={code}
@@ -95,7 +95,7 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
                 type="submit"
                 data-testid="resend-code"
                 onClick={handleResendCode}
-                className="mt-2 px-2 text-start text-xs"
+                className="mt-1 px-2 text-start text-xs"
               >
                 <span className="text-blue hover:underline">
                   Didn&#39;t receive email?
