@@ -114,6 +114,7 @@ function App() {
               }
             />
             <Route
+              exact
               path=":username"
               element={
                 <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
@@ -122,20 +123,13 @@ function App() {
               }
             />
             <Route
+              exact
               path=":username/following"
-              element={
-                <UnprotectedRoute>
-                  <FollowingList />
-                </UnprotectedRoute>
-              }
+              element={<FollowingList />}
             />
             <Route
               path=":username/follower"
-              element={
-                <UnprotectedRoute>
-                  <FollowerList />
-                </UnprotectedRoute>
-              }
+              element={<FollowerList />}
             />
             <Route
               path="settings"
