@@ -280,7 +280,7 @@ describe('SignUp component', () => {
 
     window.fetch.mockResolvedValueOnce({
       ok: true,
-      json: () => Promise.resolve({ status: true }),
+      json: () => Promise.resolve({ status: true, data: { user: 'mahmoud' } }),
     });
 
     fireEvent.change(codeInput, { target: { value: '123456' } });
