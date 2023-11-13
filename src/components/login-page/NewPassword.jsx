@@ -9,7 +9,7 @@ import OwnToaster from '../OwnToaster';
 import Spinner from '../Spinner';
 import { useAuth } from '../../hooks/AuthContext';
 
-function NewPassword({ email }) {
+function NewPassword({ email, user }) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
@@ -62,7 +62,7 @@ function NewPassword({ email }) {
       );
       const data = await res.json();
       if (data.status === false) throw new Error(data.message);
-      dispatch({ type: 'LOGIN', payload: data });
+      dispatch({ type: 'LOGIN', payload: user });
       navigate('/app', { replace: true });
     } catch (err) {
       toast(err.message);
@@ -154,5 +154,7 @@ function NewPassword({ email }) {
 }
 NewPassword.propTypes = {
   email: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  user: PropTypes.object.isRequired,
 };
 export default NewPassword;

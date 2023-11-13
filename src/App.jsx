@@ -34,7 +34,7 @@ function App() {
         );
         const data = await res.json();
         if (data.status === false) throw new Error(data.message);
-        dispatch({ type: 'LOGIN', payload: data });
+        dispatch({ type: 'LOGIN', payload: data.data.user });
       } catch (err) {
         dispatch({ type: 'LOGOUT' });
       } finally {

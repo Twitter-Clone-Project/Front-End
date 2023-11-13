@@ -54,7 +54,6 @@ function SignUpForm({ test }) {
   const [dayCount, setDayCount] = useState([]);
   const [captacha, setCapatcha] = useState(test ? 'Test' : '');
   const [next, setNext] = useState(false);
-  const [user, setUser] = useState({});
   const [emailLoading, setEmailLoading] = useState(false);
   const [usernameLoading, setUsernameLoading] = useState(false);
 
@@ -132,7 +131,6 @@ function SignUpForm({ test }) {
             },
           );
           const data = await res.json();
-          console.log(data);
           if (data.status === false) throw new Error(data.message);
           if (data.data.isFound) setUsernameError('Username is already taken');
           else
@@ -171,7 +169,6 @@ function SignUpForm({ test }) {
             },
           );
           const data = await res.json();
-          console.log(data);
           if (data.status === false) throw new Error(data.message);
           if (data.data.isFound) setEmailError('Email is already taken');
           else
@@ -231,7 +228,6 @@ function SignUpForm({ test }) {
       if (data.status === false) {
         throw new Error(data.message);
       }
-      setUser(data);
       setIsCode(true);
     } catch (err) {
       toast(err.message);
@@ -245,7 +241,6 @@ function SignUpForm({ test }) {
       <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
         <EmailConfirm
           email={email}
-          data={user}
           type="signup"
         />
       </div>

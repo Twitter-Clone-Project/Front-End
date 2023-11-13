@@ -9,9 +9,10 @@ import OwnToaster from '../OwnToaster';
 import NewPassword from '../login-page/NewPassword';
 import { useAuth } from '../../hooks/AuthContext';
 
-function EmailConfirm({ email, type = 'reset', user = null }) {
+function EmailConfirm({ email, type = 'reset' }) {
   const [code, setCode] = useState('');
   const [err, setError] = useState('');
+  const [resetUser, setResetUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
   const { dispatch } = useAuth();
@@ -57,9 +58,10 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
 
       const data = await res.json();
       if (data.status === false) throw new Error(data.message);
-
-      if (type === 'reset') setResetPasswordOpen(true);
-      else dispatch({ type: 'LOGIN', payload: user.data.user });
+      if (type === 'reset') {
+        setResetUser(data.data.user);
+        setResetPasswordOpen(true);
+      } else dispatch({ type: 'LOGIN', payload: data.data.user });
     } catch (error) {
       toast(error.message);
     } finally {
@@ -67,7 +69,13 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
     }
   };
 
-  if (resetPasswordOpen) return <NewPassword email={email} />;
+  if (resetPasswordOpen)
+    return (
+      <NewPassword
+        email={email}
+        user={type === 'reset' ? resetUser : null}
+      />
+    );
 
   return (
     <div className="confirm mx-auto flex min-h-full w-full flex-1 flex-col items-center justify-center text-lg text-black dark:bg-border-gray dark:text-white">
@@ -122,12 +130,10 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
 
 EmailConfirm.defaultProps = {
   type: 'reset',
-  user: null,
 };
 
 EmailConfirm.propTypes = {
   email: PropTypes.string.isRequired,
   type: PropTypes.string,
-  user: PropTypes.objectOf(),
 };
 export default EmailConfirm;
