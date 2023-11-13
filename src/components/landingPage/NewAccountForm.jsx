@@ -5,7 +5,7 @@ import Button from '../form-controls/Button';
 function NewAccountForm() {
   return (
     <div className="logging flex w-[300px] flex-col">
-      <GoogleSignInBtn label="Sign Up with Google" />
+      <GoogleSignInBtn label="Sign In with Google" />
       <div className="relative flex items-center py-1">
         <div className="flex-grow border-t border-border-gray" />
         <p className="px-2 font-thin">or</p>

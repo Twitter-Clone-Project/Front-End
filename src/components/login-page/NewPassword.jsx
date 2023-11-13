@@ -37,7 +37,7 @@ function NewPassword({ email }) {
       confirmPassword !== ''
     ) {
       setConfirmError('Passwords do not match');
-    }
+    } else setConfirmError('');
   };
 
   const handleResetPassword = async () => {
@@ -61,7 +61,6 @@ function NewPassword({ email }) {
         },
       );
       const data = await res.json();
-      console.log(data);
       if (data.status === false) throw new Error(data.message);
       dispatch({ type: 'LOGIN', payload: data });
       navigate('/app', { replace: true });
@@ -80,18 +79,18 @@ function NewPassword({ email }) {
   return (
     <div
       data-testid="reset-password"
-      className="popup-screen flex h-screen w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50"
+      className="popup-screen mx-auto flex h-screen w-full items-center justify-center overflow-auto md:bg-dark-gray md:bg-opacity-50"
     >
       {isLoading ? (
         <Spinner />
       ) : (
         <BoxCard>
-          <div className="mt-8 flex flex-1 flex-col items-center justify-between">
-            <div className="flex w-[100%] flex-col justify-start">
-              <h1 className=" my-3 text-[31px] font-bold ">
+          <div className="mx-auto mt-8 flex w-full flex-1 flex-col justify-between overflow-auto px-5">
+            <div className="mx-auto flex h-full min-w-[300px] flex-1 flex-col justify-between break-words">
+              <h1 className=" mx-auto my-3 text-[31px] font-bold ">
                 Change a new password
               </h1>
-              <p className="mb-3 text-[15px] text-dark-gray">
+              <p className=" mb-3 max-w-[300px] whitespace-break-spaces break-words text-[15px] text-dark-gray">
                 Make sure your new password is 8 characters or more. Try
                 including numbers, letters, and punctuationmarks for a
                 <span>
@@ -108,47 +107,43 @@ function NewPassword({ email }) {
                 </span>
                 .
               </p>
-              <p className="mb-3 text-[15px] text-dark-gray">
+              <p className="mb-3 max-w-[300px] text-[15px] text-dark-gray">
                 You&#39;ll be logged out of all active X sessions after your
                 password is changed.
               </p>
-              <div className="my-5 w-[100%]">
-                <PasswordInput
-                  password={password}
-                  setPassword={setPassword}
-                  error={error}
-                  setError={setError}
-                  title="Enter a new password"
-                />
-              </div>
-              <div className=" my-5 w-[100%]">
-                <PasswordInput
-                  password={confirmPassword}
-                  setPassword={setConfirmPassword}
-                  error={confirmError}
-                  setError={setConfirmError}
-                  title="Confirm your password"
-                />
-              </div>
-            </div>
-
-            <div className="mb-4 flex w-[100%] flex-1 flex-col justify-end">
-              <Button
-                backGroundColor="black"
-                backGroundColorDark="white"
-                label="Change password"
-                borderColor="black"
-                labelColor="white"
-                labelColorDark="black"
-                disabled={
-                  error !== '' ||
-                  confirmError !== '' ||
-                  !password ||
-                  !confirmPassword
-                }
-                onClick={handleResetPassword}
-                path=""
+              <PasswordInput
+                password={password}
+                setPassword={setPassword}
+                error={error}
+                setError={setError}
+                title="Enter a new password"
               />
+              <PasswordInput
+                password={confirmPassword}
+                setPassword={setConfirmPassword}
+                error={confirmError}
+                setError={setConfirmError}
+                title="Confirm your password"
+              />
+
+              <div className="mb-4 flex w-full flex-col">
+                <Button
+                  backGroundColor="black"
+                  backGroundColorDark="white"
+                  label="Change password"
+                  borderColor="black"
+                  labelColor="white"
+                  labelColorDark="black"
+                  disabled={
+                    error !== '' ||
+                    confirmError !== '' ||
+                    !password ||
+                    !confirmPassword
+                  }
+                  onClick={handleResetPassword}
+                  path=""
+                />
+              </div>
             </div>
           </div>
         </BoxCard>

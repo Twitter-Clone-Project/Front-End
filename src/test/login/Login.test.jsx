@@ -1,7 +1,7 @@
 /* eslint-disable no-shadow */
 import React from 'react';
 import * as router from 'react-router';
-import { render, fireEvent, waitFor, getByText } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import AuthProvider from '../../contexts/Auth/AuthProvider';
@@ -211,6 +211,9 @@ describe('Login component', () => {
           headers: {
             'Content-Type': 'application/json',
           },
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
           body: JSON.stringify({ email: 'test@example.com' }),
         },
       );

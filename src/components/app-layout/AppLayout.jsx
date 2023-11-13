@@ -4,8 +4,8 @@ import NavBar from '../navigation-bars/NavBar';
 
 function AppLayout() {
   return (
-    <div className="h-screen overflow-auto">
-      <div className="layout mx-auto grid max-w-[84%] grid-cols-[auto_1fr_auto] grid-rows-1 pt-1">
+    <div className="h-screen w-full overflow-auto">
+      <div className="layout mx-auto grid h-full max-w-[84%] grid-cols-[auto_1fr_auto] grid-rows-1 ">
         <NavBar
           items={[
             {

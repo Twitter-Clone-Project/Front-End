@@ -8,13 +8,14 @@ import AuthProvider from '../../contexts/Auth/AuthProvider';
 import SignUpForm from '../../components/sign-up/SignUpForm';
 import EmailConfirm from '../../components/sign-up/EmailConfirm';
 import UnprotectedRoute from '../../components/UnprotectedRoute';
+import GoogleSignInBtn from '../../components/form-controls/GoogleSignIn';
 
 describe('SignUp component', () => {
   const navigate = vi.fn();
-
   beforeEach(() => {
     vi.spyOn(router, 'useNavigate').mockImplementation(() => navigate);
     vi.spyOn(window, 'fetch');
+
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
       value: vi.fn().mockImplementation((query) => ({
@@ -39,7 +40,7 @@ describe('SignUp component', () => {
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
         <BrowserRouter>
-          <SignUpForm />
+          <SignUpForm test />
         </BrowserRouter>
       </AuthProvider>,
     );
@@ -72,7 +73,7 @@ describe('SignUp component', () => {
     const { getByTestId, queryByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
         <BrowserRouter>
-          <SignUpForm />
+          <SignUpForm test />
         </BrowserRouter>
       </AuthProvider>,
     );
@@ -147,7 +148,7 @@ describe('SignUp component', () => {
             name: 'Test',
             username: 'Test Username',
             dateOfBirth: '2000-02-15',
-            gRecaptchaResponse: '6LeousYoAAAAACH0uCm7e4NKQkOWgrZWxmPPCMBZ',
+            gRecaptchaResponse: 'Test',
           }),
         },
       );
@@ -159,17 +160,15 @@ describe('SignUp component', () => {
       <AuthProvider>
         <BrowserRouter>
           <UnprotectedRoute>
-            <SignUpForm />
+            <SignUpForm test />
           </UnprotectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
-
     window.fetch.mockResolvedValueOnce({
       ok: false,
       json: () => Promise.resolve({ status: false, message: 'Invalid inputs' }),
     });
-
     const emailInput = getByTestId('Email');
     const month = getByTestId('Month');
     const day = getByTestId('Day');
@@ -197,9 +196,9 @@ describe('SignUp component', () => {
 
     fireEvent.click(getByTestId('Next'));
 
-    await waitFor(() =>
-      expect(getByText('Invalid inputs')).toBeInTheDocument(),
-    );
+    await waitFor(() => {
+      expect(getByText('Invalid inputs')).toBeInTheDocument();
+    });
   });
   it('should submit the code with valid code', async () => {
     const { getByTestId } = render(
@@ -298,5 +297,52 @@ describe('SignUp component', () => {
     await waitFor(() =>
       expect(getByText('something went wrong')).toBeInTheDocument(),
     );
+  });
+  it('should render google sign in btn', async () => {
+    const { getByTestId } = render(
+      <GoogleSignInBtn label="Sign In with Google" />,
+    );
+
+    window.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          status: true,
+          data: { url: 'http://localhost:2030' },
+        }),
+    });
+
+    fireEvent.click(getByTestId('Sign In with Google'));
+
+    await waitFor(async () => {
+      expect(window.fetch).toHaveBeenCalledTimes(1);
+      expect(window.fetch).toHaveBeenCalledWith(
+        `http://${import.meta.env.VITE_API_DOMAIN}auth/signWithGoogle`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+    });
+  });
+  it('should render google sign in btn with error', async () => {
+    const { getByTestId, getByText } = render(
+      <GoogleSignInBtn label="Sign In with Google" />,
+    );
+
+    window.fetch.mockResolvedValueOnce({
+      ok: false,
+      json: () =>
+        Promise.resolve({
+          status: false,
+          message: 'test error',
+        }),
+    });
+
+    fireEvent.click(getByTestId('Sign In with Google'));
+
+    expect(getByText('Sign In with Google')).toBeInTheDocument();
   });
 });
