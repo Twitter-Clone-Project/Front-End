@@ -2,14 +2,36 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
+import toast from 'react-hot-toast';
 import NavItem from './NavItem';
 import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
+import OwnToaster from '../OwnToaster';
 
 function NavBar({ items }) {
   const { dispatch } = useAuth();
-  const handleLogout = () => {
-    dispatch({ type: 'LOGOUT' });
+  const handleLogout = async () => {
+    try {
+      const res = await fetch(
+        `http://${import.meta.env.VITE_API_DOMAIN}auth/signout`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+        },
+      );
+
+      const data = await res.json();
+      if (data.status === false || data.status === 'error')
+        throw new Error(data.message);
+      else dispatch({ type: 'LOGOUT' });
+    } catch (err) {
+      toast(err.message);
+    }
   };
   return (
     <div className="flex h-screen w-full items-start  justify-center px-3 dark:bg-pure-black">
@@ -125,6 +147,7 @@ function NavBar({ items }) {
           </button>
         </div>
       </div>
+      <OwnToaster />
     </div>
   );
 }
