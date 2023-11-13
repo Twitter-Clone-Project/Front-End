@@ -68,15 +68,15 @@ function App() {
                 </UnprotectedRoute>
               }
             />
-            <Route
-              path="/signup"
-              element={
-                <UnprotectedRoute>
-                  <SignUpForm />
-                </UnprotectedRoute>
-              }
-            />
           </Route>
+          <Route
+            path="/signup"
+            element={
+              <UnprotectedRoute>
+                <SignUpForm />
+              </UnprotectedRoute>
+            }
+          />
           <Route
             path="/forgot-password"
             element={

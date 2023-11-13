@@ -49,15 +49,17 @@ function ForgotPassword() {
       {isLoading && <Spinner />}
       {!isLoading && (
         <BoxCard>
-          <div className=" mt-8 flex flex-1 flex-col justify-between">
-            <div className="flex flex-col justify-start">
-              <h1 className=" my-3 text-[31px] font-bold ">
-                Find your X account
-              </h1>
-              <p className="mb-3 text-[15px] text-dark-gray">
-                Enter the email and the username associated with your account to
-                change your password.
-              </p>
+          <div className=" mx-auto mt-8 flex min-w-[300px] flex-1 flex-col justify-between px-5">
+            <div className="mx-auto flex w-full flex-col justify-start">
+              <div className="mx-auto max-w-[300px]">
+                <h1 className=" my-3 text-[31px] font-bold ">
+                  Find your X account
+                </h1>
+                <p className="mb-3 text-[15px]  text-dark-gray">
+                  Enter the email and the username associated with your account
+                  to change your password.
+                </p>
+              </div>
 
               <EmailInput
                 error={emailError}

@@ -166,8 +166,8 @@ function SignUpForm() {
       </div>
     );
   return (
-    <div className="">
-      <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
+    <>
+      <div className="popup-screen relative bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
         {isLoading ? (
           <Spinner />
         ) : (
@@ -184,14 +184,15 @@ function SignUpForm() {
                 />
               </div>
             )}
-            <div className="flex w-full flex-wrap justify-center bg-white dark:bg-pure-black md:w-[40%] md:min-w-[550px] md:rounded-lg">
-              <BoxCard classes="py-6 px-16 items-center mx-auto">
+
+            <BoxCard classes="py-6 overflow-auto mx-auto">
+              <div className="mx-auto min-w-[300px]">
                 <div className="mx-auto w-5/6 pt-2 text-center dark:text-white">
                   <h1 className="mt-5 w-full text-3xl font-bold">
                     <span>Create your account</span>
                   </h1>
                 </div>
-                <div className="flex w-5/6 flex-wrap p-3 ">
+                <div className="mx-auto flex flex-col px-3 py-3">
                   <div className="w-full ">
                     <div className="mb-6 w-full">
                       <NameInput
@@ -307,27 +308,25 @@ function SignUpForm() {
                       />
                     </div>
                   </div>
+                  <div className="mt-7 flex w-full justify-center">
+                    <Button
+                      onClick={() => setNext(true)}
+                      backGroundColor="white"
+                      borderColor="gray"
+                      disabled={totalError}
+                      labelColor="black"
+                      label="Next"
+                      path=""
+                    />
+                  </div>
                 </div>
-
-                <div className="mt-3 flex w-full flex-wrap justify-center">
-                  <Button
-                    onClick={() => setNext(true)}
-                    backGroundColor="white"
-                    borderColor="gray"
-                    disabled={totalError}
-                    labelColor="black"
-                    label="Next"
-                    path=""
-                    width="w-5/6"
-                  />
-                </div>
-              </BoxCard>
-            </div>
+              </div>
+            </BoxCard>
           </>
         )}
       </div>
       <OwnToaster />
-    </div>
+    </>
   );
 }
 

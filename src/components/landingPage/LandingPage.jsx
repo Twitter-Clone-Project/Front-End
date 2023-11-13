@@ -4,7 +4,7 @@ import NewAccountForm from './NewAccountForm';
 
 function LandingPage() {
   return (
-    <div className="landingPage mx-auto h-screen overflow-auto px-10 dark:bg-pure-black lg:px-16">
+    <div className="landingPage mx-auto h-screen overflow-auto dark:bg-pure-black md:px-10 lg:px-16">
       <Outlet />
       <div className="grid h-screen max-w-xl grid-cols-1 grid-rows-[24px_1fr_56px] flex-col items-start gap-12 py-6 text-black dark:text-white sm:px-28 lg:grid lg:w-full lg:max-w-none lg:grid-cols-2 lg:grid-rows-[1fr_auto] lg:items-center lg:justify-items-center lg:gap-9 lg:p-0">
         <div className="logo mb-6 flex max-w-[15%] basis-2 items-center justify-center align-middle lg:w-full lg:max-w-none ">
