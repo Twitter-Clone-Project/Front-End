@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
+import validator from 'validator';
 
 // eslint-disable-next-line no-unused-vars
 function EmailInput({ error, setError, email, setEmail }) {
   const errorMessage = 'Please enter a valid email.';
   const handleInputChange = (event) => {
     setEmail(event.target.value);
-    if (event.target.checkValidity()) {
+    if (validator.isEmail(event.target.value)) {
       setError('');
     } else setError(errorMessage);
   };
