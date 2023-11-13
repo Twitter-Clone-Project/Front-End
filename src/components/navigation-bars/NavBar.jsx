@@ -2,14 +2,36 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
+import toast from 'react-hot-toast';
 import NavItem from './NavItem';
 import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
+import OwnToaster from '../OwnToaster';
 
 function NavBar({ items }) {
-  const { dispatch } = useAuth();
-  const handleLogout = () => {
-    dispatch({ type: 'LOGOUT' });
+  const { dispatch, user } = useAuth();
+  const handleLogout = async () => {
+    try {
+      const res = await fetch(
+        `http://${import.meta.env.VITE_API_DOMAIN}auth/signout`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+        },
+      );
+
+      const data = await res.json();
+      if (data.status === false || data.status === 'error')
+        throw new Error(data.message);
+      else dispatch({ type: 'LOGOUT' });
+    } catch (err) {
+      toast(err.message);
+    }
   };
   return (
     <div className="flex h-screen w-full items-start  justify-center px-3 dark:bg-pure-black">
@@ -78,8 +100,8 @@ function NavBar({ items }) {
             <div className="flex items-center justify-center">
               <img
                 className="flex h-[40px] w-[40px] rounded-full"
-                src="https://a57.foxsports.com/statics.foxsports.com/www.foxsports.com/content/uploads/2023/06/1280/1280/084702d2-messi1.jpg?ve=1&tl=1"
-                alt="user"
+                src="https://img.icons8.com/color/48/circled-user-male-skin-type-3--v1.png"
+                alt={`${user.name.split(' ')[0]} photo}`}
               />
             </div>
             <p
@@ -87,9 +109,9 @@ function NavBar({ items }) {
                 hidden px-4 text-base font-semibold capitalize tracking-wide
               dark:text-white lg:flex lg:flex-1 lg:flex-col lg:items-start"
             >
-              Messi
+              {user.name}
               <span className="text-sm font-thin text-light-thin">
-                @leo_messi
+                @{user.username}
               </span>
             </p>
             <span className="hidden items-center justify-center px-2 text-xs font-medium tracking-wider dark:text-white lg:flex">
@@ -104,7 +126,7 @@ function NavBar({ items }) {
                     type="submit"
                     className="z-50 flex-1 p-3 text-start"
                   >
-                    Log Out @leo_messi
+                    Log Out @{user.username}
                   </button>
                 </div>
                 <div className="">
@@ -125,6 +147,7 @@ function NavBar({ items }) {
           </button>
         </div>
       </div>
+      <OwnToaster />
     </div>
   );
 }

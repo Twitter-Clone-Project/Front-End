@@ -59,7 +59,7 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
       if (data.status === false) throw new Error(data.message);
 
       if (type === 'reset') setResetPasswordOpen(true);
-      else dispatch({ type: 'LOGIN', payload: user });
+      else dispatch({ type: 'LOGIN', payload: user.data.user });
     } catch (error) {
       toast(error.message);
     } finally {
