@@ -117,7 +117,7 @@ function PopoverUserCard({
       </div>
       <div className="mt-3 flex flex-row">
         <div
-          onClick={() => navigate('/following')}
+          onClick={() => navigate(`/app/${popoverUserID}/following`)}
           data-testid={`PopoverUserCard_${popoverTestID}_3`}
         >
           <span className="mr-5 cursor-pointer text-pure-black hover:underline dark:text-white">
@@ -126,7 +126,7 @@ function PopoverUserCard({
           </span>
         </div>
         <div
-          onClick={() => navigate('/follower')}
+          onClick={() => navigate(`/app/${popoverUserID}/follower`)}
           data-testid={`PopoverUserCard_${popoverTestID}_4`}
         >
           <span className="mr-5  cursor-pointer text-pure-black hover:underline dark:text-white">

@@ -3,21 +3,23 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { useNavigate, useParams } from 'react-router-dom';
+// import PropTypes from 'prop-types';
 import UserItem from './UserItem';
 import ListNav from '../navigation-bars/ListNav';
 
 // eslint-disable-next-line no-unused-vars
-function FollowerList({ userName, userId, currPath }) {
+function FollowerList() {
+  const { username } = useParams('username');
+
   const ListNavItems = [
     {
       label: 'Following',
-      path: `/following`,
+      path: `/app/${username}/following`,
     },
     {
       label: 'Follower',
-      path: `/follower`,
+      path: `/app/${username}/follower`,
     },
   ];
   const [users, setUsers] = useState([]);
@@ -101,10 +103,10 @@ function FollowerList({ userName, userId, currPath }) {
   );
 }
 
-FollowerList.propTypes = {
-  userName: PropTypes.string,
-  userId: PropTypes.string,
-  currPath: PropTypes.string,
-};
+// FollowerList.propTypes = {
+//   userName: PropTypes.string,
+//   userId: PropTypes.string,
+//   currPath: PropTypes.string,
+// };
 
 export default FollowerList;
