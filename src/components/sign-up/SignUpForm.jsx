@@ -55,6 +55,8 @@ function SignUpForm({ test }) {
   const [captacha, setCapatcha] = useState(test ? 'Test' : '');
   const [next, setNext] = useState(false);
   const [user, setUser] = useState({});
+  const [emailLoading, setEmailLoading] = useState(false);
+  const [usernameLoading, setUsernameLoading] = useState(false);
 
   const totalError =
     nameError ||
@@ -70,7 +72,10 @@ function SignUpForm({ test }) {
     !dateMonth ||
     !dateDay ||
     !dateYear ||
-    !dayCount;
+    !dayCount ||
+    emailLoading ||
+    usernameLoading;
+
   const passwordLengthCheck = () => {
     if (passwordConfirm.length < 7 && passwordConfirm !== '') {
       setPasswordConfirmError(
@@ -90,10 +95,6 @@ function SignUpForm({ test }) {
       setPasswordConfirmError('Passwords do not match');
     } else setPasswordConfirmError('');
   };
-  useEffect(() => {
-    passwordCheck();
-    passwordLengthCheck();
-  });
 
   const handleMonthYearChange = () => {
     let count;
@@ -113,6 +114,89 @@ function SignUpForm({ test }) {
   };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(handleMonthYearChange, [dateMonth, dateYear]);
+
+  useEffect(() => {
+    if (!userName || usernameError) return;
+    setUsernameLoading(true);
+    const controller = new AbortController();
+
+    const timeId = setTimeout(() => {
+      const usernameCheck = async () => {
+        try {
+          const res = await fetch(
+            `http://${
+              import.meta.env.VITE_API_DOMAIN
+            }users/${userName}/isUsernameFound`,
+            {
+              signal: controller.signal,
+            },
+          );
+          const data = await res.json();
+          console.log(data);
+          if (data.status === false) throw new Error(data.message);
+          if (data.data.isFound) setUsernameError('Username is already taken');
+          else
+            setUsernameError((e) => {
+              if (e === 'Username is already taken') return '';
+              return e;
+            });
+        } catch (err) {
+          if (err.name !== 'AbortError') toast(err.message);
+        } finally {
+          setUsernameLoading(false);
+        }
+      };
+      usernameCheck();
+    }, 200);
+    return () => {
+      clearTimeout(timeId);
+      controller.abort();
+    };
+  }, [userName, usernameError]);
+
+  useEffect(() => {
+    if (!email || emailError) return;
+    setEmailLoading(true);
+    const controller = new AbortController();
+
+    const timeId = setTimeout(() => {
+      const emailCheck = async () => {
+        try {
+          const res = await fetch(
+            `http://${
+              import.meta.env.VITE_API_DOMAIN
+            }users/${email}/isEmailFound`,
+            {
+              signal: controller.signal,
+            },
+          );
+          const data = await res.json();
+          console.log(data);
+          if (data.status === false) throw new Error(data.message);
+          if (data.data.isFound) setEmailError('Email is already taken');
+          else
+            setEmailError((e) => {
+              if (e === 'Email is already taken') return '';
+              return e;
+            });
+        } catch (err) {
+          if (err.name !== 'AbortError') toast(err.message);
+        } finally {
+          setEmailLoading(false);
+        }
+      };
+      emailCheck();
+    }, 200);
+    return () => {
+      clearTimeout(timeId);
+      controller.abort();
+    };
+  }, [email, emailError]);
+
+  useEffect(() => {
+    passwordCheck();
+    passwordLengthCheck();
+  });
 
   const handleSignUp = async () => {
     try {
