@@ -147,7 +147,7 @@ function SignUpForm({ test }) {
         }
       };
       usernameCheck();
-    }, 200);
+    }, 0);
     return () => {
       clearTimeout(timeId);
       controller.abort();
@@ -186,7 +186,7 @@ function SignUpForm({ test }) {
         }
       };
       emailCheck();
-    }, 200);
+    }, 0);
     return () => {
       clearTimeout(timeId);
       controller.abort();
