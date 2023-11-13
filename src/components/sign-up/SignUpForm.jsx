@@ -167,8 +167,8 @@ function SignUpForm({ test }) {
       </div>
     );
   return (
-    <div className="">
-      <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
+    <>
+      <div className="popup-screen relative bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
         {isLoading ? (
           <Spinner />
         ) : (
@@ -186,15 +186,15 @@ function SignUpForm({ test }) {
                 />
               </div>
             )}
-            <div className="flex w-full flex-wrap justify-center bg-white dark:bg-pure-black md:w-[40%] md:min-w-[550px] md:rounded-lg">
-              <BoxCard classes="py-6 px-16 items-center mx-auto">
-                <div className="mx-auto w-5/6 pt-2 text-center dark:text-white">
-                  <h1 className="mt-5 w-full text-3xl font-bold">
+            <BoxCard classes="py-6 px-12 mx-auto">
+              <div className="px-5w-full mx-auto flex min-w-[300px] flex-1 flex-col justify-between overflow-auto ">
+                <div className="mx-auto flex pt-2 text-center dark:text-white">
+                  <h1 className="mx-auto mt-5 flex-1 text-3xl font-bold">
                     <span>Create your account</span>
                   </h1>
                 </div>
-                <div className="flex w-5/6 flex-wrap p-3 ">
-                  <div className="w-full ">
+                <div className="mx-auto flex w-full flex-col p-3 ">
+                  <div className="mx-auto w-full">
                     <div className="mb-6 w-full">
                       <NameInput
                         title="Name"
@@ -244,7 +244,7 @@ function SignUpForm({ test }) {
                       />
                     </div>
                   </div>
-                  <div className="py-2 pt-0">
+                  <div className="py-2">
                     <div className="w-full font-bold dark:text-white">
                       <span>Date of birth</span>
                     </div>
@@ -259,7 +259,7 @@ function SignUpForm({ test }) {
                       </p>
                     </div>
                   </div>
-                  <div className=" flex w-full justify-between dark:text-white">
+                  <div className="mx-auto flex w-full justify-between dark:text-white">
                     <div className="w-5/12">
                       <span>
                         <DorpDownMenu
@@ -284,7 +284,7 @@ function SignUpForm({ test }) {
                         />
                       </span>
                     </div>
-                    <div className="w-3/12 ">
+                    <div className="w-3/12">
                       <DorpDownMenu
                         header="Day"
                         items={['', ...dayCount]}
@@ -311,7 +311,7 @@ function SignUpForm({ test }) {
                   </div>
                 </div>
 
-                <div className="mt-3 flex w-full flex-wrap justify-center">
+                <div className="mx-auto mt-3 flex w-full flex-col">
                   <Button
                     onClick={() => (test ? handleSignUp() : setNext(true))}
                     backGroundColor="white"
@@ -320,16 +320,15 @@ function SignUpForm({ test }) {
                     labelColor="black"
                     label="Next"
                     path=""
-                    width="w-5/6"
                   />
                 </div>
-              </BoxCard>
-            </div>
+              </div>
+            </BoxCard>
           </>
         )}
       </div>
       <OwnToaster />
-    </div>
+    </>
   );
 }
 
