@@ -4,12 +4,13 @@ import NewAccountForm from './NewAccountForm';
 
 function LandingPage() {
   return (
-    <div className="landingPage mx-auto h-screen overflow-auto px-10 dark:bg-pure-black lg:px-16">
+    <div className="landingPage mx-auto min-h-full overflow-auto dark:bg-pure-black lg:px-16">
       <Outlet />
-      <div className="grid h-screen max-w-xl grid-cols-1 grid-rows-[24px_1fr_56px] flex-col items-start gap-12 py-6 text-black dark:text-white sm:px-28 lg:grid lg:w-full lg:max-w-none lg:grid-cols-2 lg:grid-rows-[1fr_auto] lg:items-center lg:justify-items-center lg:gap-9 lg:p-0">
-        <div className="logo mb-6 flex max-w-[15%] basis-2 items-center justify-center align-middle lg:w-full lg:max-w-none ">
+      <div className="mx-auto grid h-full max-w-xl grid-cols-1 grid-rows-[24px_1fr_56px] flex-col items-start gap-12 overflow-auto px-8 py-6 text-black dark:text-white sm:px-28 lg:grid lg:w-full lg:max-w-none lg:grid-cols-2 lg:grid-rows-[1fr_auto] lg:items-center lg:justify-items-center lg:gap-9 lg:p-0">
+        <div className="logo mb-6 flex max-w-[15%] basis-2 items-center align-middle md:justify-center lg:w-full lg:max-w-none ">
           <svg
             width="50%"
+            className="min-w-[24px]"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
           >
@@ -27,7 +28,7 @@ function LandingPage() {
           <p className="text-2xl font-extrabold sm:text-3xl">Join today.</p>
           <NewAccountForm />
         </div>
-        <div className="footer self-end justify-self-center p-4 text-sm text-light-thin lg:col-span-2">
+        <div className="footer w-full self-end justify-self-center whitespace-nowrap text-center text-sm text-light-thin lg:col-span-2">
           <p>&copy; Copyrights by SWE Front-End Team</p>
         </div>
       </div>

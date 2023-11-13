@@ -7,18 +7,17 @@ function BoxCard({ children, classes, onClose }) {
   return (
     <div
       data-testid="box-card"
-      className={`relative flex h-full w-full flex-col justify-between 
-      rounded-2xl 
-      border-[1px] border-light-gray p-12 px-24 text-lg text-black 
-      dark:border-none dark:bg-pure-black 
-      dark:text-white md:h-auto md:min-h-[650px] md:w-[615px] ${classes}`}
+      className={`text-lgtext-black relative flex h-full
+      w-full flex-col justify-between border-[1px] border-light-gray py-12
+      dark:border-none dark:bg-pure-black dark:text-white 
+      md:h-auto md:min-h-[650px] md:w-[615px] md:rounded-2xl ${classes}`}
     >
-      <div className="absolute left-3 top-0 flex h-[53px] w-full items-center">
+      <div className="absolute left-0 top-0 flex h-[53px] w-full items-center">
         <button
           type="submit"
           data-testid="close-btn"
           onClick={onClose || (() => navigate('/'))}
-          className="absolute left-0 top-3 h-[20px] w-[20px]  text-sm"
+          className="absolute left-3 top-3 h-[20px] w-[20px]  text-sm"
         >
           <svg
             viewBox="0 0 48 48"
