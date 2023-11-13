@@ -13,6 +13,7 @@
     "test": "vitest --coverage --ui"
   },
   "dependencies": {
+    "@testing-library/jest-dom": "^6.1.4",
     "dotenv": "^16.3.1",
     "encodeurl": "^1.0.2",
     "flowbite": "^2.0.0",
@@ -23,11 +24,11 @@
     "react-hot-toast": "^2.4.1",
     "react-router": "^6.18.0",
     "react-router-dom": "^6.18.0",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "validator": "^13.11.0"
   },
   "devDependencies": {
     "@kalimahapps/eslint-plugin-tailwind": "^1.0.10",
-    "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.0.0",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",

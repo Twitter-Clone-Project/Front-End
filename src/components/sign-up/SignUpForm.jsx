@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Button from '../form-controls/Button';
 import EmailInput from '../form-controls/emailInput';
 import NameInput from '../form-controls/nameInput';
@@ -19,8 +19,7 @@ function getMonthFromString(mon) {
   }
 }
 
-function SignUpForm() {
-  const navigate = useNavigate();
+function SignUpForm({ test }) {
   const daysOfMonth = {
     none: `31`,
     January: `31`,
@@ -53,9 +52,11 @@ function SignUpForm() {
   const [dateMonth, setDateMonth] = useState('');
   const [dateDay, setDateDay] = useState('');
   const [dayCount, setDayCount] = useState([]);
-  const [captacha, setCapatcha] = useState(true);
+  const [captacha, setCapatcha] = useState(test ? 'Test' : '');
   const [next, setNext] = useState(false);
   const [user, setUser] = useState({});
+  const [emailLoading, setEmailLoading] = useState(false);
+  const [usernameLoading, setUsernameLoading] = useState(false);
 
   const totalError =
     nameError ||
@@ -72,7 +73,9 @@ function SignUpForm() {
     !dateDay ||
     !dateYear ||
     !dayCount ||
-    !captacha;
+    emailLoading ||
+    usernameLoading;
+
   const passwordLengthCheck = () => {
     if (passwordConfirm.length < 7 && passwordConfirm !== '') {
       setPasswordConfirmError(
@@ -92,10 +95,6 @@ function SignUpForm() {
       setPasswordConfirmError('Passwords do not match');
     } else setPasswordConfirmError('');
   };
-  useEffect(() => {
-    passwordCheck();
-    passwordLengthCheck();
-  });
 
   const handleMonthYearChange = () => {
     let count;
@@ -116,6 +115,89 @@ function SignUpForm() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(handleMonthYearChange, [dateMonth, dateYear]);
 
+  useEffect(() => {
+    if (!userName || usernameError) return;
+    setUsernameLoading(true);
+    const controller = new AbortController();
+
+    const timeId = setTimeout(() => {
+      const usernameCheck = async () => {
+        try {
+          const res = await fetch(
+            `http://${
+              import.meta.env.VITE_API_DOMAIN
+            }users/${userName}/isUsernameFound`,
+            {
+              signal: controller.signal,
+            },
+          );
+          const data = await res.json();
+          console.log(data);
+          if (data.status === false) throw new Error(data.message);
+          if (data.data.isFound) setUsernameError('Username is already taken');
+          else
+            setUsernameError((e) => {
+              if (e === 'Username is already taken') return '';
+              return e;
+            });
+        } catch (err) {
+          if (err.name !== 'AbortError') toast(err.message);
+        } finally {
+          setUsernameLoading(false);
+        }
+      };
+      usernameCheck();
+    }, 200);
+    return () => {
+      clearTimeout(timeId);
+      controller.abort();
+    };
+  }, [userName, usernameError]);
+
+  useEffect(() => {
+    if (!email || emailError) return;
+    setEmailLoading(true);
+    const controller = new AbortController();
+
+    const timeId = setTimeout(() => {
+      const emailCheck = async () => {
+        try {
+          const res = await fetch(
+            `http://${
+              import.meta.env.VITE_API_DOMAIN
+            }users/${email}/isEmailFound`,
+            {
+              signal: controller.signal,
+            },
+          );
+          const data = await res.json();
+          console.log(data);
+          if (data.status === false) throw new Error(data.message);
+          if (data.data.isFound) setEmailError('Email is already taken');
+          else
+            setEmailError((e) => {
+              if (e === 'Email is already taken') return '';
+              return e;
+            });
+        } catch (err) {
+          if (err.name !== 'AbortError') toast(err.message);
+        } finally {
+          setEmailLoading(false);
+        }
+      };
+      emailCheck();
+    }, 200);
+    return () => {
+      clearTimeout(timeId);
+      controller.abort();
+    };
+  }, [email, emailError]);
+
+  useEffect(() => {
+    passwordCheck();
+    passwordLengthCheck();
+  });
+
   const handleSignUp = async () => {
     try {
       setIsLoading(true);
@@ -130,7 +212,7 @@ function SignUpForm() {
             ? `0${getMonthFromString(dateMonth)}`
             : `${getMonthFromString(dateMonth)}`
         }-${dateDay < 10 ? `0${dateDay}` : `${dateDay}`}`,
-        gRecaptchaResponse: '6LeousYoAAAAACH0uCm7e4NKQkOWgrZWxmPPCMBZ',
+        gRecaptchaResponse: captacha,
       };
       const res = await fetch(
         `http://${import.meta.env.VITE_API_DOMAIN}auth/signup`,
@@ -147,7 +229,6 @@ function SignUpForm() {
       );
       const data = await res.json();
       if (data.status === false) {
-        console.log(data);
         throw new Error(data.message);
       }
       setUser(data);
@@ -170,33 +251,34 @@ function SignUpForm() {
       </div>
     );
   return (
-    <div className="">
-      <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
+    <>
+      <div className="popup-screen relative bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
         {isLoading ? (
           <Spinner />
         ) : (
           <>
-            {/* {next && (
+            {next && !test && (
               <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center  pb-6 pt-2 md:bg-dark-gray md:bg-opacity-50">
                 <ReCAPTCHA
-                  sitekey="6LfYH-koAAAAANSm9Cz5hmubDirSAQIQZFI7koxP"
-                  onChange={() => {
-                    setCapatcha(true);
+                  sitekey="6LeousYoAAAAACH0uCm7e4NKQkOWgrZWxmPPCMBZ"
+                  data-testid="google-recaptcha"
+                  onChange={(val) => {
+                    setCapatcha(val);
                     setNext(false);
                     handleSignUp();
                   }}
                 />
               </div>
-            )} */}
-            <div className="flex w-full flex-wrap justify-center bg-white dark:bg-pure-black md:w-[40%] md:min-w-[550px] md:rounded-lg">
-              <BoxCard classes="py-6 px-16 items-center mx-auto">
-                <div className="mx-auto w-5/6 pt-2 text-center dark:text-white">
-                  <h1 className="mt-5 w-full text-3xl font-bold">
+            )}
+            <BoxCard classes="py-6 px-12 mx-auto">
+              <div className="px-5w-full mx-auto flex min-w-[300px] flex-1 flex-col justify-between overflow-auto ">
+                <div className="mx-auto flex pt-2 text-center dark:text-white">
+                  <h1 className="mx-auto mt-5 flex-1 text-3xl font-bold">
                     <span>Create your account</span>
                   </h1>
                 </div>
-                <div className="flex w-5/6 flex-wrap p-3 ">
-                  <div className="w-full ">
+                <div className="mx-auto flex w-full flex-col p-3 ">
+                  <div className="mx-auto w-full">
                     <div className="mb-6 w-full">
                       <NameInput
                         title="Name"
@@ -246,7 +328,7 @@ function SignUpForm() {
                       />
                     </div>
                   </div>
-                  <div className="py-2 pt-0">
+                  <div className="py-2">
                     <div className="w-full font-bold dark:text-white">
                       <span>Date of birth</span>
                     </div>
@@ -261,7 +343,7 @@ function SignUpForm() {
                       </p>
                     </div>
                   </div>
-                  <div className=" flex w-full justify-between dark:text-white">
+                  <div className="mx-auto flex w-full justify-between dark:text-white">
                     <div className="w-5/12">
                       <span>
                         <DorpDownMenu
@@ -286,10 +368,10 @@ function SignUpForm() {
                         />
                       </span>
                     </div>
-                    <div className="w-3/12 ">
+                    <div className="w-3/12">
                       <DorpDownMenu
                         header="Day"
-                        items={dayCount}
+                        items={['', ...dayCount]}
                         state={dateDay}
                         setState={setDateDay}
                       />
@@ -297,12 +379,15 @@ function SignUpForm() {
                     <div className="w-3/12">
                       <DorpDownMenu
                         header="Year"
-                        items={Array.from(
-                          {
-                            length: new Date().getFullYear() - 1902,
-                          },
-                          (v, _i) => 1903 + _i,
-                        ).reverse()}
+                        items={[
+                          '',
+                          ...Array.from(
+                            {
+                              length: new Date().getFullYear() - 1902,
+                            },
+                            (v, _i) => 1903 + _i,
+                          ).reverse(),
+                        ]}
                         state={dateYear}
                         setState={setDateYear}
                       />
@@ -310,36 +395,33 @@ function SignUpForm() {
                   </div>
                 </div>
 
-                <div className="mt-3 flex w-full flex-wrap justify-center">
-                  {false && (
-                    <div className="flex justify-center pb-6 pt-2 dark:bg-pure-black ">
-                      <ReCAPTCHA
-                        sitekey="6LfYH-koAAAAANSm9Cz5hmubDirSAQIQZFI7koxP"
-                        onChange={() => {
-                          setCapatcha(true);
-                        }}
-                      />
-                    </div>
-                  )}
+                <div className="mx-auto mt-3 flex w-full flex-col">
                   <Button
-                    onClick={handleSignUp}
+                    onClick={() => (test ? handleSignUp() : setNext(true))}
                     backGroundColor="white"
                     borderColor="gray"
                     disabled={totalError}
                     labelColor="black"
                     label="Next"
                     path=""
-                    width="w-5/6"
                   />
                 </div>
-              </BoxCard>
-            </div>
+              </div>
+            </BoxCard>
           </>
         )}
       </div>
       <OwnToaster />
-    </div>
+    </>
   );
 }
+
+SignUpForm.defaultProps = {
+  test: false,
+};
+
+SignUpForm.propTypes = {
+  test: PropTypes.bool,
+};
 
 export default SignUpForm;

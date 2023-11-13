@@ -18,14 +18,13 @@ function DorpDownMenu({ header, items, state, setState }) {
         onChange={handleSelectedChange}
         className="peer absolute mb-2 mt-4 w-full cursor-pointer  appearance-none bg-white px-2 pt-2 text-base outline-none dark:bg-pure-black "
       >
-        <option
-          label=""
-          disabled
-          selected
-          className="hidden"
-        />
-        {items.map((item) => (
-          <option key={uuid4()}>{item}</option>
+        {items.map((item, i) => (
+          <option
+            disabled={i === 0}
+            key={uuid4()}
+          >
+            {item}
+          </option>
         ))}
       </select>
       <label

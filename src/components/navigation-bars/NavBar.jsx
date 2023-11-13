@@ -13,7 +13,7 @@ function NavBar({ items }) {
   };
   return (
     <div className="flex h-screen w-full items-start  justify-center px-3 dark:bg-pure-black">
-      <div className="relative my-3 flex h-full flex-1 flex-col items-start justify-between gap-1 text-start lg:min-w-[225px]">
+      <div className="relative flex h-full flex-1 flex-col items-start justify-between gap-1 text-start lg:min-w-[225px]">
         <div className="mb-4 p-3 hover:cursor-pointer hover:rounded-full hover:bg-hover-layout">
           <Link to="/">
             <svg
