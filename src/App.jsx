@@ -122,6 +122,22 @@ function App() {
               }
             />
             <Route
+              path=":username/following"
+              element={
+                <UnprotectedRoute>
+                  <FollowingList />
+                </UnprotectedRoute>
+              }
+            />
+            <Route
+              path=":username/follower"
+              element={
+                <UnprotectedRoute>
+                  <FollowerList />
+                </UnprotectedRoute>
+              }
+            />
+            <Route
               path="settings"
               element={
                 <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
@@ -138,22 +154,6 @@ function App() {
               }
             />
           </Route>
-          <Route
-            path="following"
-            element={
-              <UnprotectedRoute>
-                <FollowingList />
-              </UnprotectedRoute>
-            }
-          />
-          <Route
-            path="follower"
-            element={
-              <UnprotectedRoute>
-                <FollowerList />
-              </UnprotectedRoute>
-            }
-          />
         </Routes>
       </BrowserRouter>
     </div>
