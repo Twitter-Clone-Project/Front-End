@@ -195,7 +195,7 @@ function SignUpForm({ test }) {
     passwordLengthCheck();
   });
 
-  const handleSignUp = async () => {
+  const handleSignUp = async (cap) => {
     try {
       setIsLoading(true);
       const info = {
@@ -209,7 +209,7 @@ function SignUpForm({ test }) {
             ? `0${getMonthFromString(dateMonth)}`
             : `${getMonthFromString(dateMonth)}`
         }-${dateDay < 10 ? `0${dateDay}` : `${dateDay}`}`,
-        gRecaptchaResponse: captacha,
+        gRecaptchaResponse: cap,
       };
       const res = await fetch(
         `http://${import.meta.env.VITE_API_DOMAIN}auth/signup`,
@@ -260,7 +260,7 @@ function SignUpForm({ test }) {
                   onChange={(val) => {
                     setCapatcha(val);
                     setNext(false);
-                    handleSignUp();
+                    handleSignUp(val);
                   }}
                 />
               </div>
