@@ -56,3 +56,6 @@ a.list-nav-active span:after {
 .outlined .filled {
   display: none;
 }
+input::-ms-reveal{
+  display:none;
+}
