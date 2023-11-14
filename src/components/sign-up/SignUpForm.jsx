@@ -52,7 +52,6 @@ function SignUpForm({ test }) {
   const [dateMonth, setDateMonth] = useState('');
   const [dateDay, setDateDay] = useState('');
   const [dayCount, setDayCount] = useState([]);
-  const [captacha, setCapatcha] = useState(test ? 'Test' : '');
   const [next, setNext] = useState(false);
   const [emailLoading, setEmailLoading] = useState(false);
   const [usernameLoading, setUsernameLoading] = useState(false);
@@ -258,7 +257,6 @@ function SignUpForm({ test }) {
                   sitekey="6LeousYoAAAAACH0uCm7e4NKQkOWgrZWxmPPCMBZ"
                   data-testid="google-recaptcha"
                   onChange={(val) => {
-                    setCapatcha(val);
                     setNext(false);
                     handleSignUp(val);
                   }}
