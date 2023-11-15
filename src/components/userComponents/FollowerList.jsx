@@ -5,6 +5,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 // import PropTypes from 'prop-types';
+import { v4 as uuid4 } from 'uuid';
 import UserItem from './UserItem';
 import ListNav from '../navigation-bars/ListNav';
 
@@ -61,12 +62,12 @@ function FollowerList() {
             </div>
             <div className="mb-[3px] mt-[6px] flex flex-col">
               <div className=" h-7 py-0.5">
-                <sapn
+                <span
                   className=" cursor-pointer text-[20px] font-bold leading-6 text-pure-black hover:underline dark:text-white"
                   data-popover-target="popover-user-profile"
                 >
                   Arabian Horses
-                </sapn>
+                </span>
               </div>
               <span
                 className=" w-min text-sm leading-4 text-light-thin"
@@ -86,6 +87,7 @@ function FollowerList() {
         <div data-testid="FollowerList_2">
           {users.map((user, index) => (
             <UserItem
+              key={uuid4()}
               isFollowed={user.isFollowed}
               isFollowing={user.isFollowing}
               userPicture={user.avatar}
