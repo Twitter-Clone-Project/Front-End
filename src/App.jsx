@@ -44,8 +44,8 @@ function App() {
     refresh();
   }, [dispatch]);
 
-  return isLoading ? (
-    <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex h-screen w-full items-center justify-center md:bg-border-gray">
+  return true ? (
+    <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex h-screen w-full items-center justify-center dark:bg-pure-black md:bg-border-gray">
       <Spinner />
     </div>
   ) : (
