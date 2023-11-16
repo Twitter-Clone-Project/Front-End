@@ -52,7 +52,6 @@ function SignUpForm({ test }) {
   const [dateMonth, setDateMonth] = useState('');
   const [dateDay, setDateDay] = useState('');
   const [dayCount, setDayCount] = useState([]);
-  const [captacha, setCapatcha] = useState(test ? 'Test' : '');
   const [next, setNext] = useState(false);
   const [emailLoading, setEmailLoading] = useState(false);
   const [usernameLoading, setUsernameLoading] = useState(false);
@@ -195,7 +194,7 @@ function SignUpForm({ test }) {
     passwordLengthCheck();
   });
 
-  const handleSignUp = async () => {
+  const handleSignUp = async (cap) => {
     try {
       setIsLoading(true);
       const info = {
@@ -209,7 +208,7 @@ function SignUpForm({ test }) {
             ? `0${getMonthFromString(dateMonth)}`
             : `${getMonthFromString(dateMonth)}`
         }-${dateDay < 10 ? `0${dateDay}` : `${dateDay}`}`,
-        gRecaptchaResponse: captacha,
+        gRecaptchaResponse: cap,
       };
       const res = await fetch(
         `http://${import.meta.env.VITE_API_DOMAIN}auth/signup`,
@@ -258,9 +257,8 @@ function SignUpForm({ test }) {
                   sitekey="6LeousYoAAAAACH0uCm7e4NKQkOWgrZWxmPPCMBZ"
                   data-testid="google-recaptcha"
                   onChange={(val) => {
-                    setCapatcha(val);
                     setNext(false);
-                    handleSignUp();
+                    handleSignUp(val);
                   }}
                 />
               </div>

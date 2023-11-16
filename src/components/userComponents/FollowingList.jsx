@@ -3,21 +3,22 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { useNavigate, useParams } from 'react-router-dom';
+import { v4 as uuid4 } from 'uuid';
 import UserItem from './UserItem';
 import ListNav from '../navigation-bars/ListNav';
 
 // eslint-disable-next-line no-unused-vars
-function FollowingList({ userName, userId, currPath }) {
+function FollowingList() {
+  const { username } = useParams('username');
   const ListNavItems = [
     {
       label: 'Following',
-      path: `/following`,
+      path: `/app/${username}/following`,
     },
     {
       label: 'Follower',
-      path: `/follower`,
+      path: `/app/${username}/follower`,
     },
   ];
   const [users, setUsers] = useState([]);
@@ -59,12 +60,12 @@ function FollowingList({ userName, userId, currPath }) {
             </div>
             <div className="mb-[3px] mt-[6px] flex flex-col">
               <div className=" h-7 py-0.5">
-                <sapn
+                <span
                   className=" cursor-pointer text-[20px] font-bold leading-6 text-pure-black hover:underline dark:text-white"
                   data-popover-target="popover-user-profile"
                 >
                   Arabian Horses
-                </sapn>
+                </span>
               </div>
               <span
                 className=" w-min text-sm leading-4 text-light-thin"
@@ -84,6 +85,7 @@ function FollowingList({ userName, userId, currPath }) {
         <div data-testid="FollowingList_2">
           {users.map((user, index) => (
             <UserItem
+              key={uuid4()}
               isFollowed={user.isFollowed}
               isFollowing={user.isFollowing}
               userPicture={user.avatar}
@@ -101,10 +103,10 @@ function FollowingList({ userName, userId, currPath }) {
   );
 }
 
-FollowingList.propTypes = {
-  userName: PropTypes.string,
-  userId: PropTypes.string,
-  currPath: PropTypes.string,
-};
+// FollowingList.propTypes = {
+//   userName: PropTypes.string,
+//   userId: PropTypes.string,
+//   currPath: PropTypes.string,
+// };
 
 export default FollowingList;

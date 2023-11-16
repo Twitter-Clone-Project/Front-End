@@ -117,17 +117,18 @@ function NavBar({ items }) {
             <span className="hidden items-center justify-center px-2 text-xs font-medium tracking-wider dark:text-white lg:flex">
               &bull;&bull;&bull;
             </span>
-
-            <div className="absolute bottom-0 left-0 top-0 hidden h-full w-full bg-transparent group-focus-within:flex dark:text-white  ">
+            <div className="absolute bottom-0 left-0 top-0 z-50 hidden h-full w-full bg-transparent group-focus-within:flex dark:text-white  ">
               <div className="absolute bottom-14 left-0 flex w-64 items-center justify-start rounded-2xl py-4 dark:bg-pure-black dark:shadow-[rgba(100,100,100,1)_0px_0.5px_4px]">
                 <div className="flex flex-1 justify-start px-3  hover:bg-hover-layout">
-                  <button
+                  <div
+                    role="button"
+                    tabIndex={-6}
                     onClick={handleLogout}
-                    type="submit"
+                    onKeyDown={handleLogout}
                     className="z-50 flex-1 p-3 text-start"
                   >
                     Log Out @{user.username}
-                  </button>
+                  </div>
                 </div>
                 <div className="">
                   <svg
