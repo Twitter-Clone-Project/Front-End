@@ -6,17 +6,19 @@ function BoxCard({ children, classes, onClose }) {
   const navigate = useNavigate();
   return (
     <div
-      className={`relative flex h-full w-full flex-col justify-between 
-      rounded-2xl 
-      border-[1px] border-light-gray p-12 px-24 text-lg text-black 
-      dark:border-none dark:bg-pure-black 
-      dark:text-white md:h-auto md:min-h-[650px] md:w-[615px] ${classes}`}
+      data-testid="box-card"
+      className={`relative mx-auto flex h-full w-full flex-col 
+      justify-between overflow-auto
+      border-[1px] border-light-gray py-8 text-lg text-black dark:border-none 
+      dark:bg-pure-black dark:text-white 
+      md:h-auto md:min-h-[650px] md:w-[615px] md:rounded-2xl ${classes}`}
     >
-      <div className="absolute left-3 top-0 flex h-[53px] w-full items-center">
+      <div className="absolute left-0 top-0 flex h-[53px] w-full min-w-[300px] items-center">
         <button
           type="submit"
+          data-testid="close-btn"
           onClick={onClose || (() => navigate('/'))}
-          className="absolute left-0 top-3 h-[20px] w-[20px]  text-sm"
+          className="absolute left-3 top-3 h-[20px] w-[20px]  text-sm"
         >
           <svg
             viewBox="0 0 48 48"
@@ -30,18 +32,20 @@ function BoxCard({ children, classes, onClose }) {
           </svg>
         </button>
 
-        <svg
-          width="30px"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-          className="mx-auto"
-        >
-          {' '}
-          <path
-            d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
-            className="fill-black dark:fill-white"
-          />
-        </svg>
+        <div className="mx-auto">
+          <svg
+            width="30px"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+            className="mx-auto min-w-[24px]"
+          >
+            {' '}
+            <path
+              d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
+              className="fill-black dark:fill-white"
+            />
+          </svg>
+        </div>
       </div>
       {children}
     </div>

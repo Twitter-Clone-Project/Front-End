@@ -10,7 +10,9 @@ function PasswordInput({ title, password, setPassword, error, setError }) {
     <div className="relative h-[56.44px] w-full items-center justify-center  bg-white dark:bg-black">
       <input
         ref={inputEI}
+        id={title}
         placeholder=""
+        data-testid={title}
         value={password}
         onChange={(event) => {
           setPassword(event.target.value);
@@ -31,7 +33,7 @@ function PasswordInput({ title, password, setPassword, error, setError }) {
         }`}
       />
       <label
-        htmlFor="arrow"
+        htmlFor={title}
         className={`
         absolute left-2 top-4 cursor-text text-base
         text-dark-gray transition-all duration-200 
@@ -45,6 +47,7 @@ function PasswordInput({ title, password, setPassword, error, setError }) {
       </label>
       {!isClicked ? (
         <svg
+          data-testid={`${title}-showIcon`}
           onClick={() => {
             setIsClicked(!isClicked);
             inputEI.current.focus();
@@ -58,6 +61,7 @@ function PasswordInput({ title, password, setPassword, error, setError }) {
         </svg>
       ) : (
         <svg
+          data-testid={`${title}-hideIcon`}
           onClick={() => {
             setIsClicked(!isClicked);
             inputEI.current.focus();
@@ -71,7 +75,10 @@ function PasswordInput({ title, password, setPassword, error, setError }) {
         </svg>
       )}
       {error !== '' && (
-        <span className=" absolute left-2 top-14 text-sm text-warning">
+        <span
+          data-testid={`${title}-err`}
+          className=" absolute left-2 top-14 text-sm text-warning"
+        >
           {error}
         </span>
       )}

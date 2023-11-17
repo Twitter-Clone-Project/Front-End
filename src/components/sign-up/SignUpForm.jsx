@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Button from '../form-controls/Button';
 import EmailInput from '../form-controls/emailInput';
 import NameInput from '../form-controls/nameInput';
@@ -10,17 +10,16 @@ import PasswordInput from '../form-controls/passwordInput';
 import EmailConfirm from './EmailConfirm';
 import Spinner from '../Spinner';
 import OwnToaster from '../OwnToaster';
+import BoxCard from '../BoxCard';
 
 function getMonthFromString(mon) {
   const d = Date.parse(`${mon}1, 2012`);
   if (!Number.isNaN(d)) {
     return new Date(d).getMonth() + 1;
   }
-  return -1;
 }
 
-function SignUpForm() {
-  const navigate = useNavigate();
+function SignUpForm({ test }) {
   const daysOfMonth = {
     none: `31`,
     January: `31`,
@@ -53,9 +52,9 @@ function SignUpForm() {
   const [dateMonth, setDateMonth] = useState('');
   const [dateDay, setDateDay] = useState('');
   const [dayCount, setDayCount] = useState([]);
-  const [captacha, setCapatcha] = useState(true);
   const [next, setNext] = useState(false);
-  const [user, setUser] = useState({});
+  const [emailLoading, setEmailLoading] = useState(false);
+  const [usernameLoading, setUsernameLoading] = useState(false);
 
   const totalError =
     nameError ||
@@ -70,8 +69,11 @@ function SignUpForm() {
     !passwordConfirm ||
     !dateMonth ||
     !dateDay ||
+    !dateYear ||
     !dayCount ||
-    !captacha;
+    emailLoading ||
+    usernameLoading;
+
   const passwordLengthCheck = () => {
     if (passwordConfirm.length < 7 && passwordConfirm !== '') {
       setPasswordConfirmError(
@@ -89,12 +91,8 @@ function SignUpForm() {
       passwordConfirm !== ''
     ) {
       setPasswordConfirmError('Passwords do not match');
-    }
+    } else setPasswordConfirmError('');
   };
-  useEffect(() => {
-    passwordCheck();
-    passwordLengthCheck();
-  });
 
   const handleMonthYearChange = () => {
     let count;
@@ -115,7 +113,88 @@ function SignUpForm() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(handleMonthYearChange, [dateMonth, dateYear]);
 
-  const handleSignUp = async () => {
+  useEffect(() => {
+    if (!userName || usernameError) return;
+    setUsernameLoading(true);
+    const controller = new AbortController();
+
+    const timeId = setTimeout(() => {
+      const usernameCheck = async () => {
+        try {
+          const res = await fetch(
+            `http://${
+              import.meta.env.VITE_API_DOMAIN
+            }users/${userName}/isUsernameFound`,
+            {
+              signal: controller.signal,
+            },
+          );
+          const data = await res.json();
+          if (data.status === false) throw new Error(data.message);
+          if (data.data.isFound) setUsernameError('Username is already taken');
+          else
+            setUsernameError((e) => {
+              if (e === 'Username is already taken') return '';
+              return e;
+            });
+        } catch (err) {
+          if (err.name !== 'AbortError') toast(err.message);
+        } finally {
+          setUsernameLoading(false);
+        }
+      };
+      usernameCheck();
+    }, 0);
+    return () => {
+      clearTimeout(timeId);
+      controller.abort();
+    };
+  }, [userName, usernameError]);
+
+  useEffect(() => {
+    if (!email || emailError) return;
+    setEmailLoading(true);
+    const controller = new AbortController();
+
+    const timeId = setTimeout(() => {
+      const emailCheck = async () => {
+        try {
+          const res = await fetch(
+            `http://${
+              import.meta.env.VITE_API_DOMAIN
+            }users/${email}/isEmailFound`,
+            {
+              signal: controller.signal,
+            },
+          );
+          const data = await res.json();
+          if (data.status === false) throw new Error(data.message);
+          if (data.data.isFound) setEmailError('Email is already taken');
+          else
+            setEmailError((e) => {
+              if (e === 'Email is already taken') return '';
+              return e;
+            });
+        } catch (err) {
+          if (err.name !== 'AbortError') toast(err.message);
+        } finally {
+          setEmailLoading(false);
+        }
+      };
+      emailCheck();
+    }, 0);
+    return () => {
+      clearTimeout(timeId);
+      controller.abort();
+    };
+  }, [email, emailError]);
+
+  useEffect(() => {
+    passwordCheck();
+    passwordLengthCheck();
+  });
+
+  const handleSignUp = async (cap) => {
     try {
       setIsLoading(true);
       const info = {
@@ -129,7 +208,7 @@ function SignUpForm() {
             ? `0${getMonthFromString(dateMonth)}`
             : `${getMonthFromString(dateMonth)}`
         }-${dateDay < 10 ? `0${dateDay}` : `${dateDay}`}`,
-        gRecaptchaResponse: '6LeousYoAAAAACH0uCm7e4NKQkOWgrZWxmPPCMBZ',
+        gRecaptchaResponse: cap,
       };
       const res = await fetch(
         `http://${import.meta.env.VITE_API_DOMAIN}auth/signup`,
@@ -145,11 +224,9 @@ function SignUpForm() {
         },
       );
       const data = await res.json();
-      if (data.status === 'error') {
-        console.log(data);
+      if (data.status === false) {
         throw new Error(data.message);
       }
-      setUser(data);
       setIsCode(true);
     } catch (err) {
       toast(err.message);
@@ -163,217 +240,181 @@ function SignUpForm() {
       <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
         <EmailConfirm
           email={email}
-          data={user}
           type="signup"
         />
       </div>
     );
   return (
-    <div className="">
-      <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
+    <>
+      <div className="popup-screen relative bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
         {isLoading ? (
           <Spinner />
         ) : (
           <>
-            {next && (
+            {next && !test && (
               <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center  pb-6 pt-2 md:bg-dark-gray md:bg-opacity-50">
                 <ReCAPTCHA
-                  sitekey="6LfYH-koAAAAANSm9Cz5hmubDirSAQIQZFI7koxP"
-                  onChange={() => {
-                    setCapatcha(true);
+                  sitekey="6LeousYoAAAAACH0uCm7e4NKQkOWgrZWxmPPCMBZ"
+                  data-testid="google-recaptcha"
+                  onChange={(val) => {
                     setNext(false);
-                    handleSignUp();
+                    handleSignUp(val);
                   }}
                 />
               </div>
             )}
-            <div className="flex w-full flex-wrap justify-center bg-white dark:bg-pure-black md:w-[40%] md:min-w-[550px] md:rounded-lg">
-              <div className="relative flex w-full items-center">
-                <button
-                  onClick={() => navigate(-1)}
-                  type="submit"
-                  className="bg-gray-300 hover:bg-gray-400 text-gray-800 absolute left-3 top-3 inline-flex items-start rounded font-bold"
-                >
-                  <svg
-                    width="25"
-                    height="25"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M6.28033 5.21967C5.98744 4.92678 5.51256 4.92678 5.21967 5.21967C4.92678 5.51256 4.92678 5.98744 5.21967 6.28033L8.93934 10L5.21967 13.7197C4.92678 14.0126 4.92678 14.4874 5.21967 14.7803C5.51256 15.0732 5.98744 15.0732 6.28033 14.7803L10 11.0607L13.7197 14.7803C14.0126 15.0732 14.4874 15.0732 14.7803 14.7803C15.0732 14.4874 15.0732 14.0126 14.7803 13.7197L11.0607 10L14.7803 6.28033C15.0732 5.98744 15.0732 5.51256 14.7803 5.21967C14.4874 4.92678 14.0126 4.92678 13.7197 5.21967L10 8.93934L6.28033 5.21967Z"
-                      fill="black"
-                    />
-                    <path
-                      d="M6.28033 5.21967C5.98744 4.92678 5.51256 4.92678 5.21967 5.21967C4.92678 5.51256 4.92678 5.98744 5.21967 6.28033L8.93934 10L5.21967 13.7197C4.92678 14.0126 4.92678 14.4874 5.21967 14.7803C5.51256 15.0732 5.98744 15.0732 6.28033 14.7803L10 11.0607L13.7197 14.7803C14.0126 15.0732 14.4874 15.0732 14.7803 14.7803C15.0732 14.4874 15.0732 14.0126 14.7803 13.7197L11.0607 10L14.7803 6.28033C15.0732 5.98744 15.0732 5.51256 14.7803 5.21967C14.4874 4.92678 14.0126 4.92678 13.7197 5.21967L10 8.93934L6.28033 5.21967Z"
-                      fill="white"
-                    />
-                  </svg>
-                </button>
-                <div className="mx-auto flex w-[12%] items-center justify-center pt-3">
-                  <svg
-                    width="50%"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 512 512"
-                  >
-                    {' '}
-                    <path
-                      d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
-                      className="fill-black dark:fill-white"
-                    />
-                  </svg>
+            <BoxCard classes="py-6 px-12 mx-auto">
+              <div className="px-5w-full mx-auto flex min-w-[300px] flex-1 flex-col justify-between overflow-auto ">
+                <div className="mx-auto flex pt-2 text-center dark:text-white">
+                  <h1 className="mx-auto mt-5 flex-1 text-3xl font-bold">
+                    <span>Create your account</span>
+                  </h1>
                 </div>
-              </div>
-              <div className="mx-auto w-5/6 pt-2 text-center dark:text-white">
-                <h1 className="w-full text-3xl font-bold">
-                  <span>Create your account</span>
-                </h1>
-              </div>
-              <div className="flex w-5/6 flex-wrap p-3 ">
-                <div className="w-full ">
-                  <div className="mb-6 w-full">
-                    <NameInput
-                      title="Name"
-                      error={nameError}
-                      setError={setNameError}
-                      Name={name}
-                      setName={setName}
-                      maxLength="50"
-                    />
+                <div className="mx-auto flex w-full flex-col p-3 ">
+                  <div className="mx-auto w-full">
+                    <div className="mb-6 w-full">
+                      <NameInput
+                        title="Name"
+                        error={nameError}
+                        setError={setNameError}
+                        Name={name}
+                        setName={setName}
+                        maxLength="50"
+                      />
+                    </div>
+                    <div className="mb-6 w-full">
+                      <NameInput
+                        Name={userName}
+                        error={usernameError}
+                        setError={setUsernameError}
+                        setName={setUserName}
+                        maxLength="25"
+                        title="Username"
+                      />
+                    </div>
+                    <div className="mb-6 w-full">
+                      <PasswordInput
+                        error={passwordError}
+                        setError={setPasswordError}
+                        password={password}
+                        setPassword={setPassword}
+                        title="Password"
+                      />
+                    </div>
+                    <div className="mb-6 w-full">
+                      <PasswordInput
+                        error={passwordConfirmError}
+                        setError={setPasswordConfirmError}
+                        password={passwordConfirm}
+                        setPassword={setPasswordConfirm}
+                        title="Confirm Password"
+                      />
+                    </div>
+                    <div className="mb-6 w-full">
+                      <EmailInput
+                        error={emailError}
+                        setError={setEmailError}
+                        email={email}
+                        setEmail={setEmail}
+                        valid={validEmail}
+                        setValid={setValidEmail}
+                      />
+                    </div>
                   </div>
-                  <div className="mb-6 w-full">
-                    <NameInput
-                      Name={userName}
-                      error={usernameError}
-                      setError={setUsernameError}
-                      setName={setUserName}
-                      maxLength="25"
-                      title="Username"
-                    />
+                  <div className="py-2">
+                    <div className="w-full font-bold dark:text-white">
+                      <span>Date of birth</span>
+                    </div>
+                    <div className="w-full text-sm dark:text-light-thin">
+                      <p>
+                        <small className="form-text">
+                          This will not be shown publicly, Confirm your own age,
+                          even if this
+                          <br /> account is for a business, a pet, or something
+                          else
+                        </small>
+                      </p>
+                    </div>
                   </div>
-                  <div className="mb-6 w-full">
-                    <PasswordInput
-                      error={passwordError}
-                      setError={setPasswordError}
-                      password={password}
-                      setPassword={setPassword}
-                      title="Password"
-                    />
-                  </div>
-                  <div className="mb-6 w-full">
-                    <PasswordInput
-                      error={passwordConfirmError}
-                      setError={setPasswordConfirmError}
-                      password={passwordConfirm}
-                      setPassword={setPasswordConfirm}
-                      title="Confirm Password"
-                    />
-                  </div>
-                  <div className="mb-6 w-full">
-                    <EmailInput
-                      error={emailError}
-                      setError={setEmailError}
-                      email={email}
-                      setEmail={setEmail}
-                      valid={validEmail}
-                      setValid={setValidEmail}
-                    />
-                  </div>
-                </div>
-                <div className="py-2 pt-0">
-                  <div className="w-full font-bold dark:text-white">
-                    <span>Date of birth</span>
-                  </div>
-                  <div className="w-full text-sm dark:text-light-thin">
-                    <p>
-                      <small className="form-text">
-                        This will not be shown publicly, Confirm your own age,
-                        even if this
-                        <br /> account is for a business, a pet, or something
-                        else
-                      </small>
-                    </p>
-                  </div>
-                </div>
-                <div className=" flex w-full justify-between dark:text-white">
-                  <div className="w-5/12">
-                    <span>
+                  <div className="mx-auto flex w-full justify-between dark:text-white">
+                    <div className="w-5/12">
+                      <span>
+                        <DorpDownMenu
+                          header="Month"
+                          items={[
+                            '',
+                            'January',
+                            'February',
+                            'March',
+                            'April',
+                            'May',
+                            'June',
+                            'July',
+                            'August',
+                            'September',
+                            'October',
+                            'November',
+                            'December',
+                          ]}
+                          state={dateMonth}
+                          setState={setDateMonth}
+                        />
+                      </span>
+                    </div>
+                    <div className="w-3/12">
                       <DorpDownMenu
-                        header="Month"
+                        header="Day"
+                        items={['', ...dayCount]}
+                        state={dateDay}
+                        setState={setDateDay}
+                      />
+                    </div>
+                    <div className="w-3/12">
+                      <DorpDownMenu
+                        header="Year"
                         items={[
                           '',
-                          'January',
-                          'February',
-                          'March',
-                          'April',
-                          'May',
-                          'June',
-                          'July',
-                          'August',
-                          'September',
-                          'October',
-                          'November',
-                          'December',
+                          ...Array.from(
+                            {
+                              length: new Date().getFullYear() - 1902,
+                            },
+                            (v, _i) => 1903 + _i,
+                          ).reverse(),
                         ]}
-                        state={dateMonth}
-                        setState={setDateMonth}
+                        state={dateYear}
+                        setState={setDateYear}
                       />
-                    </span>
-                  </div>
-                  <div className="w-3/12 ">
-                    <DorpDownMenu
-                      header="Day"
-                      items={dayCount}
-                      state={dateDay}
-                      setState={setDateDay}
-                    />
-                  </div>
-                  <div className="w-3/12">
-                    <DorpDownMenu
-                      header="Year"
-                      items={Array.from(
-                        {
-                          length: new Date().getFullYear() - 1902,
-                        },
-                        (v, _i) => 1903 + _i,
-                      ).reverse()}
-                      state={dateYear}
-                      setState={setDateYear}
-                    />
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="mt-3 flex w-full flex-wrap justify-center pb-6">
-                {false && (
-                  <div className="flex justify-center pb-6 pt-2 dark:bg-pure-black ">
-                    <ReCAPTCHA
-                      sitekey="6LfYH-koAAAAANSm9Cz5hmubDirSAQIQZFI7koxP"
-                      onChange={() => {
-                        setCapatcha(true);
-                      }}
-                    />
-                  </div>
-                )}
-                <Button
-                  onClick={() => setNext(true)}
-                  backGroundColor="white"
-                  borderColor="gray"
-                  disabled={totalError}
-                  labelColor="black"
-                  label="Next"
-                  path=""
-                  width="w-5/6"
-                />
+                <div className="mx-auto mt-3 flex w-full flex-col">
+                  <Button
+                    onClick={() => (test ? handleSignUp() : setNext(true))}
+                    backGroundColor="white"
+                    borderColor="gray"
+                    disabled={totalError}
+                    labelColor="black"
+                    label="Next"
+                    path=""
+                  />
+                </div>
               </div>
-            </div>
+            </BoxCard>
           </>
         )}
       </div>
       <OwnToaster />
-    </div>
+    </>
   );
 }
+
+SignUpForm.defaultProps = {
+  test: false,
+};
+
+SignUpForm.propTypes = {
+  test: PropTypes.bool,
+};
 
 export default SignUpForm;

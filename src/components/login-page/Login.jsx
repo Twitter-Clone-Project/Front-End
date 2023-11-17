@@ -36,8 +36,8 @@ function Login() {
         },
       );
       const data = await res.json();
-      if (data.status === 'error') throw new Error(data.message);
-      dispatch({ type: 'LOGIN', payload: data });
+      if (data.status === false) throw new Error(data.message);
+      dispatch({ type: 'LOGIN', payload: data.data.user });
       navigate('/app');
     } catch (err) {
       toast(err.message);
@@ -47,12 +47,15 @@ function Login() {
   };
 
   return (
-    <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex h-screen w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
+    <div
+      data-testid="login"
+      className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex h-full w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50"
+    >
       {isLoading ? (
         <Spinner />
       ) : (
-        <BoxCard classes="items-center">
-          <div className="mt-4 flex flex-1 flex-col items-center justify-between">
+        <BoxCard classes="overflow-auto">
+          <div className="mx-auto mt-4 flex flex-1 flex-col items-center justify-between px-10">
             <div className="flex w-[300px] flex-row justify-start">
               <h1 className=" my-3 text-[31px] font-bold ">Sign in to X</h1>
             </div>

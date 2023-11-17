@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import toast from 'react-hot-toast';
 import Button from './Button';
 
 function GoogleSignInBtn({ label }) {
@@ -8,7 +9,7 @@ function GoogleSignInBtn({ label }) {
       const res = await fetch(
         `http://${import.meta.env.VITE_API_DOMAIN}auth/signWithGoogle`,
         {
-          method: 'GET',
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
@@ -18,7 +19,7 @@ function GoogleSignInBtn({ label }) {
       if (data.status === false) throw new Error(data.message);
       window.location.href = data.url;
     } catch (err) {
-      console.log(err);
+      toast(err.message);
     }
   };
   return (

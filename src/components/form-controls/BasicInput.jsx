@@ -5,8 +5,9 @@ function BasicInput({ title, value, setValue, error, setError }) {
   return (
     <div className="relative h-[56.44px] w-full items-center justify-center  bg-white dark:bg-black">
       <input
+        data-testid={title}
         placeholder=""
-        id="Normal"
+        id={title}
         value={value}
         onChange={(event) => {
           setValue(event.target.value);
@@ -21,7 +22,7 @@ function BasicInput({ title, value, setValue, error, setError }) {
         dark:text-white"
       />
       <label
-        htmlFor="Normal"
+        htmlFor={title}
         className={`
         absolute left-2 top-4 cursor-text text-base
         text-dark-gray transition-all duration-200 
@@ -34,7 +35,10 @@ function BasicInput({ title, value, setValue, error, setError }) {
         {title}
       </label>
       {error !== '' && (
-        <span className=" absolute left-2 top-14 text-sm text-warning">
+        <span
+          data-testid="basic-err"
+          className=" absolute left-2 top-14 text-sm text-warning"
+        >
           {error}
         </span>
       )}

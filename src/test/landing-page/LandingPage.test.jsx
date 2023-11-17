@@ -2,8 +2,8 @@
 import { it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import LandingPage from './components/landingPage/LandingPage';
-import AuthProvider from './contexts/Auth/AuthProvider';
+import LandingPage from '../../components/landingPage/LandingPage';
+import AuthProvider from '../../contexts/Auth/AuthProvider';
 
 it('First test', () => {
   render(

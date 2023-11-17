@@ -10,6 +10,8 @@ import UnprotectedRoute from './components/UnprotectedRoute';
 import { useAuth } from './hooks/AuthContext';
 import Spinner from './components/Spinner';
 import SignUpForm from './components/sign-up/SignUpForm';
+import FollowerList from './components/userComponents/FollowerList';
+import FollowingList from './components/userComponents/FollowingList';
 
 function App() {
   const { dispatch } = useAuth();
@@ -32,7 +34,7 @@ function App() {
         );
         const data = await res.json();
         if (data.status === false) throw new Error(data.message);
-        dispatch({ type: 'LOGIN', payload: data });
+        dispatch({ type: 'LOGIN', payload: data.data.user });
       } catch (err) {
         dispatch({ type: 'LOGOUT' });
       } finally {
@@ -43,11 +45,11 @@ function App() {
   }, [dispatch]);
 
   return isLoading ? (
-    <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex h-screen w-full items-center justify-center md:bg-border-gray">
+    <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex h-screen w-full items-center justify-center dark:bg-pure-black md:bg-border-gray">
       <Spinner />
     </div>
   ) : (
-    <div className="h-screen dark:bg-pure-black">
+    <div className="flex h-full min-h-screen bg-white dark:bg-pure-black">
       <BrowserRouter>
         <Routes>
           <Route
@@ -66,15 +68,15 @@ function App() {
                 </UnprotectedRoute>
               }
             />
-            <Route
-              path="/signup"
-              element={
-                <UnprotectedRoute>
-                  <SignUpForm />
-                </UnprotectedRoute>
-              }
-            />
           </Route>
+          <Route
+            path="/signup"
+            element={
+              <UnprotectedRoute>
+                <SignUpForm />
+              </UnprotectedRoute>
+            }
+          />
           <Route
             path="/forgot-password"
             element={
@@ -98,7 +100,7 @@ function App() {
             <Route
               path="home"
               element={
-                <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
+                <h1 className="flex h-full items-center justify-center border-x-[1px] border-border-gray dark:text-white">
                   Home
                 </h1>
               }
@@ -112,12 +114,22 @@ function App() {
               }
             />
             <Route
+              exact
               path=":username"
               element={
                 <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
                   Profile Page
                 </h1>
               }
+            />
+            <Route
+              exact
+              path=":username/following"
+              element={<FollowingList />}
+            />
+            <Route
+              path=":username/follower"
+              element={<FollowerList />}
             />
             <Route
               path="settings"
