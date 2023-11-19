@@ -4,8 +4,8 @@ import { AuthContext } from '../../hooks/AuthContext';
 import reducer from './reducer';
 
 const initialState = {
-  user: null,
-  isAuthenticated: false,
+  user: { name: 'John', email: 'john@example.com', username: 'John' },
+  isAuthenticated: true,
 };
 
 function AuthProvider({ children }) {

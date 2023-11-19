@@ -15,41 +15,41 @@ import FollowingList from './components/userComponents/FollowingList';
 
 function App() {
   const { dispatch } = useAuth();
-  const [isLoading, setIsLoading] = useState(true);
-  React.useEffect(() => {
-    const refresh = async () => {
-      try {
-        setIsLoading(true);
-        const res = await fetch(
-          `http://${import.meta.env.VITE_API_DOMAIN}auth/me`,
-          {
-            origin: true,
-            credentials: 'include',
-            withCredentials: true,
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          },
-        );
-        const data = await res.json();
-        if (data.status === false) throw new Error(data.message);
-        dispatch({ type: 'LOGIN', payload: data.data.user });
-      } catch (err) {
-        dispatch({ type: 'LOGOUT' });
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    refresh();
-  }, [dispatch]);
+  // const [isLoading, setIsLoading] = useState(true);
+  // React.useEffect(() => {
+  //   const refresh = async () => {
+  //     try {
+  //       setIsLoading(true);
+  //       const res = await fetch(
+  //         `http://${import.meta.env.VITE_API_DOMAIN}auth/me`,
+  //         {
+  //           origin: true,
+  //           credentials: 'include',
+  //           withCredentials: true,
+  //           method: 'GET',
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //           },
+  //         },
+  //       );
+  //       const data = await res.json();
+  //       if (data.status === false) throw new Error(data.message);
+  //       dispatch({ type: 'LOGIN', payload: data.data.user });
+  //     } catch (err) {
+  //       dispatch({ type: 'LOGOUT' });
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+  //   refresh();
+  // }, [dispatch]);
 
-  return isLoading ? (
+  return false ? (
     <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex h-screen w-full items-center justify-center dark:bg-pure-black md:bg-border-gray">
       <Spinner />
     </div>
   ) : (
-    <div className="flex h-full min-h-screen bg-white dark:bg-pure-black">
+    <div className="flex h-full min-h-screen overflow-auto bg-white dark:bg-pure-black">
       <BrowserRouter>
         <Routes>
           <Route
@@ -88,9 +88,9 @@ function App() {
           <Route
             path="/app"
             element={
-              <ProtectedRoute>
-                <AppLayout />
-              </ProtectedRoute>
+              // <ProtectedRoute>
+              <AppLayout />
+              // </ProtectedRoute>
             }
           >
             <Route
@@ -100,8 +100,12 @@ function App() {
             <Route
               path="home"
               element={
-                <h1 className="flex h-full items-center justify-center border-x-[1px] border-border-gray dark:text-white">
-                  Home
+                <h1 className="min-h-full  border-border-gray dark:text-white sm:border-x-[1px]">
+                  <div className="flex h-full flex-col items-start justify-center">
+                    {Array.from({ length: 100 }, (i, _i) => 1).map(() => (
+                      <span>Home</span>
+                    ))}
+                  </div>
                 </h1>
               }
             />

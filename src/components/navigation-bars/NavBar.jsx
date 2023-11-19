@@ -8,14 +8,15 @@ import NavItem from './NavItem';
 import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
 import OwnToaster from '../OwnToaster';
+import FloatingHeader from './FloatingHeader';
 
-function NavBar({ items }) {
+function NavBar({ items, mobileItems }) {
   const { dispatch, user } = useAuth();
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const screen = useRef();
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  console.log(show);
+  const screen = useRef();
+
   const controlNavbar = () => {
     if (window !== 'undefined') {
       if (window.scrollY > lastScrollY) {
@@ -74,69 +75,22 @@ function NavBar({ items }) {
   return (
     <div
       ref={screen}
-      className="mt-20 flex w-full items-start justify-center dark:bg-pure-black sm:mt-auto  sm:h-full"
+      className="flex w-0 items-start justify-center dark:bg-pure-black sm:mt-auto sm:h-full  sm:w-full"
     >
-      <div
-        className={`fixed left-0  z-20 mb-4 ${
-          show ? 'top-0' : '-top-52'
-        } flex w-full justify-center border-b-2 border-border-gray bg-opacity-75
-        px-4 py-1 transition-all duration-[600ms]
-      dark:bg-pure-black dark:bg-opacity-75 sm:hidden`}
-      >
-        <div className="absolute left-0 top-0 flex items-center justify-center p-2 hover:cursor-pointer hover:rounded-full hover:bg-hover-layout">
-          <button
-            onClick={() => setDrawerOpen(true)}
-            type="submit"
-            className="peer relative flex flex-1 items-center justify-between font-semibold"
-          >
-            <div className="flex items-center justify-center">
-              <img
-                className="flex h-[40px] w-[40px] rounded-full"
-                src="https://a57.foxsports.com/statics.foxsports.com/www.foxsports.com/content/uploads/2023/06/1280/1280/084702d2-messi1.jpg?ve=1&tl=1"
-                alt="user"
-              />
-            </div>
-          </button>
-        </div>
+      <FloatingHeader
+        drawerOpen={drawerOpen}
+        show={show}
+        setDrawerOpen={setDrawerOpen}
+      />
+      <div className="relative w-full  px-6 text-start transition-colors duration-200 sm:border-0 lg:min-w-[250px]">
         <div
-          className={`absolute bottom-0 left-0 top-0 z-[30000] grid h-screen 
-          w-full -translate-x-full 
-          grid-cols-[5fr_3fr] duration-300 ${
-            drawerOpen ? 'translate-x-0' : ''
-          }`}
+          className={`fixed bottom-0 left-0 flex w-full items-end 
+          justify-between border-t-[0.5px] border-border-gray
+          bg-white dark:bg-pure-black sm:left-6 sm:mx-2
+          sm:mt-0 sm:h-full sm:w-auto sm:flex-1 sm:flex-col
+          sm:items-start sm:justify-between sm:gap-1 sm:border-0 lg:left-auto
+          ${!show ? 'opacity-30 sm:opacity-100' : ''}`}
         >
-          <div className="bg-pure-black" />
-          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, 
-          jsx-a11y/no-static-element-interactions */}
-          <div
-            className="bg-dark-layout bg-opacity-60 transition-colors duration-300"
-            onClick={() => {
-              setDrawerOpen(false);
-            }}
-          />
-        </div>
-        <div className="mx-auto p-3 hover:cursor-pointer hover:rounded-full hover:bg-hover-layout sm:hidden">
-          <Link to="/">
-            <svg
-              className="inline-block w-[1.6rem] fill-pure-black dark:fill-white"
-              viewBox="0 0 24 24"
-            >
-              <g>
-                <path
-                  className="fill-pure-black dark:fill-white"
-                  d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99
-                21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161
-                17.52h1.833L7.084 4.126H5.117z"
-                >
-                  {' '}
-                </path>
-              </g>
-            </svg>
-          </Link>
-        </div>
-      </div>
-      <div className="-z-1 w-full border-t-2 border-border-gray px-6 text-start transition-colors duration-200 sm:border-0 lg:min-w-[250px]">
-        <div className="-z-1 fixed bottom-0 left-0 mx-auto flex w-full items-end justify-between px-2 text-start transition-colors duration-200 sm:mx-2 sm:mt-0 sm:h-full sm:flex-1 sm:flex-col sm:items-start sm:justify-between sm:gap-1 lg:left-auto">
           <div className="mb-4 hidden p-3 hover:cursor-pointer hover:rounded-full hover:bg-hover-layout sm:flex">
             <Link to="/">
               <svg
@@ -156,16 +110,29 @@ function NavBar({ items }) {
               </svg>
             </Link>
           </div>
-          {items.map((item) => (
-            <NavItem
-              key={uuid4()}
-              outlinedIcon={item.outlinedIcon}
-              filledIcon={item.filledIcon}
-              label={item.label}
-              path={item.path}
-            />
-          ))}
-          <div className="absolute hidden w-full items-center justify-center rounded-full sm:relative lg:flex">
+          <div className="hidden sm:contents">
+            {items.map((item) => (
+              <NavItem
+                key={uuid4()}
+                outlinedIcon={item.outlinedIcon}
+                filledIcon={item.filledIcon}
+                label={item.label}
+                path={item.path}
+              />
+            ))}
+          </div>
+          <div className="contents sm:hidden">
+            {mobileItems.map((item) => (
+              <NavItem
+                key={uuid4()}
+                outlinedIcon={item.outlinedIcon}
+                filledIcon={item.filledIcon}
+                label={item.label}
+                path={item.path}
+              />
+            ))}
+          </div>
+          <div className="absolute mx-auto hidden w-full items-center justify-center rounded-full sm:relative lg:flex">
             <Button
               label="Post"
               backGroundColor="blue"
@@ -256,6 +223,14 @@ function NavBar({ items }) {
 }
 NavBar.propTypes = {
   items: PropTypes.arrayOf(
+    PropTypes.shape({
+      outlinedIcon: PropTypes.string.isRequired,
+      filledIcon: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      path: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  mobileItems: PropTypes.arrayOf(
     PropTypes.shape({
       outlinedIcon: PropTypes.string.isRequired,
       filledIcon: PropTypes.string.isRequired,
