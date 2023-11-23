@@ -86,7 +86,8 @@ function MessagesInput({ messages, setMessages }) {
           ref={buttonRef}
           type="button"
           onClick={() => {
-            if (message !== '') setMessages([...messages, message]);
+            if (message !== '')
+              setMessages([...messages, { message: message, mode: 'send' }]);
             setMessage('');
           }}
         >
@@ -112,7 +113,7 @@ function MessagesInput({ messages, setMessages }) {
 }
 
 MessagesInput.propTypes = {
-  messages: PropTypes.string.isRequired,
+  messages: PropTypes.arrayOf(PropTypes.message).isRequired,
   setMessages: PropTypes.func.isRequired,
 };
 
