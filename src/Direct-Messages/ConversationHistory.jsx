@@ -6,9 +6,7 @@ function ConversationsHistory({ selectedTag, setSelectedTag }) {
   const [conversations, setConversations] = useState([]);
 
   useEffect(() => {
-    fetch(
-      'https://cb1ad4cc-7394-4166-b581-f659d60dbd21.mock.pstmn.io/ConversationsHistory',
-    )
+    fetch('https://654a8f7d1f197d51e492699b.mockapi.io/Conversations')
       .then((response) => response.json())
       .then((data) => setConversations(data));
     //   .catch((error) => console.error('Error fetching data:', error));
