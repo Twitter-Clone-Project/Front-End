@@ -110,6 +110,7 @@ function SignUpForm({ test }) {
       days = days.concat(index + 1);
     }
     setDayCount(days);
+    if (count !== daysOfMonth.none && dateDay > days) setDateDay('');
   };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(handleMonthYearChange, [dateMonth, dateYear]);
