@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
 import toast from 'react-hot-toast';
 import NavItem from './NavItem';
@@ -13,6 +13,8 @@ import FloatingHeader from './FloatingHeader';
 function NavBar({ items, mobileItems }) {
   const { dispatch, user } = useAuth();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const Navigate = useNavigate();
+
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const screen = useRef();
@@ -28,6 +30,9 @@ function NavBar({ items, mobileItems }) {
       setLastScrollY(window.scrollY);
     }
   };
+  useEffect(() => {
+    setDrawerOpen(false);
+  }, [Navigate]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -81,6 +86,7 @@ function NavBar({ items, mobileItems }) {
         drawerOpen={drawerOpen}
         show={show}
         setDrawerOpen={setDrawerOpen}
+        handleLogout={handleLogout}
       />
       <div className="relative w-full  px-6 text-start transition-colors duration-200 sm:border-0 lg:min-w-[250px]">
         <div
@@ -139,6 +145,7 @@ function NavBar({ items, mobileItems }) {
               backGroundColorDark="blue"
               labelColor="white"
               labelColorDark="white"
+              borderColor="none"
               hight="h-[53px]"
             />
           </div>
@@ -187,7 +194,7 @@ function NavBar({ items, mobileItems }) {
               </span>
               <div className="absolute bottom-0 left-0 top-0 z-50 hidden h-full w-full bg-transparent group-focus-within:flex dark:text-white  ">
                 <div className="absolute bottom-14 left-0 flex w-64 items-center justify-start rounded-2xl py-4 dark:bg-pure-black dark:shadow-[rgba(100,100,100,1)_0px_0.5px_4px]">
-                  <div className="flex flex-1 justify-start px-3  hover:bg-hover-layout">
+                  <div className="hover:bg-light-hover-layout flex flex-1 justify-start px-3  hover:dark:bg-hover-layout">
                     <div
                       role="button"
                       tabIndex={-6}

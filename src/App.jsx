@@ -12,39 +12,39 @@ import Spinner from './components/Spinner';
 import SignUpForm from './components/sign-up/SignUpForm';
 import FollowerList from './components/userComponents/FollowerList';
 import FollowingList from './components/userComponents/FollowingList';
-
+import { v4 as uuid4 } from 'uuid';
 function App() {
   const { dispatch } = useAuth();
-  // const [isLoading, setIsLoading] = useState(true);
-  // React.useEffect(() => {
-  //   const refresh = async () => {
-  //     try {
-  //       setIsLoading(true);
-  //       const res = await fetch(
-  //         `http://${import.meta.env.VITE_API_DOMAIN}auth/me`,
-  //         {
-  //           origin: true,
-  //           credentials: 'include',
-  //           withCredentials: true,
-  //           method: 'GET',
-  //           headers: {
-  //             'Content-Type': 'application/json',
-  //           },
-  //         },
-  //       );
-  //       const data = await res.json();
-  //       if (data.status === false) throw new Error(data.message);
-  //       dispatch({ type: 'LOGIN', payload: data.data.user });
-  //     } catch (err) {
-  //       dispatch({ type: 'LOGOUT' });
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-  //   refresh();
-  // }, [dispatch]);
+  const [isLoading, setIsLoading] = useState(true);
+  React.useEffect(() => {
+    const refresh = async () => {
+      try {
+        setIsLoading(true);
+        const res = await fetch(
+          `http://${import.meta.env.VITE_API_DOMAIN}auth/me`,
+          {
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+        const data = await res.json();
+        if (data.status === false) throw new Error(data.message);
+        dispatch({ type: 'LOGIN', payload: data.data.user });
+      } catch (err) {
+        dispatch({ type: 'LOGOUT' });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    refresh();
+  }, [dispatch]);
 
-  return false ? (
+  return isLoading ? (
     <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex h-screen w-full items-center justify-center dark:bg-pure-black md:bg-border-gray">
       <Spinner />
     </div>
@@ -88,9 +88,9 @@ function App() {
           <Route
             path="/app"
             element={
-              // <ProtectedRoute>
-              <AppLayout />
-              // </ProtectedRoute>
+              <ProtectedRoute>
+                <AppLayout />
+              </ProtectedRoute>
             }
           >
             <Route
@@ -102,8 +102,8 @@ function App() {
               element={
                 <h1 className="min-h-full  border-border-gray dark:text-white sm:border-x-[1px]">
                   <div className="flex h-full flex-col items-start justify-center">
-                    {Array.from({ length: 100 }, (i, _i) => 1).map(() => (
-                      <span>Home</span>
+                    {Array.from({ length: 100 }, () => 1).map(() => (
+                      <span key={uuid4()}>Home</span>
                     ))}
                   </div>
                 </h1>
