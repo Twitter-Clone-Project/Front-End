@@ -36,7 +36,7 @@ function FloatingHeader({ drawerOpen, show, setDrawerOpen, handleLogout }) {
       transition-all duration-[600ms] dark:bg-pure-black dark:bg-opacity-75 
       dark:text-white sm:hidden`}
     >
-      <div className="absolute left-0 top-0 flex items-center justify-center p-2 hover:cursor-pointer hover:rounded-full hover:bg-hover-layout">
+      <div className="hover:bg-light-hover-layout absolute left-0 top-0 flex items-center justify-center p-2 hover:cursor-pointer hover:rounded-full hover:dark:bg-hover-layout">
         <button
           onClick={() => setDrawerOpen(true)}
           type="submit"
@@ -83,7 +83,7 @@ function FloatingHeader({ drawerOpen, show, setDrawerOpen, handleLogout }) {
           }}
         />{' '}
       </div>
-      <div className="mx-auto p-3 hover:cursor-pointer hover:rounded-full hover:bg-hover-layout sm:hidden">
+      <div className="hover:bg-light-hover-layout mx-auto p-3 hover:cursor-pointer hover:rounded-full hover:dark:bg-hover-layout sm:hidden">
         <Link to="/">
           <svg
             className="inline-block w-[1.6rem] fill-pure-black dark:fill-white"

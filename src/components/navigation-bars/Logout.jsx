@@ -6,7 +6,7 @@ function Logout({ handleLogout }) {
     <button
       type="button"
       onClick={handleLogout}
-      className="my-6 flex content-start items-start justify-between p-3 hover:cursor-pointer hover:rounded-full hover:bg-hover-layout"
+      className="hover:bg-light-hover-layout my-6 flex content-start items-start justify-between p-3 hover:cursor-pointer hover:rounded-full  hover:dark:bg-hover-layout"
     >
       <div className="flex flex-1 items-center justify-start font-semibold hover:no-underline">
         <div className="relative">

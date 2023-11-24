@@ -97,7 +97,7 @@ function NavBar({ items, mobileItems }) {
           sm:items-start sm:justify-between sm:gap-1 sm:border-0 lg:left-auto
           ${!show ? 'opacity-30 sm:opacity-100' : ''}`}
         >
-          <div className="mb-4 hidden p-3 hover:cursor-pointer hover:rounded-full hover:bg-hover-layout sm:flex">
+          <div className="hover:bg-light-hover-layout mb-4 hidden p-3 hover:cursor-pointer hover:rounded-full hover:dark:bg-hover-layout sm:flex">
             <Link to="/">
               <svg
                 className="inline-block w-[1.9rem] fill-pure-black dark:fill-white"
@@ -167,7 +167,7 @@ function NavBar({ items, mobileItems }) {
               </svg>
             </button>
           </div>
-          <div className="absolute bottom-24 right-0 my-6 hidden w-full content-start items-start justify-between justify-self-end p-2 hover:cursor-pointer hover:rounded-full hover:bg-hover-layout sm:relative sm:bottom-0 sm:right-0 sm:flex">
+          <div className="hover:bg-light-hover-layout absolute bottom-24 right-0 my-6 hidden w-full content-start items-start justify-between justify-self-end p-2 hover:cursor-pointer hover:rounded-full hover:dark:bg-hover-layout sm:relative sm:bottom-0 sm:right-0 sm:flex">
             <button
               type="submit"
               className="group relative flex flex-1 items-center justify-between font-semibold"
@@ -192,8 +192,8 @@ function NavBar({ items, mobileItems }) {
               <span className="hidden items-center justify-center px-2 text-xs font-medium tracking-wider dark:text-white lg:flex">
                 &bull;&bull;&bull;
               </span>
-              <div className="absolute bottom-0 left-0 top-0 z-50 hidden h-full w-full bg-transparent group-focus-within:flex dark:text-white  ">
-                <div className="absolute bottom-14 left-0 flex w-64 items-center justify-start rounded-2xl py-4 dark:bg-pure-black dark:shadow-[rgba(100,100,100,1)_0px_0.5px_4px]">
+              <div className="absolute bottom-0 left-0 top-0 z-50 hidden h-full w-full group-focus-within:flex dark:text-white  ">
+                <div className="absolute bottom-14 left-0 flex w-64 items-center justify-start rounded-2xl bg-white py-4 shadow-[rgba(100,100,100,0.5)_0px_0.5px_4px] dark:bg-pure-black dark:shadow-[rgba(100,100,100,0.7)_0px_0.5px_4px]">
                   <div className="hover:bg-light-hover-layout flex flex-1 justify-start px-3  hover:dark:bg-hover-layout">
                     <div
                       role="button"
@@ -208,7 +208,7 @@ function NavBar({ items, mobileItems }) {
                   <div className="">
                     <svg
                       viewBox="0 0 24 24"
-                      className="absolute -bottom-3 left-5 h-5 w-5 rotate-180 drop-shadow-[rgb(51,54,57)_1px_-1px_1px] lg:left-1/2 lg:-translate-x-1/2 "
+                      className="absolute -bottom-3 left-5 h-5 w-5 rotate-180 drop-shadow-[rgba(150,150,150,0.1)_1px_-1px_1px] dark:drop-shadow-[rgba(100,100,100,0.5)_1px_-1px_1px] lg:left-1/2 lg:-translate-x-1/2 "
                     >
                       <g>
                         <path
