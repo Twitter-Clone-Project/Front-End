@@ -391,10 +391,11 @@ function SignUpForm({ test }) {
                 <div className="mx-auto mt-3 flex w-full flex-col">
                   <Button
                     onClick={() => (test ? handleSignUp() : setNext(true))}
-                    backGroundColor="white"
-                    borderColor="gray"
+                    backGroundColor="black"
+                    backGroundColorDark="white"
+                    labelColor="white"
+                    labelColorDark="black"
                     disabled={totalError}
-                    labelColor="black"
                     label="Next"
                     path=""
                   />

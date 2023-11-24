@@ -128,10 +128,9 @@ function NewPassword({ email, user }) {
 
               <div className="mb-4 flex w-full flex-col">
                 <Button
+                  label="Change password"
                   backGroundColor="black"
                   backGroundColorDark="white"
-                  label="Change password"
-                  borderColor="black"
                   labelColor="white"
                   labelColorDark="black"
                   disabled={

@@ -36,7 +36,7 @@ function NavBar({ items }) {
   return (
     <div className="flex h-screen w-full items-start  justify-center px-3 dark:bg-pure-black">
       <div className="relative flex h-full flex-1 flex-col items-start justify-between gap-1 text-start lg:min-w-[225px]">
-        <div className="mb-4 p-3 hover:cursor-pointer hover:rounded-full hover:bg-hover-layout">
+        <div className="hover:bg-hover-layout mb-4 p-3 hover:cursor-pointer hover:rounded-full">
           <Link to="/">
             <svg
               className="inline-block w-[1.9rem] fill-pure-black dark:fill-white"
@@ -71,6 +71,7 @@ function NavBar({ items }) {
             backGroundColorDark="blue"
             labelColor="white"
             labelColorDark="white"
+            borderColor="none"
             hight="h-[53px]"
           />
         </div>
@@ -92,7 +93,7 @@ function NavBar({ items }) {
             </svg>
           </button>
         </div>
-        <div className="my-6 flex w-full content-start items-start justify-between justify-self-end p-2 hover:cursor-pointer hover:rounded-full hover:bg-hover-layout">
+        <div className="hover:bg-hover-layout my-6 flex w-full content-start items-start justify-between justify-self-end p-2 hover:cursor-pointer hover:rounded-full">
           <button
             type="submit"
             className="group relative flex flex-1 items-center justify-between font-semibold"
@@ -117,9 +118,9 @@ function NavBar({ items }) {
             <span className="hidden items-center justify-center px-2 text-xs font-medium tracking-wider dark:text-white lg:flex">
               &bull;&bull;&bull;
             </span>
-            <div className="absolute bottom-0 left-0 top-0 z-50 hidden h-full w-full bg-transparent group-focus-within:flex dark:text-white  ">
-              <div className="absolute bottom-14 left-0 flex w-64 items-center justify-start rounded-2xl py-4 dark:bg-pure-black dark:shadow-[rgba(100,100,100,1)_0px_0.5px_4px]">
-                <div className="flex flex-1 justify-start px-3  hover:bg-hover-layout">
+            <div className="bg-transparent absolute bottom-0 left-0 top-0 z-50 hidden h-full w-full group-focus-within:flex dark:text-white  ">
+              <div className="absolute bottom-14 left-0 flex w-64 items-center justify-start rounded-2xl bg-white py-4 shadow-[rgba(100,100,100,0.3)_0px_0.5px_4px] dark:bg-pure-black dark:shadow-[rgba(100,100,100,0.8)_0px_0.5px_4px]">
+                <div className="hover:dark:bg-hover-layout flex flex-1 justify-start px-3 hover:bg-x-light-gray  hover:bg-opacity-40 hover:dark:bg-opacity-100">
                   <div
                     role="button"
                     tabIndex={-6}
@@ -133,7 +134,7 @@ function NavBar({ items }) {
                 <div className="">
                   <svg
                     viewBox="0 0 24 24"
-                    className="absolute -bottom-3 left-5 h-5 w-5 rotate-180 drop-shadow-[rgb(51,54,57)_1px_-1px_1px] lg:left-1/2 lg:-translate-x-1/2 "
+                    className="absolute -bottom-3 left-5 h-5 w-5 rotate-180 drop-shadow-[rgba(100,100,100,0.5)_1px_-1px_1px] dark:shadow-[rgba(100,100,100,0.3)_0px_0.5px_4px] lg:left-1/2 lg:-translate-x-1/2 "
                   >
                     <g>
                       <path
