@@ -44,7 +44,7 @@ function ForgotPassword() {
   return (
     <div
       data-testid="forgot-password"
-      className="popup-screen inset-0 flex h-screen w-full items-center justify-center overflow-auto md:bg-border-gray "
+      className="popup-screen inset-0 flex h-screen w-full items-center justify-center overflow-auto md:bg-dark-gray md:bg-opacity-50 "
     >
       {isLoading && <Spinner />}
       {!isLoading && (
@@ -70,11 +70,11 @@ function ForgotPassword() {
             </div>
             <div className=" flex w-[100%] flex-col justify-start">
               <Button
-                backGroundColor="black"
-                backGroundColorDark="white"
                 label="Next"
                 disabled={emailError !== '' || !email}
                 borderColor="black"
+                backGroundColor="black"
+                backGroundColorDark="white"
                 labelColor="white"
                 labelColorDark="black"
                 onClick={handleForgotPassword}

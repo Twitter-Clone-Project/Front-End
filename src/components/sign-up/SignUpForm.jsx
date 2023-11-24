@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import toast from 'react-hot-toast';
+import validator from 'validator';
 import PropTypes from 'prop-types';
 import Button from '../form-controls/Button';
 import EmailInput from '../form-controls/emailInput';
@@ -109,10 +110,18 @@ function SignUpForm({ test }) {
       days = days.concat(index + 1);
     }
     setDayCount(days);
+    if (count !== daysOfMonth.none && dateDay > days) setDateDay('');
   };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(handleMonthYearChange, [dateMonth, dateYear]);
-
+  useEffect(() => {
+    if (!name) return;
+    if (validator.isAlpha(name))
+      if (name.length < 2)
+        setNameError('Name must contain atleast 2 character');
+      else setNameError('');
+    else setNameError('Name can only contain letters.');
+  }, [name]);
   useEffect(() => {
     if (!userName || usernameError) return;
     setUsernameLoading(true);
@@ -391,10 +400,11 @@ function SignUpForm({ test }) {
                 <div className="mx-auto mt-3 flex w-full flex-col">
                   <Button
                     onClick={() => (test ? handleSignUp() : setNext(true))}
-                    backGroundColor="white"
-                    borderColor="gray"
+                    backGroundColor="black"
+                    backGroundColorDark="white"
+                    labelColor="white"
+                    labelColorDark="black"
                     disabled={totalError}
-                    labelColor="black"
                     label="Next"
                     path=""
                   />
