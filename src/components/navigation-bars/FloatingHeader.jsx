@@ -12,7 +12,7 @@ function FloatingHeader({ drawerOpen, show, setDrawerOpen }) {
       duration-[600ms] dark:bg-pure-black dark:bg-opacity-75 dark:text-white
       sm:hidden`}
     >
-      <div className="fixed left-0 top-0 flex items-center justify-center p-2 hover:cursor-pointer hover:rounded-full hover:bg-hover-layout">
+      <div className="absolute left-0 top-0 flex items-center justify-center p-2 hover:cursor-pointer hover:rounded-full hover:bg-hover-layout">
         <button
           onClick={() => setDrawerOpen(true)}
           type="submit"
