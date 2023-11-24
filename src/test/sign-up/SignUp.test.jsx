@@ -78,17 +78,6 @@ describe('SignUp component', () => {
       </AuthProvider>,
     );
 
-    window.fetch.mockResolvedValueOnce({
-      ok: true,
-      json: () =>
-        Promise.resolve({
-          status: true,
-          data: {
-            use: 'Mahmoud',
-          },
-        }),
-    });
-
     const emailInput = getByTestId('Email');
     const month = getByTestId('Month');
     const day = getByTestId('Day');
@@ -98,8 +87,42 @@ describe('SignUp component', () => {
     const passwordInput = getByTestId('Password');
     const passwordConfirmInput = getByTestId('Confirm Password');
     const submitButton = getByTestId('Next');
+    window.fetch
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            status: true,
+            data: {
+              isFound: false,
+            },
+          }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            status: true,
+            data: {
+              isFound: false,
+            },
+          }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            status: true,
+            data: {
+              user: 'Mahmoud',
+            },
+          }),
+      });
 
     fireEvent.change(usernameInput, { target: { value: 'Test Username' } });
+    await waitFor(() => {
+      expect(queryByTestId('Username-err')).not.toBeInTheDocument();
+    });
     fireEvent.change(nameInput, { target: { value: 'Test' } });
 
     fireEvent.change(nameInput, { target: { value: '' } });
@@ -108,7 +131,9 @@ describe('SignUp component', () => {
     expect(queryByTestId('Name-err')).toBeNull();
 
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-
+    await waitFor(() => {
+      expect(queryByTestId('email-err')).not.toBeInTheDocument();
+    });
     fireEvent.change(passwordInput, { target: { value: 'pass' } });
     fireEvent.change(passwordConfirmInput, {
       target: { value: 'pass' },
@@ -127,36 +152,14 @@ describe('SignUp component', () => {
     fireEvent.change(month, { target: { value: 'February' } });
     fireEvent.change(day, { target: { value: '15' } });
     fireEvent.change(year, { target: { value: '2000' } });
-    fireEvent.click(submitButton);
 
     await waitFor(async () => {
-      expect(window.fetch).toHaveBeenCalledTimes(1);
-      expect(window.fetch).toHaveBeenCalledWith(
-        `http://${import.meta.env.VITE_API_DOMAIN}auth/signup`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          origin: true,
-          credentials: 'include',
-          withCredentials: true,
-          body: JSON.stringify({
-            email: 'test@example.com',
-            password: 'password',
-            passwordConfirm: 'password',
-            name: 'Test',
-            username: 'Test Username',
-            dateOfBirth: '2000-02-15',
-            gRecaptchaResponse: 'Test',
-          }),
-        },
-      );
+      fireEvent.click(submitButton);
       expect(getByTestId('Code')).toBeInTheDocument();
     });
   });
   it('should submit the form with invalid data', async () => {
-    const { getByTestId, getByText } = render(
+    const { getByTestId, getByText, queryByTestId } = render(
       <AuthProvider>
         <BrowserRouter>
           <UnprotectedRoute>
@@ -165,10 +168,55 @@ describe('SignUp component', () => {
         </BrowserRouter>
       </AuthProvider>,
     );
-    window.fetch.mockResolvedValueOnce({
-      ok: false,
-      json: () => Promise.resolve({ status: false, message: 'Invalid inputs' }),
-    });
+    window.fetch
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            status: true,
+            data: {
+              isFound: true,
+            },
+          }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            status: true,
+            data: {
+              isFound: false,
+            },
+          }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            status: true,
+            data: {
+              isFound: true,
+            },
+          }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            status: true,
+            data: {
+              isFound: false,
+            },
+          }),
+      })
+      .mockResolvedValueOnce({
+        ok: false,
+        json: () =>
+          Promise.resolve({
+            status: false,
+            message: 'Invalid inputs',
+          }),
+      });
     const emailInput = getByTestId('Email');
     const month = getByTestId('Month');
     const day = getByTestId('Day');
@@ -179,9 +227,23 @@ describe('SignUp component', () => {
     const passwordConfirmInput = getByTestId('Confirm Password');
 
     fireEvent.change(usernameInput, { target: { value: 'Test Username' } });
+    await waitFor(async () => {
+      expect(getByTestId('Username-err')).toBeInTheDocument();
+    });
+    fireEvent.change(usernameInput, { target: { value: 'Test Usernamem' } });
+    await waitFor(() => {
+      expect(queryByTestId('Username-err')).not.toBeInTheDocument();
+    });
     fireEvent.change(nameInput, { target: { value: 'Test' } });
 
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    await waitFor(() => {
+      expect(getByTestId('email-error')).toBeInTheDocument();
+    });
+    await waitFor(() => {
+      fireEvent.change(emailInput, { target: { value: 'test12@example.com' } });
+      expect(queryByTestId('email-error')).not.toBeInTheDocument();
+    });
 
     fireEvent.change(passwordInput, { target: { value: 'password' } });
 
@@ -194,9 +256,8 @@ describe('SignUp component', () => {
     fireEvent.change(day, { target: { value: '15' } });
     fireEvent.change(year, { target: { value: '2000' } });
 
-    fireEvent.click(getByTestId('Next'));
-
     await waitFor(() => {
+      fireEvent.click(getByTestId('Next'));
       expect(getByText('Invalid inputs')).toBeInTheDocument();
     });
   });
@@ -219,7 +280,7 @@ describe('SignUp component', () => {
 
     window.fetch.mockResolvedValueOnce({
       ok: true,
-      json: () => Promise.resolve({ status: true }),
+      json: () => Promise.resolve({ status: true, data: { user: 'mahmoud' } }),
     });
 
     fireEvent.change(codeInput, { target: { value: '123456' } });

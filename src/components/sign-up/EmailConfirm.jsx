@@ -9,9 +9,10 @@ import OwnToaster from '../OwnToaster';
 import NewPassword from '../login-page/NewPassword';
 import { useAuth } from '../../hooks/AuthContext';
 
-function EmailConfirm({ email, type = 'reset', user = null }) {
+function EmailConfirm({ email, type = 'reset' }) {
   const [code, setCode] = useState('');
   const [err, setError] = useState('');
+  const [resetUser, setResetUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
   const { dispatch } = useAuth();
@@ -57,9 +58,10 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
 
       const data = await res.json();
       if (data.status === false) throw new Error(data.message);
-
-      if (type === 'reset') setResetPasswordOpen(true);
-      else dispatch({ type: 'LOGIN', payload: user });
+      if (type === 'reset') {
+        setResetUser(data.data.user);
+        setResetPasswordOpen(true);
+      } else dispatch({ type: 'LOGIN', payload: data.data.user });
     } catch (error) {
       toast(error.message);
     } finally {
@@ -67,23 +69,29 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
     }
   };
 
-  if (resetPasswordOpen) return <NewPassword email={email} />;
+  if (resetPasswordOpen)
+    return (
+      <NewPassword
+        email={email}
+        user={type === 'reset' ? resetUser : null}
+      />
+    );
 
   return (
-    <div className="confirm flex h-screen w-full items-center justify-center text-lg text-black dark:bg-border-gray dark:text-white">
+    <div className="confirm mx-auto flex min-h-full w-full flex-1 flex-col items-center justify-center text-lg text-black dark:bg-border-gray dark:text-white">
       {isLoading ? (
         <Spinner />
       ) : (
-        <BoxCard>
-          <div>
-            <p className="mt-5 text-start text-2xl font-semibold">
+        <BoxCard classes="mx-auto">
+          <div className="mx-auto mt-5 flex h-full min-w-[300px] flex-1 flex-col px-5">
+            <p className="text-start text-3xl font-semibold">
               We sent you a code
             </p>
             <span className="mb-5 py-2 text-start text-sm text-dark-gray">
               Enter it below to confirm{' '}
               <em className="font-semibold">{email || null}</em>
             </span>
-            <div className="mb-52 mt-6 flex flex-col">
+            <div className=" flex flex-col">
               <BasicInput
                 title="Code"
                 value={code}
@@ -95,23 +103,23 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
                 type="submit"
                 data-testid="resend-code"
                 onClick={handleResendCode}
-                className="mt-2 px-2 text-start text-xs"
+                className="mt-1 px-2 text-start text-xs"
               >
                 <span className="text-blue hover:underline">
                   Didn&#39;t receive email?
                 </span>
               </button>
             </div>
-          </div>
-          <div className="justify-self-end">
-            <Button
-              backGroundColor="white"
-              labelColor="black"
-              disabled={err !== '' || !code}
-              borderColor="none"
-              onClick={handleSendCode}
-              label="Next"
-            />
+            <div className="mx-auto mt-auto flex h-full w-full items-end">
+              <Button
+                backGroundColor="white"
+                labelColor="black"
+                disabled={err !== '' || !code}
+                borderColor="none"
+                onClick={handleSendCode}
+                label="Next"
+              />
+            </div>
           </div>
         </BoxCard>
       )}
@@ -122,12 +130,10 @@ function EmailConfirm({ email, type = 'reset', user = null }) {
 
 EmailConfirm.defaultProps = {
   type: 'reset',
-  user: null,
 };
 
 EmailConfirm.propTypes = {
   email: PropTypes.string.isRequired,
   type: PropTypes.string,
-  user: PropTypes.objectOf(),
 };
 export default EmailConfirm;

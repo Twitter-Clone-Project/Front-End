@@ -335,6 +335,7 @@ describe('Login component', () => {
       json: () =>
         Promise.resolve({
           status: true,
+          data:{user:'mahmod'}
         }),
     });
     const { getByTestId } = render(
