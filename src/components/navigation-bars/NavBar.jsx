@@ -2,19 +2,41 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
+import toast from 'react-hot-toast';
 import NavItem from './NavItem';
 import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
+import OwnToaster from '../OwnToaster';
 
 function NavBar({ items }) {
-  const { dispatch } = useAuth();
-  const handleLogout = () => {
-    dispatch({ type: 'LOGOUT' });
+  const { dispatch, user } = useAuth();
+  const handleLogout = async () => {
+    try {
+      const res = await fetch(
+        `http://${import.meta.env.VITE_API_DOMAIN}auth/signout`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+        },
+      );
+
+      const data = await res.json();
+      if (data.status === false || data.status === 'error')
+        throw new Error(data.message);
+      else dispatch({ type: 'LOGOUT' });
+    } catch (err) {
+      toast(err.message);
+    }
   };
   return (
     <div className="flex h-screen w-full items-start  justify-center px-3 dark:bg-pure-black">
       <div className="relative flex h-full flex-1 flex-col items-start justify-between gap-1 text-start lg:min-w-[225px]">
-        <div className="mb-4 p-3 hover:cursor-pointer hover:rounded-full hover:bg-hover-layout">
+        <div className="hover:bg-hover-layout mb-4 p-3 hover:cursor-pointer hover:rounded-full">
           <Link to="/">
             <svg
               className="inline-block w-[1.9rem] fill-pure-black dark:fill-white"
@@ -49,6 +71,7 @@ function NavBar({ items }) {
             backGroundColorDark="blue"
             labelColor="white"
             labelColorDark="white"
+            borderColor="none"
             hight="h-[53px]"
           />
         </div>
@@ -70,7 +93,7 @@ function NavBar({ items }) {
             </svg>
           </button>
         </div>
-        <div className="my-6 flex w-full content-start items-start justify-between justify-self-end p-2 hover:cursor-pointer hover:rounded-full hover:bg-hover-layout">
+        <div className="hover:bg-hover-layout my-6 flex w-full content-start items-start justify-between justify-self-end p-2 hover:cursor-pointer hover:rounded-full">
           <button
             type="submit"
             className="group relative flex flex-1 items-center justify-between font-semibold"
@@ -78,8 +101,8 @@ function NavBar({ items }) {
             <div className="flex items-center justify-center">
               <img
                 className="flex h-[40px] w-[40px] rounded-full"
-                src="https://a57.foxsports.com/statics.foxsports.com/www.foxsports.com/content/uploads/2023/06/1280/1280/084702d2-messi1.jpg?ve=1&tl=1"
-                alt="user"
+                src="https://img.icons8.com/color/48/circled-user-male-skin-type-3--v1.png"
+                alt={`${user.name.split(' ')[0]} photo}`}
               />
             </div>
             <p
@@ -87,30 +110,31 @@ function NavBar({ items }) {
                 hidden px-4 text-base font-semibold capitalize tracking-wide
               dark:text-white lg:flex lg:flex-1 lg:flex-col lg:items-start"
             >
-              Messi
+              {user.name}
               <span className="text-sm font-thin text-light-thin">
-                @leo_messi
+                @{user.username}
               </span>
             </p>
             <span className="hidden items-center justify-center px-2 text-xs font-medium tracking-wider dark:text-white lg:flex">
               &bull;&bull;&bull;
             </span>
-
-            <div className="absolute bottom-0 left-0 top-0 hidden h-full w-full bg-transparent group-focus-within:flex dark:text-white  ">
-              <div className="absolute bottom-14 left-0 flex w-64 items-center justify-start rounded-2xl py-4 dark:bg-pure-black dark:shadow-[rgba(100,100,100,1)_0px_0.5px_4px]">
-                <div className="flex flex-1 justify-start px-3  hover:bg-hover-layout">
-                  <button
+            <div className="bg-transparent absolute bottom-0 left-0 top-0 z-50 hidden h-full w-full group-focus-within:flex dark:text-white  ">
+              <div className="absolute bottom-14 left-0 flex w-64 items-center justify-start rounded-2xl bg-white py-4 shadow-[rgba(100,100,100,0.3)_0px_0.5px_4px] dark:bg-pure-black dark:shadow-[rgba(100,100,100,0.8)_0px_0.5px_4px]">
+                <div className="hover:dark:bg-hover-layout flex flex-1 justify-start px-3 hover:bg-x-light-gray  hover:bg-opacity-40 hover:dark:bg-opacity-100">
+                  <div
+                    role="button"
+                    tabIndex={-6}
                     onClick={handleLogout}
-                    type="submit"
+                    onKeyDown={handleLogout}
                     className="z-50 flex-1 p-3 text-start"
                   >
-                    Log Out @leo_messi
-                  </button>
+                    Log Out @{user.username}
+                  </div>
                 </div>
                 <div className="">
                   <svg
                     viewBox="0 0 24 24"
-                    className="absolute -bottom-3 left-5 h-5 w-5 rotate-180 drop-shadow-[rgb(51,54,57)_1px_-1px_1px] lg:left-1/2 lg:-translate-x-1/2 "
+                    className="absolute -bottom-3 left-5 h-5 w-5 rotate-180 drop-shadow-[rgba(100,100,100,0.5)_1px_-1px_1px] dark:shadow-[rgba(100,100,100,0.3)_0px_0.5px_4px] lg:left-1/2 lg:-translate-x-1/2 "
                   >
                     <g>
                       <path
@@ -125,6 +149,7 @@ function NavBar({ items }) {
           </button>
         </div>
       </div>
+      <OwnToaster />
     </div>
   );
 }

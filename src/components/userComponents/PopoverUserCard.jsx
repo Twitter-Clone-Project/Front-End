@@ -4,7 +4,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '../form-controls/Button';
 
 function PopoverUserCard({
@@ -22,12 +22,17 @@ function PopoverUserCard({
   return (
     <div className="w-[300px] cursor-auto rounded-2xl bg-white bg-opacity-100 p-4 text-black shadow shadow-light-gray dark:bg-pure-black dark:text-white">
       <div className="flex w-full flex-row justify-between">
-        <img
-          id="popoverImg"
-          src={popoverUserPicture}
-          alt=""
-          className=" h-16 w-16 rounded-full"
-        />
+        <Link
+          to={`/app/${popoverUserID}`}
+          className="hover:no-underline"
+        >
+          <img
+            id="popoverImg"
+            src={popoverUserPicture}
+            alt=""
+            className=" h-16 w-16 rounded-full"
+          />
+        </Link>
         <div
           className=" h-9 w-28"
           onMouseEnter={() => {
@@ -87,27 +92,32 @@ function PopoverUserCard({
       </div>
       <div className=" mt-2">
         <div className="flex h-[41.5px] flex-col">
-          <label
-            htmlFor="popoverImg"
-            className="cursor-pointer text-[15px] font-bold text-pure-black hover:underline dark:text-white"
+          <Link
+            to={`/app/${popoverUserID}`}
+            className="hover:no-underline"
           >
-            {popoverUserName}
-          </label>
-          <div className="flex h-5 flex-row items-center">
-            <span className=" w-min cursor-pointer text-light-thin">
-              @{popoverUserID}
-            </span>
-            {popoverIsFollowed && (
-              <div
-                className=" ml-1 h-4 items-center rounded bg-x-light-gray px-1 py-0.5 dark:bg-border-gray"
-                data-testid={`PopoverUserCard_${popoverTestID}_2`}
-              >
-                <p className=" h-3 text-[11px] leading-3 text-light-thin">
-                  Follows you
-                </p>
-              </div>
-            )}
-          </div>
+            <label
+              htmlFor="popoverImg"
+              className="cursor-pointer text-[15px] font-bold text-pure-black hover:underline dark:text-white"
+            >
+              {popoverUserName}
+            </label>
+            <div className="flex h-5 flex-row items-center">
+              <span className=" w-min cursor-pointer text-light-thin">
+                @{popoverUserID}
+              </span>
+              {popoverIsFollowed && (
+                <div
+                  className=" ml-1 h-4 items-center rounded bg-x-light-gray px-1 py-0.5 dark:bg-border-gray"
+                  data-testid={`PopoverUserCard_${popoverTestID}_2`}
+                >
+                  <p className=" h-3 text-[11px] leading-3 text-light-thin">
+                    Follows you
+                  </p>
+                </div>
+              )}
+            </div>
+          </Link>
         </div>
       </div>
       <div className=" mt-3">
@@ -117,7 +127,7 @@ function PopoverUserCard({
       </div>
       <div className="mt-3 flex flex-row">
         <div
-          onClick={() => navigate('/following')}
+          onClick={() => navigate(`/app/${popoverUserID}/following`)}
           data-testid={`PopoverUserCard_${popoverTestID}_3`}
         >
           <span className="mr-5 cursor-pointer text-pure-black hover:underline dark:text-white">
@@ -126,7 +136,7 @@ function PopoverUserCard({
           </span>
         </div>
         <div
-          onClick={() => navigate('/follower')}
+          onClick={() => navigate(`/app/${popoverUserID}/follower`)}
           data-testid={`PopoverUserCard_${popoverTestID}_4`}
         >
           <span className="mr-5  cursor-pointer text-pure-black hover:underline dark:text-white">

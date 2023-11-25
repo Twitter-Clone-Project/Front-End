@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import toast from 'react-hot-toast';
+import validator from 'validator';
 import PropTypes from 'prop-types';
 import Button from '../form-controls/Button';
 import EmailInput from '../form-controls/emailInput';
@@ -52,9 +53,7 @@ function SignUpForm({ test }) {
   const [dateMonth, setDateMonth] = useState('');
   const [dateDay, setDateDay] = useState('');
   const [dayCount, setDayCount] = useState([]);
-  const [captacha, setCapatcha] = useState(test ? 'Test' : '');
   const [next, setNext] = useState(false);
-  const [user, setUser] = useState({});
   const [emailLoading, setEmailLoading] = useState(false);
   const [usernameLoading, setUsernameLoading] = useState(false);
 
@@ -111,10 +110,18 @@ function SignUpForm({ test }) {
       days = days.concat(index + 1);
     }
     setDayCount(days);
+    if (count !== '' && dateDay > days.length) setDateDay('');
   };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(handleMonthYearChange, [dateMonth, dateYear]);
-
+  useEffect(() => {
+    if (!name) return;
+    if (validator.isAlpha(name))
+      if (name.length < 2)
+        setNameError('Name must contain atleast 2 character');
+      else setNameError('');
+    else setNameError('Name can only contain letters.');
+  }, [name]);
   useEffect(() => {
     if (!userName || usernameError) return;
     setUsernameLoading(true);
@@ -132,7 +139,6 @@ function SignUpForm({ test }) {
             },
           );
           const data = await res.json();
-          console.log(data);
           if (data.status === false) throw new Error(data.message);
           if (data.data.isFound) setUsernameError('Username is already taken');
           else
@@ -147,7 +153,7 @@ function SignUpForm({ test }) {
         }
       };
       usernameCheck();
-    }, 200);
+    }, 0);
     return () => {
       clearTimeout(timeId);
       controller.abort();
@@ -171,7 +177,6 @@ function SignUpForm({ test }) {
             },
           );
           const data = await res.json();
-          console.log(data);
           if (data.status === false) throw new Error(data.message);
           if (data.data.isFound) setEmailError('Email is already taken');
           else
@@ -186,7 +191,7 @@ function SignUpForm({ test }) {
         }
       };
       emailCheck();
-    }, 200);
+    }, 0);
     return () => {
       clearTimeout(timeId);
       controller.abort();
@@ -198,7 +203,7 @@ function SignUpForm({ test }) {
     passwordLengthCheck();
   });
 
-  const handleSignUp = async () => {
+  const handleSignUp = async (cap) => {
     try {
       setIsLoading(true);
       const info = {
@@ -212,7 +217,7 @@ function SignUpForm({ test }) {
             ? `0${getMonthFromString(dateMonth)}`
             : `${getMonthFromString(dateMonth)}`
         }-${dateDay < 10 ? `0${dateDay}` : `${dateDay}`}`,
-        gRecaptchaResponse: captacha,
+        gRecaptchaResponse: cap,
       };
       const res = await fetch(
         `http://${import.meta.env.VITE_API_DOMAIN}auth/signup`,
@@ -231,7 +236,6 @@ function SignUpForm({ test }) {
       if (data.status === false) {
         throw new Error(data.message);
       }
-      setUser(data);
       setIsCode(true);
     } catch (err) {
       toast(err.message);
@@ -245,7 +249,6 @@ function SignUpForm({ test }) {
       <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
         <EmailConfirm
           email={email}
-          data={user}
           type="signup"
         />
       </div>
@@ -263,9 +266,8 @@ function SignUpForm({ test }) {
                   sitekey="6LeousYoAAAAACH0uCm7e4NKQkOWgrZWxmPPCMBZ"
                   data-testid="google-recaptcha"
                   onChange={(val) => {
-                    setCapatcha(val);
                     setNext(false);
-                    handleSignUp();
+                    handleSignUp(val);
                   }}
                 />
               </div>
@@ -398,10 +400,11 @@ function SignUpForm({ test }) {
                 <div className="mx-auto mt-3 flex w-full flex-col">
                   <Button
                     onClick={() => (test ? handleSignUp() : setNext(true))}
-                    backGroundColor="white"
-                    borderColor="gray"
+                    backGroundColor="black"
+                    backGroundColorDark="white"
+                    labelColor="white"
+                    labelColorDark="black"
                     disabled={totalError}
-                    labelColor="black"
                     label="Next"
                     path=""
                   />

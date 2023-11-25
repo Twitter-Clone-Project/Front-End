@@ -9,8 +9,8 @@ function BoxCard({ children, classes, onClose }) {
       data-testid="box-card"
       className={`relative mx-auto flex h-full w-full flex-col 
       justify-between overflow-auto
-      border-[1px] border-light-gray py-8 text-lg text-black dark:border-none 
-      dark:bg-pure-black dark:text-white 
+      border-[1px] border-light-gray bg-white py-8 text-lg text-black 
+      dark:border-none dark:bg-pure-black dark:text-white
       md:h-auto md:min-h-[650px] md:w-[615px] md:rounded-2xl ${classes}`}
     >
       <div className="absolute left-0 top-0 flex h-[53px] w-full min-w-[300px] items-center">

@@ -6,7 +6,7 @@ function NavItem({ label, outlinedIcon, filledIcon, path }) {
   // eslint-disable-next-line no-unused-vars
   const [count, setCount] = useState(3);
   return (
-    <div className="flex content-start items-start justify-between p-3 hover:cursor-pointer hover:rounded-full hover:bg-hover-layout">
+    <div className="hover:bg-hover-layout flex content-start items-start justify-between p-3 hover:cursor-pointer hover:rounded-full">
       <NavLink
         onClick={() => setCount(0)}
         to={path}
@@ -46,7 +46,7 @@ function NavItem({ label, outlinedIcon, filledIcon, path }) {
         <p
           className={`${
             label ? 'px-4' : ''
-          } hidden text-xl capitalize tracking-wide
+          } hidden text-xl capitalize tracking-wide text-pure-black
           dark:text-white lg:flex`}
         >
           {label}

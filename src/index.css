@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@media (prefers-color-scheme: dark) {
+  body,root {
+    background-color: theme(colors.pure-black);
+  }
+}
 *,
 *:before,
 *:after {
@@ -55,4 +60,7 @@ a.list-nav-active span:after {
 }
 .outlined .filled {
   display: none;
+}
+::-ms-reveal {
+  display: none !important;
 }
