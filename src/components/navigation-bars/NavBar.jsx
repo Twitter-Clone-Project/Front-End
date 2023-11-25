@@ -3,15 +3,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
-import toast from 'react-hot-toast';
 import NavItem from './NavItem';
 import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
-import OwnToaster from '../OwnToaster';
 import FloatingHeader from './FloatingHeader';
 
 function NavBar({ items, mobileItems }) {
-  const { dispatch, user } = useAuth();
+  const { user } = useAuth();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const Navigate = useNavigate();
 
@@ -45,28 +43,8 @@ function NavBar({ items, mobileItems }) {
     }
   }, [lastScrollY]);
 
-  const handleLogout = async () => {
-    try {
-      const res = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}auth/signout`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          origin: true,
-          credentials: 'include',
-          withCredentials: true,
-        },
-      );
-
-      const data = await res.json();
-      if (data.status === false || data.status === 'error')
-        throw new Error(data.message);
-      else dispatch({ type: 'LOGOUT' });
-    } catch (err) {
-      toast(err.message);
-    }
+  const handleLogout = () => {
+    Navigate('/logout');
   };
   useEffect(() => {
     const handler = (e) => {
@@ -98,7 +76,7 @@ function NavBar({ items, mobileItems }) {
           sm:items-start sm:justify-between sm:gap-1 sm:border-0 lg:left-auto
           ${!show ? 'opacity-30 sm:opacity-100' : ''}`}
         >
-          <div className="mb-4 hidden p-3 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:flex">
+          <div className="hover:bg-light-hover-layout mb-4 hidden p-3 hover:cursor-pointer hover:rounded-full hover:dark:bg-hover-layout sm:flex">
             <Link to="/">
               <svg
                 className="inline-block w-[1.9rem] fill-pure-black dark:fill-white"
@@ -170,7 +148,7 @@ function NavBar({ items, mobileItems }) {
               </svg>
             </button>
           </div>
-          <div className="absolute bottom-24 right-0 my-6 hidden w-full content-start items-start justify-between justify-self-end p-2 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:relative sm:bottom-0 sm:right-0 sm:flex">
+          <div className="hover:bg-light-hover-layout absolute bottom-24 right-0 my-6 hidden w-full content-start items-start justify-between justify-self-end p-2 hover:cursor-pointer hover:rounded-full hover:dark:bg-hover-layout sm:relative sm:bottom-0 sm:right-0 sm:flex">
             <button
               type="submit"
               data-testid="user-btn"
@@ -198,7 +176,7 @@ function NavBar({ items, mobileItems }) {
               </span>
               <div className="absolute bottom-0 left-0 top-0 z-50 hidden h-full w-full group-focus-within:flex dark:text-white  ">
                 <div className="absolute bottom-14 left-0 flex w-64 items-center justify-start rounded-2xl bg-white py-4 shadow-[rgba(100,100,100,0.5)_0px_0.5px_4px] dark:bg-pure-black dark:shadow-[rgba(100,100,100,0.7)_0px_0.5px_4px]">
-                  <div className="flex flex-1 justify-start px-3 hover:bg-light-hover-layout  hover:dark:bg-hover-layout">
+                  <div className="hover:bg-light-hover-layout flex flex-1 justify-start px-3  hover:dark:bg-hover-layout">
                     <div
                       role="button"
                       data-testid="logout-btn"
@@ -229,7 +207,6 @@ function NavBar({ items, mobileItems }) {
           </div>
         </div>
       </div>
-      <OwnToaster />
     </div>
   );
 }
