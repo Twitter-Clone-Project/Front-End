@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import Media from './Media';
+import AddEmoji from './AddEmoji';
 
 function AddPost() {
   const [files, setFiles] = useState([]);
   const [text, setText] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
-  function handleChange(e) {
+
+  const handleChange = (e) => {
     const fileList = Array.from(e.target.files);
+    console.log(fileList);
     if (fileList.length > 4) setFiles([]);
     else {
       const fileURLs = fileList.map((file) => URL.createObjectURL(file));
       setFiles(fileURLs);
     }
-  }
+  };
 
   useEffect(() => {
     if (files.length === 0 && text === '') setIsDisabled(true);
     else setIsDisabled(false);
-    console.log(isDisabled);
   }, [files, text]);
   return (
     <div className="tweet mt-[0.5px] flex w-[88%] flex-row   bg-white px-[16px] pt-[12px] dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
@@ -36,6 +38,7 @@ function AddPost() {
           placeholder="What is happening?!"
           className="h-auto min-h-[70px] w-full resize-none  py-1 text-[20px] text-black outline-none placeholder:font-thin placeholder:text-light-thin"
           rows={1}
+          value={text}
           onInput={(e) => {
             e.target.style.height = 'auto';
             e.target.style.height = `${e.target.scrollHeight}px`;
@@ -64,25 +67,16 @@ function AddPost() {
           </label>
           <input
             type="file"
+            accept="image/*"
             id="mediaUpload"
             className="hidden"
             onChange={handleChange}
             multiple
           />
-          <button
-            type="submit"
-            className="flex flex-col justify-start"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              className="h-[18.75px] w-[18.75px] "
-            >
-              <path
-                d="M8 9.5C8 8.119 8.672 7 9.5 7S11 8.119 11 9.5 10.328 12 9.5 12 8 10.881 8 9.5zm6.5 2.5c.828 0 1.5-1.119 1.5-2.5S15.328 7 14.5 7 13 8.119 13 9.5s.672 2.5 1.5 2.5zM12 16c-2.224 0-3.021-2.227-3.051-2.316l-1.897.633c.05.15 1.271 3.684 4.949 3.684s4.898-3.533 4.949-3.684l-1.896-.638c-.033.095-.83 2.322-3.053 2.322zm10.25-4.001c0 5.652-4.598 10.25-10.25 10.25S1.75 17.652 1.75 12 6.348 1.75 12 1.75 22.25 6.348 22.25 12zm-2 0c0-4.549-3.701-8.25-8.25-8.25S3.75 7.451 3.75 12s3.701 8.25 8.25 8.25 8.25-3.701 8.25-8.25z"
-                className=" fill-blue"
-              />
-            </svg>
-          </button>
+          <AddEmoji
+            text={text}
+            setText={setText}
+          />
           <button
             type="submit"
             id="post"
