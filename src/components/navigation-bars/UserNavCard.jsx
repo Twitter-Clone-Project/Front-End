@@ -14,7 +14,7 @@ function UserNavCard() {
     following: 10,
   };
   return (
-    <div className="w-[300px] cursor-auto bg-white bg-opacity-100 p-4 text-black dark:bg-pure-black dark:text-white">
+    <div className="cursor-auto bg-white bg-opacity-100 p-4 text-black dark:bg-pure-black dark:text-white">
       <div className="flex w-full flex-row justify-between">
         <Link
           to={`/app/${username}`}
@@ -27,7 +27,6 @@ function UserNavCard() {
             className=" h-12 w-12 rounded-full"
           />
         </Link>
-        <div className=" h-9 w-28" />
       </div>
       <div className=" mt-2">
         <div className="flex h-[41.5px] flex-col">
@@ -50,14 +49,14 @@ function UserNavCard() {
         </div>
       </div>
 
-      <div className="mt-3 flex flex-row">
+      <div className="mt-3 flex flex-row flex-wrap text-sm">
         <div
           role="button"
           tabIndex={-6}
           onKeyDown={() => navigate(`/app/${username}/following`)}
           onClick={() => navigate(`/app/${username}/following`)}
         >
-          <span className="mr-5 cursor-pointer text-pure-black hover:underline dark:text-white">
+          <span className="mr-2 cursor-pointer text-pure-black hover:underline dark:text-white">
             {following}
             <span className="text-light-thin"> Following</span>
           </span>

@@ -90,7 +90,7 @@ function NavBar({ items, mobileItems }) {
       />
       <div className="relative w-full  px-6 text-start transition-colors duration-200 sm:border-0 lg:min-w-[250px]">
         <div
-          className={`fixed bottom-0 left-0 flex w-full items-end 
+          className={`fixed bottom-0 left-0 z-10 flex w-full items-end 
           justify-between border-t-[0.5px] border-border-gray
           bg-white dark:bg-pure-black sm:left-6 sm:mx-2
           sm:mt-0 sm:h-full sm:w-auto sm:flex-1 sm:flex-col
