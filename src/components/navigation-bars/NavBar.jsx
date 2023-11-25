@@ -80,6 +80,7 @@ function NavBar({ items, mobileItems }) {
   return (
     <div
       ref={screen}
+      data-testid="nav-bar"
       className="flex w-0 items-start justify-center dark:bg-pure-black sm:mt-auto sm:h-full  sm:w-full"
     >
       <FloatingHeader
@@ -97,7 +98,7 @@ function NavBar({ items, mobileItems }) {
           sm:items-start sm:justify-between sm:gap-1 sm:border-0 lg:left-auto
           ${!show ? 'opacity-30 sm:opacity-100' : ''}`}
         >
-          <div className="hover:bg-light-hover-layout mb-4 hidden p-3 hover:cursor-pointer hover:rounded-full hover:dark:bg-hover-layout sm:flex">
+          <div className="mb-4 hidden p-3 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:flex">
             <Link to="/">
               <svg
                 className="inline-block w-[1.9rem] fill-pure-black dark:fill-white"
@@ -120,6 +121,7 @@ function NavBar({ items, mobileItems }) {
             {items.map((item) => (
               <NavItem
                 key={uuid4()}
+                data-testid={item.label}
                 outlinedIcon={item.outlinedIcon}
                 filledIcon={item.filledIcon}
                 label={item.label}
@@ -132,6 +134,7 @@ function NavBar({ items, mobileItems }) {
               <NavItem
                 key={uuid4()}
                 outlinedIcon={item.outlinedIcon}
+                data-testid={item.label}
                 filledIcon={item.filledIcon}
                 label={item.label}
                 path={item.path}
@@ -167,9 +170,10 @@ function NavBar({ items, mobileItems }) {
               </svg>
             </button>
           </div>
-          <div className="hover:bg-light-hover-layout absolute bottom-24 right-0 my-6 hidden w-full content-start items-start justify-between justify-self-end p-2 hover:cursor-pointer hover:rounded-full hover:dark:bg-hover-layout sm:relative sm:bottom-0 sm:right-0 sm:flex">
+          <div className="absolute bottom-24 right-0 my-6 hidden w-full content-start items-start justify-between justify-self-end p-2 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:relative sm:bottom-0 sm:right-0 sm:flex">
             <button
               type="submit"
+              data-testid="user-btn"
               className="group relative flex flex-1 items-center justify-between font-semibold"
             >
               <div className="flex items-center justify-center">
@@ -194,9 +198,10 @@ function NavBar({ items, mobileItems }) {
               </span>
               <div className="absolute bottom-0 left-0 top-0 z-50 hidden h-full w-full group-focus-within:flex dark:text-white  ">
                 <div className="absolute bottom-14 left-0 flex w-64 items-center justify-start rounded-2xl bg-white py-4 shadow-[rgba(100,100,100,0.5)_0px_0.5px_4px] dark:bg-pure-black dark:shadow-[rgba(100,100,100,0.7)_0px_0.5px_4px]">
-                  <div className="hover:bg-light-hover-layout flex flex-1 justify-start px-3  hover:dark:bg-hover-layout">
+                  <div className="flex flex-1 justify-start px-3 hover:bg-light-hover-layout  hover:dark:bg-hover-layout">
                     <div
                       role="button"
+                      data-testid="logout-btn"
                       tabIndex={-6}
                       onClick={handleLogout}
                       onKeyDown={handleLogout}
