@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 function Logout({ handleLogout }) {
   return (
     <button
+      data-testid="darwer-logout-btn"
       type="button"
       onClick={handleLogout}
       className="hover:bg-light-hover-layout my-6 flex content-start items-start justify-between p-3 hover:cursor-pointer hover:rounded-full  hover:dark:bg-hover-layout"

@@ -4,12 +4,13 @@ import { NavLink } from 'react-router-dom';
 
 function NavItem({ label, outlinedIcon, filledIcon, path, hidden = true }) {
   // eslint-disable-next-line no-unused-vars
-  const [count, setCount] = useState(3);
+  // const [count, setCount] = useState(3);
   return (
     <div className="hover:bg-light-hover-layout flex content-start items-start justify-between p-3 hover:cursor-pointer hover:rounded-full  hover:dark:bg-hover-layout">
       <NavLink
-        onClick={() => setCount(0)}
+        // onClick={() => setCount(0)}
         to={path}
+        data-testid={label}
         className={({ isActive }) =>
           isActive
             ? 'filled flex flex-1 items-center justify-start font-semibold hover:no-underline'
@@ -36,12 +37,12 @@ function NavItem({ label, outlinedIcon, filledIcon, path, hidden = true }) {
               </path>
             </g>
           </svg>
-          {(label === 'Notifications' || label === 'Messages') &&
+          {/* {(label === 'Notifications' || label === 'Messages') &&
             count !== 0 && (
               <span className="absolute right-[-5px] top-[-7px] flex h-5 w-5 items-center justify-center rounded-full bg-blue text-center text-xs font-semibold text-white">
                 {count}
               </span>
-            )}
+            )} */}
         </div>
         <p
           // eslint-disable-next-line no-nested-ternary

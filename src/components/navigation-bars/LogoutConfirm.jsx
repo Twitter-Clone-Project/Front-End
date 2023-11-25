@@ -33,7 +33,10 @@ function LogoutConfirm() {
     }
   };
   return (
-    <div className="flex h-screen w-full items-center justify-center overflow-auto bg-dark-gray bg-opacity-50">
+    <div
+      data-testid="logout-confimr-btn"
+      className="flex h-screen w-full items-center justify-center overflow-auto bg-dark-gray bg-opacity-50"
+    >
       <div
         className="relative mx-auto flex h-[356px] w-[320px] flex-col 
       justify-between overflow-auto rounded-2xl

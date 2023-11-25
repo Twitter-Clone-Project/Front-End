@@ -53,6 +53,7 @@ function UserNavCard() {
         <div
           role="button"
           tabIndex={-6}
+          data-testid="following-btn"
           onKeyDown={() => navigate(`/app/${username}/following`)}
           onClick={() => navigate(`/app/${username}/following`)}
         >
@@ -63,6 +64,7 @@ function UserNavCard() {
         </div>
         <div
           role="button"
+          data-testid="followers-btn"
           tabIndex={-6}
           onKeyDown={() => navigate(`/app/${username}/follower`)}
           onClick={() => navigate(`/app/${username}/follower`)}
