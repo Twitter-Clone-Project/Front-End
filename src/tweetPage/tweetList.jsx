@@ -23,8 +23,8 @@ function tweetList() {
         },
         user: {
           userId: '123456',
-          userName: 'Jane Smith',
-          screenName: 'janesmith',
+          userName: 'Jane_Smith',
+          screenName: 'jane smith',
           profileImageURL:
             'https://images.pexels.com/photos/18758948/pexels-photo-18758948/free-photo-of-head-of-black-poodle.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
         },
@@ -44,14 +44,14 @@ function tweetList() {
         ],
         retweetedUser: {
           userId: '67890',
-          userName: 'John Doe2',
-          screenName: 'johndoe2',
+          userName: 'John_Doe2',
+          screenName: 'john doe2',
           profileImageURL: 'https://example.com/profile-image.jpg',
         },
         user: {
           userId: '123457',
-          userName: 'Jane Smith',
-          screenName: 'janesmith',
+          userName: 'Jane_Smith',
+          screenName: 'jane smith',
           profileImageURL:
             'https://images.pexels.com/photos/17978168/pexels-photo-17978168/free-photo-of-close-up-of-labrador-retriever.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
         },

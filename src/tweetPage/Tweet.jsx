@@ -59,11 +59,11 @@ function Tweet({ data }) {
           <div className="name  text-[15px] font-bold">
             {data.user.screenName}
           </div>
-          <div className="userName  text-[15px] text-dark-gray">
+          <div className="userName  overflow-hidden text-[15px] text-dark-gray">
             {' '}
             &ensp;@ <span>{data.user.userName}</span>
           </div>
-          <div className="date text-[15px] text-dark-gray">
+          <div className="date overflow-hidden text-[15px] text-dark-gray">
             {' '}
             &ensp;.&ensp;<span>{data.createdAt}</span>
           </div>
