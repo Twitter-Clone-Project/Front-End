@@ -2,7 +2,11 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        xs: '350px',
+      },
+    },
     colors: {
       'pure-black': '#000',
       blue: '#1DA1F2',
@@ -13,12 +17,12 @@ export default {
       'light-gray': '#AAB8C2',
       'x-light-gray': '#E1E8ED',
       'xx-light-gray': '#F5F8FA',
-      "dark-layout": "#292e33",
+      'dark-layout': '#292e33',
       'border-gray': '#2f3336',
       'light-thin': '#71767b',
       'hover-layout': '#e7e9ea1a',
-      warning: '#F4212E',,
-      "transparent": "#00000000",
+      warning: '#F4212E',
+      transparent: '#00000000',
     },
     fontFamily: {
       sans: ['roboto', 'Helvetica', 'Arial'],

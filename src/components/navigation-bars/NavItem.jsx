@@ -1,22 +1,23 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-function NavItem({ label, outlinedIcon, filledIcon, path }) {
+function NavItem({ label, outlinedIcon, filledIcon, path, hidden = true }) {
   // eslint-disable-next-line no-unused-vars
-  const [count, setCount] = useState(3);
+  // const [count, setCount] = useState(3);
   return (
-    <div className="flex content-start items-start justify-between p-3 hover:cursor-pointer hover:rounded-full hover:bg-hover-layout">
+    <div className="flex content-start items-start justify-between p-3 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout  hover:dark:bg-hover-layout">
       <NavLink
-        onClick={() => setCount(0)}
+        // onClick={() => setCount(0)}
         to={path}
+        data-testid={label}
         className={({ isActive }) =>
           isActive
-            ? 'filled flex flex-1 items-center justify-center font-semibold hover:no-underline'
-            : 'outlined flex flex-1 items-center justify-center font-medium hover:no-underline'
+            ? 'filled flex flex-1 items-center justify-start font-semibold hover:no-underline'
+            : 'outlined flex flex-1 items-center justify-start font-medium hover:no-underline'
         }
       >
-        <div className="relative flex-1">
+        <div className="relative">
           <svg
             className="inline-block w-[1.75rem]"
             viewBox="0 0 24 24"
@@ -36,17 +37,20 @@ function NavItem({ label, outlinedIcon, filledIcon, path }) {
               </path>
             </g>
           </svg>
-          {(label === 'Notifications' || label === 'Messages') &&
+          {/* {(label === 'Notifications' || label === 'Messages') &&
             count !== 0 && (
-              <span className="absolute right-[-5px] top-[-7px] flex h-5 w-5 items-center justify-center rounded-full bg-blue text-center text-xs font-semibold text-white">
+              <span className="absolute right-[-5px] top-[-7px] 
+              flex h-5 w-5 items-center justify-center rounded-full bg-blue 
+              text-center text-xs font-semibold text-white">
                 {count}
               </span>
-            )}
+            )} */}
         </div>
         <p
-          className={`${
-            label ? 'px-4' : ''
-          } hidden text-xl capitalize tracking-wide
+          // eslint-disable-next-line no-nested-ternary
+          className={`${label ? (hidden ? 'px-4' : 'px-8') : ''} ${
+            hidden ? 'hidden' : 'flex'
+          } text-xl capitalize tracking-wide text-pure-black
           dark:text-white lg:flex`}
         >
           {label}
@@ -55,12 +59,15 @@ function NavItem({ label, outlinedIcon, filledIcon, path }) {
     </div>
   );
 }
-
+NavItem.defaultProps = {
+  hidden: true,
+};
 NavItem.propTypes = {
   label: PropTypes.string.isRequired,
   outlinedIcon: PropTypes.string.isRequired,
   filledIcon: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
+  hidden: PropTypes.bool,
 };
 
 export default NavItem;

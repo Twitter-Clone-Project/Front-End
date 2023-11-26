@@ -78,7 +78,7 @@ function EmailConfirm({ email, type = 'reset' }) {
     );
 
   return (
-    <div className="confirm mx-auto flex min-h-full w-full flex-1 flex-col items-center justify-center text-lg text-black dark:bg-border-gray dark:text-white">
+    <div className="confirm mx-auto flex min-h-full w-full flex-1 flex-col items-center justify-center text-lg text-black dark:text-white md:bg-dark-gray md:bg-opacity-50">
       {isLoading ? (
         <Spinner />
       ) : (
@@ -112,8 +112,10 @@ function EmailConfirm({ email, type = 'reset' }) {
             </div>
             <div className="mx-auto mt-auto flex h-full w-full items-end">
               <Button
-                backGroundColor="white"
-                labelColor="black"
+                backGroundColor="black"
+                backGroundColorDark="white"
+                labelColor="white"
+                labelColorDark="black"
                 disabled={err !== '' || !code}
                 borderColor="none"
                 onClick={handleSendCode}
