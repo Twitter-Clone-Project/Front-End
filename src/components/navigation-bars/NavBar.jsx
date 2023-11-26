@@ -6,6 +6,7 @@ import NavItem from './NavItem';
 import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
 import FloatingHeader from './FloatingHeader';
+import UserImg from './UserImg';
 
 function NavBar() {
   const { user } = useAuth();
@@ -135,7 +136,7 @@ function NavBar() {
     <div
       ref={screen}
       data-testid="nav-bar"
-      className="flex w-0 items-start justify-center dark:bg-pure-black sm:mt-auto sm:h-full  sm:w-full"
+      className="flex w-0 items-start justify-center overflow-auto dark:bg-pure-black sm:mt-auto sm:h-full  sm:w-full"
     >
       <FloatingHeader
         drawerOpen={drawerOpen}
@@ -143,16 +144,17 @@ function NavBar() {
         setDrawerOpen={setDrawerOpen}
         handleLogout={handleLogout}
       />
-      <div className="relative w-full  px-6 text-start transition-colors duration-200 sm:border-0 lg:min-w-[250px]">
+      <div className="relative w-full overflow-auto  px-6 text-start transition-colors duration-200 sm:border-0 lg:min-w-[250px]">
         <div
-          className={`fixed bottom-0 left-0 z-10 flex w-full items-end 
-          justify-between border-t-[0.5px] border-border-gray
+          className={`fixed bottom-0 left-0 z-10 flex w-full
+          items-end justify-between 
+          border-t-[0.5px] border-border-gray
           bg-white dark:bg-pure-black sm:left-6 sm:mx-2
           sm:mt-0 sm:h-full sm:w-auto sm:flex-1 sm:flex-col
           sm:items-start sm:justify-between sm:gap-1 sm:border-0 lg:left-auto
           ${!show ? 'opacity-30 sm:opacity-100' : ''}`}
         >
-          <div className="hover:bg-light-hover-layout mb-4 hidden p-3 hover:cursor-pointer hover:rounded-full hover:dark:bg-hover-layout sm:flex">
+          <div className="mb-4 hidden overflow-auto p-3 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:flex">
             <Link to="/">
               <svg
                 className="inline-block w-[1.9rem] fill-pure-black dark:fill-white"
@@ -171,7 +173,7 @@ function NavBar() {
               </svg>
             </Link>
           </div>
-          <div className="hidden sm:contents">
+          <div className="hidden overflow-auto sm:contents">
             {items.map((item) => (
               <NavItem
                 key={uuid4()}
@@ -182,7 +184,7 @@ function NavBar() {
               />
             ))}
           </div>
-          <div className="contents sm:hidden">
+          <div className="contents overflow-auto sm:hidden">
             {mobileItems.map((item) => (
               <NavItem
                 key={uuid4()}
@@ -223,19 +225,13 @@ function NavBar() {
               </svg>
             </button>
           </div>
-          <div className="hover:bg-light-hover-layout absolute bottom-24 right-0 my-6 hidden w-full content-start items-start justify-between justify-self-end p-2 hover:cursor-pointer hover:rounded-full hover:dark:bg-hover-layout sm:relative sm:bottom-0 sm:right-0 sm:flex">
+          <div className="absolute bottom-24 right-0 mx-auto my-6 hidden w-full items-center justify-between justify-self-end p-2 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:relative sm:bottom-0 sm:right-0 sm:flex sm:items-start">
             <button
               type="submit"
               data-testid="user-btn"
-              className="group relative flex flex-1 items-center justify-between font-semibold"
+              className="group relative mx-auto flex items-center justify-between font-semibold"
             >
-              <div className="flex items-center justify-center">
-                <img
-                  className="flex h-[40px] w-[40px] rounded-full"
-                  src="https://img.icons8.com/color/48/circled-user-male-skin-type-3--v1.png"
-                  alt={`${user.name.split(' ')[0]} photo}`}
-                />
-              </div>
+              <UserImg user={user} />
               <p
                 className="
                 hidden px-4 text-base font-semibold capitalize tracking-wide
@@ -251,7 +247,7 @@ function NavBar() {
               </span>
               <div className="absolute bottom-0 left-0 top-0 z-50 hidden h-full w-full group-focus-within:flex dark:text-white  ">
                 <div className="absolute bottom-14 left-0 flex w-64 items-center justify-start rounded-2xl bg-white py-4 shadow-[rgba(100,100,100,0.5)_0px_0.5px_4px] dark:bg-pure-black dark:shadow-[rgba(100,100,100,0.7)_0px_0.5px_4px]">
-                  <div className="hover:bg-light-hover-layout flex flex-1 justify-start px-3  hover:dark:bg-hover-layout">
+                  <div className="flex flex-1 justify-start px-3 hover:bg-light-hover-layout  hover:dark:bg-hover-layout">
                     <div
                       role="button"
                       data-testid="nav-logout-btn"

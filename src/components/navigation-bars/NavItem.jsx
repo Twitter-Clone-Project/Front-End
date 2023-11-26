@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 function NavItem({ label, outlinedIcon, filledIcon, path, hidden = true }) {
   // eslint-disable-next-line no-unused-vars
   // const [count, setCount] = useState(3);
   return (
-    <div className="hover:bg-light-hover-layout flex content-start items-start justify-between p-3 hover:cursor-pointer hover:rounded-full  hover:dark:bg-hover-layout">
+    <div className="flex content-start items-start justify-between p-3 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout  hover:dark:bg-hover-layout">
       <NavLink
         // onClick={() => setCount(0)}
         to={path}
@@ -39,7 +39,9 @@ function NavItem({ label, outlinedIcon, filledIcon, path, hidden = true }) {
           </svg>
           {/* {(label === 'Notifications' || label === 'Messages') &&
             count !== 0 && (
-              <span className="absolute right-[-5px] top-[-7px] flex h-5 w-5 items-center justify-center rounded-full bg-blue text-center text-xs font-semibold text-white">
+              <span className="absolute right-[-5px] top-[-7px] 
+              flex h-5 w-5 items-center justify-center rounded-full bg-blue 
+              text-center text-xs font-semibold text-white">
                 {count}
               </span>
             )} */}

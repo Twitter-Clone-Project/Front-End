@@ -7,7 +7,7 @@ function Logout({ handleLogout }) {
       data-testid="darwer-logout-btn"
       type="button"
       onClick={handleLogout}
-      className="hover:bg-light-hover-layout my-6 flex content-start items-start justify-between p-3 hover:cursor-pointer hover:rounded-full  hover:dark:bg-hover-layout"
+      className="my-6 flex content-start items-start justify-between p-3 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout  hover:dark:bg-hover-layout"
     >
       <div className="flex flex-1 items-center justify-start font-semibold hover:no-underline">
         <div className="relative">

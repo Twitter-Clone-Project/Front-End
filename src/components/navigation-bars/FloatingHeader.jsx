@@ -6,6 +6,7 @@ import { useAuth } from '../../hooks/AuthContext';
 import NavItem from './NavItem';
 import UserNavCard from './UserNavCard';
 import Logout from './Logout';
+import UserImg from './UserImg';
 
 function FloatingHeader({ drawerOpen, show, setDrawerOpen, handleLogout }) {
   const { user } = useAuth();
@@ -37,27 +38,21 @@ function FloatingHeader({ drawerOpen, show, setDrawerOpen, handleLogout }) {
       transition-all duration-[600ms] dark:bg-pure-black dark:bg-opacity-75 
       dark:text-white sm:hidden`}
     >
-      <div className="hover:bg-light-hover-layout absolute left-0 top-0 flex items-center justify-center p-2 hover:cursor-pointer hover:rounded-full hover:dark:bg-hover-layout">
+      <div className="absolute left-0 top-1/2 my-auto ml-1 flex -translate-y-1/2  items-center justify-center p-1 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout">
         <button
           onClick={() => setDrawerOpen(true)}
           data-testid="drawer-btn"
           type="submit"
           className="peer relative flex flex-1 items-center justify-between font-semibold"
         >
-          <div className="flex items-center justify-center">
-            <img
-              className="flex h-[40px] w-[40px] rounded-full"
-              src="https://a57.foxsports.com/statics.foxsports.com/www.foxsports.com/content/uploads/2023/06/1280/1280/084702d2-messi1.jpg?ve=1&tl=1"
-              alt="user"
-            />
-          </div>
+          <UserImg user={user} />
         </button>
       </div>
       <div
-        className={`xs:grid-cols-[5fr_2fr] fixed bottom-0 left-0 right-0 top-0 
-          z-[30000] grid h-screen w-full 
-          -translate-x-[200vw]
-          grid-cols-[1fr] duration-300 ${
+        className={`fixed bottom-0 left-0 right-0 top-0 z-[30000] 
+          grid h-screen w-full -translate-x-[200vw] 
+          grid-cols-[1fr]
+          duration-300 xs:grid-cols-[5fr_2fr] ${
             drawerOpen ? 'translate-x-[0px]' : ''
           }`}
       >
@@ -69,7 +64,7 @@ function FloatingHeader({ drawerOpen, show, setDrawerOpen, handleLogout }) {
               tabIndex={-6}
               onKeyDown={() => setDrawerOpen(false)}
               onClick={() => setDrawerOpen(false)}
-              className="hover:bg-light-hover-layout flex h-10 w-10 items-center justify-center p-2 text-xl text-pure-black hover:cursor-pointer hover:rounded-full dark:text-white hover:dark:bg-hover-layout"
+              className="flex h-10 w-10 items-center justify-center p-2 text-xl text-pure-black hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout dark:text-white hover:dark:bg-hover-layout"
             >
               <svg
                 viewBox="0 0 1024 1024"
@@ -102,14 +97,14 @@ function FloatingHeader({ drawerOpen, show, setDrawerOpen, handleLogout }) {
         {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, 
           jsx-a11y/no-static-element-interactions */}
         <div
-          className="xs:flex hidden bg-dark-layout bg-opacity-60 transition-colors duration-300"
+          className="hidden bg-dark-layout bg-opacity-60 transition-colors duration-300 xs:flex"
           data-testid="drawer-overlay"
           onClick={() => {
             setDrawerOpen(false);
           }}
         />{' '}
       </div>
-      <div className="hover:bg-light-hover-layout mx-auto p-3 hover:cursor-pointer hover:rounded-full hover:dark:bg-hover-layout sm:hidden">
+      <div className="mx-auto p-3 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:hidden">
         <Link to="/">
           <svg
             className="inline-block w-[1.6rem] fill-pure-black dark:fill-white"
