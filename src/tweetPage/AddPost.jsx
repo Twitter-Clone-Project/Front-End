@@ -1,25 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import Media from './Media';
 import AddEmoji from './AddEmoji';
+import TextField from './TextField';
 
 function AddPost() {
   const [files, setFiles] = useState([]);
+  const [filesURLs, setFilesURLs] = useState([]);
+  const [hashtags, setHashtags] = useState([]);
   const [text, setText] = useState('');
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [postDisabled, setPostDisabled] = useState(true);
 
-  const handleChange = (e) => {
+  const handlePost = () => {
+    setHashtags(text.match(/#\w+/g));
+    console.log(files, text, hashtags);
+  };
+
+  const handleImageChange = (e) => {
     const fileList = Array.from(e.target.files);
-    console.log(fileList);
+    setFiles(fileList);
     if (fileList.length > 4) setFiles([]);
     else {
-      const fileURLs = fileList.map((file) => URL.createObjectURL(file));
-      setFiles(fileURLs);
+      setFilesURLs(fileList.map((file) => URL.createObjectURL(file)));
     }
+
+    if (fileList.length === 0 && text === '') setPostDisabled(true);
+    else setPostDisabled(false);
   };
 
   useEffect(() => {
-    if (files.length === 0 && text === '') setIsDisabled(true);
-    else setIsDisabled(false);
+    console.log(text);
+
+    if (files.length === 0 && text === '') setPostDisabled(true);
+    else setPostDisabled(false);
   }, [files, text]);
   return (
     <div className="tweet mt-[0.5px] flex w-[88%] flex-row   bg-white px-[16px] pt-[12px] dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
@@ -34,21 +46,13 @@ function AddPost() {
       </div>
 
       <div className="rightColumn h-auto min-h-[153px] w-[512px]">
-        <textarea
-          placeholder="What is happening?!"
-          className="h-auto min-h-[70px] w-full resize-none  py-1 text-[20px] text-black outline-none placeholder:font-thin placeholder:text-light-thin"
-          rows={1}
-          value={text}
-          onInput={(e) => {
-            e.target.style.height = 'auto';
-            e.target.style.height = `${e.target.scrollHeight}px`;
-          }}
-          onChange={(e) => {
-            setText(e.target.value);
-          }}
-        />
-
-        <Media images={files} />
+        <div className="  placeholder:text-light-thin">
+          <TextField
+            text={text}
+            setText={setText}
+          />
+        </div>
+        <Media images={filesURLs} />
 
         <div className="media my-3 flex flex-row justify-between border-t-[0.5px] border-t-x-light-gray py-2">
           <label
@@ -70,17 +74,19 @@ function AddPost() {
             accept="image/*"
             id="mediaUpload"
             className="hidden"
-            onChange={handleChange}
+            onChange={handleImageChange}
             multiple
           />
           <AddEmoji
             text={text}
             setText={setText}
           />
+
           <button
+            onClick={handlePost}
             type="submit"
             id="post"
-            disabled={isDisabled}
+            disabled={postDisabled}
             className="flex h-[36px] w-[66px] items-center justify-center rounded-3xl border-blue bg-blue font-bold  text-white disabled:opacity-50"
           >
             Post
