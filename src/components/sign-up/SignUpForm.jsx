@@ -116,7 +116,7 @@ function SignUpForm({ test }) {
   useEffect(handleMonthYearChange, [dateMonth, dateYear]);
   useEffect(() => {
     if (!name) return;
-    if (validator.isAlpha(name))
+    if (validator.isAlpha(name, 'en-US', { ignore: ' ' }))
       if (name.length < 2)
         setNameError('Name must contain atleast 2 character');
       else setNameError('');
