@@ -1,15 +1,36 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import toast from 'react-hot-toast';
 import Button from './Button';
 
-function GoogleSignInBtn() {
+function GoogleSignInBtn({ label }) {
+  const handleGoogleLogin = async () => {
+    try {
+      const res = await fetch(
+        `http://${import.meta.env.VITE_API_DOMAIN}auth/signWithGoogle`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      const data = await res.json();
+      if (data.status === false) throw new Error(data.message);
+      window.location.href = data.url;
+    } catch (err) {
+      toast(err.message);
+    }
+  };
   return (
     <div>
       <Button
         backGroundColor="white"
         borderColor="gray"
         labelColor="black"
+        onClick={handleGoogleLogin}
         path
-        label="Sign Up with Google"
+        label={label}
       >
         <path
           fill="#FFC107"
@@ -31,5 +52,9 @@ function GoogleSignInBtn() {
     </div>
   );
 }
+
+GoogleSignInBtn.propTypes = {
+  label: PropTypes.string.isRequired,
+};
 
 export default GoogleSignInBtn;

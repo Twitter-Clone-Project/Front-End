@@ -3,29 +3,32 @@ import React, { useState } from 'react';
 
 // eslint-disable-next-line no-unused-vars
 
-function NameInput({ error, setError, Name, setName }) {
+function NameInput({ title, error, setError, Name, setName, maxLength }) {
   const [max, setMax] = useState(0);
-  const errorMessage = 'What’s your name?';
 
   const handleInputChange = (event) => {
     setName(event.target.value);
     if (max < event.target.value.length) setMax(event.target.value.length);
-    if (event.target.value.length === 0 && max !== 0) setError(errorMessage);
-    else setError('');
+    if (event.target.value.length === 0 && max !== 0) {
+      const errorMessage = `What's your  ${title.toLowerCase()}?`;
+      setError(errorMessage);
+    } else setError('');
   };
   return (
     <div className="relative h-[56.44px] w-full items-center justify-center  bg-white dark:bg-black">
       <input
+        data-testid={title}
+        id={title}
         placeholder=""
-        id="arrow"
         type="text"
-        maxLength="50"
+        maxLength={maxLength}
         value={Name}
         onChange={handleInputChange}
         className={` 
         peer h-full w-full rounded px-2 pt-4 text-lg
         outline outline-1 outline-light-gray 
         focus:outline-2 focus:outline-blue
+        dark:bg-black
         dark:text-white
         ${
           error !== ''
@@ -34,7 +37,7 @@ function NameInput({ error, setError, Name, setName }) {
         }`}
       />
       <label
-        htmlFor="arrow"
+        htmlFor={title}
         className={` 
         absolute left-2 top-4 cursor-text text-base
         text-dark-gray transition-all duration-200 
@@ -48,14 +51,17 @@ function NameInput({ error, setError, Name, setName }) {
               : 'text-dark-gray peer-focus:text-blue'
           }`}
       >
-        Name
+        {title}
       </label>
       <span className=" invisible absolute right-2 top-2 text-xs text-dark-gray peer-focus:visible">
-        {Name.length} / 50
+        {Name.length} / {maxLength}
       </span>
       {error !== '' && (
-        <span className=" absolute left-2 top-14 text-sm text-warning">
-          {error === '' ? errorMessage : error}
+        <span
+          data-testid={`${title}-err`}
+          className=" absolute left-2 top-14 text-sm text-warning"
+        >
+          {error}
         </span>
       )}
     </div>
