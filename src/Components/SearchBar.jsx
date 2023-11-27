@@ -1,35 +1,61 @@
-import React, { useState } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
+import React, { useEffect, useState } from 'react';
 import OutsideClickHandler from 'react-outside-click-handler';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+import toast from 'react-hot-toast';
 
-function SearchBar() {
-  const [value, setValue] = useState('');
+function SearchBar({ value, setValue }) {
   const [fill, setFill] = useState('#AAB8C2');
   const [focus, setFoucs] = useState(false);
-  const [bgDark, setBgDark] = useState('search');
+  const [results, setResults] = useState('');
+  const [bgDark, setBgDark] = useState('black');
   const handleInputFocus = () => {
     setFill('#1988d2');
     setFoucs(true);
-    setBgDark('black');
+    setBgDark('pure-black');
   };
   const handleInputBlur = () => {
     setFill('#AAB8C2');
     setFoucs(false);
-    setBgDark('search');
+    setBgDark('black');
   };
   const handleClick = () => {
     setValue('');
+    setResults('');
   };
+  useEffect(() => {
+    if (!value) return;
+    const controller = new AbortController();
+    const timeId = setTimeout(() => {
+      const queryCheck = async () => {
+        try {
+          const res = await fetch(`http://localhost:3000/searchQuery`, {
+            signal: controller.signal,
+          });
+          const data = await res.json();
+          setResults(data);
+        } catch (err) {
+          if (err.name !== 'AbortError') toast(err.message);
+        }
+      };
+      queryCheck();
+    }, 1000);
+    return () => {
+      clearTimeout(timeId);
+      controller.abort();
+    };
+  }, [value]);
+  // useEffect(() => {
+  //   if (results.length === 0) return;
+  // }, [results]);
   return (
-    <OutsideClickHandler
-      onOutsideClick={() => {
-        handleInputBlur();
-      }}
+    <div
+      className="flex h-auto flex-col px-2 py-3"
+      onFocus={handleInputFocus}
     >
-      <div
-        className="flex h-auto flex-col px-2 py-2"
-        onFocus={handleInputFocus}
+      <OutsideClickHandler
+        onOutsideClick={() => {
+          handleInputBlur();
+        }}
       >
         <div
           // eslint-disable-next-line max-len
@@ -87,7 +113,10 @@ function SearchBar() {
           )}
         </div>
         {focus === true ? (
-          <div className="focus:shadow-outline flex h-[80px] w-72 justify-center rounded-md bg-white focus:outline-none dark:bg-black">
+          <div
+            // eslint-disable-next-line max-len
+            className={`flex h-[80px] w-72 justify-center rounded-md bg-white dark:bg-${bgDark} ring-blue-500 ring-2`}
+          >
             <span className="pt-2 text-center text-sm text-light-thin">
               Try searching for people, lists, or
               <br /> keywords
@@ -96,14 +125,14 @@ function SearchBar() {
         ) : (
           ''
         )}
-      </div>
-    </OutsideClickHandler>
+      </OutsideClickHandler>
+    </div>
   );
 }
 
-// SearchBar.propTypes = {
-//   value: PropTypes.string.isRequired,
-//   setValue: PropTypes.func.isRequired,
-// };
+SearchBar.propTypes = {
+  value: PropTypes.string.isRequired,
+  setValue: PropTypes.func.isRequired,
+};
 
 export default SearchBar;
