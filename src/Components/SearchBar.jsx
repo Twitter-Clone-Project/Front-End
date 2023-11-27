@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import OutsideClickHandler from 'react-outside-click-handler';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
+import SearchSuggestion from './SearchSuggestion';
 
 function SearchBar({ value, setValue }) {
   const [fill, setFill] = useState('#AAB8C2');
   const [focus, setFoucs] = useState(false);
-  const [results, setResults] = useState('');
+  const [results, setResults] = useState([]);
+  // const [resultsLoading, setResultsLoading] = useState(false);
   const [bgDark, setBgDark] = useState('black');
   const handleInputFocus = () => {
     setFill('#1988d2');
@@ -24,21 +26,28 @@ function SearchBar({ value, setValue }) {
   };
   useEffect(() => {
     if (!value) return;
+    // setResultsLoading(true);
     const controller = new AbortController();
+
     const timeId = setTimeout(() => {
       const queryCheck = async () => {
         try {
-          const res = await fetch(`http://localhost:3000/searchQuery`, {
+          const res = await fetch('http://localhost:3000/searchQuery', {
             signal: controller.signal,
           });
           const data = await res.json();
-          setResults(data);
+          if (data.status === false) throw new Error(data.message);
+          else {
+            setResults([data]);
+          }
         } catch (err) {
           if (err.name !== 'AbortError') toast(err.message);
+        } finally {
+          // setResultsLoading(false);
         }
       };
       queryCheck();
-    }, 1000);
+    }, 0);
     return () => {
       clearTimeout(timeId);
       controller.abort();
@@ -46,6 +55,7 @@ function SearchBar({ value, setValue }) {
   }, [value]);
   // useEffect(() => {
   //   if (results.length === 0) return;
+  //   console.log(results[0].suggestions);
   // }, [results]);
   return (
     <div
@@ -117,10 +127,17 @@ function SearchBar({ value, setValue }) {
             // eslint-disable-next-line max-len
             className={`flex h-[80px] w-72 justify-center rounded-md bg-white dark:bg-${bgDark} ring-blue-500 ring-2`}
           >
-            <span className="pt-2 text-center text-sm text-light-thin">
-              Try searching for people, lists, or
-              <br /> keywords
-            </span>
+            {results.length === 0 ? (
+              <span className="pt-2 text-center text-sm text-light-thin">
+                Try searching for people, lists, or
+                <br /> keywords
+              </span>
+            ) : (
+              // eslint-disable-next-line array-callback-return
+              results[0].suggestions.map((res) => {
+                <SearchSuggestion value={res} />;
+              })
+            )}
           </div>
         ) : (
           ''
