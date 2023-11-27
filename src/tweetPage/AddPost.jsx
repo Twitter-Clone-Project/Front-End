@@ -7,12 +7,12 @@ function AddPost() {
   const [files, setFiles] = useState([]);
   const [filesURLs, setFilesURLs] = useState([]);
   const [hashtags, setHashtags] = useState([]);
+  const [hashtagsString, setHashtagsString] = useState('');
   const [text, setText] = useState('');
   const [postDisabled, setPostDisabled] = useState(true);
 
   const handlePost = () => {
-    setHashtags(text.match(/#\w+/g));
-    console.log(files, text, hashtags);
+    console.log(files, text, hashtagsString);
   };
 
   const handleImageChange = (e) => {
@@ -31,7 +31,11 @@ function AddPost() {
     console.log(text);
 
     if (files.length === 0 && text === '') setPostDisabled(true);
-    else setPostDisabled(false);
+    else {
+      setHashtags(text.match(/#\w+/g));
+      setHashtagsString(hashtags.join(', '));
+      setPostDisabled(false);
+    }
   }, [files, text]);
   return (
     <div className="tweet mt-[0.5px] flex w-[88%] flex-row   bg-white px-[16px] pt-[12px] dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
