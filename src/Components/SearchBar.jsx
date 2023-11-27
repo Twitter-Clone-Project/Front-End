@@ -3,6 +3,7 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
 import SearchSuggestion from './SearchSuggestion';
+import SearchResult from './SearchResult';
 
 function SearchBar({ value, setValue }) {
   const [fill, setFill] = useState('#AAB8C2');
@@ -22,7 +23,10 @@ function SearchBar({ value, setValue }) {
   };
   const handleClick = () => {
     setValue('');
-    setResults('');
+    setResults([]);
+  };
+  const handleInputChange = () => {
+    if (value.length === 1 || value.length === 0) setResults([]);
   };
   useEffect(() => {
     if (!value) return;
@@ -38,6 +42,9 @@ function SearchBar({ value, setValue }) {
           const data = await res.json();
           if (data.status === false) throw new Error(data.message);
           else {
+            if (data.results.length > 10) {
+              data.results = data.results.slice(0, 10);
+            }
             setResults([data]);
           }
         } catch (err) {
@@ -69,11 +76,11 @@ function SearchBar({ value, setValue }) {
       >
         <div
           // eslint-disable-next-line max-len
-          className={`flex h-[55px] w-72 items-center ${
+          className={`flex h-[55px] w-[365px] items-center ${
             focus === true ? 'border-2 border-blue border-opacity-100' : ''
-          } dark:bg-${bgDark} rounded-full bg-white px-4 py-2`}
+          } dark:bg-${bgDark} justify-between rounded-full bg-white px-4 py-2`}
         >
-          <div className="w-1/6">
+          <div className="w-1/12">
             <svg
               width="20"
               height="20"
@@ -87,20 +94,21 @@ function SearchBar({ value, setValue }) {
               />
             </svg>
           </div>
-          <div className="">
+          <div className="w-10/12">
             <input
               // eslint-disable-next-line max-len
-              className={`dark:bg-${bgDark} border-none bg-white text-white placeholder-light-gray focus:outline-none`}
+              className={`w-full dark:bg-${bgDark} border-none bg-white text-white placeholder-light-gray focus:outline-none`}
               placeholder="Search"
               value={value}
               onChange={(event) => {
                 setValue(event.target.value);
+                handleInputChange();
               }}
               type="text"
             />
           </div>
           {focus === true && value !== '' ? (
-            <div className="w-1/6">
+            <div className="flex w-1/12 justify-end">
               <svg
                 width="20"
                 height="20"
@@ -125,18 +133,32 @@ function SearchBar({ value, setValue }) {
         {focus === true ? (
           <div
             // eslint-disable-next-line max-len
-            className={`flex h-[80px] w-72 justify-center rounded-md bg-white dark:bg-${bgDark} ring-blue-500 ring-2`}
+            className={`flex min-h-[80px] w-[365px] flex-col justify-center rounded-md bg-white dark:bg-${bgDark} ring-blue-500 overflow-auto overscroll-auto ring-2`}
           >
             {results.length === 0 ? (
-              <span className="pt-2 text-center text-sm text-light-thin">
-                Try searching for people, lists, or
-                <br /> keywords
+              <span className="text-center text-sm text-light-thin">
+                Try searching for people, lists, or keywords
               </span>
             ) : (
-              // eslint-disable-next-line array-callback-return
-              results[0].suggestions.map((res) => {
-                <SearchSuggestion value={res} />;
-              })
+              <div className="">
+                <div className="">
+                  {results[0].suggestions.map((suggestion) => (
+                    <SearchSuggestion value={suggestion} />
+                  ))}
+                </div>
+                <div className="mx-[2px] h-[1px] bg-light-gray" />
+                <div className="">
+                  {results[0].results.map((result) => (
+                    <SearchResult data={result} />
+                  ))}
+                </div>
+                <div
+                  className="flex h-[50px] items-center pl-4 text-sm text-light-gray hover:bg-black"
+                  onClick
+                >
+                  <span>Go to@{value}</span>
+                </div>
+              </div>
             )}
           </div>
         ) : (

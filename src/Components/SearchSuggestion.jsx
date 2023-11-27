@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 function SearchSuggestion({ value }) {
   return (
-    <div className="h-[40px] hover:bg-black">
-      <div className="w-1/3">
+    <div className="flex h-[60px] w-full flex-wrap items-center justify-center px-4 py-2 hover:bg-black">
+      <div className="w-1/6">
         <svg
-          width="20"
-          height="20"
+          width="25"
+          height="25"
           viewBox="0 0 20 20"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -18,7 +18,7 @@ function SearchSuggestion({ value }) {
           />
         </svg>
       </div>
-      <div className="w-2/3 text-xl dark:text-white">
+      <div className="w-5/6 text-base font-medium dark:text-white">
         <span>{value}</span>
       </div>
     </div>
