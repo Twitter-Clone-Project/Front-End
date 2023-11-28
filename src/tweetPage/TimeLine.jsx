@@ -1,11 +1,8 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Tweet from './Tweet';
 
-// eslint-disable-next-line no-unused-vars
 function TimeLine({ userID, tweets, setTweets }) {
-  // const [tweets, setTweets] = useState([]);
-
   useEffect(() => {
     const fetchTweets = async () => {
       try {
@@ -15,7 +12,6 @@ function TimeLine({ userID, tweets, setTweets }) {
         );
         const data = await response.json();
         setTweets(data.data);
-        console.log(data.data);
       } catch (error) {
         console.log('Error fetching timeline:', error);
       }

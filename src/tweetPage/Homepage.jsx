@@ -9,13 +9,11 @@ function Homepage() {
 
   useEffect(() => {
     setUserID('1');
-    console.log(userID);
     if (Object.keys(tweet).length !== 0) {
       setTweets((prevTweets) => [tweet, ...prevTweets]);
     }
     window.addEventListener('scroll', () => {
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-        console.log("you're at the bottom of the page");
         const fetchTweets = async () => {
           try {
             const response = await fetch(
@@ -24,7 +22,6 @@ function Homepage() {
             );
             const data = await response.json();
             setTweets((prevTweets) => [...prevTweets, ...data.data]);
-            console.log(data.data);
           } catch (error) {
             console.log('Error fetching timeline:', error);
           }

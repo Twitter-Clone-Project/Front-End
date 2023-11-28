@@ -12,14 +12,28 @@ function AddPost({ tweet, setTweet }) {
   const [text, setText] = useState('');
   const [postDisabled, setPostDisabled] = useState(true);
 
+  const resetAll = () => {
+    setText('');
+    setFilesURLs([]);
+    setHashtags([]);
+    setFiles([]);
+    setHashtagsString('');
+    setPostDisabled(true);
+  };
   const handlePost = () => {
     const postData = async () => {
       const formData = new FormData();
       formData.append('text', text);
       formData.append('hashtags', hashtagsString);
+      for (let index = 0; index < 4; index += 1) {
+        formData.append(`files[${index}]`, {});
+      }
+
       files.forEach((file, index) => {
         formData.append(`files[${index}]`, file);
       });
+      resetAll();
+
       // const data = Object.fromEntries(formData);
       // console.log(data);
       try {
@@ -55,8 +69,6 @@ function AddPost({ tweet, setTweet }) {
   };
 
   useEffect(() => {
-    console.log(text);
-
     if (files.length === 0 && text === '') setPostDisabled(true);
     else {
       setHashtags(text.match(/#\w+/g));
