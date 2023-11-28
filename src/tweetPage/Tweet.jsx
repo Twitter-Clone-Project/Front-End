@@ -5,6 +5,7 @@ import ReactButtons from './reactButtons';
 import Media from './Media';
 
 function Tweet({ data }) {
+  // const [tweetID, setTweetID] = useState(data.id);
   const [repost, toggleRepost] = useState(data.isRetweeted);
   const [reply, toggleReply] = useState(false);
   const [like, toggleLike] = useState(data.isLiked);
@@ -15,16 +16,19 @@ function Tweet({ data }) {
     if (like === true) setLikesCount(likesCount - 1);
     else setLikesCount(likesCount + 1);
     toggleLike(!like);
+    // console.log(tweetID);
   };
   const handleRepost = () => {
     if (repost === true) setRepostsCount(repostsCount - 1);
     else setRepostsCount(repostsCount + 1);
     toggleRepost(!repost);
+    // console.log(tweetID);
   };
   const handleReply = () => {
     if (reply === true) setRepliesCount(repliesCount - 1);
     else setRepliesCount(repliesCount + 1);
     toggleReply(!reply);
+    // console.log(tweetID);
   };
 
   return (

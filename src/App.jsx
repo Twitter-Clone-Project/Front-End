@@ -1,13 +1,13 @@
 import * as React from 'react';
 // import LandingPage from './landingPage/LandingPage';
-import TweetList from './tweetPage/tweetList';
 import AddPost from './tweetPage/AddPost';
+import TimeLine from './tweetPage/TimeLine';
 
 function App() {
   return (
     <div>
       <AddPost />
-      <TweetList />
+      <TimeLine user={1234567} />
       {/* <LandingPage /> */}
     </div>
   );
