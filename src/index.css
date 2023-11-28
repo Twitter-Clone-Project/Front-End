@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 @media (prefers-color-scheme: dark) {
-  body,root {
+  body,
+  root {
     background-color: theme(colors.pure-black);
   }
 }
@@ -63,4 +64,10 @@ a.list-nav-active span:after {
 }
 ::-ms-reveal {
   display: none !important;
+}
+.PhotoView-Slider__Counter {
+  display: none;
+}
+.PhotoView-Slider__BannerWrap {
+  justify-content: flex-end;
 }

@@ -1,7 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
+import { PhotoProvider, PhotoView } from 'react-photo-view';
 import { useAuth } from '../../hooks/AuthContext';
 import Button from '../form-controls/Button';
+import 'react-photo-view/dist/react-photo-view.css';
 
 function UserProfileInfo() {
   const navigate = useNavigate();
@@ -16,12 +18,16 @@ function UserProfileInfo() {
   return (
     <div className="relative cursor-auto bg-white bg-opacity-100 p-4 text-black dark:bg-pure-black dark:text-white">
       <div className="absolute -top-0 z-10 flex aspect-square w-1/4 min-w-[3rem] -translate-y-1/2 justify-between">
-        <img
-          id="popoverImg"
-          src={pic}
-          alt=""
-          className="h-auto cursor-pointer rounded-full border-4 border-pure-black"
-        />
+        <PhotoProvider maskOpacity={0.5}>
+          <PhotoView src={pic}>
+            <img
+              id="popoverImg"
+              src={pic}
+              alt=""
+              className="h-auto cursor-pointer rounded-full border-4 border-pure-black"
+            />
+          </PhotoView>
+        </PhotoProvider>
       </div>
       <div className="mb-4 flex min-h-[50px] w-full justify-end">
         <div className="w-[50%] max-w-[8rem]">
