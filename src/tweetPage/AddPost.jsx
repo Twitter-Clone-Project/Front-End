@@ -34,18 +34,22 @@ function AddPost({ tweet, setTweet }) {
     // const data = Object.fromEntries(formData);
     // console.log(data);
     resetAll();
+
     const postData = async () => {
       try {
         const response = await fetch(
-          'http://127.0.0.1:2023/api/v1/tweets/add',
+          `http://${import.meta.env.VITE_API_DOMAIN}tweets/add`,
           {
             method: 'POST',
-            body: formData,
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+            body: formData, // Convert the data to JSON format
           },
         );
         const data = await response.json();
-        setTweet(data.data);
         console.log(data.data);
+        setTweet(data.data);
       } catch (error) {
         console.log('Error Add tweet:', error);
       }

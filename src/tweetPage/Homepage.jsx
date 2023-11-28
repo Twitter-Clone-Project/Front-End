@@ -6,7 +6,7 @@ function Homepage() {
   const [tweets, setTweets] = useState([]);
   const [tweet, setTweet] = useState({});
   const [userID, setUserID] = useState('');
-
+  const [pageNum, setPageNum] = useState(1);
   useEffect(() => {
     setUserID('1');
     if (Object.keys(tweet).length !== 0) {
@@ -14,11 +14,21 @@ function Homepage() {
     }
     window.addEventListener('scroll', () => {
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        setPageNum(pageNum + 1);
         const fetchTweets = async () => {
           try {
             const response = await fetch(
               // eslint-disable-next-line max-len
-              `https://8ab91f88-5083-4ec2-9135-592594f44252.mock.pstmn.io/users/${userID}/timeline`,
+              `http://${
+                import.meta.env.VITE_API_DOMAIN
+              }users/${userID}/timeline`,
+              {
+                method: 'GET',
+                origin: true,
+                credentials: 'include',
+                withCredentials: true,
+                body: JSON.stringify({ pageNum }),
+              },
             );
             const data = await response.json();
             setTweets((prevTweets) => [...prevTweets, ...data.data]);
@@ -40,9 +50,9 @@ function Homepage() {
           setTweet={setTweet}
         />
         <TimeLine
-          userID={userID}
           tweets={tweets}
           setTweets={setTweets}
+          pageNum={pageNum}
         />
       </div>
       <div />

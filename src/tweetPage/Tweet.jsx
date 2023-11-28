@@ -10,16 +10,22 @@ function Tweet({ data }) {
   const [repost, toggleRepost] = useState(data.isRetweeted);
   const [reply, toggleReply] = useState(false);
   const [like, toggleLike] = useState(data.isLiked);
-  const [repostsCount, setRepostsCount] = useState(data.retweetsCount);
+  const [repostsCount, setRepostsCount] = useState(0);
   const [repliesCount, setRepliesCount] = useState(data.repliesCount);
-  const [likesCount, setLikesCount] = useState(data.likesCount);
+  const [likesCount, setLikesCount] = useState(0);
+
   const handleLike = () => {
     if (like === true) {
       const deleteLike = async () => {
         try {
           const response = await fetch(
-            `127.0.0.1:2023/api/v1/tweets/${data.id}/deleteLike`,
+            `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+              data.id
+            }/deleteLike`,
             {
+              origin: true,
+              credentials: 'include',
+              withCredentials: true,
               method: 'DELETE',
             },
           );
@@ -36,8 +42,13 @@ function Tweet({ data }) {
       const postLike = async () => {
         try {
           const response = await fetch(
-            `127.0.0.1:2023/api/v1/tweets/${data.id}/addlike`,
+            `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+              data.id
+            }/addlike`,
             {
+              origin: true,
+              credentials: 'include',
+              withCredentials: true,
               method: 'POST',
             },
           );
@@ -60,8 +71,13 @@ function Tweet({ data }) {
       const deleteRetweet = async () => {
         try {
           const response = await fetch(
-            `127.0.0.1:2023/api/v1/tweets/${retweetID}/deleteRetweet`,
+            `http://${
+              import.meta.env.VITE_API_DOMAIN
+            }tweets/${retweetID}/deleteRetweet`,
             {
+              origin: true,
+              credentials: 'include',
+              withCredentials: true,
               method: 'DELETE',
             },
           );
@@ -81,8 +97,13 @@ function Tweet({ data }) {
       const retweet = async () => {
         try {
           const response = await fetch(
-            `127.0.0.1:2023/api/v1/tweets/${data.id}/retweet`,
+            `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+              data.id
+            }/retweet`,
             {
+              origin: true,
+              credentials: 'include',
+              withCredentials: true,
               method: 'POST',
             },
           );
@@ -112,7 +133,7 @@ function Tweet({ data }) {
   return (
     <div className="tweet mt-[0.5px] flex w-[88%] flex-row  border-y-[0.5px] border-y-x-light-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
       <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
-        <div className={` pb-1 ${data.isRetweet === false ? 'hidden' : ''}`}>
+        <div className={` pb-1 ${repost === false ? 'hidden' : ''}`}>
           <svg
             viewBox="0 0 24 24"
             className="ml-[24px] h-[16px] w-[16px] fill-dark-gray  "
@@ -132,10 +153,10 @@ function Tweet({ data }) {
       <div className="rightColumn w-[512px] ">
         <div
           className={` retweeted-info h-[16px] pb-4 text-[13px] font-semibold
-           text-dark-gray ${data.isRetweet === false ? 'hidden' : ''} `}
+           text-dark-gray ${repost === false ? 'hidden' : ''} `}
         >
           {' '}
-          <span>{data.retweetedUser.screenName}</span> reposted
+          <span>data.retweetedUser.screenName</span> reposted
         </div>
         <div className="userInfo flex flex-row">
           <div className="name  text-[15px] font-bold">
@@ -150,7 +171,16 @@ function Tweet({ data }) {
             &ensp;.&ensp;<span>{data.createdAt}</span>
           </div>
         </div>
-        <div className="caption"> {data.text}</div>
+        <div className="caption">
+          {' '}
+          {data.text.split(' ').map((word) => {
+            console.log(word);
+            if (word.startsWith('#')) {
+              return <span className=" text-blue">{word} </span>;
+            }
+            return <span>{word} </span>;
+          })}
+        </div>
         <Media images={data.attachmentsURL} />
         <div className="buttons flex h-[32px] flex-row  justify-between">
           <button

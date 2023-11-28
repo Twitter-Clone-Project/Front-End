@@ -4,7 +4,6 @@ import Editor from '@draft-js-plugins/editor';
 import createHashtagPlugin from '@draft-js-plugins/hashtag';
 import '@draft-js-plugins/hashtag/lib/plugin.css';
 import { EditorState, ContentState } from 'draft-js';
-  
 const hashtagPlugin = createHashtagPlugin();
 const plugins = [hashtagPlugin];
 
