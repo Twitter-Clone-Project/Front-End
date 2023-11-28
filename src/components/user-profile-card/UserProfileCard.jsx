@@ -2,6 +2,7 @@ import React from 'react';
 import UserProfileInfo from './UserProfileInfo';
 import ListNav from '../navigation-bars/ListNav';
 import { useAuth } from '../../hooks/AuthContext';
+import { Outlet } from 'react-router';
 
 function UserProfileCard() {
   const { user } = useAuth();
@@ -38,6 +39,7 @@ function UserProfileCard() {
         <UserProfileInfo />
       </div>
       <ListNav items={ListNavItems} />
+      <Outlet />
     </div>
   );
 }

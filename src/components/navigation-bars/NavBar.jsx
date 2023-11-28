@@ -136,7 +136,7 @@ function NavBar() {
     <div
       ref={screen}
       data-testid="nav-bar"
-      className="flex w-0 items-start justify-center overflow-auto dark:bg-pure-black sm:mt-auto sm:h-full  sm:w-full"
+      className="flex w-0 items-start justify-center overflow-auto dark:bg-pure-black sm:mt-auto sm:h-full sm:w-full sm:border-r-2  sm:border-r-border-gray"
     >
       <FloatingHeader
         drawerOpen={drawerOpen}

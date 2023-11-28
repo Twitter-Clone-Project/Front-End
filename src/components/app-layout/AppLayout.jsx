@@ -7,7 +7,7 @@ function AppLayout() {
     <div className="min-h-full w-full">
       <div className="layout mx-auto flex h-full min-w-[250px] grid-cols-[auto_1fr_auto] grid-rows-1 sm:grid sm:max-w-[84%] ">
         <NavBar />
-        <main className="my-[60px] flex-1 sm:my-auto">
+        <main className="my-[60px] flex h-full flex-1 justify-start sm:my-auto">
           <Outlet />
         </main>
       </div>
