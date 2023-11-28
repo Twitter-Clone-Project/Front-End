@@ -4,15 +4,19 @@ import PropTypes from 'prop-types';
 function MessageCard({ Message, id, clicked, lastMessageId, state }) {
   return (
     <div
-      className={`flex w-full flex-col  dark:bg-black ${
+      className={` flex  flex-col break-words  dark:bg-black ${
         state === 'send' ? 'items-end ' : 'items-start'
-      } `}
+      }
+      `}
     >
       <div
         className={`
-        flex h-11 w-fit 
-        px-4 py-3 text-base dark:text-white
-      
+        min-h-11 flex w-fit 
+        px-4
+        py-3 text-base
+         dark:text-white
+
+        
         ${
           id === lastMessageId
             ? 'rounded-bl-3xl  rounded-br-[4px] rounded-tl-3xl rounded-tr-3xl'
@@ -21,9 +25,9 @@ function MessageCard({ Message, id, clicked, lastMessageId, state }) {
         ${
           state === 'send'
             ? 'bg-blue hover:bg-[#1a8cd8]'
-            : 'bg-[#EFF3F4] dark:bg-[#2F3336] '
+            : ' bg-[#f0f3f4] text-black dark:bg-[#2F3336] dark:text-white'
         } 
-
+       
        `}
       >
         {Message}

@@ -9,11 +9,13 @@ function PersonCard({
   followers,
   followerImage,
   followerName,
+  imgRef,
 }) {
   return (
     <div className="mb-4 flex h-[271.555px] w-full flex-col  items-center border-b-[1px] border-[#f6f8f9] px-4 py-5 hover:bg-[#f0f3f3] dark:border-[#252829] dark:bg-black dark:hover:bg-[#16171a]">
       <div className=" h-[68px] w-[68px]">
         <img
+          ref={imgRef}
           src={image}
           alt=""
           className="h-16 w-16 rounded-full"
@@ -56,6 +58,7 @@ PersonCard.propTypes = {
   followers: PropTypes.number.isRequired,
   followerName: PropTypes.string.isRequired,
   followerImage: PropTypes.string.isRequired,
+  imgRef: PropTypes.object.isRequired,
 };
 
 export default PersonCard;

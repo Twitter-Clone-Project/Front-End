@@ -6,7 +6,7 @@ function SearchResults({ selectedTag, setSelectedTag, searchValue }) {
   const [searchResults, setSearchResults] = useState([]);
   useEffect(() => {
     if (searchValue !== '') {
-      fetch('https://654a8f7d1f197d51e492699b.mockapi.io/search')
+      fetch('http://localhost:3000/search')
         .then((response) => response.json())
         .then((data) => {
           setSearchResults(data);

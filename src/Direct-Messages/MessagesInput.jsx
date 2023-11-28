@@ -28,7 +28,7 @@ function MessagesInput({ messages, setMessages }) {
             className=""
             type="button"
           >
-            <div className="flex h-[34px] w-[34px] items-center justify-center rounded-full hover:bg-blue-light">
+            <div className="flex h-[34px] w-[34px] items-center justify-center rounded-full hover:bg-blue-light dark:hover:bg-[#262f3b]">
               <svg
                 className="h-5 w-5 fill-blue"
                 viewBox="0 0 24 24"
@@ -38,7 +38,7 @@ function MessagesInput({ messages, setMessages }) {
             </div>
           </button>
 
-          <div className="flex h-[34px] w-[34px] items-center justify-center rounded-full hover:bg-blue-light">
+          <div className="flex h-[34px] w-[34px] items-center justify-center rounded-full hover:bg-blue-light dark:hover:bg-[#262f3b]">
             <svg
               className="h-5 w-5 fill-blue"
               viewBox="0 0 24 24"
@@ -52,7 +52,7 @@ function MessagesInput({ messages, setMessages }) {
             }}
             type="button"
           >
-            <div className=" flex h-[34px]  w-[34px] items-center justify-center rounded-full hover:bg-blue-light">
+            <div className=" flex h-[34px]  w-[34px] items-center justify-center rounded-full hover:bg-blue-light dark:hover:bg-[#262f3b]">
               <svg
                 className="h-5 w-5 fill-blue"
                 viewBox="0 0 24 24"
@@ -93,7 +93,9 @@ function MessagesInput({ messages, setMessages }) {
         >
           <div
             className={` ${
-              message === '' ? 'cursor-default' : ' hover:bg-blue-light'
+              message === ''
+                ? 'cursor-default'
+                : ' hover:bg-blue-light dark:hover:bg-[#262f3b]'
             } 
           flex h-[34px] w-[34px] items-center justify-center rounded-full`}
           >
@@ -113,7 +115,7 @@ function MessagesInput({ messages, setMessages }) {
 }
 
 MessagesInput.propTypes = {
-  messages: PropTypes.arrayOf(PropTypes.message).isRequired,
+  messages: PropTypes.array.isRequired,
   setMessages: PropTypes.func.isRequired,
 };
 
