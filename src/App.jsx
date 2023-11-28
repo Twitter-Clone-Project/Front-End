@@ -16,6 +16,7 @@ import FollowingList from './components/userComponents/FollowingList';
 import Logout from './components/navigation-bars/Logout';
 import LogoutConfirm from './components/navigation-bars/LogoutConfirm';
 import DirectMessages from './components/Direct-Messages/DirectMessages';
+import Homepage from './tweetPage/Homepage';
 
 function App() {
   const { dispatch } = useAuth();
@@ -112,13 +113,14 @@ function App() {
             <Route
               path="home"
               element={
-                <h1 className="min-h-full  border-border-gray dark:text-white sm:border-x-[1px]">
-                  <div className="flex h-full flex-col items-start justify-center">
-                    {Array.from({ length: 100 }, () => 1).map(() => (
-                      <span key={uuid4()}>Home</span>
-                    ))}
-                  </div>
-                </h1>
+                // <h1 className="min-h-full  border-border-gray dark:text-white sm:border-x-[1px]">
+                //   <div className="flex h-full flex-col items-start justify-center">
+                //     {Array.from({ length: 100 }, () => 1).map(() => (
+                //       <span key={uuid4()}>Home</span>
+                //     ))}
+                //   </div>
+                // </h1>
+                <Homepage />
               }
             />
             <Route

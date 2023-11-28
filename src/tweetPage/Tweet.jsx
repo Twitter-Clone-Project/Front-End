@@ -122,7 +122,7 @@ function Tweet({ data }) {
         </div>
         <div className="profileImage leftColumn mr-[12px] h-[40px] w-[40px] ">
           <img
-            src={data.user.profileImageURL}
+            src="https://images.pexels.com/photos/18758948/pexels-photo-18758948/free-photo-of-head-of-black-poodle.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
             alt="profileImage"
             className=" h-[40px] w-[40px] rounded-full object-cover"
           />
