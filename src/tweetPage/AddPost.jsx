@@ -21,24 +21,23 @@ function AddPost({ tweet, setTweet }) {
     setPostDisabled(true);
   };
   const handlePost = () => {
+    const formData = new FormData();
+    formData.append('text', text);
+    formData.append('hashtags', hashtagsString);
+    for (let index = 0; index < 4; index += 1) {
+      formData.append(`files[${index}]`, {});
+    }
+
+    files.forEach((file, index) => {
+      formData.append(`files[${index}]`, file);
+    });
+    // const data = Object.fromEntries(formData);
+    // console.log(data);
+    resetAll();
     const postData = async () => {
-      const formData = new FormData();
-      formData.append('text', text);
-      formData.append('hashtags', hashtagsString);
-      for (let index = 0; index < 4; index += 1) {
-        formData.append(`files[${index}]`, {});
-      }
-
-      files.forEach((file, index) => {
-        formData.append(`files[${index}]`, file);
-      });
-      resetAll();
-
-      // const data = Object.fromEntries(formData);
-      // console.log(data);
       try {
         const response = await fetch(
-          'https://8ab91f88-5083-4ec2-9135-592594f44252.mock.pstmn.io/tweets/add',
+          'https://2f29bfea-6dd0-4327-b865-9a8db1f872e9.mock.pstmn.io/tweets/add',
           {
             method: 'POST',
             body: formData, // Convert the data to JSON format

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable react/forbid-prop-types */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
@@ -5,7 +6,7 @@ import ReactButtons from './reactButtons';
 import Media from './Media';
 
 function Tweet({ data }) {
-  // const [tweetID, setTweetID] = useState(data.id);
+  const [retweetID, setRetweetID] = useState('');
   const [repost, toggleRepost] = useState(data.isRetweeted);
   const [reply, toggleReply] = useState(false);
   const [like, toggleLike] = useState(data.isLiked);
@@ -13,14 +14,91 @@ function Tweet({ data }) {
   const [repliesCount, setRepliesCount] = useState(data.repliesCount);
   const [likesCount, setLikesCount] = useState(data.likesCount);
   const handleLike = () => {
-    if (like === true) setLikesCount(likesCount - 1);
-    else setLikesCount(likesCount + 1);
+    if (like === true) {
+      const deleteLike = async () => {
+        try {
+          const response = await fetch(
+            `https://2f29bfea-6dd0-4327-b865-9a8db1f872e9.mock.pstmn.io/tweets/${data.id}/deleteLike`,
+            {
+              method: 'DELETE',
+            },
+          );
+          const res = await response.json();
+          console.log(res.status, res.message);
+          if (res.status) setLikesCount(likesCount - 1);
+        } catch (error) {
+          console.log('Error fetching timeline:', error);
+        }
+      };
+
+      deleteLike();
+    } else {
+      const postLike = async () => {
+        try {
+          const response = await fetch(
+            `https://2f29bfea-6dd0-4327-b865-9a8db1f872e9.mock.pstmn.io/tweets/${data.id}/addlike`,
+            {
+              method: 'POST',
+            },
+          );
+          const res = await response.json();
+          console.log(res.status, res.message);
+          if (res.status) setLikesCount(likesCount + 1);
+        } catch (error) {
+          console.log('Error fetching timeline:', error);
+        }
+      };
+
+      postLike();
+    }
     toggleLike(!like);
+
     // console.log(tweetID);
   };
   const handleRepost = () => {
-    if (repost === true) setRepostsCount(repostsCount - 1);
-    else setRepostsCount(repostsCount + 1);
+    if (repost === true) {
+      const deleteRetweet = async () => {
+        try {
+          const response = await fetch(
+            `https://2f29bfea-6dd0-4327-b865-9a8db1f872e9.mock.pstmn.io/tweets/${retweetID}/deleteRetweet`,
+            {
+              method: 'DELETE',
+            },
+          );
+          const res = await response.json();
+          console.log(res.status, res.message);
+          if (res.status) {
+            setRepostsCount(repostsCount - 1);
+            setRetweetID('');
+          }
+        } catch (error) {
+          console.log('Error fetching timeline:', error);
+        }
+      };
+
+      deleteRetweet();
+    } else {
+      const retweet = async () => {
+        try {
+          const response = await fetch(
+            `https://2f29bfea-6dd0-4327-b865-9a8db1f872e9.mock.pstmn.io/tweets/${data.id}/retweet`,
+            {
+              method: 'POST',
+            },
+          );
+          const res = await response.json();
+          console.log(res.status, res.data);
+          if (res.status) {
+            setRepostsCount(repostsCount + 1);
+            setRetweetID(res.data.retweetId);
+          }
+        } catch (error) {
+          console.log('Error fetching timeline:', error);
+        }
+      };
+
+      retweet();
+    }
     toggleRepost(!repost);
     // console.log(tweetID);
   };
