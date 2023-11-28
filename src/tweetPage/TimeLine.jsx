@@ -8,7 +8,7 @@ function TimeLine({ userID, tweets, setTweets }) {
       try {
         const response = await fetch(
           // eslint-disable-next-line max-len
-          `https://2f29bfea-6dd0-4327-b865-9a8db1f872e9.mock.pstmn.io/users/${userID}/timeline`,
+          `127.0.0.1:2023/api/v1/users/${userID}/timeline`,
         );
         const data = await response.json();
         setTweets(data.data);

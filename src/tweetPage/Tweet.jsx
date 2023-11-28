@@ -18,7 +18,7 @@ function Tweet({ data }) {
       const deleteLike = async () => {
         try {
           const response = await fetch(
-            `https://2f29bfea-6dd0-4327-b865-9a8db1f872e9.mock.pstmn.io/tweets/${data.id}/deleteLike`,
+            `127.0.0.1:2023/api/v1/tweets/${data.id}/deleteLike`,
             {
               method: 'DELETE',
             },
@@ -36,7 +36,7 @@ function Tweet({ data }) {
       const postLike = async () => {
         try {
           const response = await fetch(
-            `https://2f29bfea-6dd0-4327-b865-9a8db1f872e9.mock.pstmn.io/tweets/${data.id}/addlike`,
+            `127.0.0.1:2023/api/v1/tweets/${data.id}/addlike`,
             {
               method: 'POST',
             },
@@ -60,7 +60,7 @@ function Tweet({ data }) {
       const deleteRetweet = async () => {
         try {
           const response = await fetch(
-            `https://2f29bfea-6dd0-4327-b865-9a8db1f872e9.mock.pstmn.io/tweets/${retweetID}/deleteRetweet`,
+            `127.0.0.1:2023/api/v1/tweets/${retweetID}/deleteRetweet`,
             {
               method: 'DELETE',
             },
@@ -81,7 +81,7 @@ function Tweet({ data }) {
       const retweet = async () => {
         try {
           const response = await fetch(
-            `https://2f29bfea-6dd0-4327-b865-9a8db1f872e9.mock.pstmn.io/tweets/${data.id}/retweet`,
+            `127.0.0.1:2023/api/v1/tweets/${data.id}/retweet`,
             {
               method: 'POST',
             },

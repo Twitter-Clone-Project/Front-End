@@ -22,27 +22,24 @@ function AddPost({ tweet, setTweet }) {
   };
   const handlePost = () => {
     const formData = new FormData();
-    formData.append('text', text);
-    formData.append('hashtags', hashtagsString);
-    for (let index = 0; index < 4; index += 1) {
-      formData.append(`files[${index}]`, {});
-    }
+    formData.append('tweetText', text);
+    formData.append('trends', hashtagsString);
+    // for (let index = 0; index < 4; index += 1) {
+    //   formData.append(`files[${index}]`, {});
+    // }
 
-    files.forEach((file, index) => {
-      formData.append(`files[${index}]`, file);
-    });
+    // files.forEach((file, index) => {
+    //   formData.append(`files[${index}]`, file);
+    // });
     // const data = Object.fromEntries(formData);
     // console.log(data);
     resetAll();
     const postData = async () => {
       try {
-        const response = await fetch(
-          'https://2f29bfea-6dd0-4327-b865-9a8db1f872e9.mock.pstmn.io/tweets/add',
-          {
-            method: 'POST',
-            body: formData, // Convert the data to JSON format
-          },
-        );
+        const response = await fetch('127.0.0.1:2023/api/v1/tweets/add', {
+          method: 'POST',
+          body: formData, // Convert the data to JSON format
+        });
         const data = await response.json();
         setTweet(data.data);
         console.log(data.data);
