@@ -11,7 +11,7 @@ import UnprotectedRoute from './components/UnprotectedRoute';
 import { useAuth } from './hooks/AuthContext';
 import Spinner from './components/Spinner';
 import SignUpForm from './components/sign-up/SignUpForm';
-import FollowerList from './components/userComponents/FollowerList';
+import FollowersList from './components/userComponents/FollowersList';
 import FollowingList from './components/userComponents/FollowingList';
 import Logout from './components/navigation-bars/Logout';
 import LogoutConfirm from './components/navigation-bars/LogoutConfirm';
@@ -143,8 +143,9 @@ function App() {
               element={<FollowingList />}
             />
             <Route
-              path=":username/follower"
-              element={<FollowerList />}
+              exact
+              path=":username/followers"
+              element={<FollowersList />}
             />
             <Route
               path="settings"

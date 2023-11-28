@@ -16,7 +16,63 @@ function PopoverUserCard({
   popoverFollowing,
   popoverFollowers,
   popoverTestID,
+  popoverSetLocalIsFollowed,
 }) {
+  // Function to handle follow request
+  const followReq = () => {
+    fetch('https://cb1ad4cc-7394-4166-b581-f659d60dbd21.mock.pstmn.io/follow', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userid: { popoverUserID },
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        popoverSetLocalIsFollowed(!popoverIsFollowed);
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Response data:', data);
+      })
+      .catch((error) => {
+        console.error('Error during fetch:', error);
+      });
+  };
+
+  // Function to handle unFollow request
+  const unFollowReq = () => {
+    fetch(
+      'https://cb1ad4cc-7394-4166-b581-f659d60dbd21.mock.pstmn.io/unfollow',
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userid: { popoverUserID },
+        }),
+      },
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        popoverSetLocalIsFollowed(!popoverIsFollowed);
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Response data:', data);
+      })
+      .catch((error) => {
+        console.error('Error during fetch:', error);
+      });
+  };
+
   const [isPopoverButtonHovered, setPopoverButtonHovered] = useState(false);
   const navigate = useNavigate();
   return (
@@ -42,6 +98,9 @@ function PopoverUserCard({
             setPopoverButtonHovered(false);
           }}
           data-testid={`PopoverUserCard_${popoverTestID}_1`}
+          onClick={() => {
+            popoverIsFollowed ? unFollowReq() : followReq();
+          }}
         >
           <Button
             backGroundColor={
