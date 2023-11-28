@@ -36,15 +36,18 @@ function AddPost({ tweet, setTweet }) {
     resetAll();
     const postData = async () => {
       try {
-        const response = await fetch('127.0.0.1:2023/api/v1/tweets/add', {
-          method: 'POST',
-          body: formData, // Convert the data to JSON format
-        });
+        const response = await fetch(
+          'http://127.0.0.1:2023/api/v1/tweets/add',
+          {
+            method: 'POST',
+            body: formData,
+          },
+        );
         const data = await response.json();
         setTweet(data.data);
         console.log(data.data);
       } catch (error) {
-        console.log('Error fetching timeline:', error);
+        console.log('Error Add tweet:', error);
       }
     };
 
@@ -96,32 +99,34 @@ function AddPost({ tweet, setTweet }) {
           <Media images={filesURLs} />
 
           <div className="media my-3 flex flex-row justify-between border-t-[0.5px] border-t-x-light-gray py-2">
-            <label
-              htmlFor="mediaUpload"
-              className=" cursor-pointer"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                className="h-[18.75px] w-[18.75px] "
+            <div className="flex w-[10%] flex-row justify-between">
+              <label
+                htmlFor="mediaUpload"
+                className=" cursor-pointer"
               >
-                <path
-                  d="M3 5.5C3 4.119 4.119 3 5.5 3h13C19.881 3 21 4.119 21 5.5v13c0 1.381-1.119 2.5-2.5 2.5h-13C4.119 21 3 19.881 3 18.5v-13zM5.5 5c-.276 0-.5.224-.5.5v9.086l3-3 3 3 5-5 3 3V5.5c0-.276-.224-.5-.5-.5h-13zM19 15.414l-3-3-5 5-3-3-3 3V18.5c0 .276.224.5.5.5h13c.276 0 .5-.224.5-.5v-3.086zM9.75 7C8.784 7 8 7.784 8 8.75s.784 1.75 1.75 1.75 1.75-.784 1.75-1.75S10.716 7 9.75 7z"
-                  className=" fill-blue"
-                />
-              </svg>
-            </label>
-            <input
-              type="file"
-              accept="image/*"
-              id="mediaUpload"
-              className="hidden"
-              onChange={handleImageChange}
-              multiple
-            />
-            <AddEmoji
-              text={text}
-              setText={setText}
-            />
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-[18.75px] w-[18.75px] "
+                >
+                  <path
+                    d="M3 5.5C3 4.119 4.119 3 5.5 3h13C19.881 3 21 4.119 21 5.5v13c0 1.381-1.119 2.5-2.5 2.5h-13C4.119 21 3 19.881 3 18.5v-13zM5.5 5c-.276 0-.5.224-.5.5v9.086l3-3 3 3 5-5 3 3V5.5c0-.276-.224-.5-.5-.5h-13zM19 15.414l-3-3-5 5-3-3-3 3V18.5c0 .276.224.5.5.5h13c.276 0 .5-.224.5-.5v-3.086zM9.75 7C8.784 7 8 7.784 8 8.75s.784 1.75 1.75 1.75 1.75-.784 1.75-1.75S10.716 7 9.75 7z"
+                    className=" fill-blue"
+                  />
+                </svg>
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                id="mediaUpload"
+                className="hidden"
+                onChange={handleImageChange}
+                multiple
+              />
+              <AddEmoji
+                text={text}
+                setText={setText}
+              />
+            </div>
 
             <button
               onClick={handlePost}
