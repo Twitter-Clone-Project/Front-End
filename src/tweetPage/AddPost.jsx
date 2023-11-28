@@ -77,7 +77,7 @@ function AddPost({ tweet, setTweet }) {
     }
   }, [files, text]);
   return (
-    <div>
+    <div className="flex items-center justify-center border-y-[0.5px] border-y-border-gray">
       <div className="tweet mt-[0.5px] flex w-[88%] flex-row   bg-white px-[16px] pt-[12px] dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
         <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
           <div className="profileImage leftColumn mr-[12px] h-[40px] w-[40px] ">
@@ -89,7 +89,7 @@ function AddPost({ tweet, setTweet }) {
           </div>
         </div>
 
-        <div className="rightColumn h-auto min-h-[153px] w-[512px]">
+        <div className="rightColumn h-auto w-full">
           <div className="  placeholder:text-light-thin">
             <TextField
               text={text}
@@ -98,7 +98,7 @@ function AddPost({ tweet, setTweet }) {
           </div>
           <Media images={filesURLs} />
 
-          <div className="media my-3 flex flex-row justify-between border-t-[0.5px] border-t-x-light-gray py-2">
+          <div className="media my-3 flex flex-row items-center justify-between border-t-[0.5px] border-t-border-gray py-2">
             <label
               htmlFor="mediaUpload"
               className=" cursor-pointer"

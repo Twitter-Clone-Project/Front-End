@@ -10,8 +10,7 @@ import UserImg from './UserImg';
 
 function NavBar() {
   const { user } = useAuth();
-   const location = useLocation();
-   if (location.pathname.split('/')[2] !== 'home') return;
+  const location = useLocation();
   const mobileItems = [
     {
       path: './home',
@@ -133,6 +132,7 @@ function NavBar() {
       screen.current.addEventListener('keydown', handler);
     } else screen.current.removeEventListener('keydown', handler);
   }, [drawerOpen]);
+  if (location.pathname.split('/')[2] !== 'home') return;
 
   return (
     <div

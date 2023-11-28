@@ -2,6 +2,8 @@ import * as React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import { v4 as uuid4 } from 'uuid';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en.json';
 import LandingPage from './components/landingPage/LandingPage';
 import Login from './components/login-page/Login';
 import ForgotPassword from './components/login-page/ForgotPassword';
@@ -17,6 +19,8 @@ import Logout from './components/navigation-bars/Logout';
 import LogoutConfirm from './components/navigation-bars/LogoutConfirm';
 import DirectMessages from './components/Direct-Messages/DirectMessages';
 import Homepage from './tweetPage/Homepage';
+
+TimeAgo.addDefaultLocale(en);
 
 function App() {
   const { dispatch } = useAuth();

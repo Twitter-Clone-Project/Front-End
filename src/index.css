@@ -65,7 +65,16 @@ a.list-nav-active span:after {
 ::-ms-reveal {
   display: none !important;
 }
-.public-DraftEditorPlaceholder-root {
-  color: theme(colors.light-thin);
-  position: absolute;
+.DraftEditor-root {
+  padding: 12px;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.public-DraftEditor-content {
+  width: 100%;
+}
+.DraftEditor-editorContainer {
+  width: 100%;
 }

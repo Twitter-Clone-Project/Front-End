@@ -13,10 +13,13 @@
     "test": "vitest --coverage --ui"
   },
   "dependencies": {
+    "@draft-js-plugins/editor": "^4.1.4",
+    "@draft-js-plugins/hashtag": "^4.2.2",
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",
     "@testing-library/jest-dom": "^6.1.4",
     "dotenv": "^16.3.1",
+    "draft-js": "^0.11.7",
     "emoji-mart": "^5.5.2",
     "encodeurl": "^1.0.2",
     "prop-types": "^15.8.1",
@@ -24,15 +27,13 @@
     "react-dom": "^18.2.0",
     "react-google-recaptcha": "^3.1.0",
     "react-hot-toast": "^2.4.1",
+    "react-input-emoji": "^5.6.5",
     "react-router": "^6.20.0",
     "react-router-dom": "^6.20.0",
+    "react-time-ago": "^7.2.1",
     "tailwind-scrollbar": "^3.0.5",
     "uuid": "^9.0.1",
-    "validator": "^13.11.0",
-    "@draft-js-plugins/editor": "^4.1.4",
-    "@draft-js-plugins/hashtag": "^4.2.2",
-    "draft-js": "^0.11.7",
-    "react-input-emoji": "^5.6.5"
+    "validator": "^13.11.0"
   },
   "devDependencies": {
     "@kalimahapps/eslint-plugin-tailwind": "^1.0.10",
