@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
 import NavItem from './NavItem';
 import Button from '../form-controls/Button';
@@ -10,6 +10,8 @@ import UserImg from './UserImg';
 
 function NavBar() {
   const { user } = useAuth();
+   const location = useLocation();
+   if (location.pathname.split('/')[2] !== 'home') return;
   const mobileItems = [
     {
       path: './home',
@@ -136,7 +138,7 @@ function NavBar() {
     <div
       ref={screen}
       data-testid="nav-bar"
-      className="flex w-0 items-start justify-center overflow-auto dark:bg-pure-black sm:mt-auto sm:h-full  sm:w-full"
+      className="mlg:min-w-[250px] flex w-0 items-start justify-center  dark:bg-pure-black sm:mt-auto sm:h-full sm:w-full"
     >
       <FloatingHeader
         drawerOpen={drawerOpen}
@@ -144,15 +146,15 @@ function NavBar() {
         setDrawerOpen={setDrawerOpen}
         handleLogout={handleLogout}
       />
-      <div className="relative w-full overflow-auto  px-6 text-start transition-colors duration-200 sm:border-0 lg:min-w-[250px]">
+      <div className="mlg:min-w-[250px] mlg:px-3 relative h-full w-full overflow-auto px-12 text-start transition-colors duration-200 sm:border-0">
         <div
-          className={`fixed bottom-0 left-0 z-10 flex w-full
-          items-end justify-between 
-          border-t-[0.5px] border-border-gray
-          bg-white dark:bg-pure-black sm:left-6 sm:mx-2
-          sm:mt-0 sm:h-full sm:w-auto sm:flex-1 sm:flex-col
-          sm:items-start sm:justify-between sm:gap-1 sm:border-0 lg:left-auto
-          ${!show ? 'opacity-30 sm:opacity-100' : ''}`}
+          className={`mlg:left-auto fixed bottom-0 left-0 z-10
+          flex w-full items-end
+          justify-between border-t-[0.5px]
+          border-border-gray bg-white p-2 dark:bg-pure-black
+          sm:left-2 sm:mx-2 sm:mt-0 sm:h-full sm:w-auto
+          sm:flex-1 sm:flex-col sm:items-start sm:justify-between sm:gap-1 
+          sm:border-0 ${!show ? 'opacity-30 sm:opacity-100' : ''}`}
         >
           <div className="mb-4 hidden overflow-auto p-3 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:flex">
             <Link to="/">
@@ -196,7 +198,7 @@ function NavBar() {
               />
             ))}
           </div>
-          <div className="absolute mx-auto hidden w-full items-center justify-center rounded-full sm:relative lg:flex">
+          <div className="mlg:flex absolute mx-auto hidden w-full items-center justify-center rounded-full sm:relative">
             <Button
               label="Post"
               backGroundColor="blue"
@@ -207,7 +209,7 @@ function NavBar() {
               hight="h-[53px]"
             />
           </div>
-          <div className="absolute bottom-24 right-3  mt-3 flex w-[full] items-center justify-center rounded-full bg-blue p-4 hover:cursor-pointer hover:bg-opacity-90 sm:relative sm:bottom-0 sm:right-0 lg:hidden">
+          <div className="mlg:hidden absolute bottom-24  right-3 mt-3 flex w-[full] items-center justify-center rounded-full bg-blue p-4 hover:cursor-pointer hover:bg-opacity-90 sm:relative sm:bottom-0 sm:right-0">
             <button
               type="submit"
               className="flex-1"
@@ -234,15 +236,15 @@ function NavBar() {
               <UserImg user={user} />
               <p
                 className="
-                hidden px-4 text-base font-semibold capitalize tracking-wide
-              dark:text-white lg:flex lg:flex-1 lg:flex-col lg:items-start"
+                mlg:flex hidden px-4 text-base font-semibold capitalize
+              tracking-wide dark:text-white lg:flex-1 lg:flex-col lg:items-start"
               >
                 {user.name}
                 <span className="text-sm font-thin text-light-thin">
                   @{user.username}
                 </span>
               </p>
-              <span className="hidden items-center justify-center px-2 text-xs font-medium tracking-wider dark:text-white lg:flex">
+              <span className="mlg:flex hidden items-center justify-center px-2 text-xs font-medium tracking-wider dark:text-white">
                 &bull;&bull;&bull;
               </span>
               <div className="absolute bottom-0 left-0 top-0 z-50 hidden h-full w-full group-focus-within:flex dark:text-white  ">

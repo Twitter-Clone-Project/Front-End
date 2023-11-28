@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { v4 as uuid4 } from 'uuid';
 import { useAuth } from '../../hooks/AuthContext';
@@ -10,6 +10,8 @@ import UserImg from './UserImg';
 
 function FloatingHeader({ drawerOpen, show, setDrawerOpen, handleLogout }) {
   const { user } = useAuth();
+  const location = useLocation();
+  if (location.pathname.split('/')[2] !== 'home') return;
   const items = [
     {
       path: `./${user.username}`,

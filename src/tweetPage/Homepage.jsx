@@ -33,7 +33,7 @@ function Homepage() {
     });
   }, [tweet]);
   return (
-    <div className="mx-auto grid min-h-full grid-cols-[auto_1fr] dark:text-white ">
+    <div className="mx-auto my-[60px] grid min-h-full grid-cols-[auto_1fr] dark:text-white sm:my-auto ">
       <div className=" border-border-gray sm:border-x-[1px]">
         <AddPost
           tweet={tweet}
