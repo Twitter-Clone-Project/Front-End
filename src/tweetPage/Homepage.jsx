@@ -33,16 +33,19 @@ function Homepage() {
     });
   }, [tweet]);
   return (
-    <div>
-      <AddPost
-        tweet={tweet}
-        setTweet={setTweet}
-      />
-      <TimeLine
-        userID={userID}
-        tweets={tweets}
-        setTweets={setTweets}
-      />
+    <div className="mx-auto grid min-h-full grid-cols-[auto_1fr] dark:text-white ">
+      <div className=" border-border-gray sm:border-x-[1px]">
+        <AddPost
+          tweet={tweet}
+          setTweet={setTweet}
+        />
+        <TimeLine
+          userID={userID}
+          tweets={tweets}
+          setTweets={setTweets}
+        />
+      </div>
+      <div />
     </div>
   );
 }
