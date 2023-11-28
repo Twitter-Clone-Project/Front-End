@@ -1,18 +1,16 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import Media from './Media';
 import AddEmoji from './AddEmoji';
 import TextField from './TextField';
-import Tweet from './Tweet';
 
-function AddPost() {
+function AddPost({ tweet, setTweet }) {
   const [files, setFiles] = useState([]);
   const [filesURLs, setFilesURLs] = useState([]);
   const [hashtags, setHashtags] = useState([]);
   const [hashtagsString, setHashtagsString] = useState('');
   const [text, setText] = useState('');
   const [postDisabled, setPostDisabled] = useState(true);
-  const [tweet, setTweet] = useState({});
-  const [isTweeted, setIsTweeted] = useState(false);
 
   const handlePost = () => {
     const postData = async () => {
@@ -27,17 +25,21 @@ function AddPost() {
       try {
         const response = await fetch(
           'https://8ab91f88-5083-4ec2-9135-592594f44252.mock.pstmn.io/tweets/add',
+          {
+            method: 'POST',
+            body: formData, // Convert the data to JSON format
+          },
         );
         const data = await response.json();
-        setTweet(data);
-        setIsTweeted(true);
+        setTweet(data.data);
+        console.log(data.data);
       } catch (error) {
         console.log('Error fetching timeline:', error);
       }
     };
 
     postData();
-    console.log(files, text, hashtags, hashtagsString, isTweeted);
+    // console.log(files, text, hashtags, hashtagsString, isTweeted);
   };
 
   const handleImageChange = (e) => {
