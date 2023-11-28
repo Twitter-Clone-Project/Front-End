@@ -4,7 +4,7 @@ import PersonCard from './PersonCard';
 import MessagesInput from './MessagesInput';
 import Messages from './Messages';
 import Header from './Header';
-import Button from '../components/form-controls/Button';
+import Button from '../form-controls/Button';
 
 function ChatPage({ selectedTag, width, visibility, showArrow }) {
   const [messages, setMessages] = useState([]);

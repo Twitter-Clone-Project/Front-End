@@ -15,6 +15,7 @@ import FollowersList from './components/userComponents/FollowersList';
 import FollowingList from './components/userComponents/FollowingList';
 import Logout from './components/navigation-bars/Logout';
 import LogoutConfirm from './components/navigation-bars/LogoutConfirm';
+import DirectMessages from './components/Direct-Messages/DirectMessages';
 
 function App() {
   const { dispatch } = useAuth();
@@ -157,11 +158,7 @@ function App() {
             />
             <Route
               path="messages"
-              element={
-                <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
-                  Messages
-                </h1>
-              }
+              element={<DirectMessages />}
             />
           </Route>
         </Routes>
