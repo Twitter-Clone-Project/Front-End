@@ -3,34 +3,39 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-// import PropTypes from 'prop-types';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
 import UserItem from './UserItem';
 import ListNav from '../navigation-bars/ListNav';
 
-// eslint-disable-next-line no-unused-vars
-function FollowerList() {
+function FollowersList() {
+  // Get the past location for Back Button
+  const location = useLocation();
+  const pastPath = location.state;
+
+  // Get the username from the URL params
   const { username } = useParams('username');
 
+  // Define navigation items for the ListNav component
   const ListNavItems = [
     {
       label: 'Following',
-      path: `/app/${username}/following`,
+      path: `/${username}/following`,
     },
     {
-      label: 'Follower',
-      path: `/app/${username}/follower`,
+      label: 'Followers',
+      path: `/${username}/followers`,
     },
   ];
+
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
   const handelBackButton = () => {
-    navigate(-1);
-    // navigate(currPath);
+    navigate(pastPath);
   };
 
+  // Fetch the list of Following users
   useEffect(() => {
     fetch('https://6548ef1edd8ebcd4ab23e882.mockapi.io/Xproject/followers')
       .then((response) => response.json())
@@ -38,7 +43,7 @@ function FollowerList() {
   }, []);
   return (
     <div className="flex h-full min-h-screen w-full justify-center bg-white dark:bg-pure-black">
-      <div className="w-[600px] overflow-y-clip bg-white dark:bg-pure-black">
+      <div className="w-full overflow-y-clip bg-white dark:bg-pure-black">
         <div className=" flex h-28 flex-col">
           <div className="flex h-[53px] flex-row px-4 ">
             <div className=" w-14">
@@ -66,14 +71,14 @@ function FollowerList() {
                   className=" cursor-pointer text-[20px] font-bold leading-6 text-pure-black hover:underline dark:text-white"
                   data-popover-target="popover-user-profile"
                 >
-                  Arabian Horses
+                  The user Name
                 </span>
               </div>
               <span
                 className=" w-min text-sm leading-4 text-light-thin"
                 data-popover-target="popover-user-profile"
               >
-                @arabian
+                @{username}
               </span>
             </div>
           </div>
@@ -81,7 +86,10 @@ function FollowerList() {
             className=" border-b border-border-gray"
             data-testid="FollowerList_1"
           >
-            <ListNav items={ListNavItems} />
+            <ListNav
+              items={ListNavItems}
+              pastPath={pastPath}
+            />
           </div>
         </div>
         <div data-testid="FollowerList_2">
@@ -105,10 +113,4 @@ function FollowerList() {
   );
 }
 
-// FollowerList.propTypes = {
-//   userName: PropTypes.string,
-//   userId: PropTypes.string,
-//   currPath: PropTypes.string,
-// };
-
-export default FollowerList;
+export default FollowersList;

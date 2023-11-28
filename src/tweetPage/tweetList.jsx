@@ -1,7 +1,7 @@
 import React from 'react';
 import Tweet from './Tweet';
 
-function tweetList() {
+function TweetList() {
   const tweet = {
     status: true,
     data: [
@@ -72,4 +72,4 @@ function tweetList() {
   );
 }
 
-export default tweetList;
+export default TweetList;

@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 @media (prefers-color-scheme: dark) {
-  body,root {
+  body,
+  root {
     background-color: theme(colors.pure-black);
   }
 }
@@ -63,4 +64,8 @@ a.list-nav-active span:after {
 }
 ::-ms-reveal {
   display: none !important;
+}
+.public-DraftEditorPlaceholder-root {
+  color: theme(colors.light-thin);
+  position: absolute;
 }
