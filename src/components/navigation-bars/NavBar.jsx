@@ -136,7 +136,7 @@ function NavBar() {
     <div
       ref={screen}
       data-testid="nav-bar"
-      className="mlg:min-w-[250px] flex w-0 items-start justify-center  dark:bg-pure-black sm:mt-auto sm:h-full sm:w-full"
+      className="flex w-0 items-start justify-center dark:bg-pure-black  sm:mt-auto sm:h-full sm:w-full mlg:min-w-[250px]"
     >
       <FloatingHeader
         drawerOpen={drawerOpen}
@@ -144,15 +144,15 @@ function NavBar() {
         setDrawerOpen={setDrawerOpen}
         handleLogout={handleLogout}
       />
-      <div className="mlg:min-w-[250px] mlg:px-3 relative h-full w-full overflow-auto px-12 text-start transition-colors duration-200 sm:border-0">
+      <div className="relative h-full w-full overflow-auto px-12 text-start transition-colors duration-200 sm:border-0 mlg:min-w-[250px] mlg:px-3">
         <div
-          className={`mlg:left-auto fixed bottom-0 left-0 z-10
-          flex w-full items-end
-          justify-between border-t-[0.5px]
-          border-border-gray bg-white p-2 dark:bg-pure-black
-          sm:left-2 sm:mx-2 sm:mt-0 sm:h-full sm:w-auto
-          sm:flex-1 sm:flex-col sm:items-start sm:justify-between sm:gap-1 
-          sm:border-0 ${!show ? 'opacity-30 sm:opacity-100' : ''}`}
+          className={`fixed bottom-0 left-0 z-10 flex
+          w-full items-end justify-between
+          border-t-[0.5px] border-border-gray
+          bg-white p-2 dark:bg-pure-black sm:left-2
+          sm:mx-2 sm:mt-0 sm:h-full sm:w-auto sm:flex-1
+          sm:flex-col sm:items-start sm:justify-between sm:gap-1 sm:border-0 
+          mlg:left-auto ${!show ? 'opacity-30 sm:opacity-100' : ''}`}
         >
           <div className="hover:bg-light-hover-layout hover:dark:bg-hover-layout mb-4 hidden overflow-auto p-3 hover:cursor-pointer hover:rounded-full sm:flex">
             <Link to="/">
@@ -196,7 +196,7 @@ function NavBar() {
               />
             ))}
           </div>
-          <div className="mlg:flex absolute mx-auto hidden w-full items-center justify-center rounded-full sm:relative">
+          <div className="absolute mx-auto hidden w-full items-center justify-center rounded-full sm:relative mlg:flex">
             <Button
               label="Post"
               backGroundColor="blue"
@@ -207,7 +207,7 @@ function NavBar() {
               hight="h-[53px]"
             />
           </div>
-          <div className="mlg:hidden absolute bottom-24  right-3 mt-3 flex w-[full] items-center justify-center rounded-full bg-blue p-4 hover:cursor-pointer hover:bg-opacity-90 sm:relative sm:bottom-0 sm:right-0">
+          <div className="absolute bottom-24 right-3  mt-3 flex w-[full] items-center justify-center rounded-full bg-blue p-4 hover:cursor-pointer hover:bg-opacity-90 sm:relative sm:bottom-0 sm:right-0 mlg:hidden">
             <button
               type="submit"
               className="flex-1"
@@ -234,15 +234,15 @@ function NavBar() {
               <UserImg user={user} />
               <p
                 className="
-                mlg:flex hidden px-4 text-base font-semibold capitalize
-              tracking-wide dark:text-white lg:flex-1 lg:flex-col lg:items-start"
+                hidden px-4 text-base font-semibold capitalize tracking-wide
+              dark:text-white lg:flex-1 lg:flex-col lg:items-start mlg:flex"
               >
                 {user.name}
                 <span className="text-sm font-thin text-light-thin">
                   @{user.username}
                 </span>
               </p>
-              <span className="mlg:flex hidden items-center justify-center px-2 text-xs font-medium tracking-wider dark:text-white">
+              <span className="hidden items-center justify-center px-2 text-xs font-medium tracking-wider dark:text-white mlg:flex">
                 &bull;&bull;&bull;
               </span>
               <div className="absolute bottom-0 left-0 top-0 z-50 hidden h-full w-full group-focus-within:flex dark:text-white  ">

@@ -3,9 +3,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactTimeAgo from 'react-time-ago';
+import { v4 as uuid4 } from 'uuid';
 import ReactButtons from './reactButtons';
 import Media from './Media';
-import { v4 as uuid4 } from 'uuid';
+
 function Tweet({ data }) {
   const [repost, toggleRepost] = useState(data.isRetweeted);
   const [reply, toggleReply] = useState(data.isReplied);
