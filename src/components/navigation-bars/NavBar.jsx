@@ -234,7 +234,7 @@ function NavBar() {
               <UserImg user={user} />
               <p
                 className="
-                hidden px-4 text-base font-semibold capitalize tracking-wide
+                hidden px-4 text-base font-semibold tracking-wide
               dark:text-white lg:flex-1 lg:flex-col lg:items-start mlg:flex"
               >
                 {user.name}
