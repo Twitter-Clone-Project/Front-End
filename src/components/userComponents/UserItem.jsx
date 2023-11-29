@@ -18,13 +18,17 @@ function UserItem({
   following,
   followers,
   testID,
+  itemID,
 }) {
   const [localIsFollowed, setLocalIsFollowed] = useState(isFollowed);
 
   // Function to handle follow request
   const followReq = () => {
-    fetch('https://cb1ad4cc-7394-4166-b581-f659d60dbd21.mock.pstmn.io/follow', {
+    fetch(`http://${import.meta.env.VITE_API_DOMAIN}users/${itemID}/follow`, {
       method: 'POST',
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -50,18 +54,18 @@ function UserItem({
 
   // Function to handle unFollow request
   const unFollowReq = () => {
-    fetch(
-      'https://cb1ad4cc-7394-4166-b581-f659d60dbd21.mock.pstmn.io/unfollow',
-      {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userid: { userID },
-        }),
+    fetch(`http://${import.meta.env.VITE_API_DOMAIN}users/${itemID}/unfollow`, {
+      method: 'DELETE',
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
       },
-    )
+      body: JSON.stringify({
+        userid: { userID },
+      }),
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -294,6 +298,7 @@ function UserItem({
           popoverFollowers={followers}
           popoverTestID={testID}
           popoverSetLocalIsFollowed={setLocalIsFollowed}
+          popoverItemID={itemID}
         />
       </div>
     </div>
@@ -307,9 +312,10 @@ UserItem.propTypes = {
   userName: PropTypes.string.isRequired,
   userID: PropTypes.string.isRequired,
   discription: PropTypes.string.isRequired,
-  following: PropTypes.number.isRequired,
-  followers: PropTypes.number.isRequired,
+  following: PropTypes.string.isRequired,
+  followers: PropTypes.string.isRequired,
   testID: PropTypes.number.isRequired,
+  itemID: PropTypes.string.isRequired,
 };
 
 export default UserItem;

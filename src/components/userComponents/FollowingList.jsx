@@ -20,11 +20,11 @@ function FollowingList() {
   const ListNavItems = [
     {
       label: 'Following',
-      path: `/${username}/following`,
+      path: `/app/${username}/following`,
     },
     {
       label: 'Followers',
-      path: `/${username}/followers`,
+      path: `/app/${username}/followers`,
     },
   ];
   const [users, setUsers] = useState([]);
@@ -36,9 +36,27 @@ function FollowingList() {
 
   // Fetch the list of Follower users
   useEffect(() => {
-    fetch('https://6548ef1edd8ebcd4ab23e882.mockapi.io/Xproject/following')
-      .then((response) => response.json())
-      .then((data) => setUsers(data));
+    fetch(
+      `http://${import.meta.env.VITE_API_DOMAIN}users/${username}/followings`,
+      {
+        method: 'GET',
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+      },
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setUsers(data.data.users);
+      })
+      .catch((error) => {
+        console.error('Error during fetch:', error);
+      });
   }, []);
   return (
     <div className="flex h-full min-h-screen w-full justify-center bg-white dark:bg-pure-black">
@@ -97,13 +115,14 @@ function FollowingList() {
               key={uuid4()}
               isFollowed={user.isFollowed}
               isFollowing={user.isFollowing}
-              userPicture={user.avatar}
-              userName={user.userName}
-              userID={user.userId}
-              discription={user.discription}
-              following={user.following}
-              followers={user.followers}
+              userPicture={user.imageurl}
+              userName={user.name}
+              userID={user.username}
+              discription={user.bio}
+              following={user.followingsCount}
+              followers={user.followersCount}
               testID={index}
+              itemID={user.userId}
             />
           ))}
         </div>

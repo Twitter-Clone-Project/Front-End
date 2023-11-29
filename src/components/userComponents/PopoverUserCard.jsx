@@ -17,18 +17,25 @@ function PopoverUserCard({
   popoverFollowers,
   popoverTestID,
   popoverSetLocalIsFollowed,
+  popoverItemID,
 }) {
   // Function to handle follow request
   const followReq = () => {
-    fetch('https://cb1ad4cc-7394-4166-b581-f659d60dbd21.mock.pstmn.io/follow', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    fetch(
+      `http://${import.meta.env.VITE_API_DOMAIN}users/${popoverItemID}/follow`,
+      {
+        method: 'POST',
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userid: { popoverUserID },
+        }),
       },
-      body: JSON.stringify({
-        userid: { popoverUserID },
-      }),
-    })
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -47,9 +54,14 @@ function PopoverUserCard({
   // Function to handle unFollow request
   const unFollowReq = () => {
     fetch(
-      'https://cb1ad4cc-7394-4166-b581-f659d60dbd21.mock.pstmn.io/unfollow',
+      `http://${
+        import.meta.env.VITE_API_DOMAIN
+      }users/${popoverItemID}/unfollow`,
       {
         method: 'DELETE',
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -214,9 +226,10 @@ PopoverUserCard.propTypes = {
   popoverUserName: PropTypes.string.isRequired,
   popoverUserID: PropTypes.string.isRequired,
   popoverDiscription: PropTypes.string.isRequired,
-  popoverFollowing: PropTypes.number.isRequired,
-  popoverFollowers: PropTypes.number.isRequired,
+  popoverFollowing: PropTypes.string.isRequired,
+  popoverFollowers: PropTypes.string.isRequired,
   popoverTestID: PropTypes.number.isRequired,
+  popoverItemID: PropTypes.string.isRequired,
 };
 
 export default PopoverUserCard;
