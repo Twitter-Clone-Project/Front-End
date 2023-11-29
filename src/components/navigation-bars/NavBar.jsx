@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
 import NavItem from './NavItem';
 import Button from '../form-controls/Button';
@@ -10,7 +10,6 @@ import UserImg from './UserImg';
 
 function NavBar() {
   const { user } = useAuth();
-  const location = useLocation();
   const mobileItems = [
     {
       path: './home',
@@ -95,22 +94,22 @@ function NavBar() {
   const [lastScrollY, setLastScrollY] = useState(0);
   const screen = useRef();
 
-  const controlNavbar = () => {
-    if (window !== 'undefined') {
-      if (window.scrollY > lastScrollY) {
-        setShow(false);
-      } else {
-        setShow(true);
-      }
-
-      setLastScrollY(window.scrollY);
-    }
-  };
   useEffect(() => {
     setDrawerOpen(false);
   }, [Navigate]);
 
   useEffect(() => {
+    const controlNavbar = () => {
+      if (window !== 'undefined') {
+        if (window.scrollY > lastScrollY) {
+          setShow(false);
+        } else {
+          setShow(true);
+        }
+
+        setLastScrollY(window.scrollY);
+      }
+    };
     if (typeof window !== 'undefined') {
       window.addEventListener('scroll', controlNavbar);
 
@@ -132,7 +131,6 @@ function NavBar() {
       screen.current.addEventListener('keydown', handler);
     } else screen.current.removeEventListener('keydown', handler);
   }, [drawerOpen]);
-  if (location.pathname.split('/')[2] !== 'home') return;
 
   return (
     <div
@@ -156,7 +154,7 @@ function NavBar() {
           sm:flex-1 sm:flex-col sm:items-start sm:justify-between sm:gap-1 
           sm:border-0 ${!show ? 'opacity-30 sm:opacity-100' : ''}`}
         >
-          <div className="mb-4 hidden overflow-auto p-3 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:flex">
+          <div className="hover:bg-light-hover-layout hover:dark:bg-hover-layout mb-4 hidden overflow-auto p-3 hover:cursor-pointer hover:rounded-full sm:flex">
             <Link to="/">
               <svg
                 className="inline-block w-[1.9rem] fill-pure-black dark:fill-white"
@@ -227,7 +225,7 @@ function NavBar() {
               </svg>
             </button>
           </div>
-          <div className="absolute bottom-24 right-0 mx-auto my-6 hidden w-full items-center justify-between justify-self-end p-2 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:relative sm:bottom-0 sm:right-0 sm:flex sm:items-start">
+          <div className="hover:bg-light-hover-layout hover:dark:bg-hover-layout absolute bottom-24 right-0 mx-auto my-6 hidden w-full items-center justify-between justify-self-end p-2 hover:cursor-pointer hover:rounded-full sm:relative sm:bottom-0 sm:right-0 sm:flex sm:items-start">
             <button
               type="submit"
               data-testid="user-btn"
@@ -249,7 +247,7 @@ function NavBar() {
               </span>
               <div className="absolute bottom-0 left-0 top-0 z-50 hidden h-full w-full group-focus-within:flex dark:text-white  ">
                 <div className="absolute bottom-14 left-0 flex w-64 items-center justify-start rounded-2xl bg-white py-4 shadow-[rgba(100,100,100,0.5)_0px_0.5px_4px] dark:bg-pure-black dark:shadow-[rgba(100,100,100,0.7)_0px_0.5px_4px]">
-                  <div className="flex flex-1 justify-start px-3 hover:bg-light-hover-layout  hover:dark:bg-hover-layout">
+                  <div className="hover:bg-light-hover-layout hover:dark:bg-hover-layout flex flex-1 justify-start  px-3">
                     <div
                       role="button"
                       data-testid="nav-logout-btn"
