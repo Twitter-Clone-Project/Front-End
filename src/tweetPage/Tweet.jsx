@@ -14,6 +14,10 @@ function Tweet({ data }) {
   const [repostsCount, setRepostsCount] = useState();
   const [repliesCount, setRepliesCount] = useState();
   const [likesCount, setLikesCount] = useState();
+  const [isLikeLoading, setIsLikeLoading] = useState(false);
+  const [isRepostLoading, setIsRepostLoading] = useState(false);
+  const [isReplyLoading, setIsReplyLoading] = useState(false);
+
   useEffect(() => {
     toggleLike(data.isLiked);
     toggleRepost(data.isRetweeted);
@@ -23,7 +27,8 @@ function Tweet({ data }) {
     setRepostsCount(data.retweetsCount);
   }, [data]);
   const handleLike = () => {
-    if (like === true) {
+    if (like === true && !isLikeLoading) {
+      setIsLikeLoading(true);
       const deleteLike = async () => {
         try {
           const response = await fetch(
@@ -46,7 +51,8 @@ function Tweet({ data }) {
       };
 
       deleteLike();
-    } else {
+    } else if (like === false && !isLikeLoading) {
+      setIsLikeLoading(true);
       const postLike = async () => {
         try {
           const response = await fetch(
@@ -70,10 +76,12 @@ function Tweet({ data }) {
 
       postLike();
     }
+    setIsLikeLoading(false);
     toggleLike(!like);
   };
   const handleRepost = () => {
-    if (repost === true) {
+    if (repost === true && !isRepostLoading) {
+      setIsLikeLoading(true);
       const deleteRetweet = async () => {
         try {
           const response = await fetch(
@@ -98,7 +106,8 @@ function Tweet({ data }) {
       };
 
       deleteRetweet();
-    } else {
+    } else if (repost === false && !isRepostLoading) {
+      setIsRepostLoading(true);
       const retweet = async () => {
         try {
           const response = await fetch(
@@ -125,6 +134,7 @@ function Tweet({ data }) {
       retweet();
     }
     toggleRepost(!repost);
+    setIsRepostLoading(false)
     // console.log(tweetID);
   };
   const handleReply = () => {
@@ -212,6 +222,7 @@ function Tweet({ data }) {
           <button
             data-testid="repost"
             type="submit"
+            disabled={isRepostLoading}
             onClick={() => handleRepost()}
           >
             <ReactButtons
@@ -222,6 +233,7 @@ function Tweet({ data }) {
           </button>
           <button
             data-testid="like"
+            disabled={isLikeLoading}
             type="submit"
             onClick={() => handleLike()}
           >
