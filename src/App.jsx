@@ -19,6 +19,7 @@ import Logout from './components/navigation-bars/Logout';
 import LogoutConfirm from './components/navigation-bars/LogoutConfirm';
 import DirectMessages from './components/Direct-Messages/DirectMessages';
 import Homepage from './tweetPage/Homepage';
+import UserProfileCard from './components/user-profile-card/UserProfileCard';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -138,12 +139,29 @@ function App() {
             <Route
               exact
               path=":username"
-              element={
-                <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
-                  Profile Page
-                </h1>
-              }
-            />
+              element={<UserProfileCard />}
+            >
+              <Route
+                index
+                element={<Navigate to="posts" />}
+              />
+              <Route
+                path="posts"
+                element={<h1>Posts</h1>}
+              />
+              <Route
+                path="replies"
+                element={<h1>Replies</h1>}
+              />
+              <Route
+                path="media"
+                element={<h1>Media</h1>}
+              />
+              <Route
+                path="likes"
+                element={<h1>Likes</h1>}
+              />
+            </Route>
             <Route
               exact
               path=":username/following"

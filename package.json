@@ -28,10 +28,11 @@
     "react-google-recaptcha": "^3.1.0",
     "react-hot-toast": "^2.4.1",
     "react-input-emoji": "^5.6.5",
-    "react-router": "^6.20.0",
-    "react-router-dom": "^6.20.0",
     "react-time-ago": "^7.2.1",
     "tailwind-scrollbar": "^3.0.5",
+    "react-photo-view": "^1.2.3",
+    "react-router": "^6.18.0",
+    "react-router-dom": "^6.18.0",
     "uuid": "^9.0.1",
     "validator": "^13.11.0"
   },

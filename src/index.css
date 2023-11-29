@@ -78,3 +78,9 @@ a.list-nav-active span:after {
 .DraftEditor-editorContainer {
   width: 100%;
 }
+.PhotoView-Slider__Counter {
+  display: none;
+}
+.PhotoView-Slider__BannerWrap {
+  justify-content: flex-end;
+}
