@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import NoResults from './NoResults';
 import { useAuth } from '../../hooks/AuthContext';
 import TweetList from '../../tweetPage/TweetList';
+import DotLoader from './DotLoader';
 
 function Likes() {
   const { user } = useAuth();
@@ -83,7 +84,10 @@ function Likes() {
   return initialDone && posts.length === 0 ? (
     <NoResults title="Posts" />
   ) : (
-    <TweetList data={posts} />
+    <div className="flex w-full flex-col items-center gap-5">
+      <TweetList data={posts} />
+      {isLoading && <DotLoader />}
+    </div>
   );
 }
 
