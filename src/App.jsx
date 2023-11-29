@@ -15,11 +15,14 @@ import Spinner from './components/Spinner';
 import SignUpForm from './components/sign-up/SignUpForm';
 import FollowersList from './components/userComponents/FollowersList';
 import FollowingList from './components/userComponents/FollowingList';
-import Logout from './components/navigation-bars/Logout';
 import LogoutConfirm from './components/navigation-bars/LogoutConfirm';
 import DirectMessages from './components/Direct-Messages/DirectMessages';
 import Homepage from './tweetPage/Homepage';
-import UserProfileCard from './components/user-profile-card/UserProfileCard';
+import ProfilePage from './components/user-profile-card/ProfilePage';
+import Posts from './components/user-profile-card/Posts';
+import Replies from './components/user-profile-card/Replies';
+import Likes from './components/user-profile-card/Likes';
+import Media from './components/user-profile-card/Media';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -139,7 +142,7 @@ function App() {
             <Route
               exact
               path=":username"
-              element={<UserProfileCard />}
+              element={<ProfilePage />}
             >
               <Route
                 index
@@ -147,19 +150,19 @@ function App() {
               />
               <Route
                 path="posts"
-                element={<h1>Posts</h1>}
+                element={<Posts />}
               />
               <Route
                 path="replies"
-                element={<h1>Replies</h1>}
+                element={<Replies />}
               />
               <Route
                 path="media"
-                element={<h1>Media</h1>}
+                element={<Media />}
               />
               <Route
                 path="likes"
-                element={<h1>Likes</h1>}
+                element={<Likes />}
               />
             </Route>
             <Route
