@@ -12,3 +12,21 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+.spinner .loader {
+  background: transparent;
+  border-top: 4px solid rgba(29, 161, 242, 0.3);
+  border-right: 4px solid rgba(29, 161, 242, 0.3);
+  border-bottom: 4px solid rgba(29, 161, 242, 0.3);
+  border-left: 4px solid #1da1f2;
+  border-radius: 50%;
+  animation: spin 1s ease infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

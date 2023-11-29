@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState } from 'react';
 import OutsideClickHandler from 'react-outside-click-handler';
 import PropTypes from 'prop-types';
@@ -60,10 +62,6 @@ function SearchBar({ value, setValue }) {
       controller.abort();
     };
   }, [value]);
-  // useEffect(() => {
-  //   if (results.length === 0) return;
-  //   console.log(results[0].suggestions);
-  // }, [results]);
   return (
     <div
       className="flex h-auto flex-col px-2 py-3"
@@ -76,7 +74,7 @@ function SearchBar({ value, setValue }) {
       >
         <div
           // eslint-disable-next-line max-len
-          className={`flex h-[55px] w-[365px] items-center ${
+          className={`flex h-[55px] w-[360px] items-center ${
             focus === true ? 'border-2 border-blue border-opacity-100' : ''
           } dark:bg-${bgDark} justify-between rounded-full bg-white px-4 py-2`}
         >
@@ -133,32 +131,43 @@ function SearchBar({ value, setValue }) {
         {focus === true ? (
           <div
             // eslint-disable-next-line max-len
-            className={`flex min-h-[80px] w-[365px] flex-col justify-center rounded-md bg-white dark:bg-${bgDark} ring-blue-500 overflow-auto overscroll-auto ring-2`}
+            className={`flex min-h-[80px] w-[360px] flex-col justify-center rounded-md bg-white dark:bg-${bgDark} ring-blue-500 overflow-x-hidden overscroll-y-auto ring-2`}
           >
-            {results.length === 0 ? (
+            {results.length === 0 && value === '' ? (
               <span className="text-center text-sm text-light-thin">
                 Try searching for people, lists, or keywords
               </span>
             ) : (
-              <div className="">
-                <div className="">
-                  {results[0].suggestions.map((suggestion) => (
-                    <SearchSuggestion value={suggestion} />
-                  ))}
-                </div>
-                <div className="mx-[2px] h-[1px] bg-light-gray" />
-                <div className="">
-                  {results[0].results.map((result) => (
-                    <SearchResult data={result} />
-                  ))}
-                </div>
-                <div
-                  className="flex h-[50px] items-center pl-4 text-sm text-light-gray hover:bg-black"
-                  onClick
-                >
-                  <span>Go to@{value}</span>
-                </div>
-              </div>
+              // eslint-disable-next-line react/jsx-no-useless-fragment
+              <>
+                {results.length === 0 && value !== '' ? (
+                  <div className="spinner flex h-full w-full flex-1 items-center justify-center">
+                    <div className="loader h-5 w-5" />
+                  </div>
+                ) : (
+                  <div className="">
+                    <div className="">
+                      {results[0].suggestions.map((suggestion) => (
+                        <SearchSuggestion value={suggestion} />
+                      ))}
+                    </div>
+                    <div className="mx-[2px] h-[1px] bg-light-gray" />
+                    <div className="">
+                      {results[0].results.map((result) => (
+                        <SearchResult data={result} />
+                      ))}
+                    </div>
+                    <div
+                      // eslint-disable-next-line max-len
+                      // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+                      className="flex h-[50px] items-center pl-4 text-sm text-light-gray hover:bg-black"
+                      onClick
+                    >
+                      <span>Go to@{value}</span>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </div>
         ) : (
