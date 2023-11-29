@@ -27,7 +27,7 @@ function UserProfileCard() {
     },
   ];
   return (
-    <div className="w-full max-w-[600px] border-x-0 border-border-gray dark:text-white sm:border-x-2">
+    <div className="h-full w-full max-w-[600px] border-x-0 border-border-gray dark:text-white sm:border-x-2">
       <div className="mx-auto flex w-full flex-col">
         <div className="profile-cover max-h-[500px]">
           <div className="object-fill">
