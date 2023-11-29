@@ -3,8 +3,10 @@ import React, { useState, useEffect } from 'react';
 import Media from './Media';
 import AddEmoji from './AddEmoji';
 import TextField from './TextField';
+import { useAuth } from '../hooks/AuthContext';
 
 function AddPost({ tweet, setTweet }) {
+  const { user } = useAuth();
   const [files, setFiles] = useState([]);
   const [filesURLs, setFilesURLs] = useState([]);
   const [hashtags, setHashtags] = useState([]);
@@ -80,7 +82,7 @@ function AddPost({ tweet, setTweet }) {
         <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
           <div className="profileImage leftColumn mr-[12px] h-[40px] w-[40px] ">
             <img
-              src="https://images.pexels.com/photos/18758948/pexels-photo-18758948/free-photo-of-head-of-black-poodle.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+              src={user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR}
               alt="profileImage"
               className=" h-[40px] w-[40px] rounded-full object-cover"
             />

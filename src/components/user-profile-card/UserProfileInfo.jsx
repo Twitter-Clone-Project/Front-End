@@ -11,7 +11,7 @@ function UserProfileInfo() {
   const { username, name, pic, followers, following } = {
     username: user.username,
     name: user.name,
-    pic: 'https://a57.foxsports.com/statics.foxsports.com/www.foxsports.com/content/uploads/2023/06/1280/1280/084702d2-messi1.jpg?ve=1&tl=1',
+    pic: import.meta.env.VITE_DEFAULT_AVATAR,
     followers: 12,
     following: 10,
   };

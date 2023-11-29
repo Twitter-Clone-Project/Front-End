@@ -167,7 +167,9 @@ function Tweet({ data }) {
         </div>
         <div className="profileImage leftColumn mr-[12px] h-[40px] w-[40px] ">
           <img
-            src="https://images.pexels.com/photos/18758948/pexels-photo-18758948/free-photo-of-head-of-black-poodle.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            src={
+              data.user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
+            }
             alt="profileImage"
             className=" h-[40px] w-[40px] rounded-full object-cover"
           />
