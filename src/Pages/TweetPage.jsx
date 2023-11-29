@@ -77,13 +77,14 @@ function TweetPage() {
         <div className="flex flex-wrap items-center sm:w-full">
           <div
             // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-            className="mb-2 mt-[9px] flex h-9 w-9 items-center justify-center rounded-full hover:bg-light-thin"
+            className="mb-2 mt-[9px] flex h-7 w-7 items-center justify-center rounded-full hover:bg-light-thin"
             onClick={handelBackButton}
           >
             <svg
               viewBox="0 0 24 24"
               aria-hidden="true"
               className=" h-5 w-5 text-x-light-gray"
+              style={{ cursor: 'pointer' }}
             >
               <g>
                 <path
