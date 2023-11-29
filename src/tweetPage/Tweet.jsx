@@ -16,7 +16,6 @@ function Tweet({ data }) {
   const [likesCount, setLikesCount] = useState();
   const [isLikeLoading, setIsLikeLoading] = useState(false);
   const [isRepostLoading, setIsRepostLoading] = useState(false);
-  const [isReplyLoading, setIsReplyLoading] = useState(false);
 
   useEffect(() => {
     toggleLike(data.isLiked);
@@ -44,9 +43,14 @@ function Tweet({ data }) {
           );
           const res = await response.json();
           console.log(res.status, res.message);
-          if (res.status) setLikesCount(likesCount - 1);
+          if (res.status) {
+            toggleLike(!like);
+            setLikesCount(likesCount - 1);
+          }
         } catch (error) {
           console.log('Error fetching timeline:', error);
+        } finally {
+          setIsLikeLoading(false);
         }
       };
 
@@ -68,16 +72,19 @@ function Tweet({ data }) {
           );
           const res = await response.json();
           console.log(res.status, res.message);
-          if (res.status) setLikesCount(likesCount + 1);
+          if (res.status) {
+            setLikesCount(likesCount + 1);
+            toggleLike(!like);
+          }
         } catch (error) {
           console.log('Error fetching timeline:', error);
+        } finally {
+          setIsLikeLoading(false);
         }
       };
 
       postLike();
     }
-    setIsLikeLoading(false);
-    toggleLike(!like);
   };
   const handleRepost = () => {
     if (repost === true && !isRepostLoading) {
@@ -98,10 +105,13 @@ function Tweet({ data }) {
           const res = await response.json();
           console.log(res.status, res.message);
           if (res.status) {
+            toggleRepost(!repost);
             setRepostsCount(repostsCount - 1);
           }
         } catch (error) {
           console.log('Error fetching timeline:', error);
+        } finally {
+          setIsRepostLoading(false);
         }
       };
 
@@ -124,18 +134,18 @@ function Tweet({ data }) {
           const res = await response.json();
           console.log(res.status, res.message);
           if (res.status) {
+            toggleRepost(!repost);
             setRepostsCount(repostsCount + 1);
           }
         } catch (error) {
           console.log('Error fetching timeline:', error);
+        } finally {
+          setIsRepostLoading(false);
         }
       };
 
       retweet();
     }
-    toggleRepost(!repost);
-    setIsRepostLoading(false)
-    // console.log(tweetID);
   };
   const handleReply = () => {
     if (reply === true) setRepliesCount(repliesCount - 1);
