@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { v4 as uuid4 } from 'uuid';
 
 function Media({ images }) {
   if (images.length % 2 === 0) {
     return (
       <div
         className={`media4 grid max-h-[512px] max-w-[512px] grid-cols-2
-         grid-rows-${images.length / 2} gap-[2px] overflow-hidden rounded-xl`}
+        grid-rows-${images.length / 2} gap-[2px] overflow-hidden rounded-xl`}
       >
         {images.map((image) => (
           <img
+            key={uuid4()}
             src={image}
             alt="media"
             className="h-full w-full object-cover"
@@ -36,6 +38,7 @@ function Media({ images }) {
       <div className={`grid grid-rows-2  gap-[${images.length - 1}px]`}>
         {images3.map((image) => (
           <img
+            key={uuid4()}
             src={image}
             alt="media"
             className="h-full w-full object-cover"
