@@ -217,9 +217,7 @@ function Tweet({ data }) {
           })}
         </div>
 
-        <Media
-          images={data.attachmentsUrl}
-        />
+        <Media images={data.attachmentsUrl} />
         <div className="buttons flex h-[32px] flex-row  justify-between">
           <button
             data-testid="reply"
