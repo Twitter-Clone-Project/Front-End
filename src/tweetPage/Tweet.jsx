@@ -6,13 +6,12 @@ import ReactButtons from './reactButtons';
 import Media from './Media';
 
 function Tweet({ data }) {
-  const [retweetID, setRetweetID] = useState('');
   const [repost, toggleRepost] = useState(data.isRetweeted);
-  const [reply, toggleReply] = useState(false);
+  const [reply, toggleReply] = useState(data.isReplied);
   const [like, toggleLike] = useState(data.isLiked);
-  const [repostsCount, setRepostsCount] = useState(0);
+  const [repostsCount, setRepostsCount] = useState(data.retweetsCount);
   const [repliesCount, setRepliesCount] = useState(data.repliesCount);
-  const [likesCount, setLikesCount] = useState(0);
+  const [likesCount, setLikesCount] = useState(data.likesCount);
 
   const handleLike = () => {
     if (like === true) {
@@ -64,16 +63,15 @@ function Tweet({ data }) {
     }
     toggleLike(!like);
 
-    // console.log(tweetID);
   };
   const handleRepost = () => {
     if (repost === true) {
       const deleteRetweet = async () => {
         try {
           const response = await fetch(
-            `http://${
-              import.meta.env.VITE_API_DOMAIN
-            }tweets/${retweetID}/deleteRetweet`,
+            `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+              data.id
+            }/deleteRetweet`,
             {
               origin: true,
               credentials: 'include',
@@ -85,7 +83,6 @@ function Tweet({ data }) {
           console.log(res.status, res.message);
           if (res.status) {
             setRepostsCount(repostsCount - 1);
-            setRetweetID('');
           }
         } catch (error) {
           console.log('Error fetching timeline:', error);
@@ -108,10 +105,9 @@ function Tweet({ data }) {
             },
           );
           const res = await response.json();
-          console.log(res.status, res.data);
+          console.log(res.status,res.message);
           if (res.status) {
             setRepostsCount(repostsCount + 1);
-            setRetweetID(res.data.retweetId);
           }
         } catch (error) {
           console.log('Error fetching timeline:', error);
@@ -156,7 +152,7 @@ function Tweet({ data }) {
            text-dark-gray ${repost === false ? 'hidden' : ''} `}
         >
           {' '}
-          <span>data.retweetedUser.screenName</span> reposted
+          <span>{data.retweetedUser.screenName}</span> reposted
         </div>
         <div className="userInfo flex flex-row">
           <div className="name  text-[15px] font-bold">
@@ -174,14 +170,13 @@ function Tweet({ data }) {
         <div className="caption">
           {' '}
           {data.text.split(' ').map((word) => {
-            console.log(word);
             if (word.startsWith('#')) {
               return <span className=" text-blue">{word} </span>;
             }
             return <span>{word} </span>;
           })}
         </div>
-        <Media images={data.attachmentsURL} />
+        <Media images={data.attachmentsUrl} />
         <div className="buttons flex h-[32px] flex-row  justify-between">
           <button
             data-testid="reply"

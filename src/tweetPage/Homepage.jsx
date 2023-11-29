@@ -5,10 +5,8 @@ import TimeLine from './TimeLine';
 function Homepage() {
   const [tweets, setTweets] = useState([]);
   const [tweet, setTweet] = useState({});
-  const [userID, setUserID] = useState('');
   const [pageNum, setPageNum] = useState(1);
   useEffect(() => {
-    setUserID('1');
     if (Object.keys(tweet).length !== 0) {
       setTweets((prevTweets) => [tweet, ...prevTweets]);
     }
@@ -18,16 +16,14 @@ function Homepage() {
         const fetchTweets = async () => {
           try {
             const response = await fetch(
-              // eslint-disable-next-line max-len
               `http://${
                 import.meta.env.VITE_API_DOMAIN
-              }users/${userID}/timeline`,
+              }users/${pageNum}/timeline`,
               {
                 method: 'GET',
                 origin: true,
                 credentials: 'include',
                 withCredentials: true,
-                body: JSON.stringify({ pageNum }),
               },
             );
             const data = await response.json();
