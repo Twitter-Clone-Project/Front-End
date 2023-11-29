@@ -73,7 +73,7 @@ function Homepage() {
   }, [fetchTweets]);
 
   return (
-    <div className="mx-auto my-[60px] grid min-h-full grid-cols-[auto_1fr] dark:text-white sm:my-auto ">
+    <div className="my-[60px] grid min-h-full grid-cols-[auto_1fr] dark:text-white sm:my-auto ">
       <div className=" flex h-full flex-col border-border-gray sm:border-x-[1px]">
         <AddPost
           tweet={tweet}
