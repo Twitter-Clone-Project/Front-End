@@ -29,6 +29,7 @@ function FollowersList() {
   ];
 
   const [users, setUsers] = useState([]);
+  const [name, setName] = useState([]);
   const navigate = useNavigate();
 
   const handelBackButton = () => {
@@ -54,6 +55,7 @@ function FollowersList() {
       })
       .then((data) => {
         setUsers(data.data.users);
+        setName(data.data.name);
       })
       .catch((error) => {
         console.error('Error during fetch:', error);
@@ -89,7 +91,7 @@ function FollowersList() {
                   className=" cursor-pointer text-[20px] font-bold leading-6 text-pure-black hover:underline dark:text-white"
                   data-popover-target="popover-user-profile"
                 >
-                  The user Name
+                  {name}
                 </span>
               </div>
               <span

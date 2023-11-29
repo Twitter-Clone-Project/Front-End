@@ -28,6 +28,7 @@ function FollowingList() {
     },
   ];
   const [users, setUsers] = useState([]);
+  const [name, setName] = useState([]);
   const navigate = useNavigate();
 
   const handelBackButton = () => {
@@ -53,6 +54,7 @@ function FollowingList() {
       })
       .then((data) => {
         setUsers(data.data.users);
+        setName(data.data.name);
       })
       .catch((error) => {
         console.error('Error during fetch:', error);
@@ -88,7 +90,7 @@ function FollowingList() {
                   className=" cursor-pointer text-[20px] font-bold leading-6 text-pure-black hover:underline dark:text-white"
                   data-popover-target="popover-user-profile"
                 >
-                  Arabian Horses
+                  {name}
                 </span>
               </div>
               <span

@@ -17,12 +17,11 @@ function PopoverUserCard({
   popoverFollowers,
   popoverTestID,
   popoverSetLocalIsFollowed,
-  popoverItemID,
 }) {
   // Function to handle follow request
   const followReq = () => {
     fetch(
-      `http://${import.meta.env.VITE_API_DOMAIN}users/${popoverItemID}/follow`,
+      `http://${import.meta.env.VITE_API_DOMAIN}users/${popoverUserID}/follow`,
       {
         method: 'POST',
         origin: true,
@@ -56,7 +55,7 @@ function PopoverUserCard({
     fetch(
       `http://${
         import.meta.env.VITE_API_DOMAIN
-      }users/${popoverItemID}/unfollow`,
+      }users/${popoverUserID}/unfollow`,
       {
         method: 'DELETE',
         origin: true,
@@ -229,7 +228,6 @@ PopoverUserCard.propTypes = {
   popoverFollowing: PropTypes.string.isRequired,
   popoverFollowers: PropTypes.string.isRequired,
   popoverTestID: PropTypes.number.isRequired,
-  popoverItemID: PropTypes.string.isRequired,
 };
 
 export default PopoverUserCard;

@@ -18,13 +18,12 @@ function UserItem({
   following,
   followers,
   testID,
-  itemID,
 }) {
   const [localIsFollowed, setLocalIsFollowed] = useState(isFollowed);
 
   // Function to handle follow request
   const followReq = () => {
-    fetch(`http://${import.meta.env.VITE_API_DOMAIN}users/${itemID}/follow`, {
+    fetch(`http://${import.meta.env.VITE_API_DOMAIN}users/${userID}/follow`, {
       method: 'POST',
       origin: true,
       credentials: 'include',
@@ -54,7 +53,7 @@ function UserItem({
 
   // Function to handle unFollow request
   const unFollowReq = () => {
-    fetch(`http://${import.meta.env.VITE_API_DOMAIN}users/${itemID}/unfollow`, {
+    fetch(`http://${import.meta.env.VITE_API_DOMAIN}users/${userID}/unfollow`, {
       method: 'DELETE',
       origin: true,
       credentials: 'include',
@@ -298,7 +297,6 @@ function UserItem({
           popoverFollowers={followers}
           popoverTestID={testID}
           popoverSetLocalIsFollowed={setLocalIsFollowed}
-          popoverItemID={itemID}
         />
       </div>
     </div>
@@ -315,7 +313,6 @@ UserItem.propTypes = {
   following: PropTypes.string.isRequired,
   followers: PropTypes.string.isRequired,
   testID: PropTypes.number.isRequired,
-  itemID: PropTypes.string.isRequired,
 };
 
 export default UserItem;
