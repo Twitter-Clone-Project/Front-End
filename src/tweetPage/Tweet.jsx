@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactButtons from './reactButtons';
 import Media from './Media';
-
+import { v4 as uuid4 } from 'uuid';
 function Tweet({ data }) {
   const [repost, toggleRepost] = useState(data.isRetweeted);
   const [reply, toggleReply] = useState(data.isReplied);
@@ -62,7 +62,6 @@ function Tweet({ data }) {
       postLike();
     }
     toggleLike(!like);
-
   };
   const handleRepost = () => {
     if (repost === true) {
@@ -105,7 +104,7 @@ function Tweet({ data }) {
             },
           );
           const res = await response.json();
-          console.log(res.status,res.message);
+          console.log(res.status, res.message);
           if (res.status) {
             setRepostsCount(repostsCount + 1);
           }
@@ -149,7 +148,7 @@ function Tweet({ data }) {
       <div className="rightColumn w-[512px] ">
         <div
           className={` retweeted-info h-[16px] pb-4 text-[13px] font-semibold
-           text-dark-gray ${repost === false ? 'hidden' : ''} `}
+          text-dark-gray ${repost === false ? 'hidden' : ''} `}
         >
           {' '}
           <span>{data.retweetedUser.screenName}</span> reposted
@@ -171,9 +170,16 @@ function Tweet({ data }) {
           {' '}
           {data.text.split(' ').map((word) => {
             if (word.startsWith('#')) {
-              return <span className=" text-blue">{word} </span>;
+              return (
+                <span
+                  key={uuid4()}
+                  className=" text-blue"
+                >
+                  {word}{' '}
+                </span>
+              );
             }
-            return <span>{word} </span>;
+            return `${word} `;
           })}
         </div>
         <Media images={data.attachmentsUrl} />
