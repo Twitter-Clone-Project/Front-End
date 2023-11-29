@@ -25,7 +25,9 @@ function AddPost({ tweet, setTweet }) {
     const formData = new FormData();
     formData.append('tweetText', text);
     formData.append('trends', hashtagsString);
-    formData.append('media', files);
+    for (let i = 0; i < files.length; i += 1) {
+      formData.append('media', files[i]);
+    }
 
     resetAll();
 
