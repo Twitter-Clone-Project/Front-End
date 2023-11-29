@@ -1,19 +1,20 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import toast from 'react-hot-toast';
 import NoResults from './NoResults';
 import { useAuth } from '../../hooks/AuthContext';
-
 import TweetList from '../../tweetPage/TweetList';
 import DotLoader from './DotLoader';
+import OwnToaster from '../OwnToaster';
 
 function Posts() {
   const [page, setPage] = useState(2);
+  const [error, setError] = useState('');
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const [initialDone, setInitialDone] = useState(false);
 
   const { user } = useAuth();
-  console.log(user);
   const fetchTweets = useCallback(async () => {
     if (isLoading || isDone) return;
     try {
@@ -30,12 +31,12 @@ function Posts() {
         },
       );
       const data = await response.json();
-      console.log(data.data);
       if (data.data.length === 0) setIsDone(true);
       setPosts((prevTweets) => [...prevTweets, ...data.data]);
+      setError('');
       setPage((pn) => pn + 1);
-    } catch (error) {
-      console.log('Error fetching timeline:', error);
+    } catch (err) {
+      setError(err.message);
     } finally {
       setIsLoading(false);
     }
@@ -57,12 +58,12 @@ function Posts() {
           },
         );
         const data = await response.json();
-        console.log(data.data);
         if (data.data.length === 0) setIsDone(true);
         setInitialDone(true);
+        setError('');
         setPosts(() => [...data.data]);
-      } catch (error) {
-        console.log('Error fetching timeline:', error);
+      } catch (err) {
+        setError(err.message);
       } finally {
         setIsLoading(false);
       }
@@ -82,13 +83,22 @@ function Posts() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [fetchTweets]);
 
-  return initialDone && posts.length === 0 ? (
-    <NoResults title="Posts" />
-  ) : (
-    <div className="flex w-full flex-col items-center gap-5">
-      <TweetList data={posts} />
-      {isLoading && <DotLoader />}
-    </div>
+  useEffect(() => {
+    if (error !== '') toast(error);
+  }, [error]);
+
+  return (
+    <>
+      {initialDone && posts.length === 0 ? (
+        <NoResults title=" There are No posts yet" />
+      ) : (
+        <div className="flex w-full flex-col items-center gap-5">
+          <TweetList data={posts} />
+          {isLoading && <DotLoader />}
+        </div>
+      )}
+      <OwnToaster />
+    </>
   );
 }
 

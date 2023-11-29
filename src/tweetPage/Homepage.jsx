@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import AddPost from './AddPost';
-import TweetList from './tweetList';
+import TweetList from './TweetList';
 
 function Homepage() {
   const [tweets, setTweets] = useState([]);

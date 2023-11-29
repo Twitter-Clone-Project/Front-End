@@ -194,7 +194,7 @@ function Tweet({ data }) {
             {' '}
             &ensp;.&ensp;
             <ReactTimeAgo
-              date={data.createdAt}
+              date={new Date(data.createdAt)}
               locale="en-US"
               timeStyle="twitter"
             />
@@ -216,6 +216,7 @@ function Tweet({ data }) {
             return `${word} `;
           })}
         </div>
+
         <Media images={data.attachmentsUrl} />
         <div className="buttons flex h-[32px] flex-row  justify-between">
           <button
