@@ -2,6 +2,7 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import ReactTimeAgo from 'react-time-ago';
 import ReactButtons from './reactButtons';
 import Media from './Media';
 import { v4 as uuid4 } from 'uuid';
@@ -126,7 +127,7 @@ function Tweet({ data }) {
   };
 
   return (
-    <div className="tweet mt-[0.5px] flex w-[88%] flex-row  border-y-[0.5px] border-y-x-light-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
+    <div className="tweet mb-[0.5px] mt-[-0.5px] flex w-[88%] border-collapse  flex-row border-y-[0.5px] border-y-border-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
       <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
         <div className={` pb-1 ${repost === false ? 'hidden' : ''}`}>
           <svg
@@ -159,11 +160,16 @@ function Tweet({ data }) {
           </div>
           <div className="userName   overflow-hidden text-[15px] text-dark-gray">
             {' '}
-            &ensp;@ <span>{data.user.userName}</span>
+            &ensp;@ <span>{data.user.username}</span>
           </div>
           <div className="date overflow-hidden text-[15px] text-dark-gray">
             {' '}
-            &ensp;.&ensp;<span>{data.createdAt}</span>
+            &ensp;.&ensp;
+            <ReactTimeAgo
+              date={data.createdAt}
+              locale="en-US"
+              timeStyle="twitter"
+            />
           </div>
         </div>
         <div className="caption">
