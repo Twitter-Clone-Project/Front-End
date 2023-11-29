@@ -51,7 +51,7 @@ function NavItem({ label, outlinedIcon, filledIcon, path, hidden = true }) {
           className={`${label ? (hidden ? 'px-4' : 'px-8') : ''} ${
             hidden ? 'hidden' : 'flex'
           } text-xl capitalize tracking-wide text-pure-black
-          dark:text-white lg:flex`}
+          dark:text-white mlg:flex`}
         >
           {label}
         </p>

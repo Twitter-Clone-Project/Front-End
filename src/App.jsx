@@ -2,6 +2,8 @@ import * as React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import { v4 as uuid4 } from 'uuid';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en.json';
 import LandingPage from './components/landingPage/LandingPage';
 import Login from './components/login-page/Login';
 import ForgotPassword from './components/login-page/ForgotPassword';
@@ -13,8 +15,16 @@ import Spinner from './components/Spinner';
 import SignUpForm from './components/sign-up/SignUpForm';
 import FollowersList from './components/userComponents/FollowersList';
 import FollowingList from './components/userComponents/FollowingList';
-import Logout from './components/navigation-bars/Logout';
 import LogoutConfirm from './components/navigation-bars/LogoutConfirm';
+import DirectMessages from './components/Direct-Messages/DirectMessages';
+import Homepage from './tweetPage/Homepage';
+import ProfilePage from './components/user-profile-card/ProfilePage';
+import Posts from './components/user-profile-card/Posts';
+import Replies from './components/user-profile-card/Replies';
+import Likes from './components/user-profile-card/Likes';
+import Media from './components/user-profile-card/Media';
+
+TimeAgo.addDefaultLocale(en);
 
 function App() {
   const { dispatch } = useAuth();
@@ -111,13 +121,14 @@ function App() {
             <Route
               path="home"
               element={
-                <h1 className="min-h-full  border-border-gray dark:text-white sm:border-x-[1px]">
-                  <div className="flex h-full flex-col items-start justify-center">
-                    {Array.from({ length: 100 }, () => 1).map(() => (
-                      <span key={uuid4()}>Home</span>
-                    ))}
-                  </div>
-                </h1>
+                // <h1 className="min-h-full  border-border-gray dark:text-white sm:border-x-[1px]">
+                //   <div className="flex h-full flex-col items-start justify-center">
+                //     {Array.from({ length: 100 }, () => 1).map(() => (
+                //       <span key={uuid4()}>Home</span>
+                //     ))}
+                //   </div>
+                // </h1>
+                <Homepage />
               }
             />
             <Route
@@ -131,12 +142,29 @@ function App() {
             <Route
               exact
               path=":username"
-              element={
-                <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
-                  Profile Page
-                </h1>
-              }
-            />
+              element={<ProfilePage />}
+            >
+              <Route
+                index
+                element={<Navigate to="posts" />}
+              />
+              <Route
+                path="posts"
+                element={<Posts />}
+              />
+              <Route
+                path="replies"
+                element={<Replies />}
+              />
+              <Route
+                path="media"
+                element={<Media />}
+              />
+              <Route
+                path="likes"
+                element={<Likes />}
+              />
+            </Route>
             <Route
               exact
               path=":username/following"
@@ -157,11 +185,7 @@ function App() {
             />
             <Route
               path="messages"
-              element={
-                <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
-                  Messages
-                </h1>
-              }
+              element={<DirectMessages />}
             />
           </Route>
         </Routes>
