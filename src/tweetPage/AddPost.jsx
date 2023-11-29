@@ -88,15 +88,15 @@ function AddPost({ tweet, setTweet }) {
         </div>
 
         <div className="rightColumn h-auto w-full">
-          <div className="  placeholder:text-light-thin">
+          <div className="peer placeholder:text-light-thin">
             <TextField
               text={text}
               setText={setText}
             />
           </div>
           <Media images={filesURLs} />
-          <div className="flex w-full items-center justify-between border-t-[0.5px] border-t-border-gray">
-            <div className="media my-3 flex w-[18%] flex-row justify-between">
+          <div className="mt-2 flex w-full items-center justify-between border-t-border-gray peer-focus-within:border-t-[0.5px]">
+            <div className="media my-4 flex w-[18%] flex-row justify-between">
               <label
                 htmlFor="mediaUpload"
                 className=" cursor-pointer"

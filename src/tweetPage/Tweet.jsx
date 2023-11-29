@@ -188,7 +188,7 @@ function Tweet({ data }) {
           </div>
           <div className="userName   overflow-hidden text-[15px] text-dark-gray">
             {' '}
-            &ensp;@ <span>{data.user.username}</span>
+            &ensp;@<span>{data.user.username}</span>
           </div>
           <div className="date overflow-hidden text-[15px] text-dark-gray">
             {' '}
