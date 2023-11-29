@@ -19,20 +19,14 @@ function AddPost({ tweet, setTweet }) {
     setFiles([]);
     setHashtagsString('');
     setPostDisabled(true);
+    setTweet({});
   };
   const handlePost = () => {
     const formData = new FormData();
     formData.append('tweetText', text);
     formData.append('trends', hashtagsString);
-    // for (let index = 0; index < 4; index += 1) {
-    //   formData.append(`files[${index}]`, {});
-    // }
+    formData.append('media', files);
 
-    // files.forEach((file, index) => {
-    //   formData.append(`files[${index}]`, file);
-    // });
-    // const data = Object.fromEntries(formData);
-    // console.log(data);
     resetAll();
 
     const postData = async () => {
@@ -44,11 +38,10 @@ function AddPost({ tweet, setTweet }) {
             origin: true,
             credentials: 'include',
             withCredentials: true,
-            body: formData, // Convert the data to JSON format
+            body: formData,
           },
         );
         const data = await response.json();
-        console.log(data.data);
         setTweet(data.data);
       } catch (error) {
         console.log('Error Add tweet:', error);
@@ -56,7 +49,6 @@ function AddPost({ tweet, setTweet }) {
     };
 
     postData();
-    // console.log(files, text, hashtags, hashtagsString, isTweeted);
   };
 
   const handleImageChange = (e) => {
@@ -102,7 +94,7 @@ function AddPost({ tweet, setTweet }) {
           </div>
           <Media images={filesURLs} />
           <div className="flex w-full items-center justify-between border-t-[0.5px] border-t-border-gray">
-            <div className="media my-3 flex flex-row items-center gap-4 py-2">
+            <div className="media my-3 flex w-[18%] flex-row justify-between">
               <label
                 htmlFor="mediaUpload"
                 className=" cursor-pointer"
@@ -143,7 +135,6 @@ function AddPost({ tweet, setTweet }) {
           </div>
         </div>
       </div>
-      {/* {isTweeted && <Tweet data={tweet} />} */}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import AddPost from './AddPost';
-import TimeLine from './TimeLine';
+import TweetList from './tweetList';
 
 function Homepage() {
   const [tweets, setTweets] = useState([]);
@@ -9,6 +9,11 @@ function Homepage() {
   const [isDone, setIsDone] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    if (tweet !== undefined && Object.keys(tweet).length !== 0) {
+      setTweets((prevTweets) => [tweet, ...prevTweets]);
+    }
+  }, [tweet]);
   const fetchTweets = useCallback(async () => {
     if (isLoading || isDone) return;
     try {
@@ -23,7 +28,6 @@ function Homepage() {
         },
       );
       const data = await response.json();
-      console.log(data);
       if (data.data.length === 0) setIsDone(true);
       setTweets((prevTweets) => [...prevTweets, ...data.data]);
       setPageNum((pn) => pn + 1);
@@ -48,7 +52,6 @@ function Homepage() {
           },
         );
         const data = await response.json();
-        console.log(data);
         if (data.data.length === 0) setIsDone(true);
         setTweets(() => [...data.data]);
       } catch (error) {
@@ -79,11 +82,7 @@ function Homepage() {
           tweet={tweet}
           setTweet={setTweet}
         />
-        <TimeLine
-          tweets={tweets}
-          setTweets={setTweets}
-          pageNum={pageNum}
-        />
+        <TweetList data={tweets} />
       </div>
       <div />
     </div>

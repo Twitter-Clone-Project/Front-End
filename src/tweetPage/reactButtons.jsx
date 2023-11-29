@@ -7,7 +7,6 @@ function reactButtons({ type, data, clicked }) {
   if (clicked) {
     return (
       <div
-        // eslint-disable-next-line max-len
         className={`Reply ${
           type === 'Reply'
             ? 'text-blue'
@@ -52,7 +51,6 @@ function reactButtons({ type, data, clicked }) {
 
   return (
     <div
-      // eslint-disable-next-line max-len
       className={`Reply ${
         type === 'Reply'
           ? 'hover:text-blue'

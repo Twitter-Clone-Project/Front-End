@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable react/forbid-prop-types */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactTimeAgo from 'react-time-ago';
 import { v4 as uuid4 } from 'uuid';
@@ -11,10 +11,17 @@ function Tweet({ data }) {
   const [repost, toggleRepost] = useState(data.isRetweeted);
   const [reply, toggleReply] = useState(data.isReplied);
   const [like, toggleLike] = useState(data.isLiked);
-  const [repostsCount, setRepostsCount] = useState(data.retweetsCount);
-  const [repliesCount, setRepliesCount] = useState(data.repliesCount);
-  const [likesCount, setLikesCount] = useState(data.likesCount);
-
+  const [repostsCount, setRepostsCount] = useState();
+  const [repliesCount, setRepliesCount] = useState();
+  const [likesCount, setLikesCount] = useState();
+  useEffect(() => {
+    toggleLike(data.isLiked);
+    toggleRepost(data.isRetweeted);
+    toggleReply(data.isReplied);
+    setLikesCount(data.likesCount);
+    setRepliesCount(data.repliesCount);
+    setRepostsCount(data.retweetsCount);
+  }, [data]);
   const handleLike = () => {
     if (like === true) {
       const deleteLike = async () => {
