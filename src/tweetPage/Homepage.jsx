@@ -79,11 +79,11 @@ function Homepage() {
           tweet={tweet}
           setTweet={setTweet}
         />
-        {/* <TimeLine
+        <TimeLine
           tweets={tweets}
           setTweets={setTweets}
           pageNum={pageNum}
-        /> */}
+        />
       </div>
       <div />
     </div>
