@@ -1,11 +1,12 @@
 import React from 'react';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/AuthContext';
 
 function UserNavCard() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const location = useLocation();
   const { username, name, pic, followers, following } = {
     username: user.username,
     name: user.name,
@@ -54,8 +55,12 @@ function UserNavCard() {
           role="button"
           tabIndex={-6}
           data-testid="following-btn"
-          onKeyDown={() => navigate(`/app/${username}/following`)}
-          onClick={() => navigate(`/app/${username}/following`)}
+          onKeyDown={() =>
+            navigate(`/app/${username}/following`, { state: location.pathname })
+          }
+          onClick={() =>
+            navigate(`/app/${username}/following`, { state: location.pathname })
+          }
         >
           <span className="mr-2 cursor-pointer text-pure-black hover:underline dark:text-white">
             {following}
@@ -66,8 +71,12 @@ function UserNavCard() {
           role="button"
           data-testid="followers-btn"
           tabIndex={-6}
-          onKeyDown={() => navigate(`/app/${username}/follower`)}
-          onClick={() => navigate(`/app/${username}/follower`)}
+          onKeyDown={() =>
+            navigate(`/app/${username}/follower`, { state: location.pathname })
+          }
+          onClick={() =>
+            navigate(`/app/${username}/follower`, { state: location.pathname })
+          }
         >
           <span className="mr-5  cursor-pointer text-pure-black hover:underline dark:text-white">
             {followers}
