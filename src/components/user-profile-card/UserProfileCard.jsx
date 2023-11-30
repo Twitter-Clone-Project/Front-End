@@ -3,7 +3,8 @@ import { PhotoProvider, PhotoView } from 'react-photo-view';
 import UserProfileInfo from './UserProfileInfo';
 import 'react-photo-view/dist/react-photo-view.css';
 
-function UserProfileCard() {
+// eslint-disable-next-line react/prop-types
+function UserProfileCard({ user }) {
   return (
     <div className="w-full max-w-[600px] dark:text-white">
       <div className="mx-auto flex w-full flex-col">
@@ -20,7 +21,7 @@ function UserProfileCard() {
             </PhotoProvider>
           </div>
         </div>
-        <UserProfileInfo />
+        <UserProfileInfo user={user} />
       </div>
     </div>
   );

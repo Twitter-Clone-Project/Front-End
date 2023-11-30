@@ -1,13 +1,12 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
-import { useAuth } from '../../hooks/AuthContext';
 import Button from '../form-controls/Button';
 import 'react-photo-view/dist/react-photo-view.css';
 
-function UserProfileInfo() {
+function UserProfileInfo({ user }) {
   const navigate = useNavigate();
-  const { user } = useAuth();
   const location = useLocation();
   const { username, name, pic, followers, following } = {
     username: user.username,

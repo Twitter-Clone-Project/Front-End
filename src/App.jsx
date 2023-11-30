@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from 'react';
-import { v4 as uuid4 } from 'uuid';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import LandingPage from './components/landingPage/LandingPage';
@@ -23,6 +22,7 @@ import Posts from './components/user-profile-card/Posts';
 import Replies from './components/user-profile-card/Replies';
 import Likes from './components/user-profile-card/Likes';
 import Media from './components/user-profile-card/Media';
+import NoProfile from './components/user-profile-card/NoProfile';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -169,6 +169,11 @@ function App() {
               exact
               path=":username/following"
               element={<FollowingList />}
+            />
+            <Route
+              exact
+              path="notfound"
+              element={<NoProfile />}
             />
             <Route
               exact

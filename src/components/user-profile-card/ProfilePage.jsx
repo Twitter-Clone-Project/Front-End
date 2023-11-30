@@ -28,7 +28,7 @@ function ProfilePage() {
   return (
     <div className="border-x-0 border-border-gray dark:text-white sm:border-x-2">
       <div className="border-b-[1px] border-b-border-gray">
-        <UserProfileCard />
+        <UserProfileCard user={user} />
         <ListNav items={ListNavItems} />
       </div>
       <Outlet />
