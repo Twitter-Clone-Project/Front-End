@@ -1,11 +1,12 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import Media from './Media';
 import AddEmoji from './AddEmoji';
 import TextField from './TextField';
 import { useAuth } from '../hooks/AuthContext';
 
-function AddPost({ tweet, setTweet }) {
+function AddPost({ setTweets }) {
   const { user } = useAuth();
   const [files, setFiles] = useState([]);
   const [filesURLs, setFilesURLs] = useState([]);
@@ -21,7 +22,6 @@ function AddPost({ tweet, setTweet }) {
     setFiles([]);
     setHashtagsString('');
     setPostDisabled(true);
-    setTweet({});
   };
   const handlePost = () => {
     const formData = new FormData();
@@ -46,9 +46,9 @@ function AddPost({ tweet, setTweet }) {
           },
         );
         const data = await response.json();
-        setTweet(data.data);
+        setTweets((prev) => [data.data, ...prev]);
       } catch (error) {
-        console.log('Error Add tweet:', error);
+        toast(error.message);
       }
     };
 
@@ -75,7 +75,7 @@ function AddPost({ tweet, setTweet }) {
         setHashtagsString(hashtags.join(','));
       setPostDisabled(false);
     }
-  }, [files, text]);
+  }, [files, text, hashtags]);
   return (
     <div className="flex items-center justify-center border-y-[0.5px] border-y-border-gray">
       <div className="tweet mt-[0.5px] flex w-[88%] flex-row   bg-white px-[16px] pt-[12px] dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">

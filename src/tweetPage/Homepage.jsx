@@ -1,19 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import toast from 'react-hot-toast';
 import AddPost from './AddPost';
 import TweetList from './TweetList';
+import OwnToaster from '../components/OwnToaster';
 
 function Homepage() {
   const [tweets, setTweets] = useState([]);
-  const [tweet, setTweet] = useState({});
   const [pageNum, setPageNum] = useState(2);
   const [isDone, setIsDone] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (tweet !== undefined && Object.keys(tweet).length !== 0) {
-      setTweets((prevTweets) => [tweet, ...prevTweets]);
-    }
-  }, [tweet]);
   const fetchTweets = useCallback(async () => {
     if (isLoading || isDone) return;
     try {
@@ -32,7 +28,7 @@ function Homepage() {
       setTweets((prevTweets) => [...prevTweets, ...data.data]);
       setPageNum((pn) => pn + 1);
     } catch (error) {
-      console.log('Error fetching timeline:', error);
+      toast(error.message);
     } finally {
       setIsLoading(false);
     }
@@ -55,7 +51,7 @@ function Homepage() {
         if (data.data.length === 0) setIsDone(true);
         setTweets(() => [...data.data]);
       } catch (error) {
-        console.log('Error fetching timeline:', error);
+        toast(error.message);
       } finally {
         setIsLoading(false);
       }
@@ -78,13 +74,11 @@ function Homepage() {
   return (
     <div className="my-[60px] grid min-h-full grid-cols-[auto_1fr] dark:text-white sm:my-auto ">
       <div className=" flex h-full flex-col border-border-gray sm:border-x-[1px]">
-        <AddPost
-          tweet={tweet}
-          setTweet={setTweet}
-        />
+        <AddPost setTweets={setTweets} />
         <TweetList data={tweets} />
       </div>
       <div />
+      <OwnToaster />
     </div>
   );
 }

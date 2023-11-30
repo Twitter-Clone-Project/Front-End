@@ -4,8 +4,10 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactTimeAgo from 'react-time-ago';
 import { v4 as uuid4 } from 'uuid';
+import toast from 'react-hot-toast';
 import ReactButtons from './reactButtons';
 import Media from './Media';
+import OwnToaster from '../components/OwnToaster';
 
 function Tweet({ data }) {
   const [repost, toggleRepost] = useState(data.isRetweeted);
@@ -42,13 +44,12 @@ function Tweet({ data }) {
             },
           );
           const res = await response.json();
-          console.log(res.status, res.message);
           if (res.status) {
             toggleLike(!like);
             setLikesCount(likesCount - 1);
           }
-        } catch (error) {
-          console.log('Error fetching timeline:', error);
+        } catch (err) {
+          toast(err.message);
         } finally {
           setIsLikeLoading(false);
         }
@@ -71,13 +72,12 @@ function Tweet({ data }) {
             },
           );
           const res = await response.json();
-          console.log(res.status, res.message);
           if (res.status) {
             setLikesCount(likesCount + 1);
             toggleLike(!like);
           }
-        } catch (error) {
-          console.log('Error fetching timeline:', error);
+        } catch (err) {
+          toast(err.message);
         } finally {
           setIsLikeLoading(false);
         }
@@ -103,13 +103,12 @@ function Tweet({ data }) {
             },
           );
           const res = await response.json();
-          console.log(res.status, res.message);
           if (res.status) {
             toggleRepost(!repost);
             setRepostsCount(repostsCount - 1);
           }
-        } catch (error) {
-          console.log('Error fetching timeline:', error);
+        } catch (err) {
+          toast(err.message);
         } finally {
           setIsRepostLoading(false);
         }
@@ -132,21 +131,20 @@ function Tweet({ data }) {
             },
           );
           const res = await response.json();
-          console.log(res.status, res.message);
           if (res.status) {
             toggleRepost(!repost);
             setRepostsCount(repostsCount + 1);
           }
-        } catch (error) {
-          console.log('Error fetching timeline:', error);
+        } catch (err) {
+          toast(err.message);
         } finally {
           setIsRepostLoading(false);
         }
       };
-
       retweet();
     }
   };
+
   const handleReply = () => {
     if (reply === true) setRepliesCount(repliesCount - 1);
     else setRepliesCount(repliesCount + 1);
@@ -258,6 +256,7 @@ function Tweet({ data }) {
           </button>
         </div>
       </div>
+      <OwnToaster />
     </div>
   );
 }
