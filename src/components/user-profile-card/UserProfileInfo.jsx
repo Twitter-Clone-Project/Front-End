@@ -24,7 +24,7 @@ function UserProfileInfo({ user }) {
               id="popoverImg"
               src={pic}
               alt=""
-              className="h-auto cursor-pointer rounded-full border-4 border-pure-black"
+              className="h-auto cursor-pointer rounded-full border-4 border-white dark:border-pure-black"
             />
           </PhotoView>
         </PhotoProvider>

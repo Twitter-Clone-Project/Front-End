@@ -29,7 +29,7 @@ function NoProfile({ name }) {
             <div className="mb-5 mt-2">
               <div className="flex h-[41.5px] flex-col">
                 <span className="text-xl font-bold text-pure-black dark:text-white">
-                  @sadasdasdas
+                  @{name}
                 </span>
               </div>
             </div>

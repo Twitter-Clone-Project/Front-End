@@ -7,6 +7,7 @@ import { useAuth } from '../../hooks/AuthContext';
 import BasicInput from '../form-controls/BasicInput';
 import DorpDownMenu from '../form-controls/DorpDownMenu';
 import TextArea from '../form-controls/TextArea';
+import ImageButton from './ImageButton';
 
 function DOBReducer(state, action) {
   switch (action.type) {
@@ -103,22 +104,57 @@ function UpdateProfileForm() {
         <div className="mt-6">
           <div className="mb-6">
             <div className="profile-cover max-h-[500px] border-y-[0.5px] border-y-light-gray">
-              <div className="object-fill">
+              <div className="relative object-fill">
                 <img
                   className="m-auto aspect-[3/1] max-h-full w-full cursor-pointer object-fill"
                   src={import.meta.env.VITE_DEFAULT_BANNER}
                   alt="cover"
                 />
+                <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-5">
+                  <ImageButton label="Add photo">
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="flex h-6 w-6"
+                    >
+                      <g>
+                        <path
+                          className="fill-white"
+                          d="M9.697 3H11v2h-.697l-3 2H5c-.276 0-.5.224-.5.5v11c0 .276.224.5.5.5h14c.276 0 .5-.224.5-.5V10h2v8.5c0 1.381-1.119 2.5-2.5 2.5H5c-1.381 0-2.5-1.119-2.5-2.5v-11C2.5 6.119 3.619 5 5 5h1.697l3-2zM12 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm-4 2c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4zM17 2c0 1.657-1.343 3-3 3v1c1.657 0 3 1.343 3 3h1c0-1.657 1.343-3 3-3V5c-1.657 0-3-1.343-3-3h-1z"
+                        />
+                      </g>
+                    </svg>
+                  </ImageButton>
+                  <ImageButton label="Remove photo">
+                    <span className="text-white">&#10005;</span>
+                  </ImageButton>
+                </div>
               </div>
             </div>
             <div className="relative cursor-auto bg-white bg-opacity-100 p-4 text-black dark:bg-pure-black dark:text-white">
               <div className="absolute -top-0 z-10 flex aspect-square w-1/5 min-w-[3rem] -translate-y-1/2 justify-between">
-                <img
-                  id="popoverImg"
-                  src={import.meta.env.VITE_DEFAULT_AVATAR}
-                  alt=""
-                  className="h-auto cursor-pointer rounded-full border-4 border-pure-black"
-                />
+                <div className="relative flex justify-between">
+                  <img
+                    id="popoverImg"
+                    src={import.meta.env.VITE_DEFAULT_AVATAR}
+                    alt=""
+                    className="relative h-auto cursor-pointer rounded-full border-4 border-white dark:border-pure-black"
+                  />
+                  <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-5">
+                    <ImageButton label="Add photo">
+                      <svg
+                        viewBox="0 0 24 24"
+                        className="flex h-6 w-6"
+                      >
+                        <g>
+                          <path
+                            className="fill-white"
+                            d="M9.697 3H11v2h-.697l-3 2H5c-.276 0-.5.224-.5.5v11c0 .276.224.5.5.5h14c.276 0 .5-.224.5-.5V10h2v8.5c0 1.381-1.119 2.5-2.5 2.5H5c-1.381 0-2.5-1.119-2.5-2.5v-11C2.5 6.119 3.619 5 5 5h1.697l3-2zM12 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm-4 2c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4zM17 2c0 1.657-1.343 3-3 3v1c1.657 0 3 1.343 3 3h1c0-1.657 1.343-3 3-3V5c-1.657 0-3-1.343-3-3h-1z"
+                          />
+                        </g>
+                      </svg>
+                    </ImageButton>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -157,7 +193,9 @@ function UpdateProfileForm() {
             <div className="flex flex-col">
               <p
                 className={`py-3 text-sm  ${
-                  DOBEdit ? 'font-semibold text-white' : 'text-light-thin'
+                  DOBEdit
+                    ? 'font-semibold text-pure-black dark:text-white'
+                    : 'text-light-thin'
                 }`}
               >
                 Birth Date{' '}
