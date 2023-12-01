@@ -122,16 +122,7 @@ function App() {
             />
             <Route
               path="home"
-              element={
-                // <h1 className="min-h-full  border-border-gray dark:text-white sm:border-x-[1px]">
-                //   <div className="flex h-full flex-col items-start justify-center">
-                //     {Array.from({ length: 100 }, () => 1).map(() => (
-                //       <span key={uuid4()}>Home</span>
-                //     ))}
-                //   </div>
-                // </h1>
-                <Homepage />
-              }
+              element={<Homepage />}
             />
             <Route
               path="notifications"
@@ -183,6 +174,7 @@ function App() {
               element={<FollowersList />}
             />
             <Route
+              exact
               path="settings"
               element={
                 <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">

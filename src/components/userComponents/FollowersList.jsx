@@ -60,7 +60,7 @@ function FollowersList() {
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
-  }, []);
+  }, [username]);
   return (
     <div className="flex h-full min-h-screen w-full justify-center bg-white dark:bg-pure-black">
       <div className="w-full overflow-y-clip bg-white dark:bg-pure-black">

@@ -6,6 +6,7 @@ function TextArea({ title, value, setValue, error, setError }) {
     <div className="relative h-[100px] w-full items-center justify-center  bg-white dark:bg-black">
       <div
         role="textbox"
+        suppressContentEditableWarning
         contentEditable="true"
         className="flex h-full flex-1 flex-col justify-end rounded pb-2 pr-1 outline outline-1 outline-light-gray focus-within:outline-2 focus-within:outline-blue
         dark:bg-black

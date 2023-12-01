@@ -8,7 +8,7 @@ import Spinner from '../Spinner';
 import OwnToaster from '../OwnToaster';
 
 function ProfilePage() {
-  const { user: curUser } = useAuth();
+  const { dispatch } = useAuth();
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const { username } = useParams('username');
@@ -25,11 +25,6 @@ function ProfilePage() {
   ];
 
   useEffect(() => {
-    if (username === curUser.username) {
-      setUser(curUser);
-      setIsLoading(false);
-      return;
-    }
     const fetchUser = async () => {
       try {
         const res = await fetch(
@@ -44,6 +39,7 @@ function ProfilePage() {
         const data = await res.json();
         if (data.status === false) throw new Error(data.message);
         setUser(data.data.user);
+        dispatch({ type: 'LOGIN', payload: data.data.user });
       } catch (err) {
         toast(err.message);
       } finally {
@@ -51,7 +47,7 @@ function ProfilePage() {
       }
     };
     fetchUser();
-  }, [curUser, username]);
+  }, [dispatch, username]);
 
   return (
     <>

@@ -206,7 +206,7 @@ function PopoverUserCard({
           </span>
         </div>
         <div
-          onClick={() => navigate(`/app/${popoverUserID}/follower`)}
+          onClick={() => navigate(`/app/${popoverUserID}/followers`)}
           data-testid={`PopoverUserCard_${popoverTestID}_4`}
         >
           <span className="mr-5  cursor-pointer text-pure-black hover:underline dark:text-white">

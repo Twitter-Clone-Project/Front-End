@@ -13,7 +13,7 @@ function BoxCard({ children, classes, onClose, header }) {
       dark:border-none dark:bg-pure-black dark:text-white md:h-auto 
       md:max-h-[650px] md:min-h-[650px] md:w-[615px] md:rounded-2xl ${classes}`}
     >
-      <div className="absolute left-0 top-0 flex h-[53px] w-full min-w-[300px] items-center">
+      <div className="absolute left-0 top-0 flex h-[53px] w-full min-w-[300px] items-center ">
         {header ? (
           // eslint-disable-next-line react/jsx-no-useless-fragment
           <>{header}</>

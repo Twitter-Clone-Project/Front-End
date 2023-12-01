@@ -1,5 +1,6 @@
-import React, { useReducer, useState } from 'react';
+import React, { useReducer, useRef, useState } from 'react';
 import moment from 'moment/moment';
+import PropTypes from 'prop-types';
 import BoxCard from '../BoxCard';
 import Button from '../form-controls/Button';
 import NameInput from '../form-controls/nameInput';
@@ -50,7 +51,7 @@ function DOBReducer(state, action) {
   }
 }
 
-function UpdateProfileForm() {
+function UpdateProfileForm({ setUpdateFormOpen }) {
   const { user } = useAuth();
 
   const DOBInitialState = {
@@ -61,7 +62,10 @@ function UpdateProfileForm() {
     daysCnt: 31,
     yearsCnt: 120,
   };
-
+  const bannerInput = useRef(null);
+  const picInput = useRef(null);
+  const [banner, setBanner] = useState(null);
+  const [pic, setPic] = useState(null);
   const [name, setName] = useState(user.name);
   const [nameErr, setNameErr] = useState('');
   const [bio, setBio] = useState(user.bio || '');
@@ -76,28 +80,30 @@ function UpdateProfileForm() {
   return (
     <div className="fixed bottom-0 left-0 top-0 z-[2000] flex h-screen w-full items-center justify-center bg-dark-gray bg-opacity-30">
       <BoxCard
-        classes="overflow-auto"
         header={
-          <div className="flex w-full items-center justify-between p-4">
-            <p className="flex items-center justify-between gap-6 text-xl font-bold">
-              <button
-                type="button"
-                className="flex h-8 w-8 items-center justify-center rounded-full align-middle hover:bg-light-hover-layout dark:hover:bg-hover-layout"
-              >
-                <span className="text-base">&#10005;</span>
-              </button>
-              Edit profile
-            </p>
+          <div className="flex h-full w-full items-center">
+            <div className="fixed z-[100] flex w-[calc(100%-1rem-1px)] flex-1 items-center justify-between bg-white bg-opacity-70 px-4 py-2 dark:bg-pure-black md:w-[598px] md:rounded-tl-2xl">
+              <p className="flex items-center justify-between gap-6 text-xl font-bold">
+                <button
+                  type="button"
+                  onClick={() => setUpdateFormOpen(false)}
+                  className="flex h-8 w-8 items-center justify-center rounded-full align-middle hover:bg-light-hover-layout dark:hover:bg-hover-layout"
+                >
+                  <span className="text-base">&#10005;</span>
+                </button>
+                Edit profile
+              </p>
 
-            <Button
-              label="Save"
-              width="w-20"
-              backGroundColorDark="white"
-              labelColorDark="black"
-              borderColor="none"
-              backGroundColor="black"
-              labelColor="white"
-            />
+              <Button
+                label="Save"
+                width="w-20"
+                backGroundColorDark="white"
+                labelColorDark="black"
+                borderColor="none"
+                backGroundColor="black"
+                labelColor="white"
+              />
+            </div>
           </div>
         }
       >
@@ -107,11 +113,28 @@ function UpdateProfileForm() {
               <div className="relative object-fill">
                 <img
                   className="m-auto aspect-[3/1] max-h-full w-full cursor-pointer object-fill"
-                  src={import.meta.env.VITE_DEFAULT_BANNER}
+                  src={
+                    banner
+                      ? URL.createObjectURL(banner)
+                      : import.meta.env.VITE_DEFAULT_BANNER
+                  }
                   alt="cover"
                 />
                 <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-5">
-                  <ImageButton label="Add photo">
+                  <ImageButton
+                    onclick={() => bannerInput.current.click()}
+                    label="Add photo"
+                  >
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => {
+                        console.log(e.target.files[0]);
+                        setBanner(e.target.files[0]);
+                      }}
+                      ref={bannerInput}
+                    />
                     <svg
                       viewBox="0 0 24 24"
                       className="flex h-6 w-6"
@@ -124,9 +147,14 @@ function UpdateProfileForm() {
                       </g>
                     </svg>
                   </ImageButton>
-                  <ImageButton label="Remove photo">
-                    <span className="text-white">&#10005;</span>
-                  </ImageButton>
+                  {banner && (
+                    <ImageButton
+                      onclick={() => setBanner(null)}
+                      label="Remove photo"
+                    >
+                      <span className="text-white">&#10005;</span>
+                    </ImageButton>
+                  )}
                 </div>
               </div>
             </div>
@@ -135,12 +163,26 @@ function UpdateProfileForm() {
                 <div className="relative flex justify-between">
                   <img
                     id="popoverImg"
-                    src={import.meta.env.VITE_DEFAULT_AVATAR}
+                    src={
+                      pic
+                        ? URL.createObjectURL(pic)
+                        : import.meta.env.VITE_DEFAULT_AVATAR
+                    }
                     alt=""
                     className="relative h-auto cursor-pointer rounded-full border-4 border-white dark:border-pure-black"
                   />
                   <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-5">
-                    <ImageButton label="Add photo">
+                    <ImageButton
+                      onclick={() => picInput.current.click()}
+                      label="Add photo"
+                    >
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => setPic(e.target.files[0])}
+                        ref={picInput}
+                      />
                       <svg
                         viewBox="0 0 24 24"
                         className="flex h-6 w-6"
@@ -253,4 +295,10 @@ function UpdateProfileForm() {
   );
 }
 
+UpdateProfileForm.defaultProps = {
+  setUpdateFormOpen: () => {},
+};
+UpdateProfileForm.propTypes = {
+  setUpdateFormOpen: PropTypes.func,
+};
 export default UpdateProfileForm;

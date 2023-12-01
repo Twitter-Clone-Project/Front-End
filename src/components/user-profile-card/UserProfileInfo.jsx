@@ -4,16 +4,18 @@ import { useLocation, useNavigate } from 'react-router';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import Button from '../form-controls/Button';
 import 'react-photo-view/dist/react-photo-view.css';
+import { useAuth } from '../../hooks/AuthContext';
 
-function UserProfileInfo({ user }) {
+function UserProfileInfo({ user, setUpdateFormOpen }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user: curUser } = useAuth();
   const { username, name, pic, followers, following } = {
     username: user.username,
     name: user.name,
     pic: import.meta.env.VITE_DEFAULT_AVATAR,
-    followers: 12,
-    following: 10,
+    followers: user.followersCount,
+    following: user.followingsCount,
   };
   return (
     <div className="relative cursor-auto bg-white bg-opacity-100 p-4 text-black dark:bg-pure-black dark:text-white">
@@ -30,17 +32,21 @@ function UserProfileInfo({ user }) {
         </PhotoProvider>
       </div>
       <div className="mb-4 flex min-h-[50px] w-full justify-end">
-        <div className="w-[50%] max-w-[8rem]">
-          <Button
-            label="Edit Profile"
-            labelColor="black"
-            labelColorDark="white"
-            backGroundColorDark="black"
-            backGroundColor="white"
-            className="bg-pure-black text-white"
-            onClick={() => null}
-          />
-        </div>
+        {user.username === curUser.username ? (
+          <div className="w-[50%] max-w-[8rem]">
+            <Button
+              label="Edit Profile"
+              labelColor="black"
+              labelColorDark="white"
+              backGroundColorDark="black"
+              backGroundColor="white"
+              className="bg-pure-black text-white"
+              onClick={() => setUpdateFormOpen(true)}
+            />
+          </div>
+        ) : (
+          ''
+        )}
       </div>
       <div className="mb-5 mt-2">
         <div className="flex h-[41.5px] flex-col">
