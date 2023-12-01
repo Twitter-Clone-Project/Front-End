@@ -23,6 +23,8 @@ import Replies from './components/user-profile-card/Replies';
 import Likes from './components/user-profile-card/Likes';
 import Media from './components/user-profile-card/Media';
 import NoProfile from './components/user-profile-card/NoProfile';
+import BoxCard from './components/BoxCard';
+import UpdateProfileForm from './components/user-profile-card/UpdateProfileForm';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -172,8 +174,8 @@ function App() {
             />
             <Route
               exact
-              path="notfound"
-              element={<NoProfile />}
+              path="dev/update"
+              element={<UpdateProfileForm />}
             />
             <Route
               exact

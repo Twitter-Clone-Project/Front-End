@@ -1,38 +1,73 @@
-import React from 'react';
-import { Outlet } from 'react-router';
+import React, { useEffect, useState } from 'react';
+import { Outlet, useParams } from 'react-router';
+import toast from 'react-hot-toast';
 import UserProfileCard from './UserProfileCard';
 import { useAuth } from '../../hooks/AuthContext';
 import ListNav from '../navigation-bars/ListNav';
+import Spinner from '../Spinner';
+import OwnToaster from '../OwnToaster';
 
 function ProfilePage() {
-  const { user } = useAuth();
+  const { user: curUser } = useAuth();
+  const [user, setUser] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const { username } = useParams('username');
 
   const ListNavItems = [
     {
       label: 'Posts',
-      path: `/app/${user.username}/posts`,
-    },
-    {
-      label: 'Replies',
-      path: `/app/${user.username}/replies`,
-    },
-    {
-      label: 'Media',
-      path: `/app/${user.username}/media`,
+      path: `/app/${username}/posts`,
     },
     {
       label: 'Likes',
-      path: `/app/${user.username}/likes`,
+      path: `/app/${username}/likes`,
     },
   ];
+
+  useEffect(() => {
+    if (username === curUser.username) {
+      setUser(curUser);
+      setIsLoading(false);
+      return;
+    }
+    const fetchUser = async () => {
+      try {
+        const res = await fetch(
+          `http://${import.meta.env.VITE_API_DOMAIN}profile/${username}`,
+          {
+            method: 'GET',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+          },
+        );
+        const data = await res.json();
+        if (data.status === false) throw new Error(data.message);
+        setUser(data.data.user);
+      } catch (err) {
+        toast(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchUser();
+  }, [curUser, username]);
+
   return (
-    <div className="border-x-0 border-border-gray dark:text-white sm:border-x-2">
-      <div className="border-b-[1px] border-b-border-gray">
-        <UserProfileCard user={user} />
-        <ListNav items={ListNavItems} />
-      </div>
-      <Outlet />
-    </div>
+    <>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <div className="border-x-0 border-border-gray dark:text-white sm:border-x-2">
+          <div className="border-b-[1px] border-b-border-gray">
+            <UserProfileCard user={user} />
+            <ListNav items={ListNavItems} />
+          </div>
+          <Outlet />
+        </div>
+      )}
+      <OwnToaster />
+    </>
   );
 }
 
