@@ -68,13 +68,13 @@ function FollowersList() {
           <div className="flex h-[53px] flex-row px-4 ">
             <div className=" w-14">
               <div
-                className="mb-2 mt-[9px] flex h-9 w-9 items-center justify-center rounded-full hover:bg-[#181919]"
+                className="mb-2 mt-[9px] flex h-9 w-9 items-center justify-center rounded-full hover:bg-x-light-gray dark:hover:bg-[#181919]"
                 onClick={handelBackButton}
               >
                 <svg
                   viewBox="0 0 24 24"
                   aria-hidden="true"
-                  className=" h-5 w-5 text-x-light-gray"
+                  className=" h-5 w-5 text-black dark:text-x-light-gray"
                 >
                   <g>
                     <path
