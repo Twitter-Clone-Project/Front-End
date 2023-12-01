@@ -2,41 +2,40 @@ import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import Spinner from '../components/Spinner';
 import Tweet from '../tweetPage/Tweet';
-import AddEmoji from '../tweetPage/AddEmoji';
+import AddReply from './AddReply';
+import RepliesList from './RepliesList';
 
 function TweetPage() {
   const [tweetData, setTweetData] = useState([]);
-  const [repliesData, setRepliesData] = useState([]);
-  const [reply, setReply] = useState('');
-  const [replyDisabled, setReplyDisabled] = useState(true);
-  // const [replyFocus, setReplyFocus] = useState(true);
+  const [replies, setReplies] = useState([]);
+  const [reply, setReply] = useState({});
+  const [userID, setUserID] = useState('');
   // const [tweetLoading, setTweetLoading] = useState(false);
-  // const [repliesLoading, setRepliesLoading] = useState(false);
-  useEffect(() => {
-    if (repliesData.length !== 0) return;
-    // setRepliesLoading(true);
-    const controller = new AbortController();
-    const getData = async () => {
-      try {
-        const res = await fetch('http://localhost:3000/repliesInfo', {
-          signal: controller.signal,
-        });
-        const data = await res.json();
-        if (data.status === false) throw new Error(data.message);
-        else {
-          setRepliesData([data]);
-        }
-      } catch (err) {
-        if (err.name !== 'AbortError') toast(err.message);
-      } finally {
-        // setRepliesLoading(false);
-      }
-    };
-    getData();
-    return () => {
-      controller.abort();
-    };
-  }, []);
+  // useEffect(() => {
+  //   setUserID('1');
+  //   if (Object.keys(reply).length !== 0) {
+  //     setReplies((prevReplies) => [reply, ...prevReplies]);
+  //   }
+  //   window.addEventListener('scroll', () => {
+  //     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+  //       const fetchReplies = async () => {
+  //         try {
+  //           const response = await fetch(
+  //             // eslint-disable-next-line max-len
+  //             `https://8ab91f88-5083-4ec2-9135-592594f44252.mock.pstmn.io/users/${userID}/timeline`,
+  //           );
+  //           const data = await response.json();
+  //           setReplies((prevReplies) => [...prevReplies, ...data.data]);
+  //         } catch (error) {
+  //           console.log('Error fetching timeline:', error);
+  //         }
+  //       };
+
+  //       fetchReplies();
+  //       // Show loading spinner and make fetch request to api
+  //     }
+  //   });
+  // }, [reply]);
   useEffect(() => {
     if (tweetData.length !== 0) return;
     // setTweetLoading(true);
@@ -61,30 +60,22 @@ function TweetPage() {
     return () => {
       controller.abort();
     };
-  }, []);
+  });
   const handelBackButton = () => {
     // console.log('HI');
   };
-  useEffect(() => {
-    if (reply === '') setReplyDisabled(true);
-    else {
-      setReplyDisabled(false);
-    }
-  }, [reply]);
+
   return (
     <div className="flex h-auto justify-center xl:justify-start">
       <div className="flex flex-col items-start">
         <div className="flex flex-wrap items-center sm:w-full">
-          <div
-            // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-            className="mb-2 mt-[9px] flex h-7 w-7 items-center justify-center rounded-full hover:bg-light-thin"
-            onClick={handelBackButton}
-          >
+          <div className="mb-2 mt-[9px] flex h-7 w-7 items-center justify-center rounded-full hover:bg-x-light-gray hover:dark:bg-light-thin">
             <svg
               viewBox="0 0 24 24"
               aria-hidden="true"
-              className=" h-5 w-5 text-x-light-gray"
+              className=" h-5 w-5 dark:text-x-light-gray"
               style={{ cursor: 'pointer' }}
+              onClick={handelBackButton}
             >
               <g>
                 <path
@@ -94,7 +85,9 @@ function TweetPage() {
               </g>
             </svg>
           </div>
-          <span className=" pl-4 text-xl font-semibold text-white">Post</span>
+          <span className=" pl-4 text-xl font-semibold dark:text-white">
+            Post
+          </span>
         </div>
         {tweetData.length === 0 ? (
           <Spinner />
@@ -105,46 +98,11 @@ function TweetPage() {
             ))}
           </div>
         )}
-        <div className="flex flex-wrap items-center justify-between px-2 sm:w-full">
-          <img
-            className=" h-[35px] w-[10%] rounded-full object-cover"
-            src="../../public/X.svg"
-            alt="profileImage"
-          />
-          <div className="flex w-[70%] flex-wrap items-center pl-1">
-            <input
-              className="h-[60px] w-[90%] text-white
-                focus:outline-0 dark:bg-pure-black"
-              placeholder="Post your reply"
-              value={reply}
-              onChange={(event) => {
-                setReply(event.target.value);
-              }}
-            />
-            <div className="flex w-[10%] justify-center">
-              <AddEmoji
-                text={reply}
-                setText={setReply}
-              />
-            </div>
-          </div>
-          <button
-            type="submit"
-            className="h-[30px] w-[20%] rounded-full bg-blue text-white disabled:opacity-50"
-            disabled={replyDisabled}
-          >
-            Reply
-          </button>
-        </div>
-        {repliesData.length === 0 ? (
-          <Spinner />
-        ) : (
-          <div className="w-screen sm:w-full">
-            {repliesData[0].data.map((replyItem) => (
-              <Tweet data={replyItem} />
-            ))}
-          </div>
-        )}
+        <AddReply setReply={setReply} />
+        <RepliesList
+          repliesData={replies}
+          setRepliesData={setReplies}
+        />
       </div>
     </div>
   );
