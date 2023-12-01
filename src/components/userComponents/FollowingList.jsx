@@ -67,7 +67,7 @@ function FollowingList() {
           <div className="flex h-[53px] flex-row px-4 ">
             <div className=" w-14">
               <div
-                className="mb-2 mt-[9px] flex h-9 w-9 items-center justify-center rounded-full hover:bg-[#181919]"
+                className="mb-2 mt-[9px] flex h-9 w-9 items-center justify-center rounded-full hover:bg-x-light-gray dark:hover:bg-[#181919]"
                 onClick={handelBackButton}
               >
                 <svg
