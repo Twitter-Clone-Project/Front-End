@@ -44,7 +44,7 @@ function reactButtons({ type, data, clicked }) {
             }`}
           />
         </svg>
-        <p className="px-[8px]">{data}</p>
+        {data !== 0 && <p className="px-[8px]">{data}</p>}
       </div>
     );
   }
@@ -88,7 +88,7 @@ function reactButtons({ type, data, clicked }) {
           }`}
         />
       </svg>
-      <p className="px-[8px]">{data}</p>
+      {data !== 0 && <p className="px-[8px]">{data}</p>}
     </div>
   );
 }
