@@ -1,41 +1,48 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
 import Spinner from '../components/Spinner';
 import Tweet from '../tweetPage/Tweet';
 import AddReply from './AddReply';
 import RepliesList from './RepliesList';
+import PostEngagements from './PostEngagements';
 
-function TweetPage() {
+function TweetPage({ pastPath, tweetId }) {
   const [tweetData, setTweetData] = useState([]);
   const [replies, setReplies] = useState([]);
   const [reply, setReply] = useState({});
+  const [visibility, setVisibility] = useState('invisible');
   const [userID, setUserID] = useState('');
   // const [tweetLoading, setTweetLoading] = useState(false);
-  // useEffect(() => {
-  //   setUserID('1');
-  //   if (Object.keys(reply).length !== 0) {
-  //     setReplies((prevReplies) => [reply, ...prevReplies]);
-  //   }
-  //   window.addEventListener('scroll', () => {
-  //     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-  //       const fetchReplies = async () => {
-  //         try {
-  //           const response = await fetch(
-  //             // eslint-disable-next-line max-len
-  //             `https://8ab91f88-5083-4ec2-9135-592594f44252.mock.pstmn.io/users/${userID}/timeline`,
-  //           );
-  //           const data = await response.json();
-  //           setReplies((prevReplies) => [...prevReplies, ...data.data]);
-  //         } catch (error) {
-  //           console.log('Error fetching timeline:', error);
-  //         }
-  //       };
+  useEffect(() => {
+    setUserID('1');
+    if (Object.keys(reply).length !== 0) {
+      setReplies((prevReplies) => [reply, ...prevReplies]);
+    }
+    window.addEventListener('scroll', () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        const fetchReplies = async () => {
+          try {
+            const response = await fetch(
+              `http://${
+                import.meta.env.VITE_API_DOMAIN
+              }tweets/${tweetId}/replies`,
+            );
+            const data = await response.json();
+            setReplies((prevReplies) => [...prevReplies, ...data.data]);
+          } catch (error) {
+            console.log('Error fetching timeline:', error);
+          }
+        };
 
-  //       fetchReplies();
-  //       // Show loading spinner and make fetch request to api
-  //     }
-  //   });
-  // }, [reply]);
+        fetchReplies();
+        // Show loading spinner and make fetch request to api
+      }
+    });
+  }, [reply]);
   useEffect(() => {
     if (tweetData.length !== 0) return;
     // setTweetLoading(true);
@@ -61,12 +68,12 @@ function TweetPage() {
       controller.abort();
     };
   });
+  const navigate = useNavigate();
   const handelBackButton = () => {
-    // console.log('HI');
+    navigate(pastPath);
   };
-
   return (
-    <div className="flex h-auto justify-center xl:justify-start">
+    <div className="flex h-auto justify-center">
       <div className="flex flex-col items-start">
         <div className="flex flex-wrap items-center sm:w-full">
           <div className="mb-2 mt-[9px] flex h-7 w-7 items-center justify-center rounded-full hover:bg-x-light-gray hover:dark:bg-light-thin">
@@ -98,13 +105,36 @@ function TweetPage() {
             ))}
           </div>
         )}
+        <div className="flex w-full justify-start p-2">
+          <button
+            type="button"
+            onClick={() => {
+              setVisibility(true);
+            }}
+            className="rounded-md px-2 py-1 text-sm hover:bg-opacity-50 dark:bg-blue dark:text-white"
+          >
+            View Engagements
+          </button>
+        </div>
         <AddReply setReply={setReply} />
         <RepliesList
           repliesData={replies}
           setRepliesData={setReplies}
         />
       </div>
+      <div className="flex w-full items-center justify-center">
+        {visibility === true ? (
+          <PostEngagements setVisibility={setVisibility} />
+        ) : (
+          ''
+        )}
+      </div>
     </div>
   );
 }
+
+TweetPage.propTypes = {
+  pastPath: PropTypes.string.isRequired,
+  tweetId: PropTypes.string.isRequired,
+};
 export default TweetPage;

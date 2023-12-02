@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
 import Spinner from '../components/Spinner';
 import Tweet from '../tweetPage/Tweet';
 
-function RepliesList({ repliesData, setRepliesData }) {
+function RepliesList({ repliesData, setRepliesData, tweetId }) {
   // const [repliesLoading, setRepliesLoading] = useState(false);
 
   useEffect(() => {
@@ -13,9 +13,12 @@ function RepliesList({ repliesData, setRepliesData }) {
     const controller = new AbortController();
     const getData = async () => {
       try {
-        const res = await fetch('http://localhost:3000/repliesInfo', {
-          signal: controller.signal,
-        });
+        const res = await fetch(
+          `http://${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/replies`,
+          {
+            signal: controller.signal,
+          },
+        );
         const data = await res.json();
         if (data.status === false) throw new Error(data.message);
         else {
@@ -33,7 +36,7 @@ function RepliesList({ repliesData, setRepliesData }) {
     };
   });
   return (
-    <div>
+    <div data-testid="replies-list">
       {repliesData.length === 0 ? (
         <Spinner />
       ) : (
@@ -51,5 +54,6 @@ RepliesList.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   repliesData: PropTypes.array.isRequired,
   setRepliesData: PropTypes.func.isRequired,
+  tweetId: PropTypes.string.isRequired,
 };
 export default RepliesList;

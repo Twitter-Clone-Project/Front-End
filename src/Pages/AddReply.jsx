@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import AddEmoji from '../tweetPage/AddEmoji';
 
-function AddReply({ setReply }) {
+function AddReply({ setReply, tweetId }) {
   const [replyText, setReplyText] = useState('');
   const [replyDisabled, setReplyDisabled] = useState(true);
   const [hashtags, setHashtags] = useState([]);
@@ -30,14 +30,16 @@ function AddReply({ setReply }) {
     const postReply = async () => {
       try {
         const response = await fetch(
-          'https://2f29bfea-6dd0-4327-b865-9a8db1f872e9.mock.pstmn.io/tweets/add',
+          `http://${
+            import.meta.env.VITE_API_DOMAIN
+          }/tweets/${tweetId}/addReply`,
           {
             method: 'POST',
             body: formData, // Convert the data to JSON format
           },
         );
         const data = await response.json();
-        setTweet(data.data);
+        setReply(data.data);
         console.log(data.data);
       } catch (error) {
         console.log('Error fetching timeline:', error);
@@ -47,7 +49,10 @@ function AddReply({ setReply }) {
   };
 
   return (
-    <div className="flex flex-wrap items-center justify-between px-2 sm:w-full">
+    <div
+      className="flex flex-wrap items-center justify-between px-2 sm:w-full"
+      data-testid="add-reply"
+    >
       <img
         className=" h-[35px] w-[10%] rounded-full object-cover"
         src="../../public/X.svg"
@@ -84,5 +89,6 @@ function AddReply({ setReply }) {
 
 AddReply.propTypes = {
   setReply: PropTypes.func.isRequired,
+  tweetId: PropTypes.string.isRequired,
 };
 export default AddReply;
