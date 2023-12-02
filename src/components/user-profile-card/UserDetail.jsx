@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 
 function UserDetail({ path, children }) {
   return (
-    <span className="flex text-base font-thin text-light-thin">
+    <span className="flex align-middle text-base font-thin text-light-thin">
       <svg
         viewBox="0 0 24 24"
         width="18px"
+        className="align-middle"
       >
         <g>
           <path
-            className="fill-light-thin text-xs"
+            className="fill-light-thin align-middle text-xs"
             d={path}
           />
         </g>

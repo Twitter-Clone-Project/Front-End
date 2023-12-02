@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
+import PropTypes from 'prop-types';
 import UserProfileInfo from './UserProfileInfo';
 import 'react-photo-view/dist/react-photo-view.css';
 import UpdateProfileForm from './UpdateProfileForm';
-import PropTypes from 'prop-types';
 
 function UserProfileCard({ user }) {
-  console.log(user);
   const [updateFormOpen, setUpdateFormOpen] = useState(false);
   return (
     <div className="w-full max-w-[600px] dark:text-white">
@@ -35,5 +34,9 @@ function UserProfileCard({ user }) {
     </div>
   );
 }
-UserProfileCard.propTypes = {};
+UserProfileCard.propTypes = {
+  user: PropTypes.shape({
+    bannerUrl: PropTypes.string.isRequired,
+  }).isRequired,
+};
 export default UserProfileCard;

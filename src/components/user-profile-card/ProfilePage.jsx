@@ -39,8 +39,6 @@ function ProfilePage() {
         const data = await res.json();
         if (data.status === false) throw new Error(data.message);
         setUser(data.data.user);
-        if (username === curUser.username)
-          dispatch({ type: 'LOGIN', payload: data.data.user });
       } catch (err) {
         toast(err.message);
       } finally {
@@ -49,7 +47,7 @@ function ProfilePage() {
     };
     fetchUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, username]);
+  }, [dispatch, curUser, username]);
 
   return (
     <>

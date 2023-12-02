@@ -17,7 +17,7 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
   const { username, name, pic, followers, following } = {
     username: user.username,
     name: user.name,
-    pic: import.meta.env.VITE_DEFAULT_AVATAR,
+    pic: curUser.imageUrl,
     followers: user.followersCount,
     following: user.followingsCount,
   };
@@ -30,7 +30,7 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
               id="popoverImg"
               src={pic}
               alt=""
-              className="h-auto cursor-pointer rounded-full border-4 border-white dark:border-pure-black"
+              className="h-auto w-full cursor-pointer rounded-full border-4 border-white dark:border-pure-black"
             />
           </PhotoView>
         </PhotoProvider>
@@ -64,33 +64,29 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
       </div>
       {user.bio && (
         <div className="bio mb-2 max-w-[95%]">
-          <p className="">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quibusdam
-            culpa quae officia, ullam fuga, incidunt minus quos at dignissimos
-            veritatis autem est dolore, natus asperiores eum quidem illo dolores
-            quam.
-          </p>
+          <p className="">{user.bio}</p>
         </div>
       )}
       <div className="mb-3 flex flex-wrap items-center gap-x-3 text-sm">
         {user.location && (
           <UserDetail path="M12 7c-1.93 0-3.5 1.57-3.5 3.5S10.07 14 12 14s3.5-1.57 3.5-3.5S13.93 7 12 7zm0 5c-.827 0-1.5-.673-1.5-1.5S11.173 9 12 9s1.5.673 1.5 1.5S12.827 12 12 12zm0-10c-4.687 0-8.5 3.813-8.5 8.5 0 5.967 7.621 11.116 7.945 11.332l.555.37.555-.37c.324-.216 7.945-5.365 7.945-11.332C20.5 5.813 16.687 2 12 2zm0 17.77c-1.665-1.241-6.5-5.196-6.5-9.27C5.5 6.916 8.416 4 12 4s6.5 2.916 6.5 6.5c0 4.073-4.835 8.028-6.5 9.27z">
-            <span className="inline-block max-w-[100px] overflow-clip">
-              Egypt
+            <span className="block max-w-[100px] overflow-hidden text-ellipsis">
+              {user.location}
             </span>
           </UserDetail>
         )}
         {user.website && (
           <UserDetail path="M18.36 5.64c-1.95-1.96-5.11-1.96-7.07 0L9.88 7.05 8.46 5.64l1.42-1.42c2.73-2.73 7.16-2.73 9.9 0 2.73 2.74 2.73 7.17 0 9.9l-1.42 1.42-1.41-1.42 1.41-1.41c1.96-1.96 1.96-5.12 0-7.07zm-2.12 3.53l-7.07 7.07-1.41-1.41 7.07-7.07 1.41 1.41zm-12.02.71l1.42-1.42 1.41 1.42-1.41 1.41c-1.96 1.96-1.96 5.12 0 7.07 1.95 1.96 5.11 1.96 7.07 0l1.41-1.41 1.42 1.41-1.42 1.42c-2.73 2.73-7.16 2.73-9.9 0-2.73-2.74-2.73-7.17 0-9.9z">
-            <span className="inline-block max-w-[140px] overflow-clip">
-              <a
-                href={user.website}
-                target
-                className=""
-              >
+            <a
+              href={user.website}
+              target="_blank"
+              className="max-w-[140px]"
+              rel="noreferrer"
+            >
+              <span className="block max-w-[140px] truncate">
                 {user.website}
-              </a>
-            </span>
+              </span>
+            </a>
           </UserDetail>
         )}
         {user.birthDate && (

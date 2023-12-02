@@ -1,6 +1,7 @@
 import React, { useReducer, useRef, useState } from 'react';
 import moment from 'moment/moment';
 import PropTypes from 'prop-types';
+import toast from 'react-hot-toast';
 import BoxCard from '../BoxCard';
 import Button from '../form-controls/Button';
 import NameInput from '../form-controls/nameInput';
@@ -9,6 +10,7 @@ import BasicInput from '../form-controls/BasicInput';
 import DorpDownMenu from '../form-controls/DorpDownMenu';
 import TextArea from '../form-controls/TextArea';
 import ImageButton from './ImageButton';
+import OwnToaster from '../OwnToaster';
 
 function DOBReducer(state, action) {
   switch (action.type) {
@@ -52,35 +54,73 @@ function DOBReducer(state, action) {
 }
 
 function UpdateProfileForm({ setUpdateFormOpen }) {
-  const { user } = useAuth();
-
+  const { user, dispatch } = useAuth();
   const DOBInitialState = {
-    month: '',
-    day: '',
-    year: '',
-    monthItems: [],
+    month: moment(new Date(user.birthDate)).format('MMMM'),
+    day: moment(new Date(user.birthDate)).format('D'),
+    year: moment(new Date(user.birthDate)).year(),
     daysCnt: 31,
     yearsCnt: 120,
   };
   const bannerInput = useRef(null);
   const picInput = useRef(null);
+  const [curBanner, setCurBanner] = useState(user.bannerUrl);
   const [banner, setBanner] = useState(null);
   const [pic, setPic] = useState(null);
   const [name, setName] = useState(user.name);
   const [nameErr, setNameErr] = useState('');
   const [bio, setBio] = useState(user.bio || '');
-  const [bioErr, setBioErr] = useState(user.bio || '');
+  const [bioErr, setBioErr] = useState('');
   const [location, setLocation] = useState(user.location || '');
   const [locationErr, setLocationErr] = useState('');
-  const [website, setWebsite] = useState(user.location || '');
+  const [website, setWebsite] = useState(user.website || '');
   const [websiteErr, setWebsiteErr] = useState('');
   const [DOBEdit, setDOBEdit] = useState(false);
   const [DOB, dispacth] = useReducer(DOBReducer, DOBInitialState);
 
+  const totalError = nameErr || bioErr || locationErr || websiteErr || !name;
+
+  const handleUpdate = async () => {
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('bio', bio);
+    formData.append('location', location);
+    formData.append('website', website);
+    formData.append(
+      'birthDate',
+      `${DOB.year}-${moment().month(DOB.month).format('MM')}-${DOB.day}`,
+    );
+    formData.append('profilePhoto', pic);
+    if (banner || curBanner === import.meta.env.VITE_DEFAULT_BANNER) {
+      formData.append('isUpdated', 'TRUE');
+      formData.append('bannerPhoto', banner);
+    } else {
+      formData.append('isUpdated', 'FALSE');
+      formData.append('bannerPhoto', banner);
+    }
+
+    try {
+      const res = await fetch(
+        `http://${import.meta.env.VITE_API_DOMAIN}profile/updateProfile`,
+        {
+          method: 'PATCH',
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+          body: formData,
+        },
+      );
+      const data = await res.json();
+      if (data.status === false) throw new Error(data.message);
+      dispatch({ type: 'LOGIN', payload: data.data });
+      toast('Your data has been updated successfully!');
+    } catch (err) {
+      toast(err.message);
+    }
+  };
   return (
     <div className="fixed bottom-0 left-0 top-0 z-[2000] flex h-screen w-full items-center justify-center bg-dark-gray bg-opacity-30">
       <BoxCard
-        classes="max-h-[500px]"
         header={
           <div className="flex h-full w-full items-center">
             <div className="fixed z-[100] flex w-[calc(100%-1rem-1px)] flex-1 items-center justify-between bg-white bg-opacity-70 px-4 py-2 dark:bg-pure-black md:w-[598px] md:rounded-tl-2xl">
@@ -98,6 +138,8 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
               <Button
                 label="Save"
                 width="w-20"
+                disabled={totalError}
+                onClick={handleUpdate}
                 backGroundColorDark="white"
                 labelColorDark="black"
                 borderColor="none"
@@ -110,15 +152,11 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
       >
         <div className="mt-6">
           <div className="mb-6">
-            <div className="profile-cover max-h-[500px] border-y-[0.5px] border-y-light-gray">
+            <div className="profile-cover max-h-[500px]">
               <div className="relative object-fill">
                 <img
-                  className="m-auto aspect-[3/1] max-h-full w-full cursor-pointer object-fill"
-                  src={
-                    banner
-                      ? URL.createObjectURL(banner)
-                      : import.meta.env.VITE_DEFAULT_BANNER
-                  }
+                  className="m-auto aspect-[3/1] max-h-full w-full cursor-pointer bg-pure-black object-fill opacity-70"
+                  src={banner ? URL.createObjectURL(banner) : curBanner}
                   alt="cover"
                 />
                 <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-5">
@@ -147,9 +185,15 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
                       </g>
                     </svg>
                   </ImageButton>
-                  {banner && (
+                  {(curBanner !== import.meta.env.VITE_DEFAULT_BANNER ||
+                    banner) && (
                     <ImageButton
-                      onclick={() => setBanner(null)}
+                      onclick={() => {
+                        if (!banner)
+                          setCurBanner(import.meta.env.VITE_DEFAULT_BANNER);
+                        else setCurBanner(user.bannerUrl);
+                        setBanner(null);
+                      }}
                       label="Remove photo"
                     >
                       <span className="text-white">&#10005;</span>
@@ -160,16 +204,12 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
             </div>
             <div className="relative cursor-auto bg-white bg-opacity-100 p-4 text-black dark:bg-pure-black dark:text-white">
               <div className="absolute -top-0 z-10 flex aspect-square w-1/5 min-w-[3rem] -translate-y-1/2 justify-between">
-                <div className="relative flex justify-between">
+                <div className="relative flex w-full justify-between">
                   <img
                     id="popoverImg"
-                    src={
-                      pic
-                        ? URL.createObjectURL(pic)
-                        : import.meta.env.VITE_DEFAULT_AVATAR
-                    }
+                    src={pic ? URL.createObjectURL(pic) : user.imageUrl}
                     alt=""
-                    className="relative h-auto cursor-pointer rounded-full border-4 border-white dark:border-pure-black"
+                    className="relative h-auto w-full cursor-pointer rounded-full border-4 border-white dark:border-pure-black"
                   />
                   <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-5">
                     <ImageButton
@@ -211,7 +251,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
             />
             <TextArea
               title="Bio"
-              multiline
+              maxLength={160}
               value={bio}
               setValue={setBio}
               error={bioErr}
@@ -296,6 +336,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
           </form>
         </div>
       </BoxCard>
+      <OwnToaster />
     </div>
   );
 }
