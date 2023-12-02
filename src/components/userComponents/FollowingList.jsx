@@ -20,14 +20,15 @@ function FollowingList() {
   const ListNavItems = [
     {
       label: 'Following',
-      path: `/${username}/following`,
+      path: `/app/${username}/following`,
     },
     {
       label: 'Followers',
-      path: `/${username}/followers`,
+      path: `/app/${username}/followers`,
     },
   ];
   const [users, setUsers] = useState([]);
+  const [name, setName] = useState([]);
   const navigate = useNavigate();
 
   const handelBackButton = () => {
@@ -36,18 +37,37 @@ function FollowingList() {
 
   // Fetch the list of Follower users
   useEffect(() => {
-    fetch('https://6548ef1edd8ebcd4ab23e882.mockapi.io/Xproject/following')
-      .then((response) => response.json())
-      .then((data) => setUsers(data));
+    fetch(
+      `http://${import.meta.env.VITE_API_DOMAIN}users/${username}/followings`,
+      {
+        method: 'GET',
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+      },
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setUsers(data.data.users);
+        setName(data.data.name);
+      })
+      .catch((error) => {
+        console.error('Error during fetch:', error);
+      });
   }, []);
   return (
     <div className="flex h-full min-h-screen w-full justify-center bg-white dark:bg-pure-black">
       <div className="w-full overflow-y-clip bg-white dark:bg-pure-black">
-        <div className=" flex h-28 flex-col">
+        <div className=" flex h-28 flex-col hover:cursor-pointer">
           <div className="flex h-[53px] flex-row px-4 ">
             <div className=" w-14">
               <div
-                className="mb-2 mt-[9px] flex h-9 w-9 items-center justify-center rounded-full hover:bg-black"
+                className="mb-2 mt-[9px] flex h-9 w-9 items-center justify-center rounded-full hover:bg-x-light-gray dark:hover:bg-[#181919]"
                 onClick={handelBackButton}
               >
                 <svg
@@ -70,7 +90,7 @@ function FollowingList() {
                   className=" cursor-pointer text-[20px] font-bold leading-6 text-pure-black hover:underline dark:text-white"
                   data-popover-target="popover-user-profile"
                 >
-                  Arabian Horses
+                  {name}
                 </span>
               </div>
               <span
@@ -97,13 +117,14 @@ function FollowingList() {
               key={uuid4()}
               isFollowed={user.isFollowed}
               isFollowing={user.isFollowing}
-              userPicture={user.avatar}
-              userName={user.userName}
-              userID={user.userId}
-              discription={user.discription}
-              following={user.following}
-              followers={user.followers}
+              userPicture={user.imageurl}
+              userName={user.name}
+              userID={user.username}
+              discription={user.bio}
+              following={user.followingsCount}
+              followers={user.followersCount}
               testID={index}
+              itemID={user.userId}
             />
           ))}
         </div>

@@ -2,24 +2,31 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import ReactTimeAgo from 'react-time-ago';
+import { v4 as uuid4 } from 'uuid';
 import ReactButtons from './reactButtons';
 import Media from './Media';
 
 function Tweet({ data }) {
-  const [retweetID, setRetweetID] = useState('');
   const [repost, toggleRepost] = useState(data.isRetweeted);
-  const [reply, toggleReply] = useState(false);
+  const [reply, toggleReply] = useState(data.isReplied);
   const [like, toggleLike] = useState(data.isLiked);
   const [repostsCount, setRepostsCount] = useState(data.retweetsCount);
   const [repliesCount, setRepliesCount] = useState(data.repliesCount);
   const [likesCount, setLikesCount] = useState(data.likesCount);
+
   const handleLike = () => {
     if (like === true) {
       const deleteLike = async () => {
         try {
           const response = await fetch(
-            `https://2f29bfea-6dd0-4327-b865-9a8db1f872e9.mock.pstmn.io/tweets/${data.id}/deleteLike`,
+            `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+              data.id
+            }/deleteLike`,
             {
+              origin: true,
+              credentials: 'include',
+              withCredentials: true,
               method: 'DELETE',
             },
           );
@@ -36,8 +43,13 @@ function Tweet({ data }) {
       const postLike = async () => {
         try {
           const response = await fetch(
-            `https://2f29bfea-6dd0-4327-b865-9a8db1f872e9.mock.pstmn.io/tweets/${data.id}/addlike`,
+            `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+              data.id
+            }/addlike`,
             {
+              origin: true,
+              credentials: 'include',
+              withCredentials: true,
               method: 'POST',
             },
           );
@@ -52,16 +64,19 @@ function Tweet({ data }) {
       postLike();
     }
     toggleLike(!like);
-
-    // console.log(tweetID);
   };
   const handleRepost = () => {
     if (repost === true) {
       const deleteRetweet = async () => {
         try {
           const response = await fetch(
-            `https://2f29bfea-6dd0-4327-b865-9a8db1f872e9.mock.pstmn.io/tweets/${retweetID}/deleteRetweet`,
+            `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+              data.id
+            }/deleteRetweet`,
             {
+              origin: true,
+              credentials: 'include',
+              withCredentials: true,
               method: 'DELETE',
             },
           );
@@ -69,7 +84,6 @@ function Tweet({ data }) {
           console.log(res.status, res.message);
           if (res.status) {
             setRepostsCount(repostsCount - 1);
-            setRetweetID('');
           }
         } catch (error) {
           console.log('Error fetching timeline:', error);
@@ -81,16 +95,20 @@ function Tweet({ data }) {
       const retweet = async () => {
         try {
           const response = await fetch(
-            `https://2f29bfea-6dd0-4327-b865-9a8db1f872e9.mock.pstmn.io/tweets/${data.id}/retweet`,
+            `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+              data.id
+            }/retweet`,
             {
+              origin: true,
+              credentials: 'include',
+              withCredentials: true,
               method: 'POST',
             },
           );
           const res = await response.json();
-          console.log(res.status, res.data);
+          console.log(res.status, res.message);
           if (res.status) {
             setRepostsCount(repostsCount + 1);
-            setRetweetID(res.data.retweetId);
           }
         } catch (error) {
           console.log('Error fetching timeline:', error);
@@ -110,9 +128,9 @@ function Tweet({ data }) {
   };
 
   return (
-    <div className="tweet mt-[0.5px] flex w-[88%] flex-row  border-y-[0.5px] border-y-x-light-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
+    <div className="tweet mb-[0.5px] mt-[-0.5px] flex w-[88%] border-collapse  flex-row border-y-[0.5px] border-y-border-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
       <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
-        <div className={` pb-1 ${data.isRetweet === false ? 'hidden' : ''}`}>
+        <div className={` pb-1 ${repost === false ? 'hidden' : ''}`}>
           <svg
             viewBox="0 0 24 24"
             className="ml-[24px] h-[16px] w-[16px] fill-dark-gray  "
@@ -132,7 +150,7 @@ function Tweet({ data }) {
       <div className="rightColumn w-[512px] ">
         <div
           className={` retweeted-info h-[16px] pb-4 text-[13px] font-semibold
-           text-dark-gray ${data.isRetweet === false ? 'hidden' : ''} `}
+          text-dark-gray ${repost === false ? 'hidden' : ''} `}
         >
           {' '}
           <span>{data.retweetedUser.screenName}</span> reposted
@@ -143,15 +161,35 @@ function Tweet({ data }) {
           </div>
           <div className="userName   overflow-hidden text-[15px] text-dark-gray">
             {' '}
-            &ensp;@ <span>{data.user.userName}</span>
+            &ensp;@ <span>{data.user.username}</span>
           </div>
           <div className="date overflow-hidden text-[15px] text-dark-gray">
             {' '}
-            &ensp;.&ensp;<span>{data.createdAt}</span>
+            &ensp;.&ensp;
+            <ReactTimeAgo
+              date={data.createdAt}
+              locale="en-US"
+              timeStyle="twitter"
+            />
           </div>
         </div>
-        <div className="caption"> {data.text}</div>
-        <Media images={data.attachmentsURL} />
+        <div className="caption">
+          {' '}
+          {data.text.split(' ').map((word) => {
+            if (word.startsWith('#')) {
+              return (
+                <span
+                  key={uuid4()}
+                  className=" text-blue"
+                >
+                  {word}{' '}
+                </span>
+              );
+            }
+            return `${word} `;
+          })}
+        </div>
+        <Media images={data.attachmentsUrl} />
         <div className="buttons flex h-[32px] flex-row  justify-between">
           <button
             data-testid="reply"

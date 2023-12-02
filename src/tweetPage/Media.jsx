@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Media({ images }) {
-  if (images.length === 0) return <div />;
+  if (true) return <div />;
   if (images.length % 2 === 0) {
     return (
       <div

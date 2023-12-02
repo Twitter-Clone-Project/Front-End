@@ -2,7 +2,13 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      screens:{
+        mlg: {
+          min: '1415px',
+        }
+      }
+    },
     colors: {
       'pure-black': '#000',
       blue: '#1DA1F2',
