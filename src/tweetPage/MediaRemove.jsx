@@ -1,8 +1,18 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { v4 as uuid4 } from 'uuid';
 
 function MediaRemove({ filesURLs, setFilesURLs, files, setFiles }) {
+  const [isVideo, setIsVideo] = useState(false);
+  useEffect(() => {
+    if (files[0]) {
+      const fileType = files[0].type.split('/');
+      if (fileType[0] === 'video') {
+        setIsVideo(true);
+      } else setIsVideo(false);
+    }
+  }, [files[0]]);
+
   const handleImageRemove = (i) => {
     const newFiles = [...files];
     newFiles.splice(i, 1);
@@ -38,7 +48,10 @@ function MediaRemove({ filesURLs, setFilesURLs, files, setFiles }) {
                 viewBox="0 0 48 48"
                 fill="white"
               >
-                <path d="M38 12.83L35.17 10 24 21.17 12.83 10 10 12.83 21.17 24 10 35.17 12.83 38 24 26.83 35.17 38 38 35.17 26.83 24z" />
+                <path
+                  className="fill-gray"
+                  d="M38 12.83L35.17 10 24 21.17 12.83 10 10 12.83 21.17 24 10 35.17 12.83 38 24 26.83 35.17 38 38 35.17 26.83 24z"
+                />
                 <path
                   d="M0 0h48v48H0z"
                   fill="none"
@@ -62,11 +75,25 @@ function MediaRemove({ filesURLs, setFilesURLs, files, setFiles }) {
         key={uuid4()}
         className="popup-content relative flex h-full w-full flex-col items-center  bg-white dark:bg-pure-black dark:text-white"
       >
-        <img
-          src={filesURLs[0]}
-          alt="media"
-          className="h-full w-full rounded-2xl object-cover p-1"
-        />
+        {isVideo && (
+          <video
+            controls
+            className="h-full w-full rounded-2xl object-cover p-1"
+            width="100px"
+            muted
+            autoPlay
+            src={filesURLs[0]}
+            poster={filesURLs[0]}
+            type="video/*"
+          />
+        )}
+        {!isVideo && (
+          <img
+            src={filesURLs[0]}
+            alt="media"
+            className="h-full w-full rounded-2xl object-cover p-1"
+          />
+        )}
         <button
           type="submit"
           onClick={() => handleImageRemove(0)}

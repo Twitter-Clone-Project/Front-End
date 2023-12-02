@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
-//import Media from './Media';
+// import Media from './Media';
 import AddEmoji from './AddEmoji';
 import TextField from './TextField';
 import { useAuth } from '../hooks/AuthContext';
@@ -60,8 +60,14 @@ function AddPost({ setTweets }) {
   const handleImageChange = (e) => {
     const fileList = Array.from(e.target.files);
     setFiles(fileList);
-    if (fileList.length > 4) setFiles([]);
-    else {
+    const fileType = fileList[0].type.split('/');
+    if (fileList.length > 4) {
+      setFiles([]);
+      setFilesURLs([]);
+    } else if (fileList.length > 1 && fileType[0] === 'video') {
+      setFiles([fileList[0]]);
+      setFilesURLs([URL.createObjectURL(fileList[0])]);
+    } else {
       setFilesURLs(fileList.map((file) => URL.createObjectURL(file)));
     }
     if (fileList.length !== 0) {
@@ -103,7 +109,7 @@ function AddPost({ setTweets }) {
         </div>
 
         <div className="rightColumn h-auto w-full">
-          <div className="peer placeholder:text-light-thin">
+          <div className="peer w-[500px] placeholder:text-light-thin">
             <TextField
               text={text}
               setText={setText}
@@ -134,7 +140,7 @@ function AddPost({ setTweets }) {
               </label>
               <input
                 type="file"
-                accept="image/*"
+                accept="image/*, video/*"
                 id="mediaUpload"
                 className="hidden"
                 onChange={handleImageChange}

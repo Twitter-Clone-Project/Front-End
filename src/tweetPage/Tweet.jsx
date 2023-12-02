@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import ReactButtons from './reactButtons';
 import Media from './Media';
 import OwnToaster from '../components/OwnToaster';
+import ActionsMenu from './ActionsMenu';
 
 function Tweet({ data }) {
   const [repost, toggleRepost] = useState(data.isRetweeted);
@@ -182,22 +183,27 @@ function Tweet({ data }) {
           {' '}
           <span>{data.retweetedUser.screenName}</span> reposted
         </div>
-        <div className="userInfo flex flex-row">
-          <div className="name  text-[15px] font-bold">
-            {data.user.screenName}
+        <div className="flex flex-row justify-between ">
+          <div className="userInfo flex flex-row">
+            <div className="name  text-[15px] font-bold">
+              {data.user.screenName}
+            </div>
+            <div className="userName   overflow-hidden text-[15px] text-dark-gray">
+              {' '}
+              &ensp;@<span>{data.user.username}</span>
+            </div>
+            <div className="date overflow-hidden text-[15px] text-dark-gray">
+              {' '}
+              &ensp;.&ensp;
+              <ReactTimeAgo
+                date={new Date(data.createdAt)}
+                locale="en-US"
+                timeStyle="twitter"
+              />
+            </div>
           </div>
-          <div className="userName   overflow-hidden text-[15px] text-dark-gray">
-            {' '}
-            &ensp;@<span>{data.user.username}</span>
-          </div>
-          <div className="date overflow-hidden text-[15px] text-dark-gray">
-            {' '}
-            &ensp;.&ensp;
-            <ReactTimeAgo
-              date={new Date(data.createdAt)}
-              locale="en-US"
-              timeStyle="twitter"
-            />
+          <div className=" ">
+            <ActionsMenu />
           </div>
         </div>
         <div className="caption">
