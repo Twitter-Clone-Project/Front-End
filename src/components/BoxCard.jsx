@@ -9,9 +9,11 @@ function BoxCard({ children, classes, onClose, header }) {
       data-testid="box-card"
       className={`relative mx-auto flex h-full w-full flex-col 
       justify-between overflow-auto
-      border-[1px] border-light-gray bg-white py-8 text-lg text-black 
+      border-[1px] border-light-gray bg-white pb-4 pt-8 text-lg text-black 
       dark:border-none dark:bg-pure-black dark:text-white md:h-auto 
-      md:max-h-[650px] md:min-h-[650px] md:w-[615px] md:rounded-2xl ${classes}`}
+      ${
+        header ? 'md:max-h-[600px]' : 'md:max-h-[750px]'
+      } md:min-h-[650px] md:w-[615px] md:rounded-2xl ${classes}`}
     >
       <div className="absolute left-0 top-0 flex h-[53px] w-full min-w-[300px] items-center ">
         {header ? (

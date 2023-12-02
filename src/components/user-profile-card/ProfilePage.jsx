@@ -9,7 +9,6 @@ import OwnToaster from '../OwnToaster';
 
 function ProfilePage() {
   const { user: curUser, dispatch } = useAuth();
-  console.log(curUser)
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const { username } = useParams('username');
@@ -49,6 +48,7 @@ function ProfilePage() {
       }
     };
     fetchUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, username]);
 
   return (

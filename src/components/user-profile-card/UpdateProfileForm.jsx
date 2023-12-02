@@ -80,6 +80,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
   return (
     <div className="fixed bottom-0 left-0 top-0 z-[2000] flex h-screen w-full items-center justify-center bg-dark-gray bg-opacity-30">
       <BoxCard
+        classes="max-h-[500px]"
         header={
           <div className="flex h-full w-full items-center">
             <div className="fixed z-[100] flex w-[calc(100%-1rem-1px)] flex-1 items-center justify-between bg-white bg-opacity-70 px-4 py-2 dark:bg-pure-black md:w-[598px] md:rounded-tl-2xl">
@@ -130,7 +131,6 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
                       accept="image/*"
                       className="hidden"
                       onChange={(e) => {
-                        console.log(e.target.files[0]);
                         setBanner(e.target.files[0]);
                       }}
                       ref={bannerInput}
@@ -200,7 +200,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
               </div>
             </div>
           </div>
-          <form className="flex flex-col gap-4 p-4">
+          <form className="flex flex-col gap-7 p-4">
             <NameInput
               title="Name"
               Name={name}
@@ -234,7 +234,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
 
             <div className="flex flex-col">
               <p
-                className={`py-3 text-sm  ${
+                className={`pb-2 pt-3 text-sm  ${
                   DOBEdit
                     ? 'font-semibold text-pure-black dark:text-white'
                     : 'text-light-thin'
@@ -252,6 +252,11 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
                   </span>
                 </button>
               </p>
+              {!DOBEdit && (
+                <p className="text-xl">
+                  {moment(new Date(user.birthDate)).format('MMMM D, YYYY')}
+                </p>
+              )}
               {DOBEdit && (
                 <div className="DOB grid grid-cols-[6fr_2fr_3fr] gap-4">
                   <DorpDownMenu
