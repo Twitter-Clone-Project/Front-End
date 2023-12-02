@@ -124,6 +124,9 @@ function SignUpForm({ test }) {
   }, [name]);
   useEffect(() => {
     if (!userName || usernameError) return;
+    if (userName.length < 3)
+      setUsernameError('Username must contain atleast 3 character');
+
     setUsernameLoading(true);
     const controller = new AbortController();
 

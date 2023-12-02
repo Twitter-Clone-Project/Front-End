@@ -7,7 +7,6 @@ function reactButtons({ type, data, clicked }) {
   if (clicked) {
     return (
       <div
-        // eslint-disable-next-line max-len
         className={`Reply ${
           type === 'Reply'
             ? 'text-blue'
@@ -45,14 +44,13 @@ function reactButtons({ type, data, clicked }) {
             }`}
           />
         </svg>
-        <p className="px-[8px]">{data}</p>
+        {data !== 0 && <p className="px-[8px]">{data}</p>}
       </div>
     );
   }
 
   return (
     <div
-      // eslint-disable-next-line max-len
       className={`Reply ${
         type === 'Reply'
           ? 'hover:text-blue'
@@ -90,7 +88,7 @@ function reactButtons({ type, data, clicked }) {
           }`}
         />
       </svg>
-      <p className="px-[8px]">{data}</p>
+      {data !== 0 && <p className="px-[8px]">{data}</p>}
     </div>
   );
 }

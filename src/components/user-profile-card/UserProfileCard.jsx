@@ -10,10 +10,10 @@ function UserProfileCard() {
         <div className="profile-cover max-h-[500px]">
           <div className="object-fill">
             <PhotoProvider maskOpacity={0.5}>
-              <PhotoView src="https://c4.wallpaperflare.com/wallpaper/142/751/831/landscape-anime-digital-art-fantasy-art-wallpaper-preview.jpg">
+              <PhotoView src={import.meta.env.VITE_DEFAULT_BANNER}>
                 <img
                   className="m-auto aspect-[3/1] max-h-full w-full cursor-pointer object-fill"
-                  src="https://c4.wallpaperflare.com/wallpaper/142/751/831/landscape-anime-digital-art-fantasy-art-wallpaper-preview.jpg"
+                  src={import.meta.env.VITE_DEFAULT_BANNER}
                   alt="cover"
                 />
               </PhotoView>

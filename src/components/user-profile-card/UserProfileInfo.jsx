@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import { useAuth } from '../../hooks/AuthContext';
 import Button from '../form-controls/Button';
@@ -8,10 +8,11 @@ import 'react-photo-view/dist/react-photo-view.css';
 function UserProfileInfo() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const location = useLocation();
   const { username, name, pic, followers, following } = {
     username: user.username,
     name: user.name,
-    pic: 'https://a57.foxsports.com/statics.foxsports.com/www.foxsports.com/content/uploads/2023/06/1280/1280/084702d2-messi1.jpg?ve=1&tl=1',
+    pic: import.meta.env.VITE_DEFAULT_AVATAR,
     followers: 12,
     following: 10,
   };
@@ -44,7 +45,7 @@ function UserProfileInfo() {
       </div>
       <div className="mb-5 mt-2">
         <div className="flex h-[41.5px] flex-col">
-          <span className="text-xl font-bold capitalize text-pure-black dark:text-white">
+          <span className="text-xl font-bold text-pure-black dark:text-white">
             {name}
           </span>
           <div className="flex h-5 flex-row items-center">
@@ -73,8 +74,12 @@ function UserProfileInfo() {
           role="button"
           tabIndex={-6}
           data-testid="following-btn"
-          onKeyDown={() => navigate(`/app/${username}/following`)}
-          onClick={() => navigate(`/app/${username}/following`)}
+          onKeyDown={() =>
+            navigate(`/app/${username}/following`, { state: location.pathname })
+          }
+          onClick={() =>
+            navigate(`/app/${username}/following`, { state: location.pathname })
+          }
         >
           <span className="mr-2 cursor-pointer text-pure-black hover:underline dark:text-white">
             {following}
@@ -85,8 +90,12 @@ function UserProfileInfo() {
           role="button"
           data-testid="followers-btn"
           tabIndex={-6}
-          onKeyDown={() => navigate(`/app/${username}/follower`)}
-          onClick={() => navigate(`/app/${username}/follower`)}
+          onKeyDown={() =>
+            navigate(`/app/${username}/followers`, { state: location.pathname })
+          }
+          onClick={() =>
+            navigate(`/app/${username}/followers`, { state: location.pathname })
+          }
         >
           <span className="mr-5  cursor-pointer text-pure-black hover:underline dark:text-white">
             {followers}
