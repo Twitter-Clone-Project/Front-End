@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import { v4 as uuid4 } from 'uuid';
 
 function Media({ images }) {
-  console.log(images);
+  // console.log(images);
   const [isVideo, setIsVideo] = useState(false);
   useEffect(() => {
-    if (images) {
+    if (images[0]) {
       if (
         images[0].endsWith('.jpg') ||
         images[0].endsWith('.jpeg') ||
-        images[0].endsWith('.png')
+        images[0].endsWith('.png') ||
+        images[0].endsWith('.gif')
       ) {
         setIsVideo(false);
       } else setIsVideo(true);
@@ -57,7 +58,9 @@ function Media({ images }) {
         <img
           src={images[0]}
           alt="media"
-          className="h-full w-full rounded-2xl object-cover p-1"
+          className={`h-full  object-cover ${
+            images.length === 1 ? 'rounded-xl' : ''
+          }`}
         />
       )}
       <div className={`grid grid-rows-2  gap-[${images.length - 1}px]`}>

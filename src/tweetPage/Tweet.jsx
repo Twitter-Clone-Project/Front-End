@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable max-len */
 /* eslint-disable react/forbid-prop-types */
 import React, { useEffect, useState } from 'react';
@@ -10,7 +11,7 @@ import Media from './Media';
 import OwnToaster from '../components/OwnToaster';
 import ActionsMenu from './ActionsMenu';
 
-function Tweet({ data }) {
+function Tweet({ data, tweets, setTweets }) {
   const [repost, toggleRepost] = useState(data.isRetweeted);
   const [reply, toggleReply] = useState(data.isReplied);
   const [like, toggleLike] = useState(data.isLiked);
@@ -203,7 +204,12 @@ function Tweet({ data }) {
             </div>
           </div>
           <div className=" ">
-            <ActionsMenu />
+            <ActionsMenu
+              userId={data.user.userId}
+              tweetId={data.id}
+              tweets={tweets}
+              setTweets={setTweets}
+            />
           </div>
         </div>
         <div className="caption">
