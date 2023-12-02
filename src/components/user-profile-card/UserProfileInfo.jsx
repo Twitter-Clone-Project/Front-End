@@ -17,7 +17,7 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
   const { username, name, pic, followers, following } = {
     username: user.username,
     name: user.name,
-    pic: curUser.imageUrl,
+    pic: user.imageUrl,
     followers: user.followersCount,
     following: user.followingsCount,
   };

@@ -54,8 +54,8 @@ function ProfilePage() {
       {isLoading ? (
         <Spinner />
       ) : (
-        <div className="border-x-0 border-border-gray dark:text-white sm:border-x-2">
-          <div className="border-b-[1px] border-b-border-gray">
+        <div className="border-x-0 border-light-gray dark:border-border-gray dark:text-white sm:border-x-[1px]">
+          <div className="border-b-[1px] border-light-gray dark:border-border-gray">
             <UserProfileCard user={user} />
             <ListNav items={ListNavItems} />
           </div>
