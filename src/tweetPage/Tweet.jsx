@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import ReactTimeAgo from 'react-time-ago';
 import { v4 as uuid4 } from 'uuid';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 import ReactButtons from './reactButtons';
 import Media from './Media';
 import OwnToaster from '../components/OwnToaster';
@@ -192,16 +193,16 @@ function Tweet({ data, tweets, setTweets }) {
             className="relative right-24 top-[-1] z-10 mt-5 flex h-[250px]  w-[300px] flex-col justify-center "
           >
             <PopoverUserCard
-              popoverIsFollowed
+              popoverIsFollowed={data.user.isFollowed}
               popoverUserPicture={
                 data.user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
               }
-              popoverUserName={data.user.username}
-              popoverUserID={data.user.userId}
+              popoverUserName={data.user.screenName}
+              popoverUserID={data.user.username}
               popoverDiscription=""
-              popoverFollowing={10}
-              popoverFollowers={20}
-              popoverTestID={1}
+              popoverFollowing={data.user.followingCount}
+              popoverFollowers={data.user.followersCount}
+              popoverTestID={`${data.user.username}-popover`}
               popoverSetLocalIsFollowed
             />
           </div>
@@ -218,13 +219,19 @@ function Tweet({ data, tweets, setTweets }) {
         </div>
         <div className="flex flex-row justify-between ">
           <div className="userInfo flex flex-row">
-            <div className="name  text-[15px] font-bold">
-              {data.user.screenName}
-            </div>
+            <Link
+              to={`/app/${data.user.username}`}
+              className="text-black"
+            >
+              <div className="name  text-[15px] font-bold">
+                {data.user.screenName}
+              </div>
+            </Link>
             <div className="userName   overflow-hidden text-[15px] text-dark-gray">
               {' '}
               &ensp;@<span>{data.user.username}</span>
             </div>
+
             <div className="date overflow-hidden text-[15px] text-dark-gray">
               {' '}
               &ensp;.&ensp;
