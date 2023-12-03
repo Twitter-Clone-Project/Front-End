@@ -295,6 +295,7 @@ function UserItem({
       >
         <PopoverUserCard
           popoverIsFollowed={localIsFollowed}
+          popoverIsFollowing={isFollowing}
           popoverUserPicture={userPicture}
           popoverUserName={userName}
           popoverUserID={userID}

@@ -9,6 +9,7 @@ import Button from '../form-controls/Button';
 
 function PopoverUserCard({
   popoverIsFollowed,
+  popoverIsFollowing,
   popoverUserPicture,
   popoverUserName,
   popoverUserID,
@@ -176,7 +177,7 @@ function PopoverUserCard({
               <span className=" w-min cursor-pointer text-light-thin">
                 @{popoverUserID}
               </span>
-              {popoverIsFollowed && (
+              {popoverIsFollowing && (
                 <div
                   className=" ml-1 h-4 items-center rounded bg-x-light-gray px-1 py-0.5 dark:bg-border-gray"
                   data-testid={`PopoverUserCard_${popoverTestID}_2`}
