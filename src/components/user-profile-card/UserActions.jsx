@@ -43,6 +43,7 @@ function UserActions({ user }) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         setLocalIsBlocked(!localIsBlocked);
+        setLocalIsFollowed(false);
         return response.json();
       })
       .then((data) => {
