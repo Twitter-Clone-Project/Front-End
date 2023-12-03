@@ -245,7 +245,7 @@ function Tweet({ data, tweets, setTweets }) {
           <div className=" ">
             <ActionsMenu
               userId={data.user.userId}
-              tweetId={data.id}
+              tweet={data}
               tweets={tweets}
               setTweets={setTweets}
             />

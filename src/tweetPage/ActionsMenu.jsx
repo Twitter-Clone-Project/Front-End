@@ -3,11 +3,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
 import { useAuth } from '../hooks/AuthContext';
 
-function ActionsMenu({ userId, tweetId, tweets, setTweets }) {
+function ActionsMenu({ userId, tweet, tweets, setTweets }) {
   const { user } = useAuth();
   const [show, toggleShow] = useState(false);
   const dropdownRef = useRef(null);
-
+  const [followed, toggleFollowed] = useState(tweet.user.isFollowed);
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       toggleShow(false);
@@ -24,7 +24,7 @@ function ActionsMenu({ userId, tweetId, tweets, setTweets }) {
   };
   const handleFollow = () => {
     //
-
+    toggleFollowed(!tweet.user.isFollowed);
     toggleShow(false);
   };
   const handleBlock = () => {
@@ -41,9 +41,9 @@ function ActionsMenu({ userId, tweetId, tweets, setTweets }) {
     const deleteTweet = async () => {
       try {
         const response = await fetch(
-          `http://${
-            import.meta.env.VITE_API_DOMAIN
-          }tweets/${tweetId}/deleteTweet`,
+          `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+            tweet.id
+          }/deleteTweet`,
           {
             origin: true,
             credentials: 'include',
@@ -55,7 +55,7 @@ function ActionsMenu({ userId, tweetId, tweets, setTweets }) {
         console.log(res.message);
         if (res.status) {
           if (tweets) {
-            const newTweets = tweets.filter((tweet) => tweet.id !== tweetId);
+            const newTweets = tweets.filter((atweet) => atweet.id !== tweet.id);
             setTweets(newTweets);
           }
         }
@@ -108,15 +108,27 @@ function ActionsMenu({ userId, tweetId, tweets, setTweets }) {
                       viewBox="0 0 25 25"
                       className="h-[25px] w-[25px]  "
                     >
-                      <path
-                        className=""
-                        d="M10 4c-1.105 0-2 .9-2 2s.895 2 2 2 2-.9 2-2-.895-2-2-2zM6 6c0-2.21 1.791-4 4-4s4 1.79 4 4-1.791 4-4 4-4-1.79-4-4zm13 4v3h2v-3h3V8h-3V5h-2v3h-3v2h3zM3.651 19h12.698c-.337-1.8-1.023-3.21-1.945-4.19C13.318 13.65 11.838 13 10 13s-3.317.65-4.404 1.81c-.922.98-1.608 2.39-1.945 4.19zm.486-5.56C5.627 11.85 7.648 11 10 11s4.373.85 5.863 2.44c1.477 1.58 2.366 3.8 2.632 6.46l.11 1.1H1.395l.11-1.1c.266-2.66 1.155-4.88 2.632-6.46z"
-                      />
+                      {!tweet.user.isFollowed && (
+                        <path
+                          className=""
+                          d="M10 4c-1.105 0-2 .9-2 2s.895 2 2 2 2-.9 2-2-.895-2-2-2zM6 6c0-2.21 1.791-4 4-4s4 1.79 4 4-1.791 4-4 4-4-1.79-4-4zm13 4v3h2v-3h3V8h-3V5h-2v3h-3v2h3zM3.651 19h12.698c-.337-1.8-1.023-3.21-1.945-4.19C13.318 13.65 11.838 13 10 13s-3.317.65-4.404 1.81c-.922.98-1.608 2.39-1.945 4.19zm.486-5.56C5.627 11.85 7.648 11 10 11s4.373.85 5.863 2.44c1.477 1.58 2.366 3.8 2.632 6.46l.11 1.1H1.395l.11-1.1c.266-2.66 1.155-4.88 2.632-6.46z"
+                        />
+                      )}
+                      {tweet.user.isFollowed && (
+                        <path d="M10 4c-1.105 0-2 .9-2 2s.895 2 2 2 2-.9 2-2-.895-2-2-2zM6 6c0-2.21 1.791-4 4-4s4 1.79 4 4-1.791 4-4 4-4-1.79-4-4zm12.586 3l-2.043-2.04 1.414-1.42L20 7.59l2.043-2.05 1.414 1.42L21.414 9l2.043 2.04-1.414 1.42L20 10.41l-2.043 2.05-1.414-1.42L18.586 9zM3.651 19h12.698c-.337-1.8-1.023-3.21-1.945-4.19C13.318 13.65 11.838 13 10 13s-3.317.65-4.404 1.81c-.922.98-1.608 2.39-1.945 4.19zm.486-5.56C5.627 11.85 7.648 11 10 11s4.373.85 5.863 2.44c1.477 1.58 2.366 3.8 2.632 6.46l.11 1.1H1.395l.11-1.1c.266-2.66 1.155-4.88 2.632-6.46z" />
+                      )}
                     </svg>
                   </div>
-                  <div className="h-[60px]  px-[14px] py-[16px] text-[20px] font-semibold">
-                    Follow @{}
-                  </div>
+                  {!tweet.user.isFollowed && (
+                    <div className="h-[60px]  px-[14px] py-[16px] text-[20px] font-semibold">
+                      Follow @{tweet.user.username}
+                    </div>
+                  )}
+                  {tweet.user.isFollowed && (
+                    <div className="h-[60px]  px-[14px] py-[16px] text-[20px] font-semibold">
+                      Unfollow @{tweet.user.username}
+                    </div>
+                  )}
                 </div>
               </button>
               <button
@@ -134,7 +146,7 @@ function ActionsMenu({ userId, tweetId, tweets, setTweets }) {
                     </svg>
                   </div>
                   <div className="h-[60px]  px-[14px] py-[16px] text-[20px] font-semibold">
-                    Mute @{}
+                    Mute @{tweet.user.username}
                   </div>
                 </div>
               </button>
@@ -156,7 +168,7 @@ function ActionsMenu({ userId, tweetId, tweets, setTweets }) {
                     </svg>
                   </div>
                   <div className="h-[60px]  px-[14px] py-[16px] text-[20px] font-semibold">
-                    Block @{}
+                    Block @{tweet.user.username}
                   </div>
                 </div>
               </button>
