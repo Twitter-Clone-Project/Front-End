@@ -38,18 +38,12 @@ function ActionsMenu({ userId, tweetId, tweets, setTweets }) {
     toggleShow(false);
   };
   const handleDelete = () => {
-    //remove this when api work
-    if (tweets) {
-      const newTweets = tweets.filter((tweet) => tweet.id !== tweetId);
-      setTweets(newTweets);
-      console.log(tweetId);
-    }
     const deleteTweet = async () => {
       try {
         const response = await fetch(
           `http://${
             import.meta.env.VITE_API_DOMAIN
-          }/tweets/${tweetId}/deleteTweet`,
+          }tweets/${tweetId}/deleteTweet`,
           {
             origin: true,
             credentials: 'include',
@@ -58,6 +52,7 @@ function ActionsMenu({ userId, tweetId, tweets, setTweets }) {
           },
         );
         const res = await response.json();
+        console.log(res.message);
         if (res.status) {
           if (tweets) {
             const newTweets = tweets.filter((tweet) => tweet.id !== tweetId);
