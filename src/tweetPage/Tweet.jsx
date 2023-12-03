@@ -177,6 +177,7 @@ function Tweet({ data, tweets, setTweets }) {
         </div>
         <div className="profileImage leftColumn absolute mr-[12px] h-[40px] w-[40px] ">
           <img
+            data-testid={`profileImage${data.id}`}
             src={
               data.user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
             }
@@ -223,7 +224,10 @@ function Tweet({ data, tweets, setTweets }) {
               to={`/app/${data.user.username}`}
               className="text-black"
             >
-              <div className="name  text-[15px] font-bold">
+              <div
+                data-testid={`username${data.id}`}
+                className="name  text-[15px] font-bold"
+              >
                 {data.user.screenName}
               </div>
             </Link>
@@ -245,13 +249,13 @@ function Tweet({ data, tweets, setTweets }) {
           <div className=" ">
             <ActionsMenu
               userId={data.user.userId}
-              tweetId={data.id}
+              tweet={data}
               tweets={tweets}
               setTweets={setTweets}
             />
           </div>
         </div>
-        <div className="caption">
+        <div className="caption w-[500px] ">
           {' '}
           {data.text.split(' ').map((word) => {
             if (word.startsWith('#')) {
