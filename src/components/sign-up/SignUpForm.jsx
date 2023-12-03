@@ -116,7 +116,7 @@ function SignUpForm({ test }) {
   useEffect(handleMonthYearChange, [dateMonth, dateYear]);
   useEffect(() => {
     if (!name) return;
-    if (validator.isAlpha(name))
+    if (validator.isAlpha(name, 'en-US', { ignore: ' ' }))
       if (name.length < 2)
         setNameError('Name must contain atleast 2 character');
       else setNameError('');
@@ -124,6 +124,9 @@ function SignUpForm({ test }) {
   }, [name]);
   useEffect(() => {
     if (!userName || usernameError) return;
+    if (userName.length < 3)
+      setUsernameError('Username must contain atleast 3 character');
+
     setUsernameLoading(true);
     const controller = new AbortController();
 
@@ -273,7 +276,7 @@ function SignUpForm({ test }) {
               </div>
             )}
             <BoxCard classes="py-6 px-12 mx-auto">
-              <div className="px-5w-full mx-auto flex min-w-[300px] flex-1 flex-col justify-between overflow-auto ">
+              <div className="mx-auto flex w-full min-w-[300px] flex-1 flex-col justify-between overflow-auto px-5 ">
                 <div className="mx-auto flex pt-2 text-center dark:text-white">
                   <h1 className="mx-auto mt-5 flex-1 text-3xl font-bold">
                     <span>Create your account</span>

@@ -33,5 +33,6 @@ ListNav.propTypes = {
       path: PropTypes.string.isRequired,
     }),
   ).isRequired,
+  // pastPath: PropTypes.string.isRequired,
 };
 export default ListNav;

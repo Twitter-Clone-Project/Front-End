@@ -2,7 +2,13 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        mlg: {
+          min: '1415px',
+        }
+      }
+    },
     colors: {
       'pure-black': '#000',
       blue: '#1DA1F2',
@@ -16,6 +22,8 @@ export default {
       'border-gray': '#2f3336',
       'light-thin': '#71767b',
       warning: '#F4212E',
+      'hover-layout': '#e7e9ea1a',
+      'light-hover-layout': '#62686a1a',
     },
     fontFamily: {
       sans: ['roboto', 'Helvetica', 'Arial'],

@@ -16,7 +16,74 @@ function PopoverUserCard({
   popoverFollowing,
   popoverFollowers,
   popoverTestID,
+  popoverSetLocalIsFollowed,
 }) {
+  // Function to handle follow request
+  const followReq = () => {
+    fetch(
+      `http://${import.meta.env.VITE_API_DOMAIN}users/${popoverUserID}/follow`,
+      {
+        method: 'POST',
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userid: { popoverUserID },
+        }),
+      },
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        popoverSetLocalIsFollowed(!popoverIsFollowed);
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Response data:', data);
+      })
+      .catch((error) => {
+        console.error('Error during fetch:', error);
+      });
+  };
+
+  // Function to handle unFollow request
+  const unFollowReq = () => {
+    fetch(
+      `http://${
+        import.meta.env.VITE_API_DOMAIN
+      }users/${popoverUserID}/unfollow`,
+      {
+        method: 'DELETE',
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userid: { popoverUserID },
+        }),
+      },
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        popoverSetLocalIsFollowed(!popoverIsFollowed);
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Response data:', data);
+      })
+      .catch((error) => {
+        console.error('Error during fetch:', error);
+      });
+  };
+
   const [isPopoverButtonHovered, setPopoverButtonHovered] = useState(false);
   const navigate = useNavigate();
   return (
@@ -42,6 +109,9 @@ function PopoverUserCard({
             setPopoverButtonHovered(false);
           }}
           data-testid={`PopoverUserCard_${popoverTestID}_1`}
+          onClick={() => {
+            popoverIsFollowed ? unFollowReq() : followReq();
+          }}
         >
           <Button
             backGroundColor={
@@ -136,7 +206,7 @@ function PopoverUserCard({
           </span>
         </div>
         <div
-          onClick={() => navigate(`/app/${popoverUserID}/follower`)}
+          onClick={() => navigate(`/app/${popoverUserID}/followers`)}
           data-testid={`PopoverUserCard_${popoverTestID}_4`}
         >
           <span className="mr-5  cursor-pointer text-pure-black hover:underline dark:text-white">
@@ -155,8 +225,8 @@ PopoverUserCard.propTypes = {
   popoverUserName: PropTypes.string.isRequired,
   popoverUserID: PropTypes.string.isRequired,
   popoverDiscription: PropTypes.string.isRequired,
-  popoverFollowing: PropTypes.number.isRequired,
-  popoverFollowers: PropTypes.number.isRequired,
+  popoverFollowing: PropTypes.string.isRequired,
+  popoverFollowers: PropTypes.string.isRequired,
   popoverTestID: PropTypes.number.isRequired,
 };
 

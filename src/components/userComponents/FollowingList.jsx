@@ -3,45 +3,71 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
 import UserItem from './UserItem';
 import ListNav from '../navigation-bars/ListNav';
 
-// eslint-disable-next-line no-unused-vars
 function FollowingList() {
+  // Get the past location for Back Button
+  const location = useLocation();
+  const pastPath = location.state;
+
+  // Get the username from the URL params
   const { username } = useParams('username');
+
+  // Define navigation items for the ListNav component
   const ListNavItems = [
     {
       label: 'Following',
       path: `/app/${username}/following`,
     },
     {
-      label: 'Follower',
-      path: `/app/${username}/follower`,
+      label: 'Followers',
+      path: `/app/${username}/followers`,
     },
   ];
   const [users, setUsers] = useState([]);
+  const [name, setName] = useState([]);
   const navigate = useNavigate();
 
   const handelBackButton = () => {
-    navigate(-1);
-    // navigate(currPath);
+    navigate(pastPath);
   };
 
+  // Fetch the list of Follower users
   useEffect(() => {
-    fetch('https://6548ef1edd8ebcd4ab23e882.mockapi.io/Xproject/following')
-      .then((response) => response.json())
-      .then((data) => setUsers(data));
-  }, []);
+    fetch(
+      `http://${import.meta.env.VITE_API_DOMAIN}users/${username}/followings`,
+      {
+        method: 'GET',
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+      },
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setUsers(data.data.users);
+        setName(data.data.name);
+      })
+      .catch((error) => {
+        console.error('Error during fetch:', error);
+      });
+  }, [username]);
   return (
     <div className="flex h-full min-h-screen w-full justify-center bg-white dark:bg-pure-black">
-      <div className="w-[600px] overflow-y-clip bg-white dark:bg-pure-black">
-        <div className=" flex h-28 flex-col">
+      <div className="w-full overflow-y-clip bg-white dark:bg-pure-black">
+        <div className=" flex h-28 flex-col hover:cursor-pointer">
           <div className="flex h-[53px] flex-row px-4 ">
             <div className=" w-14">
               <div
-                className="mb-2 mt-[9px] flex h-9 w-9 items-center justify-center rounded-full hover:bg-black"
+                className="mb-2 mt-[9px] flex h-9 w-9 items-center justify-center rounded-full hover:bg-x-light-gray dark:hover:bg-[#181919]"
                 onClick={handelBackButton}
               >
                 <svg
@@ -64,14 +90,14 @@ function FollowingList() {
                   className=" cursor-pointer text-[20px] font-bold leading-6 text-pure-black hover:underline dark:text-white"
                   data-popover-target="popover-user-profile"
                 >
-                  Arabian Horses
+                  {name}
                 </span>
               </div>
               <span
                 className=" w-min text-sm leading-4 text-light-thin"
                 data-popover-target="popover-user-profile"
               >
-                @arabian
+                @{username}
               </span>
             </div>
           </div>
@@ -79,7 +105,10 @@ function FollowingList() {
             className=" border-b border-border-gray"
             data-testid="FollowingList_1"
           >
-            <ListNav items={ListNavItems} />
+            <ListNav
+              items={ListNavItems}
+              pastPath={pastPath}
+            />
           </div>
         </div>
         <div data-testid="FollowingList_2">
@@ -88,13 +117,14 @@ function FollowingList() {
               key={uuid4()}
               isFollowed={user.isFollowed}
               isFollowing={user.isFollowing}
-              userPicture={user.avatar}
-              userName={user.userName}
-              userID={user.userId}
-              discription={user.discription}
-              following={user.following}
-              followers={user.followers}
+              userPicture={user.imageurl}
+              userName={user.name}
+              userID={user.username}
+              discription={user.bio}
+              following={user.followingsCount}
+              followers={user.followersCount}
               testID={index}
+              itemID={user.userId}
             />
           ))}
         </div>
@@ -102,11 +132,5 @@ function FollowingList() {
     </div>
   );
 }
-
-// FollowingList.propTypes = {
-//   userName: PropTypes.string,
-//   userId: PropTypes.string,
-//   currPath: PropTypes.string,
-// };
 
 export default FollowingList;

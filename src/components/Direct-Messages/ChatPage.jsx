@@ -5,7 +5,7 @@ import PersonCard from './PersonCard';
 import MessagesInput from './MessagesInput';
 import Messages from './Messages';
 import Header from './Header';
-import Button from '../components/form-controls/Button';
+import Button from '../form-controls/Button';
 
 // eslint-disable-next-line react/prop-types
 function ChatPage({

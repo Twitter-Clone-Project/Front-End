@@ -40,7 +40,7 @@ function DirectMessages() {
 
   return (
     <div className="h-screen  w-full">
-      <div className="layout mx-auto h-full grid-cols-[auto_1fr_auto] grid-rows-1 dark:bg-black md:grid  md:max-w-[88%]  lg:max-w-[88%] xl:max-w-[88%] ">
+      <div className="layout mx-auto h-full grid-cols-[auto_1fr] grid-rows-1 overflow-auto dark:bg-black  md:grid ">
         <ConversationsPage
           setPerson={setPerson}
           selectedConversationId={selectedChat}
@@ -50,7 +50,7 @@ function DirectMessages() {
           }
         />
 
-        <div className=" relative">
+        <div className="relative">
           {windowWidth < 1024 && selectedChat !== '' && (
             <button
               className=" absolute left-2 top-2"
