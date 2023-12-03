@@ -140,6 +140,7 @@ function AddPost({ setTweets }) {
                 </svg>
               </label>
               <input
+                data-testid="media"
                 type="file"
                 accept="image/*, video/*"
                 id="mediaUpload"
@@ -148,6 +149,7 @@ function AddPost({ setTweets }) {
                 multiple
               />
               <AddEmoji
+                data-testid="emoji"
                 text={text}
                 setText={setText}
               />
