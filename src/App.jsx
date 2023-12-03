@@ -127,9 +127,6 @@ function App() {
             />
             <Route
               index
-              element={<Navigate to="tweet" />}
-            />
-            <Route
               path="tweet"
               element={<TweetPage />}
             />

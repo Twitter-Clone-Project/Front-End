@@ -6,7 +6,7 @@ function Media({ images }) {
   console.log(images);
   const [isVideo, setIsVideo] = useState(false);
   useEffect(() => {
-    if (images) {
+    if (images[0]) {
       if (
         images[0].endsWith('.jpg') ||
         images[0].endsWith('.jpeg') ||
