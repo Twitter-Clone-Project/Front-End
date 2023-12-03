@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../form-controls/Button';
 import PopoverUserCard from './PopoverUserCard';
+import { useAuth } from '../../hooks/AuthContext';
 
 function UserItem({
   isFollowed,
@@ -20,6 +21,7 @@ function UserItem({
   testID,
 }) {
   const [localIsFollowed, setLocalIsFollowed] = useState(isFollowed);
+  const { user: curUser } = useAuth();
 
   // Function to handle follow request
   const followReq = () => {
@@ -212,64 +214,68 @@ function UserItem({
                 </div>
               </div>
               <div>
-                <div
-                  className=" h-8 w-[98px] items-center"
-                  onMouseEnter={() => {
-                    setButtonHovered(true);
-                  }}
-                  onMouseLeave={() => {
-                    setButtonHovered(false);
-                  }}
-                  data-testid={`UserItem_${testID}_2`}
-                  onClick={handelFollowUnFollowButton}
-                >
-                  <Button
-                    backGroundColor={
-                      localIsFollowed
-                        ? isButtonHovered
-                          ? 'red'
+                {userID !== curUser.username ? (
+                  <div
+                    className=" h-8 w-[98px] items-center"
+                    onMouseEnter={() => {
+                      setButtonHovered(true);
+                    }}
+                    onMouseLeave={() => {
+                      setButtonHovered(false);
+                    }}
+                    data-testid={`UserItem_${testID}_2`}
+                    onClick={handelFollowUnFollowButton}
+                  >
+                    <Button
+                      backGroundColor={
+                        localIsFollowed
+                          ? isButtonHovered
+                            ? 'red'
+                            : 'white'
                           : 'white'
-                        : 'white'
-                    }
-                    backGroundColorDark={
-                      localIsFollowed
-                        ? isButtonHovered
-                          ? 'red'
+                      }
+                      backGroundColorDark={
+                        localIsFollowed
+                          ? isButtonHovered
+                            ? 'red'
+                            : 'black'
                           : 'black'
-                        : 'black'
-                    }
-                    borderColor={
-                      localIsFollowed
-                        ? isButtonHovered
-                          ? 'red'
+                      }
+                      borderColor={
+                        localIsFollowed
+                          ? isButtonHovered
+                            ? 'red'
+                            : 'gray'
                           : 'gray'
-                        : 'gray'
-                    }
-                    label={
-                      localIsFollowed
-                        ? isButtonHovered
-                          ? 'Unfollow'
-                          : 'Following'
-                        : 'Follow'
-                    }
-                    labelColor={
-                      localIsFollowed
-                        ? isButtonHovered
-                          ? 'red'
+                      }
+                      label={
+                        localIsFollowed
+                          ? isButtonHovered
+                            ? 'Unfollow'
+                            : 'Following'
+                          : 'Follow'
+                      }
+                      labelColor={
+                        localIsFollowed
+                          ? isButtonHovered
+                            ? 'red'
+                            : 'black'
                           : 'black'
-                        : 'black'
-                    }
-                    labelColorDark={
-                      localIsFollowed
-                        ? isButtonHovered
-                          ? 'red'
+                      }
+                      labelColorDark={
+                        localIsFollowed
+                          ? isButtonHovered
+                            ? 'red'
+                            : 'white'
                           : 'white'
-                        : 'white'
-                    }
-                    hight="h-8"
-                    textSize="text-sm"
-                  />
-                </div>
+                      }
+                      hight="h-8"
+                      textSize="text-sm"
+                    />
+                  </div>
+                ) : (
+                  ''
+                )}
               </div>
             </div>
             <div className=" pt-1">

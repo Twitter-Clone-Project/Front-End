@@ -58,9 +58,14 @@ function ProfilePage() {
           data-testid={`${username}-profile`}
           className="border-x-0 border-light-gray dark:border-border-gray dark:text-white sm:border-x-[1px]"
         >
-          <div className="border-b-[1px] border-light-gray dark:border-border-gray">
+          <div
+            className={`${
+              user.isBlockingMe ? '' : 'border-b-[1px]'
+            } border-light-gray dark:border-border-gray`}
+          >
             <UserProfileCard user={user} />
-            <ListNav items={ListNavItems} />
+
+            {!user.isBlockingMe && <ListNav items={ListNavItems} />}
           </div>
           <Outlet />
         </div>
