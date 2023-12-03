@@ -176,7 +176,7 @@ function UserItem({
           <div className="mr-3 h-full w-11">
             <img
               id="img"
-              src={userPicture}
+              src={userPicture || import.meta.env.VITE_DEFAULT_AVATAR}
               alt=""
               className=" h-10 w-10 rounded-full"
               data-popover-target={popoverID}

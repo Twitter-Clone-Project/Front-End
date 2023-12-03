@@ -70,7 +70,9 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
   const picInput = useRef(null);
   const [updated, setUpdated] = useState(false);
   const [confrimCancel, setConfirmCancel] = useState(false);
-  const [curBanner, setCurBanner] = useState(user.bannerUrl);
+  const [curBanner, setCurBanner] = useState(
+    user.bannerUrl || import.meta.env.VITE_DEFAULT_BANNER,
+  );
   const [banner, setBanner] = useState(null);
   const [pic, setPic] = useState(null);
   const [name, setName] = useState(user.name);
@@ -252,7 +254,11 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
                 <div className="relative flex w-full justify-between">
                   <img
                     id="popoverImg"
-                    src={pic ? URL.createObjectURL(pic) : user.imageUrl}
+                    src={
+                      pic
+                        ? URL.createObjectURL(pic)
+                        : user.imageUrl || import.meta.env.VITE_DEFAULT_AVATAR
+                    }
                     alt=""
                     className="relative h-auto w-full cursor-pointer rounded-full border-4 border-white dark:border-pure-black"
                   />

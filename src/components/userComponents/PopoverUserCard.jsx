@@ -95,7 +95,7 @@ function PopoverUserCard({
         >
           <img
             id="popoverImg"
-            src={popoverUserPicture}
+            src={popoverUserPicture || import.meta.env.VITE_DEFAULT_AVATAR}
             alt=""
             className=" h-16 w-16 rounded-full"
           />

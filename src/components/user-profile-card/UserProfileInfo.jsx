@@ -17,7 +17,7 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
   const { username, name, pic, followers, following } = {
     username: user.username,
     name: user.name,
-    pic: user.imageUrl,
+    pic: user.imageUrl || import.meta.env.VITE_DEFAULT_AVATAR,
     followers: user.followersCount,
     following: user.followingsCount,
   };
