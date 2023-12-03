@@ -1,11 +1,29 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 import PropTypes from 'prop-types';
+import dayjs from 'dayjs';
 
-function MessageCard({ Message, id, clicked, lastMessageId, state }) {
+function MessageCard({
+  Message,
+  id,
+  clicked,
+  lastMessageId,
+  isFromMe,
+  isSeen,
+  setClicked,
+  time,
+}) {
+  const parsedDate = dayjs(time);
   return (
     <div
+      onClick={() => {
+        if (id === clicked) setClicked('-1');
+        else setClicked(id);
+      }}
       className={` flex  flex-col break-words  dark:bg-black ${
-        state === 'send' ? 'items-end ' : 'items-start'
+        isFromMe ? 'items-end ' : 'items-start'
       }
       `}
     >
@@ -23,7 +41,7 @@ function MessageCard({ Message, id, clicked, lastMessageId, state }) {
             : 'rounded-3xl'
         } 
         ${
-          state === 'send'
+          isFromMe
             ? 'bg-blue hover:bg-[#1a8cd8]'
             : ' bg-[#f0f3f4] text-black dark:bg-[#2F3336] dark:text-white'
         } 
@@ -32,10 +50,11 @@ function MessageCard({ Message, id, clicked, lastMessageId, state }) {
       >
         {Message}
       </div>
-      <div className="h-2">
+      <div className="h-fit">
         {id === clicked && (
           <div className=" w-fit cursor-pointer text-sm text-[#536571] hover:underline">
-            {state}
+            {parsedDate.format('YYYY-MM-DD h:mm A')}{' '}
+            {!isFromMe ? '' : isSeen ? 'Seen' : 'Sent'}
           </div>
         )}
       </div>
@@ -45,10 +64,13 @@ function MessageCard({ Message, id, clicked, lastMessageId, state }) {
 
 MessageCard.propTypes = {
   Message: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
-  clicked: PropTypes.number.isRequired,
-  lastMessageId: PropTypes.number.isRequired,
-  state: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  clicked: PropTypes.string.isRequired,
+  lastMessageId: PropTypes.string.isRequired,
+  isFromMe: PropTypes.bool.isRequired,
+  isSeen: PropTypes.bool.isRequired,
+  setClicked: PropTypes.func.isRequired,
+  time: PropTypes.string.isRequired,
 };
 
 export default MessageCard;

@@ -1,15 +1,48 @@
+/* eslint-disable react/prop-types */
 import React, { useRef, useState } from 'react';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import PropTypes from 'prop-types';
+import dayjs from 'dayjs';
 
-function MessagesInput({ messages, setMessages }) {
+function MessagesInput({
+  socketMessages,
+  setSocketMessages,
+  socket,
+  selectedConversationId,
+  userId,
+  receiverId,
+}) {
   const [showEmoji, setShowEmoji] = useState(false);
   const [message, setMessage] = useState('');
   const buttonRef = useRef();
 
   const addEmoji = (event) => {
     setMessage(message + event.native);
+  };
+
+  const handleClick = () => {
+    if (socket === null || message === '') return;
+
+    const newMessage = {
+      conversationId: selectedConversationId,
+      senderId: userId,
+      receiverId: receiverId,
+      text: message,
+    };
+
+    socket.emit('msg-send', newMessage);
+    setSocketMessages([
+      ...socketMessages,
+      {
+        messageId: '0',
+        text: message,
+        isFromMe: true,
+        isSeen: false,
+        time: dayjs().format('YYYY-MM-DD HH:mm:ssZ'),
+      },
+    ]);
+    setMessage('');
   };
 
   return (
@@ -85,11 +118,7 @@ function MessagesInput({ messages, setMessages }) {
         <button
           ref={buttonRef}
           type="button"
-          onClick={() => {
-            if (message !== '')
-              setMessages([...messages, { message: message, mode: 'send' }]);
-            setMessage('');
-          }}
+          onClick={handleClick}
         >
           <div
             className={` ${
@@ -115,8 +144,8 @@ function MessagesInput({ messages, setMessages }) {
 }
 
 MessagesInput.propTypes = {
-  messages: PropTypes.array.isRequired,
-  setMessages: PropTypes.func.isRequired,
+  socketMessages: PropTypes.array.isRequired,
+  setSocketMessages: PropTypes.func.isRequired,
 };
 
 export default MessagesInput;

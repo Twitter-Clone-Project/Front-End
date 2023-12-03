@@ -28,7 +28,7 @@ function SearchCard({ image, name, tag, selectedTag, setSelectedTag }) {
           {name}
         </div>
         <div className="w-[90%]  max-w-fit overflow-clip whitespace-nowrap text-base text-[#71767B]">
-          {tag}
+          @ {tag}
         </div>
       </div>
     </div>

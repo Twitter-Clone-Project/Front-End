@@ -1,16 +1,36 @@
 import React, { useState, useEffect } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import io from 'socket.io-client';
 import ChatPage from './ChatPage';
 import ConversationsPage from './ConversationsPage';
-// import NavBar from '../components/navigation-bars/NavBar';
+import { useAuth } from '../../hooks/AuthContext';
 
 function DirectMessages() {
   const [selectedChat, setSelectedChat] = useState('');
   const [windowWidth, setWindowWidth] = useState(window.outerWidth);
+  const [socket, setSocket] = useState(null);
+  const [person, setPerson] = useState(null);
+
+  const { user } = useAuth();
+  useEffect(() => {
+    const newSocket = io(`http://${import.meta.env.VITE_SOCKET_DOMAIN}`);
+
+    newSocket.on('connect', () => {
+      newSocket.emit('add-user', { userId: user.userId });
+    });
+
+    setSocket(newSocket);
+
+    return () => {
+      if (newSocket.connected) {
+        newSocket.disconnect();
+      }
+    };
+  }, [user.userId]);
 
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.outerWidth);
-      console.log(window.outerWidth);
     };
     window.addEventListener('resize', handleResize);
     return () => {
@@ -22,8 +42,9 @@ function DirectMessages() {
     <div className="h-screen  w-full">
       <div className="layout mx-auto h-full grid-cols-[auto_1fr_auto] grid-rows-1 dark:bg-black md:grid  md:max-w-[88%]  lg:max-w-[88%] xl:max-w-[88%] ">
         <ConversationsPage
-          selectedTag={selectedChat}
-          setSelectedTag={setSelectedChat}
+          setPerson={setPerson}
+          selectedConversationId={selectedChat}
+          setSelectedConversationId={setSelectedChat}
           visibility={
             (windowWidth < 1024 && selectedChat === '') || windowWidth >= 1024
           }
@@ -50,9 +71,12 @@ function DirectMessages() {
           )}
 
           <ChatPage
-            selectedTag={selectedChat}
-            setSelectedTag={setSelectedChat}
+            selectedConversationId={selectedChat}
+            setSelectedConversationId={setSelectedChat}
             width={windowWidth}
+            socket={socket}
+            userId={user.userId}
+            person={person}
             showArrow={windowWidth < 1024 && selectedChat !== ''}
             visibility={
               (windowWidth < 1024 && selectedChat !== '') || windowWidth >= 1024

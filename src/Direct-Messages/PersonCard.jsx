@@ -25,7 +25,7 @@ function PersonCard({
         <p className="  text-center text-base font-bold text-black dark:text-white">
           {name}
         </p>
-        <p className="text-center text-base text-[#71767B]">{tag}</p>
+        <p className="text-center text-base text-[#71767B]">@{tag}</p>
       </div>
       <div className="my-3 flex flex-row ">
         <div className="text-center text-sm text-[#71767B]">Joined {date}</div>
@@ -55,7 +55,7 @@ PersonCard.propTypes = {
   name: PropTypes.string.isRequired,
   tag: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
-  followers: PropTypes.number.isRequired,
+  followers: PropTypes.string.isRequired,
   followerName: PropTypes.string.isRequired,
   followerImage: PropTypes.string.isRequired,
   imgRef: PropTypes.object.isRequired,

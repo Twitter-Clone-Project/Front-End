@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import SearchCard from './SearchCard';
 
-function SearchResults({ selectedTag, setSelectedTag, searchValue }) {
+function SearchResults({
+  selectedConversationId,
+  setSelectedConversationIdx,
+  searchValue,
+}) {
   const [searchResults, setSearchResults] = useState([]);
   useEffect(() => {
     if (searchValue !== '') {
@@ -11,7 +15,6 @@ function SearchResults({ selectedTag, setSelectedTag, searchValue }) {
         .then((data) => {
           setSearchResults(data);
         });
-      // .catch((error) => console.error('Error fetching data:', error));
     } else {
       setSearchResults([]);
     }
@@ -32,8 +35,8 @@ function SearchResults({ selectedTag, setSelectedTag, searchValue }) {
               image={result.image}
               name={result.name}
               tag={result.tag}
-              setSelectedTag={setSelectedTag}
-              selectedTag={selectedTag}
+              setSelectedTag={selectedConversationId}
+              selectedTag={setSelectedConversationIdx}
             />
           ))}
         </div>
@@ -43,8 +46,8 @@ function SearchResults({ selectedTag, setSelectedTag, searchValue }) {
 }
 
 SearchResults.propTypes = {
-  selectedTag: PropTypes.string.isRequired,
-  setSelectedTag: PropTypes.func.isRequired,
+  selectedConversationId: PropTypes.string.isRequired,
+  setSelectedConversationIdx: PropTypes.func.isRequired,
   searchValue: PropTypes.string.isRequired,
 };
 

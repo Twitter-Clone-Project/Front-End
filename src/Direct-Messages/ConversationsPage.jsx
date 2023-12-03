@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable react/prop-types */
+import React, { useState } from 'react';
 import ConversationSearchBar from './ConversationSearchBar';
 import ConversationsHistory from './ConversationHistory';
 import SearchResults from './SearchResults';
 import Header from './Header';
 
-// eslint-disable-next-line react/prop-types
-function ConversationsPage({ selectedTag, setSelectedTag, visibility }) {
+function ConversationsPage({
+  selectedConversationId,
+  setSelectedConversationId,
+  visibility,
+  setPerson,
+}) {
   const [searchValue, setSearchValue] = useState('');
   const [mode, setMode] = useState(false);
 
@@ -19,6 +24,7 @@ function ConversationsPage({ selectedTag, setSelectedTag, visibility }) {
           image=""
           imgVisible={1}
         />
+
         <div>
           <ConversationSearchBar
             setValue={setSearchValue}
@@ -29,14 +35,15 @@ function ConversationsPage({ selectedTag, setSelectedTag, visibility }) {
         <div className="overflow-y-auto no-scrollbar">
           {!mode && (
             <ConversationsHistory
-              selectedTag={selectedTag}
-              setSelectedTag={setSelectedTag}
+              setPerson={setPerson}
+              selectedConversationId={selectedConversationId}
+              setSelectedConversationId={setSelectedConversationId}
             />
           )}
           {mode && (
             <SearchResults
-              selectedTag={selectedTag}
-              setSelectedTag={setSelectedTag}
+              selectedConversationId={selectedConversationId}
+              setSelectedConversationId={setSelectedConversationId}
               searchValue={searchValue}
             />
           )}

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import PersonCard from './PersonCard';
@@ -6,10 +7,20 @@ import Messages from './Messages';
 import Header from './Header';
 import Button from '../components/form-controls/Button';
 
-function ChatPage({ selectedTag, width, visibility, showArrow }) {
+// eslint-disable-next-line react/prop-types
+function ChatPage({
+  selectedConversationId,
+  width,
+  visibility,
+  showArrow,
+  socket,
+  userId,
+  person,
+}) {
   const [messages, setMessages] = useState([]);
+  const [socketMessages, setSocketMessages] = useState([]);
   const [imgVisible, setImgVisible] = useState(0);
-  const [info, setInfo] = useState();
+
   const imgRef = useRef(null);
 
   const handleScroll = () => {
@@ -25,47 +36,41 @@ function ChatPage({ selectedTag, width, visibility, showArrow }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (selectedTag !== '') {
+      if (selectedConversationId !== '') {
         const response = await fetch(
-          `http://localhost:3000/information?tag=${selectedTag}`,
+          `http://${
+            import.meta.env.VITE_API_DOMAIN
+          }conversations/${selectedConversationId}/history`,
+          {
+            method: 'GET',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+          },
         );
-        if (!response.ok) {
-          throw new Error('Network response was not ok.');
-        }
-        const data = await response.json();
-        setInfo(data);
-      } else {
-        setInfo(null);
+        const Json = await response.json();
+        setMessages(Json.data.messages);
       }
     };
     fetchData();
-  }, [selectedTag]);
+  }, [selectedConversationId]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (selectedTag !== '') {
-        const response = await fetch(
-          `http://localhost:3000/messages?tag=${selectedTag}`,
-        );
-        if (!response.ok) {
-          throw new Error('Network response was not ok.');
-        }
-        const data = await response.json();
-        setMessages(data);
-      }
-    };
-    fetchData();
-  }, [selectedTag]);
+    if (socket === null) return;
+    socket.on('msg-receive', async (message) => {
+      setSocketMessages((prevMessages) => [...prevMessages, message]);
+    });
+  }, [socket]);
 
   if (visibility) {
-    if (info) {
+    if (person) {
       return (
         <div className="flex h-screen w-full  max-w-full flex-col border-x-[1px]  border-[#f6f8f9] dark:border-[#252829] dark:bg-black md:w-[600px]   lg:w-[600px] xl:w-[600px]">
           <Header
-            title={info.name}
+            title={person.name}
             path="M13.5 8.5c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5S11.17 7 12 7s1.5.67 1.5 1.5zM13 17v-5h-2v5h2zm-1 5.25c5.66 0 10.25-4.59 10.25-10.25S17.66 1.75 12 1.75 1.75 6.34 1.75 12 6.34 22.25 12 22.25zM20.25 12c0 4.56-3.69 8.25-8.25 8.25S3.75 16.56 3.75 12 7.44 3.75 12 3.75s8.25 3.69 8.25 8.25z"
             type="-"
-            image={info.image}
+            image={person.imageUrl}
             imgVisible={imgVisible}
             showArrow={showArrow}
           />
@@ -78,22 +83,29 @@ function ChatPage({ selectedTag, width, visibility, showArrow }) {
           >
             <div>
               <PersonCard
-                image={info.image}
-                name={info.name}
-                tag={info.tag}
-                date={info.date}
-                followers={info.followers}
-                followerImage={info.followerImage}
-                followerName={info.followerName}
+                image={person.imageUrl}
+                name={person.name}
+                tag={person.username}
+                date="wait"
+                followers="wait"
+                followerImage="wait"
+                followerName="wait"
                 imgRef={imgRef}
               />
             </div>
-            <Messages messages={messages} />
+            <Messages
+              messages={messages}
+              socketMessages={socketMessages}
+            />
           </div>
           <div>
             <MessagesInput
-              messages={messages}
-              setMessages={setMessages}
+              socket={socket}
+              socketMessages={socketMessages}
+              setSocketMessages={setSocketMessages}
+              selectedConversationId={selectedConversationId}
+              userId={userId}
+              receiverId={person.id}
             />
           </div>
         </div>
@@ -129,7 +141,7 @@ function ChatPage({ selectedTag, width, visibility, showArrow }) {
   }
 }
 ChatPage.propTypes = {
-  selectedTag: PropTypes.string.isRequired,
+  selectedConversationId: PropTypes.string.isRequired,
   width: PropTypes.number.isRequired,
   visibility: PropTypes.bool.isRequired,
 };
