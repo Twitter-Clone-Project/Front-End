@@ -19,11 +19,7 @@ import DirectMessages from './components/Direct-Messages/DirectMessages';
 import Homepage from './tweetPage/Homepage';
 import ProfilePage from './components/user-profile-card/ProfilePage';
 import Posts from './components/user-profile-card/Posts';
-import Replies from './components/user-profile-card/Replies';
 import Likes from './components/user-profile-card/Likes';
-import Media from './components/user-profile-card/Media';
-import NoProfile from './components/user-profile-card/NoProfile';
-import BoxCard from './components/BoxCard';
 import UpdateProfileForm from './components/user-profile-card/UpdateProfileForm';
 
 TimeAgo.addDefaultLocale(en);
@@ -144,14 +140,6 @@ function App() {
               <Route
                 path="posts"
                 element={<Posts />}
-              />
-              <Route
-                path="replies"
-                element={<Replies />}
-              />
-              <Route
-                path="media"
-                element={<Media />}
               />
               <Route
                 path="likes"

@@ -1,4 +1,4 @@
-import React, { useReducer, useRef, useState } from 'react';
+import React, { useReducer, useRef, useState, useEffect, useMemo } from 'react';
 import moment from 'moment/moment';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
@@ -56,15 +56,19 @@ function DOBReducer(state, action) {
 
 function UpdateProfileForm({ setUpdateFormOpen }) {
   const { user, dispatch } = useAuth();
-  const DOBInitialState = {
-    month: moment(new Date(user.birthDate)).format('MMMM'),
-    day: moment(new Date(user.birthDate)).format('D'),
-    year: moment(new Date(user.birthDate)).year(),
-    daysCnt: 31,
-    yearsCnt: 120,
-  };
+  const DOBInitialState = useMemo(
+    () => ({
+      month: moment(new Date(user.birthDate)).format('MMMM'),
+      day: moment(new Date(user.birthDate)).format('D'),
+      year: moment(new Date(user.birthDate)).year(),
+      daysCnt: 31,
+      yearsCnt: 120,
+    }),
+    [user],
+  );
   const bannerInput = useRef(null);
   const picInput = useRef(null);
+  const [updated, setUpdated] = useState(false);
   const [confrimCancel, setConfirmCancel] = useState(false);
   const [curBanner, setCurBanner] = useState(user.bannerUrl);
   const [banner, setBanner] = useState(null);
@@ -121,9 +125,37 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
       toast(err.message);
     }
   };
+  useEffect(() => {
+    if (
+      !banner &&
+      curBanner === user.bannerUrl &&
+      !pic &&
+      name === user.name &&
+      bio === (user.bio || '') &&
+      location === (user.location || '') &&
+      website === (user.website || '') &&
+      JSON.stringify(DOB) === JSON.stringify(DOBInitialState)
+    )
+      setUpdated(false);
+    else setUpdated(true);
+  }, [
+    banner,
+    pic,
+    name,
+    bio,
+    location,
+    website,
+    DOB,
+    user,
+    DOBInitialState,
+    curBanner,
+  ]);
   return (
-    <div className="fixed bottom-0 left-0 top-0 z-[2000] flex h-screen w-full items-center justify-center bg-dark-gray bg-opacity-30">
-      {confrimCancel && (
+    <div
+      data-testid="update-profile-form"
+      className="fixed bottom-0 left-0 top-0 z-[2000] flex h-screen w-full items-center justify-center bg-dark-gray bg-opacity-30"
+    >
+      {confrimCancel && updated && (
         <UpdateCancel
           onCancel={() => setConfirmCancel(false)}
           onDiscard={() => {
@@ -138,7 +170,9 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
               <p className="flex items-center justify-between gap-6 text-xl font-bold">
                 <button
                   type="button"
-                  onClick={() => setConfirmCancel(true)}
+                  onClick={() =>
+                    updated ? setConfirmCancel(true) : setUpdateFormOpen(false)
+                  }
                   className="flex h-8 w-8 items-center justify-center rounded-full align-middle hover:bg-light-hover-layout dark:hover:bg-hover-layout"
                 >
                   <span className="text-base">&#10005;</span>

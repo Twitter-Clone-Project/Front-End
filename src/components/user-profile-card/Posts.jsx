@@ -91,7 +91,10 @@ function Posts() {
       {initialDone && posts.length === 0 ? (
         <NoResults title=" There are No posts yet" />
       ) : (
-        <div className="flex w-full flex-col items-center gap-5">
+        <div
+          data-testid="posts-list"
+          className="flex w-full flex-col items-center gap-5"
+        >
           <TweetList data={posts} />
           {isLoading && <DotLoader />}
         </div>

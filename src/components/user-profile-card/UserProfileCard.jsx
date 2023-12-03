@@ -8,7 +8,10 @@ import UpdateProfileForm from './UpdateProfileForm';
 function UserProfileCard({ user }) {
   const [updateFormOpen, setUpdateFormOpen] = useState(false);
   return (
-    <div className="w-full max-w-[600px] dark:text-white">
+    <div
+      data-testid={`${user.username}-card`}
+      className="w-full max-w-[600px] dark:text-white"
+    >
       {updateFormOpen && (
         <UpdateProfileForm setUpdateFormOpen={setUpdateFormOpen} />
       )}
@@ -37,6 +40,7 @@ function UserProfileCard({ user }) {
 UserProfileCard.propTypes = {
   user: PropTypes.shape({
     bannerUrl: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
   }).isRequired,
 };
 export default UserProfileCard;
