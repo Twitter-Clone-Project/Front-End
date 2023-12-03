@@ -18,8 +18,8 @@ function UpdateCancel({ onDiscard, onCancel }) {
         <div className="flex h-full flex-1 flex-col items-end justify-end gap-5">
           <Button
             onClick={onDiscard}
-            backGroundColor="red"
-            backGroundColorDark="red"
+            backGroundColor="warningRed"
+            backGroundColorDark="warningRed"
             label="Discard"
             labelColor="white"
             labelColorDark="white"

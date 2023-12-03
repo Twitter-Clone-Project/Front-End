@@ -6,10 +6,13 @@ import { useAuth } from '../../hooks/AuthContext';
 import ListNav from '../navigation-bars/ListNav';
 import Spinner from '../Spinner';
 import OwnToaster from '../OwnToaster';
+import NoProfile from './NoProfile';
 
 function ProfilePage() {
   const { user: curUser, dispatch } = useAuth();
   const [user, setUser] = useState({});
+  const [found, setFound] = useState(true);
+
   const [isLoading, setIsLoading] = useState(true);
   const { username } = useParams('username');
 
@@ -36,8 +39,14 @@ function ProfilePage() {
             withCredentials: true,
           },
         );
+        if (res.status === 404) {
+          setFound(false);
+          return;
+        }
         const data = await res.json();
-        if (data.status === false) throw new Error(data.message);
+        if (data.status === false) {
+          throw new Error(data.message);
+        }
         setUser(data.data.user);
       } catch (err) {
         toast(err.message);
@@ -48,7 +57,7 @@ function ProfilePage() {
     fetchUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, curUser, username]);
-
+  if (!found) return <NoProfile />;
   return (
     <>
       {isLoading ? (

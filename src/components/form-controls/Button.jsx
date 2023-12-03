@@ -49,7 +49,7 @@ function Button({
                 : ''
             }  ${backGroundColorDark === 'red' ? 'dark:bg-[#f4212e] ' : ''}
         h-full w-full border ${borderColor === 'blue' ? 'border-blue' : ''}  ${
-          borderColor === 'white' ? 'border-white' : ''
+          borderColor === 'white' ? 'border-white dark:border-border-gray' : ''
         }  ${borderColor === 'black' ? 'border-black' : ''} ${
           borderColor === 'gray' ? 'border-light-gray' : ''
         } ${
@@ -116,7 +116,7 @@ function Button({
                 : ''
             }  ${backGroundColorDark === 'red' ? 'dark:bg-[#200a0c] ' : ''}
         h-full w-full border ${borderColor === 'blue' ? 'border-blue' : ''}  ${
-          borderColor === 'white' ? 'border-white' : ''
+          borderColor === 'white' ? 'border-border-gray dark:border-white' : ''
         }  ${borderColor === 'black' ? 'border-black' : ''} ${
           borderColor === 'gray' ? 'border-light-gray' : ''
         } ${

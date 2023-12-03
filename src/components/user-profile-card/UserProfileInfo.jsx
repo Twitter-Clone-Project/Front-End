@@ -54,7 +54,7 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
           <div
             className={`${
               user.isBlockingMe ? 'w-min' : 'w-[50%]'
-            } min-w-[48px]  max-w-[125px]`}
+            } min-w-[11rem]  max-w-[125px]`}
             data-testid={`${user.userName}-UserProfile-UserActions`}
           >
             <UserActions user={user} />

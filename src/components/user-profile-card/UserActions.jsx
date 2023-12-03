@@ -225,10 +225,10 @@ function UserActions({ user }) {
 
   return (
     <div
-      className="flex flex-row justify-between"
+      className="flex w-full flex-row justify-between gap-4"
       data-testid={`${user.userName}-UserActios-1`}
     >
-      <div className="relative mr-2">
+      <div className="relative mr-2 min-w-[1rem]">
         <div
           className="absolute mr-2 flex h-9 w-9 items-center justify-center rounded-full border border-[#cfd9de] hover:bg-x-light-gray dark:border-border-gray dark:hover:bg-[#181919]"
           onClick={() => setDropDownVisible(true)}
@@ -316,7 +316,7 @@ function UserActions({ user }) {
       </div>
       {!user.isBlockingMe && (
         <div
-          className=" h-9 w-[81px] items-center"
+          className="flex h-9 w-[8rem] items-center"
           onMouseEnter={() => {
             setButtonHovered(true);
           }}
