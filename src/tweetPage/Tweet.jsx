@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable max-len */
 /* eslint-disable react/forbid-prop-types */
 import React, { useEffect, useState } from 'react';
@@ -5,11 +6,14 @@ import PropTypes from 'prop-types';
 import ReactTimeAgo from 'react-time-ago';
 import { v4 as uuid4 } from 'uuid';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 import ReactButtons from './reactButtons';
 import Media from './Media';
 import OwnToaster from '../components/OwnToaster';
+import ActionsMenu from './ActionsMenu';
+import PopoverUserCard from '../components/userComponents/PopoverUserCard';
 
-function Tweet({ data }) {
+function Tweet({ data, tweets, setTweets }) {
   const [repost, toggleRepost] = useState(data.isRetweeted);
   const [reply, toggleReply] = useState(data.isReplied);
   const [like, toggleLike] = useState(data.isLiked);
@@ -152,6 +156,14 @@ function Tweet({ data }) {
     // console.log(tweetID);
   };
 
+  const [isHovered, setIsHovered] = useState(false);
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
   return (
     <div className="tweet mb-[0.5px] mt-[-0.5px] flex w-[88%] border-collapse  flex-row border-y-[0.5px] border-y-border-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
       <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
@@ -163,15 +175,38 @@ function Tweet({ data }) {
             <path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z" />
           </svg>
         </div>
-        <div className="profileImage leftColumn mr-[12px] h-[40px] w-[40px] ">
+        <div className="profileImage leftColumn absolute mr-[12px] h-[40px] w-[40px] ">
           <img
             src={
               data.user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
             }
             alt="profileImage"
-            className=" h-[40px] w-[40px] rounded-full object-cover"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className="  h-[40px] w-[40px] rounded-full object-cover transition-opacity"
           />
         </div>
+        {isHovered && (
+          <div
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className="relative right-24 top-[-1] z-10 mt-5 flex h-[250px]  w-[300px] flex-col justify-center "
+          >
+            <PopoverUserCard
+              popoverIsFollowed={data.user.isFollowed}
+              popoverUserPicture={
+                data.user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
+              }
+              popoverUserName={data.user.screenName}
+              popoverUserID={data.user.username}
+              popoverDiscription=""
+              popoverFollowing={data.user.followingCount}
+              popoverFollowers={data.user.followersCount}
+              popoverTestID={`${data.user.username}-popover`}
+              popoverSetLocalIsFollowed
+            />
+          </div>
+        )}
       </div>
 
       <div className="rightColumn w-[512px] ">
@@ -182,21 +217,37 @@ function Tweet({ data }) {
           {' '}
           <span>{data.retweetedUser.screenName}</span> reposted
         </div>
-        <div className="userInfo flex flex-row">
-          <div className="name  text-[15px] font-bold">
-            {data.user.screenName}
+        <div className="flex flex-row justify-between ">
+          <div className="userInfo flex flex-row">
+            <Link
+              to={`/app/${data.user.username}`}
+              className="text-black"
+            >
+              <div className="name  text-[15px] font-bold">
+                {data.user.screenName}
+              </div>
+            </Link>
+            <div className="userName   overflow-hidden text-[15px] text-dark-gray">
+              {' '}
+              &ensp;@<span>{data.user.username}</span>
+            </div>
+
+            <div className="date overflow-hidden text-[15px] text-dark-gray">
+              {' '}
+              &ensp;.&ensp;
+              <ReactTimeAgo
+                date={new Date(data.createdAt)}
+                locale="en-US"
+                timeStyle="twitter"
+              />
+            </div>
           </div>
-          <div className="userName   overflow-hidden text-[15px] text-dark-gray">
-            {' '}
-            &ensp;@<span>{data.user.username}</span>
-          </div>
-          <div className="date overflow-hidden text-[15px] text-dark-gray">
-            {' '}
-            &ensp;.&ensp;
-            <ReactTimeAgo
-              date={new Date(data.createdAt)}
-              locale="en-US"
-              timeStyle="twitter"
+          <div className=" ">
+            <ActionsMenu
+              userId={data.user.userId}
+              tweetId={data.id}
+              tweets={tweets}
+              setTweets={setTweets}
             />
           </div>
         </div>
