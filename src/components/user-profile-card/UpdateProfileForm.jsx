@@ -11,6 +11,7 @@ import DorpDownMenu from '../form-controls/DorpDownMenu';
 import TextArea from '../form-controls/TextArea';
 import ImageButton from './ImageButton';
 import OwnToaster from '../OwnToaster';
+import UpdateCancel from './UpdateCancel';
 
 function DOBReducer(state, action) {
   switch (action.type) {
@@ -64,6 +65,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
   };
   const bannerInput = useRef(null);
   const picInput = useRef(null);
+  const [confrimCancel, setConfirmCancel] = useState(false);
   const [curBanner, setCurBanner] = useState(user.bannerUrl);
   const [banner, setBanner] = useState(null);
   const [pic, setPic] = useState(null);
@@ -114,12 +116,21 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
       if (data.status === false) throw new Error(data.message);
       dispatch({ type: 'LOGIN', payload: data.data });
       toast('Your data has been updated successfully!');
+      setUpdateFormOpen(false);
     } catch (err) {
       toast(err.message);
     }
   };
   return (
     <div className="fixed bottom-0 left-0 top-0 z-[2000] flex h-screen w-full items-center justify-center bg-dark-gray bg-opacity-30">
+      {confrimCancel && (
+        <UpdateCancel
+          onCancel={() => setConfirmCancel(false)}
+          onDiscard={() => {
+            setUpdateFormOpen(false);
+          }}
+        />
+      )}
       <BoxCard
         header={
           <div className="flex h-full w-full items-center">
@@ -127,7 +138,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
               <p className="flex items-center justify-between gap-6 text-xl font-bold">
                 <button
                   type="button"
-                  onClick={() => setUpdateFormOpen(false)}
+                  onClick={() => setConfirmCancel(true)}
                   className="flex h-8 w-8 items-center justify-center rounded-full align-middle hover:bg-light-hover-layout dark:hover:bg-hover-layout"
                 >
                   <span className="text-base">&#10005;</span>
