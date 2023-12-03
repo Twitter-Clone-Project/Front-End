@@ -6,7 +6,7 @@ function UserImg({ user }) {
     <div className="flex items-center justify-center">
       <img
         className="flex h-8 w-8 rounded-full"
-        src={import.meta.env.VITE_DEFAULT_AVATAR}
+        src={user.imageUrl || import.meta.env.VITE_DEFAULT_AVATAR}
         alt={`${user.name.split(' ')[0]} photo}`}
       />
     </div>
@@ -16,6 +16,7 @@ function UserImg({ user }) {
 UserImg.propTypes = {
   user: PropTypes.shape({
     name: PropTypes.string.isRequired,
+    imageUrl: PropTypes.string.isRequired,
   }).isRequired,
 };
 export default UserImg;

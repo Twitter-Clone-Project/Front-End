@@ -10,9 +10,9 @@ function UserNavCard() {
   const { username, name, pic, followers, following } = {
     username: user.username,
     name: user.name,
-    pic: import.meta.env.VITE_DEFAULT_AVATAR,
-    followers: 12,
-    following: 10,
+    pic: user.imageUrl || import.meta.env.VITE_DEFAULT_AVATAR,
+    followers: user.followersCount,
+    following: user.followingsCount,
   };
   return (
     <div className="cursor-auto bg-white bg-opacity-100 p-4 text-black dark:bg-pure-black dark:text-white">
@@ -72,10 +72,10 @@ function UserNavCard() {
           data-testid="followers-btn"
           tabIndex={-6}
           onKeyDown={() =>
-            navigate(`/app/${username}/follower`, { state: location.pathname })
+            navigate(`/app/${username}/followers`, { state: location.pathname })
           }
           onClick={() =>
-            navigate(`/app/${username}/follower`, { state: location.pathname })
+            navigate(`/app/${username}/followers`, { state: location.pathname })
           }
         >
           <span className="mr-5  cursor-pointer text-pure-black hover:underline dark:text-white">

@@ -117,7 +117,7 @@ function FollowingList() {
               key={uuid4()}
               isFollowed={user.isFollowed}
               isFollowing={user.isFollowing}
-              userPicture={user.imageurl}
+              userPicture={user.imageUrl || import.meta.env.VITE_DEFAULT_AVATAR}
               userName={user.name}
               userID={user.username}
               discription={user.bio}

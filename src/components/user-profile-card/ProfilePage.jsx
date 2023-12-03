@@ -6,10 +6,13 @@ import { useAuth } from '../../hooks/AuthContext';
 import ListNav from '../navigation-bars/ListNav';
 import Spinner from '../Spinner';
 import OwnToaster from '../OwnToaster';
+import NoProfile from './NoProfile';
 
 function ProfilePage() {
   const { user: curUser, dispatch } = useAuth();
   const [user, setUser] = useState({});
+  const [found, setFound] = useState(true);
+
   const [isLoading, setIsLoading] = useState(true);
   const { username } = useParams('username');
 
@@ -36,8 +39,14 @@ function ProfilePage() {
             withCredentials: true,
           },
         );
+        if (res.status === 404) {
+          setFound(false);
+          return;
+        }
         const data = await res.json();
-        if (data.status === false) throw new Error(data.message);
+        if (data.status === false) {
+          throw new Error(data.message);
+        }
         setUser(data.data.user);
       } catch (err) {
         toast(err.message);
@@ -48,16 +57,24 @@ function ProfilePage() {
     fetchUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, curUser, username]);
-
+  if (!found) return <NoProfile />;
   return (
     <>
       {isLoading ? (
         <Spinner />
       ) : (
-        <div className="border-x-0 border-border-gray dark:text-white sm:border-x-2">
-          <div className="border-b-[1px] border-b-border-gray">
+        <div
+          data-testid={`${username}-profile`}
+          className="border-x-0 border-light-gray dark:border-border-gray dark:text-white sm:border-x-[1px]"
+        >
+          <div
+            className={`${
+              user.isBlockingMe ? '' : 'border-b-[1px]'
+            } border-light-gray dark:border-border-gray`}
+          >
             <UserProfileCard user={user} />
-            <ListNav items={ListNavItems} />
+
+            {!user.isBlockingMe && <ListNav items={ListNavItems} />}
           </div>
           <Outlet />
         </div>
