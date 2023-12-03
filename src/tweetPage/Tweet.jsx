@@ -182,14 +182,14 @@ function Tweet({ data, tweets, setTweets }) {
             alt="profileImage"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className="  h-[40px] w-[40px] rounded-full object-cover"
+            className="  h-[40px] w-[40px] rounded-full object-cover transition-opacity"
           />
         </div>
         {isHovered && (
           <div
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className="relative right-12 top-10 z-10 "
+            className="relative right-24 top-[-1] z-10 mt-5 flex h-[250px]  w-[300px] flex-col justify-center "
           >
             <PopoverUserCard
               popoverIsFollowed
