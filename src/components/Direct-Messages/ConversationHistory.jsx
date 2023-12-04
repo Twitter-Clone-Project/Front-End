@@ -5,7 +5,7 @@ import ConversationCard from './ConversationCard';
 function ConversationsHistory({
   selectedConversationId,
   setSelectedConversationId,
-  setPerson,
+  setContact,
 }) {
   const [conversations, setConversations] = useState([]);
 
@@ -43,10 +43,10 @@ function ConversationsHistory({
             lastMessage={
               conversation.lastMessage ? conversation.lastMessage : ''
             }
-            personId={conversation.contact.id}
             selectedConversationId={selectedConversationId}
             setSelectedConversationId={setSelectedConversationId}
-            setPerson={setPerson}
+            setContact={setContact}
+            contact={conversation.contact}
           />
         ))}
       </div>
@@ -57,6 +57,7 @@ function ConversationsHistory({
 ConversationsHistory.propTypes = {
   selectedConversationId: PropTypes.string.isRequired,
   setSelectedConversationId: PropTypes.func.isRequired,
+  setContact: PropTypes.func.isRequired,
 };
 
 export default ConversationsHistory;

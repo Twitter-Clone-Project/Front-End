@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -7,8 +8,7 @@ function PersonCard({
   tag,
   date,
   followers,
-  followerImage,
-  followerName,
+  commonFollowers,
   imgRef,
 }) {
   return (
@@ -34,17 +34,22 @@ function PersonCard({
           {followers} Followers
         </div>
       </div>
+
       <div className="flex flex-row">
-        <div>
-          <img
-            className="h-4 w-4 rounded-full"
-            src={followerImage}
-            alt=""
-          />
-        </div>
-        <div className="ml-3 text-center text-xs text-[#71767B]">
-          Followed by {followerName}
-        </div>
+        {commonFollowers.map((follower) => (
+          <div>
+            <img
+              className="h-4 w-4 rounded-full"
+              src={follower.imageUrl}
+              alt=""
+            />
+          </div>
+        ))}
+        {commonFollowers.map((follower) => (
+          <div className="ml-3 text-center text-xs text-[#71767B]">
+            Followed by {follower.name}
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -56,8 +61,7 @@ PersonCard.propTypes = {
   tag: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   followers: PropTypes.string.isRequired,
-  followerName: PropTypes.string.isRequired,
-  followerImage: PropTypes.string.isRequired,
+
   imgRef: PropTypes.object.isRequired,
 };
 

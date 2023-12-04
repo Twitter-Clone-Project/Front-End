@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import dayjs from 'dayjs';
 import PersonCard from './PersonCard';
 import MessagesInput from './MessagesInput';
 import Messages from './Messages';
@@ -15,7 +16,7 @@ function ChatPage({
   showArrow,
   socket,
   userId,
-  person,
+  contact,
 }) {
   const [messages, setMessages] = useState([]);
   const [socketMessages, setSocketMessages] = useState([]);
@@ -63,14 +64,14 @@ function ChatPage({
   }, [socket]);
 
   if (visibility) {
-    if (person) {
+    if (contact) {
       return (
         <div className="flex h-screen w-full  max-w-full flex-col border-x-[1px]  border-[#f6f8f9] dark:border-[#252829] dark:bg-black md:w-[600px]   lg:w-[600px] xl:w-[600px]">
           <Header
-            title={person.name}
+            title={contact.name}
             path="M13.5 8.5c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5S11.17 7 12 7s1.5.67 1.5 1.5zM13 17v-5h-2v5h2zm-1 5.25c5.66 0 10.25-4.59 10.25-10.25S17.66 1.75 12 1.75 1.75 6.34 1.75 12 6.34 22.25 12 22.25zM20.25 12c0 4.56-3.69 8.25-8.25 8.25S3.75 16.56 3.75 12 7.44 3.75 12 3.75s8.25 3.69 8.25 8.25z"
             type="-"
-            image={person.imageUrl}
+            image={contact.imageUrl}
             imgVisible={imgVisible}
             showArrow={showArrow}
           />
@@ -83,13 +84,14 @@ function ChatPage({
           >
             <div>
               <PersonCard
-                image={person.imageUrl}
-                name={person.name}
-                tag={person.username}
-                date="wait"
-                followers="wait"
-                followerImage="wait"
-                followerName="wait"
+                image={contact.imageUrl}
+                name={contact.name}
+                tag={contact.username}
+                date={dayjs(contact.createdAt).format('MMMM YYYY')}
+                followers={contact.followersCount}
+                commonFollowers={contact.commonFollowers}
+                followerImage={contact.username}
+                followerName={contact.username}
                 imgRef={imgRef}
               />
             </div>
@@ -105,7 +107,7 @@ function ChatPage({
               setSocketMessages={setSocketMessages}
               selectedConversationId={selectedConversationId}
               userId={userId}
-              receiverId={person.id}
+              receiverId={contact.id}
             />
           </div>
         </div>

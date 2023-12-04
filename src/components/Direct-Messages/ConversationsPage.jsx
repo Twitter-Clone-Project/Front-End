@@ -9,7 +9,7 @@ function ConversationsPage({
   selectedConversationId,
   setSelectedConversationId,
   visibility,
-  setPerson,
+  setContact,
 }) {
   const [searchValue, setSearchValue] = useState('');
   const [mode, setMode] = useState(false);
@@ -35,7 +35,7 @@ function ConversationsPage({
         <div className="overflow-y-auto no-scrollbar">
           {!mode && (
             <ConversationsHistory
-              setPerson={setPerson}
+              setContact={setContact}
               selectedConversationId={selectedConversationId}
               setSelectedConversationId={setSelectedConversationId}
             />

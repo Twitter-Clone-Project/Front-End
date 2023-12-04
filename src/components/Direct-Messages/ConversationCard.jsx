@@ -13,8 +13,8 @@ function ConversationCard({
   lastMessage,
   selectedConversationId,
   setSelectedConversationId,
-  setPerson,
-  personId,
+  setContact,
+  contact,
 }) {
   let differenceInSeconds = 0;
   let differenceInMinutes = 0;
@@ -81,12 +81,7 @@ function ConversationCard({
     <div
       onClick={() => {
         setSelectedConversationId(id);
-        setPerson({
-          id: personId,
-          imageUrl: imageUrl,
-          name: name,
-          username: username,
-        });
+        setContact(contact);
       }}
       className={`${
         id === selectedConversationId
@@ -144,6 +139,8 @@ ConversationCard.propTypes = {
   lastMessage: PropTypes.object.isRequired,
   selectedConversationId: PropTypes.string.isRequired,
   setSelectedConversationId: PropTypes.func.isRequired,
+  setContact: PropTypes.func.isRequired,
+  contact: PropTypes.object.isRequired,
 };
 
 export default ConversationCard;

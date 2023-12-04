@@ -9,7 +9,7 @@ function DirectMessages() {
   const [selectedChat, setSelectedChat] = useState('');
   const [windowWidth, setWindowWidth] = useState(window.outerWidth);
   const [socket, setSocket] = useState(null);
-  const [person, setPerson] = useState(null);
+  const [contact, setContact] = useState(null);
 
   const { user } = useAuth();
   useEffect(() => {
@@ -42,7 +42,7 @@ function DirectMessages() {
     <div className="h-screen  w-full">
       <div className="layout mx-auto h-full grid-cols-[auto_1fr] grid-rows-1 overflow-auto dark:bg-black  md:grid ">
         <ConversationsPage
-          setPerson={setPerson}
+          setContact={setContact}
           selectedConversationId={selectedChat}
           setSelectedConversationId={setSelectedChat}
           visibility={
@@ -76,7 +76,7 @@ function DirectMessages() {
             width={windowWidth}
             socket={socket}
             userId={user.userId}
-            person={person}
+            contact={contact}
             showArrow={windowWidth < 1024 && selectedChat !== ''}
             visibility={
               (windowWidth < 1024 && selectedChat !== '') || windowWidth >= 1024
