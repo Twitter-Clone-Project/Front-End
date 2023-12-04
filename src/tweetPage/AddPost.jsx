@@ -51,7 +51,7 @@ function AddPost({ setTweets }) {
           },
         );
         const data = await response.json();
-        console.log(data.data);
+        // console.log(data.data);
         if (data.status) setTweets((prev) => [data.data, ...prev]);
       } catch (error) {
         toast(error.message);

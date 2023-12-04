@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import toast from 'react-hot-toast';
 import { useAuth } from '../hooks/AuthContext';
 import AddEmoji from '../tweetPage/AddEmoji';
 
@@ -7,28 +8,25 @@ function AddReply({ setReplies, tweetId }) {
   const { user } = useAuth();
   const [replyText, setReplyText] = useState('');
   const [replyDisabled, setReplyDisabled] = useState(true);
-  const [hashtags, setHashtags] = useState([]);
-  const [hashtagsString, setHashtagsString] = useState('');
+  // const [hashtags, setHashtags] = useState([]);
+  // const [hashtagsString, setHashtagsString] = useState('');
   useEffect(() => {
-    console.log(replyText);
     if (replyText.trim() === '') setReplyDisabled(true);
     else {
-      setHashtags(replyText.match(/#\w+/g));
-      if (hashtags !== null && hashtags.length !== 0)
-        setHashtagsString(hashtags.join(','));
+      // setHashtags(replyText.match(/#\w+/g));
+      // if (hashtags !== null && hashtags.length !== 0)
+      //   setHashtagsString(hashtags.join(','));
       setReplyDisabled(false);
     }
   }, [replyText]);
   const resetAll = () => {
     setReplyText('');
-    setHashtags([]);
-    setHashtagsString('');
+    // setHashtags([]);
+    // setHashtagsString('');
     setReplyDisabled(true);
   };
   const handleReply = () => {
-    const formData = new FormData();
-    formData.append('replyText', replyText);
-    // formData.append('hashtags', hashtagsString);
+    const body = { text: { replyText } };
     resetAll();
     const postReply = async () => {
       try {
@@ -39,14 +37,20 @@ function AddReply({ setReplies, tweetId }) {
             origin: true,
             credentials: 'include',
             withCredentials: true,
-            body: formData,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
           },
         );
         const data = await response.json();
-        if (data.status) setReplies((prev) => [replyText, ...prev]);
-        console.log(data);
+        if (data.status) {
+          data.data.screenName = user.name;
+          setReplies((prev) => [data.data, ...prev]);
+          // console.log(data.data);
+        }
       } catch (error) {
-        console.log('Error fetching timeline:', error);
+        toast('Error Adding Reply:', error);
       }
     };
     postReply();

@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react/prop-types */
 /* eslint-disable max-len */
 /* eslint-disable react/forbid-prop-types */
@@ -153,9 +155,9 @@ function Tweet({ data, tweets, setTweets }) {
   };
 
   const handleReply = () => {
-    if (reply === true) setRepliesCount(repliesCount - 1);
-    else setRepliesCount(repliesCount + 1);
-    toggleReply(!reply);
+    // if (reply === true) setRepliesCount(repliesCount - 1);
+    // else setRepliesCount(repliesCount + 1);
+    // toggleReply(!reply);
     // console.log(tweetID);
   };
 
@@ -166,7 +168,7 @@ function Tweet({ data, tweets, setTweets }) {
 
   const handleMouseLeave = () => {
     setIsHovered(false);
-  }
+  };
   const navigate = useNavigate();
   const handleClick = () => {
     navigate(`/app/tweet`, {
@@ -178,10 +180,7 @@ function Tweet({ data, tweets, setTweets }) {
     });
   };
   return (
-    <div
-      className="tweet mb-[0.5px] mt-[-0.5px] flex w-[88%] border-collapse  flex-row border-y-[0.5px] border-y-border-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]"
-      onClick={handleClick}
-    >
+    <div className="tweet mb-[0.5px] mt-[-0.5px] flex w-[88%] border-collapse  flex-row border-y-[0.5px] border-y-border-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
       <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
         <div className={` pb-1 ${repost === false ? 'hidden' : ''}`}>
           <svg
@@ -270,8 +269,10 @@ function Tweet({ data, tweets, setTweets }) {
             />
           </div>
         </div>
-        <div className="caption w-[500px] ">
-          {' '}
+        <div
+          className="caption"
+          onClick={handleClick}
+        >
           {data.text.split(' ').map((word) => {
             if (word.startsWith('#')) {
               return (
