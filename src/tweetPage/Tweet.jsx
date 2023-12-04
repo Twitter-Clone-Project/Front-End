@@ -1,22 +1,43 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable react/prop-types */
 /* eslint-disable max-len */
 /* eslint-disable react/forbid-prop-types */
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import ReactTimeAgo from 'react-time-ago';
+import PropTypes from 'prop-types';
 import { v4 as uuid4 } from 'uuid';
+import toast from 'react-hot-toast';
 import ReactButtons from './reactButtons';
 import Media from './Media';
+import OwnToaster from '../components/OwnToaster';
+import ActionsMenu from './ActionsMenu';
+import PopoverUserCard from '../components/userComponents/PopoverUserCard';
 
-function Tweet({ data }) {
+function Tweet({ data, tweets, setTweets }) {
   const [repost, toggleRepost] = useState(data.isRetweeted);
   const [reply, toggleReply] = useState(data.isReplied);
   const [like, toggleLike] = useState(data.isLiked);
-  const [repostsCount, setRepostsCount] = useState(data.retweetsCount);
-  const [repliesCount, setRepliesCount] = useState(data.repliesCount);
-  const [likesCount, setLikesCount] = useState(data.likesCount);
+  const [repostsCount, setRepostsCount] = useState();
+  const [repliesCount, setRepliesCount] = useState();
+  const [likesCount, setLikesCount] = useState();
+  const [isLikeLoading, setIsLikeLoading] = useState(false);
+  const [isRepostLoading, setIsRepostLoading] = useState(false);
+
+  useEffect(() => {
+    toggleLike(data.isLiked);
+    toggleRepost(data.isRetweeted);
+    toggleReply(data.isReplied);
+    setLikesCount(data.likesCount);
+    setRepliesCount(data.repliesCount);
+    setRepostsCount(data.retweetsCount);
+  }, [data]);
 
   const handleLike = () => {
-    if (like === true) {
+    if (like === true && !isLikeLoading) {
+      setIsLikeLoading(true);
       const deleteLike = async () => {
         try {
           const response = await fetch(
@@ -31,15 +52,20 @@ function Tweet({ data }) {
             },
           );
           const res = await response.json();
-          console.log(res.status, res.message);
-          if (res.status) setLikesCount(likesCount - 1);
-        } catch (error) {
-          console.log('Error fetching timeline:', error);
+          if (res.status) {
+            toggleLike(!like);
+            setLikesCount(likesCount - 1);
+          }
+        } catch (err) {
+          toast(err.message);
+        } finally {
+          setIsLikeLoading(false);
         }
       };
 
       deleteLike();
-    } else {
+    } else if (like === false && !isLikeLoading) {
+      setIsLikeLoading(true);
       const postLike = async () => {
         try {
           const response = await fetch(
@@ -54,19 +80,23 @@ function Tweet({ data }) {
             },
           );
           const res = await response.json();
-          console.log(res.status, res.message);
-          if (res.status) setLikesCount(likesCount + 1);
-        } catch (error) {
-          console.log('Error fetching timeline:', error);
+          if (res.status) {
+            setLikesCount(likesCount + 1);
+            toggleLike(!like);
+          }
+        } catch (err) {
+          toast(err.message);
+        } finally {
+          setIsLikeLoading(false);
         }
       };
 
       postLike();
     }
-    toggleLike(!like);
   };
   const handleRepost = () => {
-    if (repost === true) {
+    if (repost === true && !isRepostLoading) {
+      setIsLikeLoading(true);
       const deleteRetweet = async () => {
         try {
           const response = await fetch(
@@ -81,17 +111,20 @@ function Tweet({ data }) {
             },
           );
           const res = await response.json();
-          console.log(res.status, res.message);
           if (res.status) {
+            toggleRepost(!repost);
             setRepostsCount(repostsCount - 1);
           }
-        } catch (error) {
-          console.log('Error fetching timeline:', error);
+        } catch (err) {
+          toast(err.message);
+        } finally {
+          setIsRepostLoading(false);
         }
       };
 
       deleteRetweet();
-    } else {
+    } else if (repost === false && !isRepostLoading) {
+      setIsRepostLoading(true);
       const retweet = async () => {
         try {
           const response = await fetch(
@@ -106,27 +139,45 @@ function Tweet({ data }) {
             },
           );
           const res = await response.json();
-          console.log(res.status, res.message);
           if (res.status) {
+            toggleRepost(!repost);
             setRepostsCount(repostsCount + 1);
           }
-        } catch (error) {
-          console.log('Error fetching timeline:', error);
+        } catch (err) {
+          toast(err.message);
+        } finally {
+          setIsRepostLoading(false);
         }
       };
-
       retweet();
     }
-    toggleRepost(!repost);
-    // console.log(tweetID);
   };
+
   const handleReply = () => {
-    if (reply === true) setRepliesCount(repliesCount - 1);
-    else setRepliesCount(repliesCount + 1);
-    toggleReply(!reply);
+    // if (reply === true) setRepliesCount(repliesCount - 1);
+    // else setRepliesCount(repliesCount + 1);
+    // toggleReply(!reply);
     // console.log(tweetID);
   };
 
+  const [isHovered, setIsHovered] = useState(false);
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`/app/tweet`, {
+      state: {
+        pastPath: '/app/home',
+        tweetID: `${data.id}`,
+        tweetData: [data],
+      },
+    });
+  };
   return (
     <div className="tweet mb-[0.5px] mt-[-0.5px] flex w-[88%] border-collapse  flex-row border-y-[0.5px] border-y-border-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
       <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
@@ -138,13 +189,39 @@ function Tweet({ data }) {
             <path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z" />
           </svg>
         </div>
-        <div className="profileImage leftColumn mr-[12px] h-[40px] w-[40px] ">
+        <div className="profileImage leftColumn absolute mr-[12px] h-[40px] w-[40px] ">
           <img
-            src="https://images.pexels.com/photos/18758948/pexels-photo-18758948/free-photo-of-head-of-black-poodle.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            data-testid={`profileImage${data.id}`}
+            src={
+              data.user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
+            }
             alt="profileImage"
-            className=" h-[40px] w-[40px] rounded-full object-cover"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className="  h-[40px] w-[40px] rounded-full object-cover transition-opacity"
           />
         </div>
+        {isHovered && (
+          <div
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className="relative right-24 top-[-1] z-10 mt-5 flex h-[250px]  w-[300px] flex-col justify-center "
+          >
+            <PopoverUserCard
+              popoverIsFollowed={data.user.isFollowed}
+              popoverUserPicture={
+                data.user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
+              }
+              popoverUserName={data.user.screenName}
+              popoverUserID={data.user.username}
+              popoverDiscription=""
+              popoverFollowing={data.user.followingCount}
+              popoverFollowers={data.user.followersCount}
+              popoverTestID={`${data.user.username}-popover`}
+              popoverSetLocalIsFollowed
+            />
+          </div>
+        )}
       </div>
 
       <div className="rightColumn w-[512px] ">
@@ -152,29 +229,49 @@ function Tweet({ data }) {
           className={` retweeted-info h-[16px] pb-4 text-[13px] font-semibold
           text-dark-gray ${repost === false ? 'hidden' : ''} `}
         >
-          {' '}
-          <span>{data.retweetedUser.screenName}</span> reposted
+          <span>{data.retweetedUser.screenName}</span>
         </div>
-        <div className="userInfo flex flex-row">
-          <div className="name  text-[15px] font-bold">
-            {data.user.screenName}
+        <div className="flex flex-row justify-between ">
+          <div className="userInfo flex flex-row">
+            <Link
+              to={`/app/${data.user.username}`}
+              className="text-black"
+            >
+              <div
+                data-testid={`username${data.id}`}
+                className="name  text-[15px] font-bold dark:text-white"
+              >
+                {data.user.screenName}
+              </div>
+            </Link>
+            <div className="userName   overflow-hidden text-[15px] text-dark-gray">
+              {' '}
+              &ensp;@<span>{data.user.username}</span>
+            </div>
+
+            <div className="date overflow-hidden text-[15px] text-dark-gray">
+              {' '}
+              &ensp;.&ensp;
+              <ReactTimeAgo
+                date={new Date(data.createdAt)}
+                locale="en-US"
+                timeStyle="twitter"
+              />
+            </div>
           </div>
-          <div className="userName   overflow-hidden text-[15px] text-dark-gray">
-            {' '}
-            &ensp;@ <span>{data.user.username}</span>
-          </div>
-          <div className="date overflow-hidden text-[15px] text-dark-gray">
-            {' '}
-            &ensp;.&ensp;
-            <ReactTimeAgo
-              date={data.createdAt}
-              locale="en-US"
-              timeStyle="twitter"
+          <div className=" ">
+            <ActionsMenu
+              userId={data.user.userId}
+              tweet={data}
+              tweets={tweets}
+              setTweets={setTweets}
             />
           </div>
         </div>
-        <div className="caption">
-          {' '}
+        <div
+          className="caption"
+          onClick={handleClick}
+        >
           {data.text.split(' ').map((word) => {
             if (word.startsWith('#')) {
               return (
@@ -189,7 +286,10 @@ function Tweet({ data }) {
             return `${word} `;
           })}
         </div>
-        <Media images={data.attachmentsUrl} />
+
+        <div onClick={handleClick}>
+          <Media images={data.attachmentsUrl} />
+        </div>
         <div className="buttons flex h-[32px] flex-row  justify-between">
           <button
             data-testid="reply"
@@ -205,6 +305,7 @@ function Tweet({ data }) {
           <button
             data-testid="repost"
             type="submit"
+            disabled={isRepostLoading}
             onClick={() => handleRepost()}
           >
             <ReactButtons
@@ -215,6 +316,7 @@ function Tweet({ data }) {
           </button>
           <button
             data-testid="like"
+            disabled={isLikeLoading}
             type="submit"
             onClick={() => handleLike()}
           >
@@ -226,6 +328,7 @@ function Tweet({ data }) {
           </button>
         </div>
       </div>
+      <OwnToaster />
     </div>
   );
 }

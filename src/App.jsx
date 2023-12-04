@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from 'react';
-import { v4 as uuid4 } from 'uuid';
+// import { v4 as uuid4 } from 'uuid';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import LandingPage from './components/landingPage/LandingPage';
@@ -20,9 +20,9 @@ import DirectMessages from './components/Direct-Messages/DirectMessages';
 import Homepage from './tweetPage/Homepage';
 import ProfilePage from './components/user-profile-card/ProfilePage';
 import Posts from './components/user-profile-card/Posts';
-import Replies from './components/user-profile-card/Replies';
 import Likes from './components/user-profile-card/Likes';
-import Media from './components/user-profile-card/Media';
+import UpdateProfileForm from './components/user-profile-card/UpdateProfileForm';
+import TweetPage from './Pages/TweetPage';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -120,16 +120,12 @@ function App() {
             />
             <Route
               path="home"
-              element={
-                // <h1 className="min-h-full  border-border-gray dark:text-white sm:border-x-[1px]">
-                //   <div className="flex h-full flex-col items-start justify-center">
-                //     {Array.from({ length: 100 }, () => 1).map(() => (
-                //       <span key={uuid4()}>Home</span>
-                //     ))}
-                //   </div>
-                // </h1>
-                <Homepage />
-              }
+              element={<Homepage />}
+            />
+            <Route
+              index
+              path="tweet"
+              element={<TweetPage />}
             />
             <Route
               path="notifications"
@@ -153,14 +149,6 @@ function App() {
                 element={<Posts />}
               />
               <Route
-                path="replies"
-                element={<Replies />}
-              />
-              <Route
-                path="media"
-                element={<Media />}
-              />
-              <Route
                 path="likes"
                 element={<Likes />}
               />
@@ -172,10 +160,16 @@ function App() {
             />
             <Route
               exact
+              path="dev/update"
+              element={<UpdateProfileForm />}
+            />
+            <Route
+              exact
               path=":username/followers"
               element={<FollowersList />}
             />
             <Route
+              exact
               path="settings"
               element={
                 <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">

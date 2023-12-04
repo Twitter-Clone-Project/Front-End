@@ -59,7 +59,7 @@ function FollowingList() {
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
-  }, []);
+  }, [username]);
   return (
     <div className="flex h-full min-h-screen w-full justify-center bg-white dark:bg-pure-black">
       <div className="w-full overflow-y-clip bg-white dark:bg-pure-black">
@@ -117,7 +117,7 @@ function FollowingList() {
               key={uuid4()}
               isFollowed={user.isFollowed}
               isFollowing={user.isFollowing}
-              userPicture={user.imageurl}
+              userPicture={user.imageUrl || import.meta.env.VITE_DEFAULT_AVATAR}
               userName={user.name}
               userID={user.username}
               discription={user.bio}

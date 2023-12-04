@@ -11,6 +11,7 @@ import { useAuth } from '../../hooks/AuthContext';
 
 function PopoverUserCard({
   popoverIsFollowed,
+  popoverIsFollowing,
   popoverUserPicture,
   popoverUserName,
   popoverUserID,
@@ -99,7 +100,7 @@ function PopoverUserCard({
         >
           <img
             id="popoverImg"
-            src={popoverUserPicture}
+            src={popoverUserPicture || import.meta.env.VITE_DEFAULT_AVATAR}
             alt=""
             className=" h-16 w-16 rounded-full"
           />
@@ -184,7 +185,7 @@ function PopoverUserCard({
               <span className=" w-min cursor-pointer text-light-thin">
                 @{popoverUserID}
               </span>
-              {popoverIsFollowed && (
+              {popoverIsFollowing && (
                 <div
                   className=" ml-1 h-4 items-center rounded bg-x-light-gray px-1 py-0.5 dark:bg-border-gray"
                   data-testid={`PopoverUserCard_${popoverTestID}_2`}
@@ -205,7 +206,11 @@ function PopoverUserCard({
       </div>
       <div className="mt-3 flex flex-row">
         <div
-          onClick={() => navigate(`/app/${popoverUserID}/following`)}
+          onClick={() =>
+            navigate(`/app/${popoverUserID}/following`, {
+              state: window.location.pathname,
+            })
+          }
           data-testid={`PopoverUserCard_${popoverTestID}_3`}
         >
           <span className="mr-5 cursor-pointer text-pure-black hover:underline dark:text-white">
@@ -214,7 +219,11 @@ function PopoverUserCard({
           </span>
         </div>
         <div
-          onClick={() => navigate(`/app/${popoverUserID}/follower`)}
+          onClick={() =>
+            navigate(`/app/${popoverUserID}/followers`, {
+              state: window.location.pathname,
+            })
+          }
           data-testid={`PopoverUserCard_${popoverTestID}_4`}
         >
           <span className="mr-5  cursor-pointer text-pure-black hover:underline dark:text-white">

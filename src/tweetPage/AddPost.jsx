@@ -1,17 +1,21 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
-import Media from './Media';
+import toast from 'react-hot-toast';
+// import Media from './Media';
 import AddEmoji from './AddEmoji';
 import TextField from './TextField';
+import { useAuth } from '../hooks/AuthContext';
+import MediaRemove from './MediaRemove';
 
-function AddPost({ tweet, setTweet }) {
+function AddPost({ setTweets }) {
+  const { user } = useAuth();
   const [files, setFiles] = useState([]);
   const [filesURLs, setFilesURLs] = useState([]);
   const [hashtags, setHashtags] = useState([]);
   const [hashtagsString, setHashtagsString] = useState('');
   const [text, setText] = useState('');
   const [postDisabled, setPostDisabled] = useState(true);
-
+  const [isWhitespace, setIsWhitespace] = useState(true);
   const resetAll = () => {
     setText('');
     setFilesURLs([]);
@@ -22,17 +26,19 @@ function AddPost({ tweet, setTweet }) {
   };
   const handlePost = () => {
     const formData = new FormData();
-    formData.append('tweetText', text);
-    formData.append('trends', hashtagsString);
-    // for (let index = 0; index < 4; index += 1) {
-    //   formData.append(`files[${index}]`, {});
-    // }
+    if (isWhitespace) formData.append('tweetText', '');
+    else formData.append('tweetText', text);
+    if (hashtags) {
+      for (let i = 0; i < hashtags.length; i += 1) {
+        formData.append('trends', hashtags[i]);
+      }
+    }
+    if (files) {
+      for (let i = 0; i < files.length; i += 1) {
+        formData.append('media', files[i]);
+      }
+    }
 
-    // files.forEach((file, index) => {
-    //   formData.append(`files[${index}]`, file);
-    // });
-    // const data = Object.fromEntries(formData);
-    // console.log(data);
     resetAll();
 
     const postData = async () => {
@@ -44,41 +50,57 @@ function AddPost({ tweet, setTweet }) {
             origin: true,
             credentials: 'include',
             withCredentials: true,
-            body: formData, // Convert the data to JSON format
+            body: formData,
           },
         );
         const data = await response.json();
-        console.log(data.data);
-        setTweet(data.data);
+        console.log(data);
+        if (data.status) setTweets((prev) => [data.data, ...prev]);
       } catch (error) {
-        console.log('Error Add tweet:', error);
+        toast(error.message);
       }
     };
 
     postData();
-    // console.log(files, text, hashtags, hashtagsString, isTweeted);
   };
 
   const handleImageChange = (e) => {
     const fileList = Array.from(e.target.files);
     setFiles(fileList);
-    if (fileList.length > 4) setFiles([]);
-    else {
+    const fileType = fileList[0].type.split('/');
+    if (fileList.length > 4) {
+      setFiles([]);
+      setFilesURLs([]);
+    } else if (fileList.length > 1 && fileType[0] === 'video') {
+      setFiles([fileList[0]]);
+      setFilesURLs([URL.createObjectURL(fileList[0])]);
+    } else {
       setFilesURLs(fileList.map((file) => URL.createObjectURL(file)));
     }
-
-    if (fileList.length === 0 && text === '') setPostDisabled(true);
-    else setPostDisabled(false);
+    if (fileList.length !== 0) {
+      setPostDisabled(false);
+    }
   };
 
   useEffect(() => {
-    if (files.length === 0 && text === '') setPostDisabled(true);
-    else {
-      setHashtags(text.match(/#\w+/g));
-      if (hashtags !== null && hashtags.length !== 0)
-        setHashtagsString(hashtags.join(','));
+    console.log(text);
+    const checks = text.split('');
+    setPostDisabled(true);
+    setIsWhitespace(true);
+    for (let i = 0; i < checks.length; i += 1) {
+      if (!(checks[i] === ' ' || checks[i] === '\n')) {
+        setPostDisabled(false);
+        setIsWhitespace(false);
+        break;
+      }
+    }
+    if (files.length !== 0) {
       setPostDisabled(false);
     }
+
+    setHashtags(text.match(/#\w+/g));
+    if (hashtags !== null && hashtags.length !== 0)
+      setHashtagsString(hashtags.join(','));
   }, [files, text]);
   return (
     <div className="flex items-center justify-center border-y-[0.5px] border-y-border-gray">
@@ -86,7 +108,7 @@ function AddPost({ tweet, setTweet }) {
         <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
           <div className="profileImage leftColumn mr-[12px] h-[40px] w-[40px] ">
             <img
-              src="https://images.pexels.com/photos/18758948/pexels-photo-18758948/free-photo-of-head-of-black-poodle.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+              src={user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR}
               alt="profileImage"
               className=" h-[40px] w-[40px] rounded-full object-cover"
             />
@@ -94,15 +116,21 @@ function AddPost({ tweet, setTweet }) {
         </div>
 
         <div className="rightColumn h-auto w-full">
-          <div className="  placeholder:text-light-thin">
+          <div className="peer w-[500px] placeholder:text-light-thin">
             <TextField
               text={text}
               setText={setText}
             />
           </div>
-          <Media images={filesURLs} />
-          <div className="flex w-full items-center justify-between border-t-[0.5px] border-t-border-gray">
-            <div className="media my-3 flex flex-row items-center gap-4 py-2">
+          {/* <Media images={filesURLs} /> */}
+          <MediaRemove
+            filesURLs={filesURLs}
+            setFilesURLs={setFilesURLs}
+            files={files}
+            setFiles={setFiles}
+          />
+          <div className="mt-2 flex w-full items-center justify-between border-t-border-gray peer-focus-within:border-t-[0.5px]">
+            <div className="media my-4 flex w-[18%] flex-row justify-between">
               <label
                 htmlFor="mediaUpload"
                 className=" cursor-pointer"
@@ -119,7 +147,7 @@ function AddPost({ tweet, setTweet }) {
               </label>
               <input
                 type="file"
-                accept="image/*"
+                accept="image/*, video/*"
                 id="mediaUpload"
                 className="hidden"
                 onChange={handleImageChange}
@@ -143,7 +171,6 @@ function AddPost({ tweet, setTweet }) {
           </div>
         </div>
       </div>
-      {/* {isTweeted && <Tweet data={tweet} />} */}
     </div>
   );
 }
