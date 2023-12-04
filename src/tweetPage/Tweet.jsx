@@ -2,8 +2,10 @@
 /* eslint-disable max-len */
 /* eslint-disable react/forbid-prop-types */
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import ReactTimeAgo from 'react-time-ago';
+import PropTypes from 'prop-types';
 import { v4 as uuid4 } from 'uuid';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
@@ -31,6 +33,7 @@ function Tweet({ data, tweets, setTweets }) {
     setRepliesCount(data.repliesCount);
     setRepostsCount(data.retweetsCount);
   }, [data]);
+
   const handleLike = () => {
     if (like === true && !isLikeLoading) {
       setIsLikeLoading(true);
@@ -163,9 +166,22 @@ function Tweet({ data, tweets, setTweets }) {
 
   const handleMouseLeave = () => {
     setIsHovered(false);
+  }
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`/app/tweet`, {
+      state: {
+        pastPath: '/app/home',
+        tweetID: `${data.id}`,
+        tweetData: [data],
+      },
+    });
   };
   return (
-    <div className="tweet mb-[0.5px] mt-[-0.5px] flex w-[88%] border-collapse  flex-row border-y-[0.5px] border-y-border-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
+    <div
+      className="tweet mb-[0.5px] mt-[-0.5px] flex w-[88%] border-collapse  flex-row border-y-[0.5px] border-y-border-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]"
+      onClick={handleClick}
+    >
       <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
         <div className={` pb-1 ${repost === false ? 'hidden' : ''}`}>
           <svg
@@ -215,8 +231,7 @@ function Tweet({ data, tweets, setTweets }) {
           className={` retweeted-info h-[16px] pb-4 text-[13px] font-semibold
           text-dark-gray ${repost === false ? 'hidden' : ''} `}
         >
-          {' '}
-          <span>{data.retweetedUser.screenName}</span> reposted
+          <span>{data.retweetedUser.screenName}</span>
         </div>
         <div className="flex flex-row justify-between ">
           <div className="userInfo flex flex-row">

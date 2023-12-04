@@ -19,7 +19,6 @@
     "@emoji-mart/react": "^1.1.1",
     "@testing-library/jest-dom": "^6.1.4",
     "dotenv": "^16.3.1",
-    "draft-js": "^0.11.7",
     "emoji-mart": "^5.5.2",
     "encodeurl": "^1.0.2",
     "moment": "^2.29.4",
@@ -35,7 +34,9 @@
     "react-time-ago": "^7.2.1",
     "tailwind-scrollbar": "^3.0.5",
     "uuid": "^9.0.1",
-    "validator": "^13.11.0"
+    "validator": "^13.11.0",
+    "emoji-picker-react": "^4.5.16",
+    "draft-js": "^0.11.7",
   },
   "devDependencies": {
     "@kalimahapps/eslint-plugin-tailwind": "^1.0.10",

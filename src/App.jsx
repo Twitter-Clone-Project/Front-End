@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from 'react';
+// import { v4 as uuid4 } from 'uuid';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import LandingPage from './components/landingPage/LandingPage';
@@ -21,6 +22,8 @@ import ProfilePage from './components/user-profile-card/ProfilePage';
 import Posts from './components/user-profile-card/Posts';
 import Likes from './components/user-profile-card/Likes';
 import UpdateProfileForm from './components/user-profile-card/UpdateProfileForm';
+import Media from './components/user-profile-card/Media';
+import TweetPage from './Pages/TweetPage';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -119,6 +122,11 @@ function App() {
             <Route
               path="home"
               element={<Homepage />}
+            />
+            <Route
+              index
+              path="tweet"
+              element={<TweetPage />}
             />
             <Route
               path="notifications"

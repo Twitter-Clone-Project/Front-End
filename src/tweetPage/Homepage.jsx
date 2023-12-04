@@ -81,7 +81,6 @@ function Homepage() {
           setTweets={setTweets}
         />
       </div>
-      <div />
       <OwnToaster />
     </div>
   );
