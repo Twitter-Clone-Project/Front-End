@@ -1,32 +1,35 @@
+/* eslint-disable no-prototype-builtins */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import * as React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { ChatContext } from '../../hooks/ContactContext';
+import { useAuth } from '../../hooks/AuthContext';
 
 function ConversationCard({
-  id,
-  imageUrl,
-  name,
-  username,
-  lastMessage,
-  selectedConversationId,
-  setSelectedConversationId,
-  setContact,
-  contact,
+  conversationData,
+  socket,
+  userId,
+  setConversations,
+  conversations,
 }) {
+  const { chatContext, setChatContext } = useContext(ChatContext);
+  const { user } = useAuth();
+
   let differenceInSeconds = 0;
   let differenceInMinutes = 0;
   let differenceInHours = 0;
   let differenceInMonths = 0;
   let differenceInYears = 0;
   let differenceInDays = 0;
-
   dayjs.extend(customParseFormat);
 
-  if (lastMessage !== '') {
-    const timestampString = lastMessage.timestamp;
+  if (conversationData.lastMessage !== '') {
+    const timestampString = conversationData.lastMessage.timestamp;
     const givenTimestamp = dayjs(timestampString);
     const currentTime = dayjs();
     differenceInSeconds = Math.floor(
@@ -80,19 +83,40 @@ function ConversationCard({
   return (
     <div
       onClick={() => {
-        setSelectedConversationId(id);
-        setContact(contact);
+        setChatContext({ ...conversationData, unseen: false });
+        const conversationIndex = conversations.findIndex(
+          (conv) => conv.conversationId === conversationData.conversationId,
+        );
+
+        if (conversationIndex !== -1) {
+          const updatedConversations = [...conversations];
+          updatedConversations[conversationIndex].unseen = false;
+          setConversations(updatedConversations);
+        }
+
+        socket.emit('chat-opened', {
+          userId: user.userId,
+          conversationId: conversationData.conversationId,
+        });
       }}
       className={`${
-        id === selectedConversationId
+        conversationData.conversationId === chatContext.conversationId
           ? 'border-r-2 border-blue bg-[#f0f3f3] dark:bg-[#1e2023]'
           : 'bg-white dark:bg-black'
-      } flex h-[73.06px] w-full p-4 
+      } 
+      ${
+        conversationData.unseen ||
+        conversationData.conversationId !== chatContext.conversationId
+          ? 'bg-xx-light-gray dark:bg-[#16171a]'
+          : ''
+      }
+      
+      flex h-[73.06px] w-full p-4 
        pb-3 hover:bg-xx-light-gray dark:hover:bg-[#16171a]`}
     >
       <div className="mr-3 w-fit min-w-[40px]">
         <img
-          src={imageUrl}
+          src={conversationData.contact.imageUrl}
           alt=""
           className="h-10 w-10 rounded-full"
         />
@@ -101,10 +125,10 @@ function ConversationCard({
       <div className="flex w-full flex-col overflow-clip">
         <div className="flex w-full items-center gap-1 text-center ">
           <div className="w-[50%]  max-w-fit overflow-clip whitespace-nowrap text-base font-bold text-black dark:text-white">
-            {name}
+            {conversationData.contact.name}
           </div>
           <div className="w-[50%] max-w-fit overflow-clip whitespace-nowrap text-base text-[#71767B]">
-            @{username}
+            @{conversationData.contact.username}
           </div>
           <div className="">
             <div className="h-[2px] w-[2px] rounded-full bg-[#71767B]" />
@@ -118,29 +142,27 @@ function ConversationCard({
 
         <div
           className={` ${
-            id === selectedConversationId
+            conversationData.conversationId === chatContext.conversationId ||
+            conversationData.unseen
               ? ' text-black dark:text-white'
               : 'text-[#71767B]'
           } flex  
           w-full max-w-fit overflow-clip whitespace-nowrap pr-8 text-base`}
         >
-          <div id={lastMessage.id}>{lastMessage.text}</div>
+          <div>{conversationData.lastMessage.text}</div>
         </div>
       </div>
+
+      {conversationData.unseen && (
+        <div className="h-3 w-3 rounded-full bg-blue" />
+      )}
     </div>
   );
 }
 
-ConversationCard.propTypes = {
-  id: PropTypes.string.isRequired,
-  imageUrl: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
-  lastMessage: PropTypes.object.isRequired,
-  selectedConversationId: PropTypes.string.isRequired,
-  setSelectedConversationId: PropTypes.func.isRequired,
-  setContact: PropTypes.func.isRequired,
-  contact: PropTypes.object.isRequired,
-};
+// ConversationCard.propTypes = {
+//   conversationData: PropTypes.object.isRequired,
+//   userId,
+// };
 
 export default ConversationCard;

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import SearchCard from './SearchCard';
 
 function SearchResults({
-  selectedConversationId,
-  setSelectedConversationIdx,
+  // selectedConversationId,
+  // setSelectedConversationIdx,
   searchValue,
 }) {
   const [searchResults, setSearchResults] = useState([]);
@@ -35,8 +35,8 @@ function SearchResults({
               image={result.image}
               name={result.name}
               tag={result.tag}
-              setSelectedTag={selectedConversationId}
-              selectedTag={setSelectedConversationIdx}
+              // setSelectedTag={selectedConversationId}
+              // selectedTag={setSelectedConversationIdx}
             />
           ))}
         </div>
@@ -46,8 +46,6 @@ function SearchResults({
 }
 
 SearchResults.propTypes = {
-  selectedConversationId: PropTypes.string.isRequired,
-  setSelectedConversationIdx: PropTypes.func.isRequired,
   searchValue: PropTypes.string.isRequired,
 };
 

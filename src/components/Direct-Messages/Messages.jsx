@@ -1,6 +1,10 @@
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable no-prototype-builtins */
+/* eslint-disable no-unneeded-ternary */
 /* eslint-disable react/prop-types */
 import React, { useRef, useEffect, useState } from 'react';
 import MessageCard from './MessageCard';
+import dayjs from 'dayjs';
 
 // eslint-disable-next-line react/prop-types
 function Messages({ messages, socketMessages }) {
@@ -30,17 +34,21 @@ function Messages({ messages, socketMessages }) {
       ))}
       {socketMessages.map((socketMessage, i) => (
         <MessageCard
-          key={socketMessage.messageId}
-          id={socketMessage.messageId}
+          key={i}
+          id={i.toString()}
           Message={socketMessage.text}
           clicked={clicked}
           setClicked={setClicked}
           lastMessageId={
-            i === messages.length - 1 ? socketMessage.messageId : '-1'
+            i === socketMessage.length - 1 ? socketMessage.messageId : '-1'
           }
-          isFromMe={socketMessage.isFromMe}
-          isSeen={socketMessage.isSeen}
-          time={socketMessage.time}
+          isFromMe={socketMessage.hasOwnProperty('isFromMe') ? true : false}
+          isSeen={false}
+          time={
+            socketMessage.hasOwnProperty('time')
+              ? socketMessage.time
+              : dayjs().format('YYYY-MM-DD HH:mm:ssZ')
+          }
         />
       ))}
 

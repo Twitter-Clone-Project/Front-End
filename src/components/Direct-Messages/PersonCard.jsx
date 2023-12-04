@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -36,8 +37,8 @@ function PersonCard({
       </div>
 
       <div className="flex flex-row">
-        {commonFollowers.map((follower) => (
-          <div>
+        {commonFollowers.map((follower, index) => (
+          <div key={index}>
             <img
               className="h-4 w-4 rounded-full"
               src={follower.imageUrl}
@@ -45,8 +46,11 @@ function PersonCard({
             />
           </div>
         ))}
-        {commonFollowers.map((follower) => (
-          <div className="ml-3 text-center text-xs text-[#71767B]">
+        {commonFollowers.map((follower, index) => (
+          <div
+            key={index}
+            className="ml-3 text-center text-xs text-[#71767B]"
+          >
             Followed by {follower.name}
           </div>
         ))}

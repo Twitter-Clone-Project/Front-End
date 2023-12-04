@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import io from 'socket.io-client';
 import ChatPage from './ChatPage';
 import ConversationsPage from './ConversationsPage';
 import { useAuth } from '../../hooks/AuthContext';
+import { ChatContext } from '../../hooks/ContactContext';
 
 function DirectMessages() {
-  const [selectedChat, setSelectedChat] = useState('');
-  const [windowWidth, setWindowWidth] = useState(window.outerWidth);
   const [socket, setSocket] = useState(null);
-  const [contact, setContact] = useState(null);
-
   const { user } = useAuth();
+  const { chatContext, setChatContext } = useContext(ChatContext);
+  const [windowWidth, setWindowWidth] = useState(window.outerWidth);
+
   useEffect(() => {
     const newSocket = io(`http://${import.meta.env.VITE_SOCKET_DOMAIN}`);
 
@@ -39,24 +39,52 @@ function DirectMessages() {
   });
 
   return (
-    <div className="h-screen  w-full">
+    <div className="h-screen w-full">
       <div className="layout mx-auto h-full grid-cols-[auto_1fr] grid-rows-1 overflow-auto dark:bg-black  md:grid ">
         <ConversationsPage
-          setContact={setContact}
-          selectedConversationId={selectedChat}
-          setSelectedConversationId={setSelectedChat}
+          userId={user.userId}
+          socket={socket}
           visibility={
-            (windowWidth < 1024 && selectedChat === '') || windowWidth >= 1024
+            (windowWidth < 1024 && chatContext.conversationId === '') ||
+            windowWidth >= 1024
           }
         />
 
         <div className="relative">
-          {windowWidth < 1024 && selectedChat !== '' && (
+          {windowWidth < 1024 && chatContext.conversationId !== '' && (
             <button
               className=" absolute left-2 top-2"
               type="button"
               onClick={() => {
-                setSelectedChat('');
+                setChatContext({
+                  conversationId: '',
+                  contact: {
+                    id: '',
+                    email: '',
+                    name: '',
+                    username: '',
+                    imageUrl: '',
+                    followersCount: '',
+                    createdAt: '',
+                    commonFollowers: [
+                      {
+                        name: '',
+                        username: '',
+                        imageUrl: '',
+                      },
+                      {
+                        name: '',
+                        username: '',
+                        imageUrl: null,
+                      },
+                    ],
+                    commonFollowersCnt: 0,
+                  },
+                  lastMessage: {
+                    text: '',
+                    timestamp: '',
+                  },
+                });
               }}
             >
               <div className="flex h-[34px] w-[34px] items-center justify-center rounded-full hover:bg-[#e7e7e7] dark:hover:bg-[#181919]">
@@ -71,15 +99,12 @@ function DirectMessages() {
           )}
 
           <ChatPage
-            selectedConversationId={selectedChat}
-            setSelectedConversationId={setSelectedChat}
             width={windowWidth}
             socket={socket}
-            userId={user.userId}
-            contact={contact}
-            showArrow={windowWidth < 1024 && selectedChat !== ''}
+            showArrow={windowWidth < 1024 && chatContext.conversationId !== ''}
             visibility={
-              (windowWidth < 1024 && selectedChat !== '') || windowWidth >= 1024
+              (windowWidth < 1024 && chatContext.conversationId !== '') ||
+              windowWidth >= 1024
             }
           />
         </div>

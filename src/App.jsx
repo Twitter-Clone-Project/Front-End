@@ -25,6 +25,7 @@ import Media from './components/user-profile-card/Media';
 import NoProfile from './components/user-profile-card/NoProfile';
 import BoxCard from './components/BoxCard';
 import UpdateProfileForm from './components/user-profile-card/UpdateProfileForm';
+import { ChatProvider } from './contexts/ChatProvider';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -184,7 +185,7 @@ function App() {
             />
             <Route
               path="messages"
-              element={<DirectMessages />}
+              element={<ChatProvider />}
             />
           </Route>
         </Routes>

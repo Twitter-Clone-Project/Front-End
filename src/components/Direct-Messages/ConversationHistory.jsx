@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+/* eslint-disable no-prototype-builtins */
+/* eslint-disable react/prop-types */
+import React, { useState, useEffect, useContext } from 'react';
+// import PropTypes from 'prop-types';
 import ConversationCard from './ConversationCard';
+import { ChatContext } from '../../hooks/ContactContext';
 
-function ConversationsHistory({
-  selectedConversationId,
-  setSelectedConversationId,
-  setContact,
-}) {
+function ConversationsHistory({ socket, userId }) {
   const [conversations, setConversations] = useState([]);
+  const { chatContext, top } = useContext(ChatContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,25 +28,37 @@ function ConversationsHistory({
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const conversationIndex = conversations.findIndex(
+      (conversation) => conversation.conversationId === top.conversationId,
+    );
+
+    if (conversationIndex !== -1) {
+      const updatedConversations = [...conversations];
+      const [removedConversation] = updatedConversations.splice(
+        conversationIndex,
+        1,
+      );
+      removedConversation.lastMessage.text = top.text;
+      if (removedConversation.conversationId !== chatContext.conversationId) {
+        removedConversation.unseen = true;
+      }
+      updatedConversations.unshift(removedConversation);
+      setConversations(updatedConversations);
+    }
+  }, [top]);
+
   if (conversations.length > 0) {
     return (
       <div>
         {conversations.map((conversation) => (
           <ConversationCard
             key={conversation.conversationId}
-            id={conversation.conversationId}
-            imageUrl={
-              conversation.contact.imageUrl ? conversation.contact.imageUrl : ''
-            }
-            name={conversation.contact.name}
-            username={conversation.contact.username}
-            lastMessage={
-              conversation.lastMessage ? conversation.lastMessage : ''
-            }
-            selectedConversationId={selectedConversationId}
-            setSelectedConversationId={setSelectedConversationId}
-            setContact={setContact}
-            contact={conversation.contact}
+            conversationData={conversation}
+            socket={socket}
+            userId={userId}
+            setConversations={setConversations}
+            conversations={conversations}
           />
         ))}
       </div>
@@ -55,9 +67,9 @@ function ConversationsHistory({
 }
 
 ConversationsHistory.propTypes = {
-  selectedConversationId: PropTypes.string.isRequired,
-  setSelectedConversationId: PropTypes.func.isRequired,
-  setContact: PropTypes.func.isRequired,
+  // selectedConversationId: PropTypes.string.isRequired,
+  // setSelectedConversationId: PropTypes.func.isRequired,
+  // setContact: PropTypes.func.isRequired,
 };
 
 export default ConversationsHistory;

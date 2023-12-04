@@ -1,18 +1,15 @@
 /* eslint-disable react/prop-types */
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
+import { useAuth } from '../../hooks/AuthContext';
+import { ChatContext } from '../../hooks/ContactContext';
 
-function MessagesInput({
-  socketMessages,
-  setSocketMessages,
-  socket,
-  selectedConversationId,
-  userId,
-  receiverId,
-}) {
+function MessagesInput({ socketMessages, setSocketMessages, socket }) {
+  const { user } = useAuth();
+  const { chatContext, setTop } = useContext(ChatContext);
   const [showEmoji, setShowEmoji] = useState(false);
   const [message, setMessage] = useState('');
   const buttonRef = useRef();
@@ -25,13 +22,17 @@ function MessagesInput({
     if (socket === null || message === '') return;
 
     const newMessage = {
-      conversationId: selectedConversationId,
-      senderId: userId,
-      receiverId: receiverId,
+      conversationId: chatContext.conversationId,
+      senderId: user.userId,
+      receiverId: chatContext.contact.id,
       text: message,
     };
-
+    setTop({
+      conversationId: chatContext.conversationId,
+      text: message,
+    });
     socket.emit('msg-send', newMessage);
+
     setSocketMessages([
       ...socketMessages,
       {

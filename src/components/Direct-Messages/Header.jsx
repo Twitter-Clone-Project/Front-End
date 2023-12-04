@@ -58,7 +58,7 @@ Header.propTypes = {
   path: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
-  imgVisible: PropTypes.number.isRequired,
+  imgVisible: PropTypes.bool.isRequired,
 };
 
 export default Header;
