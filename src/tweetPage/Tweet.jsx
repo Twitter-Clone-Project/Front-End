@@ -239,7 +239,7 @@ function Tweet({ data, tweets, setTweets }) {
             >
               <div
                 data-testid={`username${data.id}`}
-                className="name  text-[15px] font-bold"
+                className="name  text-[15px] font-bold dark:text-white"
               >
                 {data.user.screenName}
               </div>
@@ -287,7 +287,9 @@ function Tweet({ data, tweets, setTweets }) {
           })}
         </div>
 
-        <Media images={data.attachmentsUrl} />
+        <div onClick={handleClick}>
+          <Media images={data.attachmentsUrl} />
+        </div>
         <div className="buttons flex h-[32px] flex-row  justify-between">
           <button
             data-testid="reply"
