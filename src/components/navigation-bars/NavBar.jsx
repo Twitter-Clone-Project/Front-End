@@ -10,6 +10,7 @@ import UserImg from './UserImg';
 
 function NavBar() {
   const { user } = useAuth();
+  // console.log(user);
   const mobileItems = [
     {
       path: './home',
@@ -136,7 +137,7 @@ function NavBar() {
     <div
       ref={screen}
       data-testid="nav-bar"
-      className="flex w-0 items-start justify-center overflow-auto dark:bg-pure-black sm:mt-auto sm:h-full sm:w-full sm:min-w-[100px] sm:border-r-2  sm:border-r-border-gray mlg:min-w-[250px]"
+      className="flex w-0 items-start justify-center overflow-auto dark:bg-pure-black sm:mt-auto sm:h-full sm:w-full sm:min-w-[100px] mlg:min-w-[280px] mlg:max-w-[300px]"
     >
       <FloatingHeader
         drawerOpen={drawerOpen}
@@ -144,7 +145,7 @@ function NavBar() {
         setDrawerOpen={setDrawerOpen}
         handleLogout={handleLogout}
       />
-      <div className="relative h-full w-full overflow-auto px-12 text-start transition-colors duration-200 sm:border-0 mlg:min-w-[250px] mlg:px-3">
+      <div className="relative h-full w-full overflow-auto px-12 text-start transition-colors duration-200 sm:border-0 mlg:min-w-[280px] mlg:max-w-[300px] mlg:px-3">
         <div
           className={`fixed bottom-0 left-0 z-10 flex
           w-full items-end justify-between
@@ -154,7 +155,7 @@ function NavBar() {
           sm:flex-col sm:items-start sm:justify-between sm:gap-1 sm:border-0 
           mlg:left-auto ${!show ? 'opacity-30 sm:opacity-100' : ''}`}
         >
-          <div className="hover:bg-light-hover-layout hover:dark:bg-hover-layout mb-4 hidden overflow-auto p-3 hover:cursor-pointer hover:rounded-full sm:flex">
+          <div className="mb-4 hidden overflow-auto p-3 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:flex">
             <Link to="/">
               <svg
                 className="inline-block w-[1.9rem] fill-pure-black dark:fill-white"
@@ -196,7 +197,7 @@ function NavBar() {
               />
             ))}
           </div>
-          <div className="absolute mx-auto hidden w-full items-center justify-center rounded-full sm:relative mlg:flex">
+          <div className="absolute mx-auto hidden w-full  items-center justify-center rounded-full sm:relative mlg:flex">
             <Button
               label="Post"
               backGroundColor="blue"
@@ -225,19 +226,19 @@ function NavBar() {
               </svg>
             </button>
           </div>
-          <div className="hover:bg-light-hover-layout hover:dark:bg-hover-layout absolute bottom-24 right-0 mx-auto my-6 hidden w-full items-center justify-between justify-self-end p-2 hover:cursor-pointer hover:rounded-full sm:relative sm:bottom-0 sm:right-0 sm:flex sm:items-start">
+          <div className="absolute bottom-24 right-0 mx-auto my-6 hidden w-full items-center justify-between justify-self-end p-2 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:relative sm:bottom-0 sm:right-0 sm:flex sm:items-start">
             <button
               type="submit"
               data-testid="user-btn"
-              className="group relative mx-auto flex items-center justify-between font-semibold"
+              className="group relative mx-auto flex max-w-[2500px] items-center justify-between font-semibold"
             >
               <UserImg user={user} />
               <p
                 className="
-                hidden px-4 text-base font-semibold capitalize tracking-wide
-              dark:text-white lg:flex-1 lg:flex-col lg:items-start mlg:flex"
+                hidden max-w-[250px] truncate px-2
+              text-sm font-semibold tracking-wide dark:text-white lg:flex-1 lg:flex-col lg:items-start mlg:flex"
               >
-                {user.name}
+                <span className="name">{user.name}</span>
                 <span className="text-sm font-thin text-light-thin">
                   @{user.username}
                 </span>
@@ -247,7 +248,7 @@ function NavBar() {
               </span>
               <div className="absolute bottom-0 left-0 top-0 z-50 hidden h-full w-full group-focus-within:flex dark:text-white  ">
                 <div className="absolute bottom-14 left-0 flex w-64 items-center justify-start rounded-2xl bg-white py-4 shadow-[rgba(100,100,100,0.5)_0px_0.5px_4px] dark:bg-pure-black dark:shadow-[rgba(100,100,100,0.7)_0px_0.5px_4px]">
-                  <div className="hover:bg-light-hover-layout hover:dark:bg-hover-layout flex flex-1 justify-start  px-3">
+                  <div className="flex flex-1 justify-start px-3 hover:bg-light-hover-layout  hover:dark:bg-hover-layout">
                     <div
                       role="button"
                       data-testid="nav-logout-btn"
