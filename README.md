@@ -9,7 +9,6 @@
 
 
 
-
 ## Getting Started
 
 - Install Node.js (if not exists) [Node](https://nodejs.org/en/download)
