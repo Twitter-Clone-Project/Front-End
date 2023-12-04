@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 // import Media from './Media';
+import { useNavigate, Link } from 'react-router-dom';
 import AddEmoji from './AddEmoji';
 import TextField from './TextField';
 import { useAuth } from '../hooks/AuthContext';
@@ -107,11 +108,15 @@ function AddPost({ setTweets }) {
       <div className="tweet mt-[0.5px] flex w-[88%] flex-row   bg-white px-[16px] pt-[12px] dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
         <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
           <div className="profileImage leftColumn mr-[12px] h-[40px] w-[40px] ">
-            <img
-              src={user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR}
-              alt="profileImage"
-              className=" h-[40px] w-[40px] rounded-full object-cover"
-            />
+            <Link to={`/app/${user.username}`}>
+              <img
+                src={
+                  user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
+                }
+                alt="profileImage"
+                className=" h-[40px] w-[40px] rounded-full object-cover"
+              />
+            </Link>
           </div>
         </div>
 
