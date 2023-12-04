@@ -36,7 +36,10 @@ function AddReply({ setReplies, tweetId }) {
           `http://${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/addReply`,
           {
             method: 'POST',
-            body: formData, // Convert the data to JSON format
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+            body: formData,
           },
         );
         const data = await response.json();
