@@ -4,13 +4,12 @@
 /* eslint-disable max-len */
 /* eslint-disable react/forbid-prop-types */
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ReactTimeAgo from 'react-time-ago';
 import PropTypes from 'prop-types';
 import { v4 as uuid4 } from 'uuid';
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
 import ReactButtons from './reactButtons';
 import Media from './Media';
 import OwnToaster from '../components/OwnToaster';
