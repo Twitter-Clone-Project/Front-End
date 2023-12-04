@@ -36,7 +36,7 @@
     "uuid": "^9.0.1",
     "validator": "^13.11.0",
     "emoji-picker-react": "^4.5.16",
-    "draft-js": "^0.11.7",
+    "draft-js": "^0.11.7"
   },
   "devDependencies": {
     "@kalimahapps/eslint-plugin-tailwind": "^1.0.10",

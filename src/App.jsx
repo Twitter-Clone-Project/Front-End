@@ -22,7 +22,6 @@ import ProfilePage from './components/user-profile-card/ProfilePage';
 import Posts from './components/user-profile-card/Posts';
 import Likes from './components/user-profile-card/Likes';
 import UpdateProfileForm from './components/user-profile-card/UpdateProfileForm';
-import Media from './components/user-profile-card/Media';
 import TweetPage from './Pages/TweetPage';
 
 TimeAgo.addDefaultLocale(en);
