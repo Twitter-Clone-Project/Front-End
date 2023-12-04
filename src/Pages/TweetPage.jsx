@@ -115,7 +115,7 @@ function TweetPage() {
     navigate(pastPath);
   };
   return (
-    <div className="flex h-auto justify-center">
+    <div className="flex h-auto justify-center" data-testid="tweet-page">
       {visibility === false ? (
         <div className="flex flex-col items-start">
           <div className="flex flex-wrap items-center sm:w-full">
