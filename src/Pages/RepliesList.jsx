@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Reply from './Reply';
 
 function RepliesList({ repliesData }) {
+  // console.log(repliesData);
   return (
     <div data-testid="replies-list">
       {repliesData.length === 0 ? (

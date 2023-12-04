@@ -132,7 +132,8 @@ function TweetPage() {
               onClick={() => {
                 setVisibility(true);
               }}
-              className="rounded-md px-2 py-1 text-sm hover:bg-opacity-50 dark:bg-blue dark:text-white"
+              className=" rounded-md px-2 py-1 text-sm hover:bg-opacity-50 disabled:opacity-50 disabled:hover:bg-opacity-100 dark:bg-blue dark:text-white"
+              disabled="true"
             >
               View Engagements
             </button>

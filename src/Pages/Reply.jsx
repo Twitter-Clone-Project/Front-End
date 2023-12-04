@@ -11,7 +11,11 @@ function Reply({ data }) {
   const [text, setText] = useState('');
 
   useEffect(() => {
-    setText(data.replyText.replyText);
+    if (typeof data.replyText === 'string') {
+      const reply = data.replyText.slice(14, data.replyText.length - 2);
+      // console.log(reply);
+      setText(reply);
+    }
   }, [data]);
 
   return (
@@ -68,8 +72,9 @@ function Reply({ data }) {
             }
             return `${word} `;
           })}
+          {/* {text} */}
         </div>
-        <div className="h-[32px]" />
+        <div className="h-[15px]" />
       </div>
       <OwnToaster />
     </div>

@@ -47,7 +47,7 @@ function AddReply({ setReplies, tweetId }) {
         if (data.status) {
           data.data.screenName = user.name;
           setReplies((prev) => [data.data, ...prev]);
-          console.log(data);
+          // console.log(data.data);
         }
       } catch (error) {
         toast('Error Adding Reply:', error);
