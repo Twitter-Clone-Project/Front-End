@@ -11,41 +11,13 @@ import PostEngagements from './PostEngagements';
 
 function TweetPage() {
   const [replies, setReplies] = useState([]);
-  const [emptyReplies, setEmptyReplies] = useState(false);
   const [visibility, setVisibility] = useState('invisible');
   const [isDone, setIsDone] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
-  const [tweetID, setTweetID] = useState(location.state.tweetID);
-  const [pastPath, setPastPath] = useState(location.state.pastPath);
-  const [tweetData, setTweetData] = useState(location.state.tweetData);
-  // useEffect(() => {
-  //   setUserID('1');
-  //   if (Object.keys(reply).length !== 0) {
-  //     setReplies((prevReplies) => [reply, ...prevReplies]);
-  //   }
-  //   window.addEventListener('scroll', () => {
-  //     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-  //       const fetchReplies = async () => {
-  //         try {
-  //           console.log(location.state.tweetId);
-  //           const response = await fetch(
-  //             `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
-  //               location.state.tweetId
-  //             }/replies`,
-  //           );
-  //           const data = await response.json();
-  //           setReplies((prevReplies) => [...prevReplies, ...data.data]);
-  //         } catch (error) {
-  //           console.log('Error fetching timeline:', error);
-  //         }
-  //       };
-
-  //       fetchReplies();
-  //       // Show loading spinner and make fetch request to api
-  //     }
-  //   });
-  // }, [reply]);
+  const [tweetID] = useState(location.state.tweetID);
+  const [pastPath] = useState(location.state.pastPath);
+  const [tweetData] = useState(location.state.tweetData);
 
   const fetchReplies = useCallback(async () => {
     if (isLoading || isDone) return;
@@ -63,15 +35,15 @@ function TweetPage() {
       const data = await response.json();
       if (data.data.length === 0) {
         setIsDone(true);
-        setEmptyReplies(true);
-      } else setEmptyReplies(false);
-      setReplies((prevReplies) => [...prevReplies, ...data.data]);
+      }
+      setReplies(() => [...data.data]);
     } catch (error) {
       toast(error.message);
     } finally {
       setIsLoading(false);
     }
-  }, [isLoading, isDone]);
+  }, [isLoading, isDone, tweetID]);
+
   useEffect(() => {
     const getInitialReplies = async () => {
       try {
@@ -88,8 +60,7 @@ function TweetPage() {
         const data = await response.json();
         if (data.data.length === 0) {
           setIsDone(true);
-          setEmptyReplies(true);
-        } else setEmptyReplies(false);
+        }
         setReplies(() => [...data.data]);
       } catch (error) {
         toast(error.message);
@@ -97,8 +68,10 @@ function TweetPage() {
         setIsLoading(false);
       }
     };
+    setVisibility(false);
     getInitialReplies();
   }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       const { scrollTop, clientHeight, scrollHeight } =
@@ -110,12 +83,17 @@ function TweetPage() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [fetchReplies]);
+
   const navigate = useNavigate();
+
   const handelBackButton = () => {
     navigate(pastPath);
   };
   return (
-    <div className="flex h-auto justify-center">
+    <div
+      className="flex h-auto justify-center"
+      data-testid="add-reply"
+    >
       {visibility === false ? (
         <div className="flex flex-col items-start">
           <div className="flex flex-wrap items-center sm:w-full">
@@ -163,10 +141,7 @@ function TweetPage() {
             setReplies={setReplies}
             tweetId={tweetID}
           />
-          <RepliesList
-            repliesData={replies}
-            emptyReplies={emptyReplies}
-          />
+          <RepliesList repliesData={replies} />
         </div>
       ) : (
         <div className="flex w-20 items-center justify-center">
