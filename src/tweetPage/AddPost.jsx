@@ -28,9 +28,15 @@ function AddPost({ setTweets }) {
     const formData = new FormData();
     if (isWhitespace) formData.append('tweetText', '');
     else formData.append('tweetText', text);
-    formData.append('trends', hashtagsString);
-    for (let i = 0; i < files.length; i += 1) {
-      formData.append('media', files[i]);
+    if (hashtags) {
+      for (let i = 0; i < hashtags.length; i += 1) {
+        formData.append('trends', hashtags[i]);
+      }
+    }
+    if (files) {
+      for (let i = 0; i < files.length; i += 1) {
+        formData.append('media', files[i]);
+      }
     }
 
     resetAll();
