@@ -11,6 +11,7 @@ import PostEngagements from './PostEngagements';
 
 function TweetPage() {
   const [replies, setReplies] = useState([]);
+  const [engagementsDisabled, setEngagementsDiabled] = useState(true);
   const [visibility, setVisibility] = useState('invisible');
   const [isDone, setIsDone] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -133,7 +134,7 @@ function TweetPage() {
                 setVisibility(true);
               }}
               className=" rounded-md px-2 py-1 text-sm hover:bg-opacity-50 disabled:opacity-50 disabled:hover:bg-opacity-100 dark:bg-blue dark:text-white"
-              disabled="true"
+              disabled={engagementsDisabled}
             >
               View Engagements
             </button>

@@ -28,14 +28,11 @@ function AddPost({ setTweets }) {
     const formData = new FormData();
     if (isWhitespace) formData.append('tweetText', '');
     else formData.append('tweetText', text);
-    // formData.append('trends', hashtagsString);
+    formData.append('trends', hashtagsString);
     for (let i = 0; i < files.length; i += 1) {
       formData.append('media', files[i]);
     }
-    for (let i = 0; i < hashtags.length; i += 1) {
-      formData.append('trends', hashtags[i]);
-      console.log(hashtags[i]);
-    }
+
     resetAll();
 
     const postData = async () => {
@@ -51,7 +48,7 @@ function AddPost({ setTweets }) {
           },
         );
         const data = await response.json();
-        // console.log(data.data);
+        console.log(data);
         if (data.status) setTweets((prev) => [data.data, ...prev]);
       } catch (error) {
         toast(error.message);
@@ -143,7 +140,6 @@ function AddPost({ setTweets }) {
                 </svg>
               </label>
               <input
-                data-testid="media"
                 type="file"
                 accept="image/*, video/*"
                 id="mediaUpload"
@@ -152,7 +148,6 @@ function AddPost({ setTweets }) {
                 multiple
               />
               <AddEmoji
-                data-testid="emoji"
                 text={text}
                 setText={setText}
               />
