@@ -34,7 +34,16 @@ function Tweet({ data, tweets, setTweets }) {
     setRepliesCount(data.repliesCount);
     setRepostsCount(data.retweetsCount);
   }, [data]);
-
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`/app/tweet`, {
+      state: {
+        pastPath: '/app/home',
+        tweetID: `${data.id}`,
+        tweetData: [data],
+      },
+    });
+  };
   const handleLike = () => {
     if (like === true && !isLikeLoading) {
       setIsLikeLoading(true);
@@ -158,6 +167,7 @@ function Tweet({ data, tweets, setTweets }) {
     // else setRepliesCount(repliesCount + 1);
     // toggleReply(!reply);
     // console.log(tweetID);
+    handleClick();
   };
 
   const [isHovered, setIsHovered] = useState(false);
@@ -168,16 +178,7 @@ function Tweet({ data, tweets, setTweets }) {
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
-  const navigate = useNavigate();
-  const handleClick = () => {
-    navigate(`/app/tweet`, {
-      state: {
-        pastPath: '/app/home',
-        tweetID: `${data.id}`,
-        tweetData: [data],
-      },
-    });
-  };
+
   return (
     <div className="tweet mb-[0.5px] mt-[-0.5px] flex w-[88%] border-collapse  flex-row border-y-[0.5px] border-y-border-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
       <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
