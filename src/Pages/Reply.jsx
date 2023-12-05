@@ -12,14 +12,12 @@ function Reply({ data }) {
   const [text, setText] = useState('');
 
   useEffect(() => {
-    console.log(data);
     let reply;
     if (typeof data.replyText === 'string') {
       reply = data.replyText.slice(14, data.replyText.length - 2);
     } else if (typeof data.replyText === 'object') {
       reply = data.replyText.replyText;
     }
-    console.log(reply);
     setText(reply);
   }, [data]);
   const [isHovered, setIsHovered] = useState(false);

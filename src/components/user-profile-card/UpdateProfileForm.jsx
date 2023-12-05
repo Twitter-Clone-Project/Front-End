@@ -215,6 +215,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
                       type="file"
                       accept="image/*"
                       className="hidden"
+                      data-testid="cover-input"
                       onChange={(e) => {
                         setBanner(e.target.files[0]);
                       }}
@@ -270,6 +271,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
                       <input
                         type="file"
                         accept="image/*"
+                        data-testid="photo-input"
                         className="hidden"
                         onChange={(e) => setPic(e.target.files[0])}
                         ref={picInput}

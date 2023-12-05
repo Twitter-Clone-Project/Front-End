@@ -71,16 +71,16 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
   return (
     <div
       ref={dropdownRef}
-      className="dropdown relative inline-block scale-75 "
+      className="dropdown relative flex"
     >
       <button
         type="submit"
         onClick={() => showMenu()}
-        className="dropbtn group rounded-2xl hover:bg-blue-light"
+        className="dropbtn group rounded-full hover:bg-blue-light"
       >
         <svg
           viewBox="0 0 25 25"
-          className="h-[30px] w-[30px]  "
+          className="h-[24px] w-[24px]  "
         >
           <path
             className="fill-dark-gray group-hover:fill-blue "

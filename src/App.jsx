@@ -118,7 +118,12 @@ function App() {
           >
             <Route
               index
-              element={<Navigate to="home" />}
+              element={
+                <Navigate
+                  to="home"
+                  replace
+                />
+              }
             />
             <Route
               path="home"
@@ -151,7 +156,12 @@ function App() {
             >
               <Route
                 index
-                element={<Navigate to="posts" />}
+                element={
+                  <Navigate
+                    to="posts"
+                    replace
+                  />
+                }
               />
               <Route
                 path="posts"

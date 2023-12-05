@@ -54,7 +54,6 @@ function AddPost({ setTweets }) {
           },
         );
         const data = await response.json();
-        console.log(data);
         if (data.status) setTweets((prev) => [data.data, ...prev]);
       } catch (error) {
         toast(error.message);
@@ -83,7 +82,6 @@ function AddPost({ setTweets }) {
   };
 
   useEffect(() => {
-    console.log(text);
     const checks = text.split('');
     setPostDisabled(true);
     setIsWhitespace(true);
