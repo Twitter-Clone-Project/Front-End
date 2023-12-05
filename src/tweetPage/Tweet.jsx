@@ -111,6 +111,7 @@ function Tweet({ data, tweets, setTweets }) {
             },
           );
           const res = await response.json();
+          console.log(res);
           if (res.status) {
             toggleRepost(!repost);
             setRepostsCount(repostsCount - 1);
@@ -139,6 +140,7 @@ function Tweet({ data, tweets, setTweets }) {
             },
           );
           const res = await response.json();
+          console.log(res);
           if (res.status) {
             toggleRepost(!repost);
             setRepostsCount(repostsCount + 1);
@@ -181,7 +183,7 @@ function Tweet({ data, tweets, setTweets }) {
   return (
     <div className="tweet mb-[0.5px] mt-[-0.5px] flex w-[88%] border-collapse  flex-row border-y-[0.5px] border-y-border-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
       <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
-        <div className={` pb-1 ${repost === false ? 'hidden' : ''}`}>
+        <div className={` pb-1 ${data.isRetweet === false ? 'hidden' : ''}`}>
           <svg
             viewBox="0 0 24 24"
             className="ml-[24px] h-[16px] w-[16px] fill-dark-gray  "
@@ -227,7 +229,7 @@ function Tweet({ data, tweets, setTweets }) {
       <div className="rightColumn w-[512px] ">
         <div
           className={` retweeted-info h-[16px] pb-4 text-[13px] font-semibold
-          text-dark-gray ${repost === false ? 'hidden' : ''} `}
+          text-dark-gray ${data.isRetweet === false ? 'hidden' : ''} `}
         >
           <span>{data.retweetedUser.screenName}</span>
         </div>
