@@ -335,7 +335,7 @@ function Tweet({ data, tweets, setTweets }) {
             <ReactButtons
               type="Repost"
               data={repostsCount}
-              clicked={false}
+              clicked={data.isRetweeted}
             />
           </button>
           <button
