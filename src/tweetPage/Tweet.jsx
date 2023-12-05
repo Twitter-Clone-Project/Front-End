@@ -19,7 +19,6 @@ import { useAuth } from '../hooks/AuthContext';
 
 function Tweet({ data, tweets, setTweets }) {
   const [repost, toggleRepost] = useState(data.isRetweet);
-  const [reply, toggleReply] = useState(data.isReplied);
   const [like, toggleLike] = useState(data.isLiked);
   const [repostsCount, setRepostsCount] = useState();
   const [repliesCount, setRepliesCount] = useState();
@@ -30,7 +29,6 @@ function Tweet({ data, tweets, setTweets }) {
   useEffect(() => {
     toggleLike(data.isLiked);
     toggleRepost(data.isRetweeted);
-    toggleReply(data.isReplied);
     setLikesCount(data.likesCount);
     setRepliesCount(data.repliesCount);
     setRepostsCount(data.retweetsCount);
@@ -323,7 +321,6 @@ function Tweet({ data, tweets, setTweets }) {
             <ReactButtons
               type="Reply"
               data={repliesCount}
-              clicked={reply}
             />
           </button>
           <button
