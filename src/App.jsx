@@ -23,6 +23,8 @@ import Posts from './components/user-profile-card/Posts';
 import Likes from './components/user-profile-card/Likes';
 import UpdateProfileForm from './components/user-profile-card/UpdateProfileForm';
 import TweetPage from './Pages/TweetPage';
+import LikersList from './Pages/LikersList';
+import RetweetersList from './Pages/RetweetersList';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -116,16 +118,28 @@ function App() {
           >
             <Route
               index
-              element={<Navigate to="home" />}
+              element={
+                <Navigate
+                  to="home"
+                  replace
+                />
+              }
             />
             <Route
               path="home"
               element={<Homepage />}
             />
             <Route
-              index
               path="tweet"
               element={<TweetPage />}
+            />
+            <Route
+              path="tweet/likers"
+              element={<LikersList />}
+            />
+            <Route
+              path="tweet/retweeters"
+              element={<RetweetersList />}
             />
             <Route
               path="notifications"
@@ -142,7 +156,12 @@ function App() {
             >
               <Route
                 index
-                element={<Navigate to="posts" />}
+                element={
+                  <Navigate
+                    to="posts"
+                    replace
+                  />
+                }
               />
               <Route
                 path="posts"

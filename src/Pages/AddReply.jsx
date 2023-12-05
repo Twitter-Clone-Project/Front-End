@@ -46,8 +46,11 @@ function AddReply({ setReplies, tweetId }) {
         const data = await response.json();
         if (data.status) {
           data.data.screenName = user.name;
+          data.data.followingCount = '';
+          data.data.followersCount = '';
+          data.data.isFollowed = false;
           setReplies((prev) => [data.data, ...prev]);
-          // console.log(data.data);
+          console.log(data.data);
         }
       } catch (error) {
         toast('Error Adding Reply:', error);
