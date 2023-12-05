@@ -17,7 +17,8 @@ function TextField({ text, setText }) {
 
   const onChange = (newEditorState) => {
     setEditorState(newEditorState);
-    setText(newEditorState.getCurrentContent().getPlainText());
+    if (newEditorState.getCurrentContent().getPlainText().length < 60)
+      setText(newEditorState.getCurrentContent().getPlainText());
   };
 
   useEffect(() => {
@@ -46,5 +47,4 @@ function TextField({ text, setText }) {
     </div>
   );
 }
-
 export default TextField;

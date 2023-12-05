@@ -10,6 +10,7 @@ import UserImg from './UserImg';
 
 function NavBar() {
   const { user } = useAuth();
+  // console.log(user);
   const mobileItems = [
     {
       path: './home',
