@@ -5,9 +5,10 @@ import React, { useState, useEffect, useContext } from 'react';
 import ConversationCard from './ConversationCard';
 import { ChatContext } from '../../hooks/ContactContext';
 
-function ConversationsHistory({ socket, userId }) {
+function ConversationsHistory({ socket }) {
   const [conversations, setConversations] = useState([]);
   const { chatContext, top } = useContext(ChatContext);
+  const [openedId, setOpenedId] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,11 +23,23 @@ function ConversationsHistory({ socket, userId }) {
       );
       const Json = await response.json();
       const { data } = Json;
-
       setConversations(data.conversations);
+      console.log(data.conversations);
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (openedId === '') return;
+    const conversationIndex = conversations.findIndex(
+      (conv) => conv.conversationId === openedId,
+    );
+    if (conversationIndex !== -1) {
+      const updatedConversations = [...conversations];
+      updatedConversations[conversationIndex].lastMessage.isSeen = true;
+      setConversations(updatedConversations);
+    }
+  }, [openedId]);
 
   useEffect(() => {
     const conversationIndex = conversations.findIndex(
@@ -41,7 +54,7 @@ function ConversationsHistory({ socket, userId }) {
       );
       removedConversation.lastMessage.text = top.text;
       if (removedConversation.conversationId !== chatContext.conversationId) {
-        removedConversation.unseen = true;
+        removedConversation.lastMessage.isSeen = false;
       }
       updatedConversations.unshift(removedConversation);
       setConversations(updatedConversations);
@@ -56,9 +69,7 @@ function ConversationsHistory({ socket, userId }) {
             key={conversation.conversationId}
             conversationData={conversation}
             socket={socket}
-            userId={userId}
-            setConversations={setConversations}
-            conversations={conversations}
+            setOpenedId={setOpenedId}
           />
         ))}
       </div>

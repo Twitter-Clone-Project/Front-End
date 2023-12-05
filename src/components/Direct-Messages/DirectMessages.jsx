@@ -42,7 +42,6 @@ function DirectMessages() {
     <div className="h-screen w-full">
       <div className="layout mx-auto h-full grid-cols-[auto_1fr] grid-rows-1 overflow-auto dark:bg-black  md:grid ">
         <ConversationsPage
-          userId={user.userId}
           socket={socket}
           visibility={
             (windowWidth < 1024 && chatContext.conversationId === '') ||

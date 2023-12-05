@@ -35,8 +35,8 @@ export function ChatProvider() {
     lastMessage: {
       text: '',
       timestamp: '',
+      isSeen: '',
     },
-    unseen: false,
   });
 
   return (

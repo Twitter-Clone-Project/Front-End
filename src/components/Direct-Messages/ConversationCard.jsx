@@ -10,13 +10,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { ChatContext } from '../../hooks/ContactContext';
 import { useAuth } from '../../hooks/AuthContext';
 
-function ConversationCard({
-  conversationData,
-  socket,
-  userId,
-  setConversations,
-  conversations,
-}) {
+function ConversationCard({ conversationData, socket, setOpenedId }) {
   const { chatContext, setChatContext } = useContext(ChatContext);
   const { user } = useAuth();
 
@@ -80,20 +74,16 @@ function ConversationCard({
     sign = 'y';
   }
 
+  console.log(
+    conversationData.conversationId,
+    !conversationData.lastMessage.isSeen,
+    conversationData.conversationId === chatContext.conversationId,
+  );
   return (
     <div
       onClick={() => {
-        setChatContext({ ...conversationData, unseen: false });
-        const conversationIndex = conversations.findIndex(
-          (conv) => conv.conversationId === conversationData.conversationId,
-        );
-
-        if (conversationIndex !== -1) {
-          const updatedConversations = [...conversations];
-          updatedConversations[conversationIndex].unseen = false;
-          setConversations(updatedConversations);
-        }
-
+        setChatContext({ ...conversationData });
+        setOpenedId(conversationData.conversationId);
         socket.emit('chat-opened', {
           userId: user.userId,
           conversationId: conversationData.conversationId,
@@ -101,18 +91,17 @@ function ConversationCard({
       }}
       className={`${
         conversationData.conversationId === chatContext.conversationId
-          ? 'border-r-2 border-blue bg-[#f0f3f3] dark:bg-[#1e2023]'
-          : 'bg-white dark:bg-black'
+          ? 'border-r-2 border-blue '
+          : 'bg-white hover:bg-xx-light-gray dark:bg-black  dark:hover:bg-[#16171a]'
       } 
       ${
-        conversationData.unseen ||
-        conversationData.conversationId !== chatContext.conversationId
-          ? 'bg-xx-light-gray dark:bg-[#16171a]'
-          : ''
-      }
-      
-      flex h-[73.06px] w-full p-4 
-       pb-3 hover:bg-xx-light-gray dark:hover:bg-[#16171a]`}
+        !conversationData.lastMessage.isSeen ||
+        conversationData.conversationId === chatContext.conversationId
+          ? 'bg-xx-light-gray dark:dark:bg-[#16171a]'
+          : 'bg-white hover:bg-xx-light-gray dark:bg-black  dark:hover:bg-[#16171a]'
+      } 
+      flex h-[73.06px] w-full  p-4 pb-3
+        `}
     >
       <div className="mr-3 w-fit min-w-[40px]">
         <img
@@ -143,7 +132,7 @@ function ConversationCard({
         <div
           className={` ${
             conversationData.conversationId === chatContext.conversationId ||
-            conversationData.unseen
+            !conversationData.lastMessage.isSeen
               ? ' text-black dark:text-white'
               : 'text-[#71767B]'
           } flex  
@@ -153,7 +142,7 @@ function ConversationCard({
         </div>
       </div>
 
-      {conversationData.unseen && (
+      {!conversationData.lastMessage.isSeen && (
         <div className="h-3 w-3 rounded-full bg-blue" />
       )}
     </div>
