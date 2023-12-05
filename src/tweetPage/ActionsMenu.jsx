@@ -41,7 +41,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
     const deleteTweet = async () => {
       try {
         const response = await fetch(
-          `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+          `${import.meta.env.VITE_API_DOMAIN}tweets/${
             tweet.id
           }/deleteTweet`,
           {

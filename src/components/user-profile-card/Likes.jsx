@@ -20,7 +20,7 @@ function Likes() {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `http://${
+        `${
           import.meta.env.VITE_API_DOMAIN
         }users/${username}/likedTweets/${page}`,
         {
@@ -48,9 +48,7 @@ function Likes() {
       try {
         setIsLoading(true);
         const response = await fetch(
-          `http://${
-            import.meta.env.VITE_API_DOMAIN
-          }users/${username}/likedTweets/1`,
+          `${import.meta.env.VITE_API_DOMAIN}users/${username}/likedTweets/1`,
           {
             method: 'GET',
             origin: true,

@@ -109,7 +109,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
 
     try {
       const res = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}profile/updateProfile`,
+        `${import.meta.env.VITE_API_DOMAIN}profile/updateProfile`,
         {
           method: 'PATCH',
           origin: true,

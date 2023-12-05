@@ -50,7 +50,7 @@ function Tweet({ data, tweets, setTweets }) {
       const deleteLike = async () => {
         try {
           const response = await fetch(
-            `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+            `${import.meta.env.VITE_API_DOMAIN}tweets/${
               data.id
             }/deleteLike`,
             {
@@ -78,7 +78,7 @@ function Tweet({ data, tweets, setTweets }) {
       const postLike = async () => {
         try {
           const response = await fetch(
-            `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+            `${import.meta.env.VITE_API_DOMAIN}tweets/${
               data.id
             }/addlike`,
             {
@@ -109,7 +109,7 @@ function Tweet({ data, tweets, setTweets }) {
       const deleteRetweet = async () => {
         try {
           const response = await fetch(
-            `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+            `${import.meta.env.VITE_API_DOMAIN}tweets/${
               data.id
             }/deleteRetweet`,
             {
@@ -138,7 +138,7 @@ function Tweet({ data, tweets, setTweets }) {
       const retweet = async () => {
         try {
           const response = await fetch(
-            `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+            `${import.meta.env.VITE_API_DOMAIN}tweets/${
               data.id
             }/retweet`,
             {
