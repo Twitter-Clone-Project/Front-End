@@ -45,7 +45,7 @@ function AddPost({ setTweets }) {
     const postData = async () => {
       try {
         const response = await fetch(
-          `http://${import.meta.env.VITE_API_DOMAIN}tweets/add`,
+          `${import.meta.env.VITE_API_DOMAIN}tweets/add`,
           {
             method: 'POST',
             origin: true,
