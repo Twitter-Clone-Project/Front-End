@@ -180,8 +180,16 @@ function Tweet({ data, tweets, setTweets }) {
   };
 
   return (
-    <div className="tweet mb-[0.5px] mt-[-0.5px] flex w-[88%] border-collapse  flex-row border-y-[0.5px] border-y-border-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
-      <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
+    <div
+      className="tweet mb-[0.5px] mt-[-0.5px] flex w-[88%] border-collapse  flex-row border-y-[0.5px] border-y-border-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px] "
+      onClick={handleClick}
+    >
+      <div
+        className="leftColumn mr-[12px] h-[40px] w-[40px] "
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
         <div className={` pb-1 ${repost === false ? 'hidden' : ''}`}>
           <svg
             viewBox="0 0 24 24"
@@ -229,11 +237,19 @@ function Tweet({ data, tweets, setTweets }) {
         <div
           className={` retweeted-info h-[16px] pb-4 text-[13px] font-semibold
           text-dark-gray ${repost === false ? 'hidden' : ''} `}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
         >
           <span>{data.retweetedUser.screenName}</span>
         </div>
         <div className="flex flex-row justify-between ">
-          <div className="userInfo flex flex-row">
+          <div
+            className="userInfo flex flex-row"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
             <Link
               to={`/app/${data.user.username}`}
               className="text-black"
@@ -260,7 +276,12 @@ function Tweet({ data, tweets, setTweets }) {
               />
             </div>
           </div>
-          <div className=" ">
+          <div
+            className=" "
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
             <ActionsMenu
               userId={data.user.userId}
               tweet={data}
@@ -269,10 +290,7 @@ function Tweet({ data, tweets, setTweets }) {
             />
           </div>
         </div>
-        <div
-          className="caption"
-          onClick={handleClick}
-        >
+        <div className="caption">
           {data.text.split(' ').map((word) => {
             if (word.startsWith('#')) {
               return (
@@ -288,14 +306,17 @@ function Tweet({ data, tweets, setTweets }) {
           })}
         </div>
 
-        <div onClick={handleClick}>
+        <div>
           <Media images={data.attachmentsUrl} />
         </div>
         <div className="buttons flex h-[32px] flex-row  justify-between">
           <button
             data-testid="reply"
             type="submit"
-            onClick={() => handleReply()}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleReply();
+            }}
           >
             <ReactButtons
               type="Reply"
@@ -307,7 +328,10 @@ function Tweet({ data, tweets, setTweets }) {
             data-testid="repost"
             type="submit"
             disabled={isRepostLoading}
-            onClick={() => handleRepost()}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleRepost();
+            }}
           >
             <ReactButtons
               type="Repost"
@@ -319,7 +343,10 @@ function Tweet({ data, tweets, setTweets }) {
             data-testid="like"
             disabled={isLikeLoading}
             type="submit"
-            onClick={() => handleLike()}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleLike();
+            }}
           >
             <ReactButtons
               type="Like"

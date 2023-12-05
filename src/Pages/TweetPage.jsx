@@ -11,12 +11,12 @@ import PostEngagements from './PostEngagements';
 
 function TweetPage() {
   const [replies, setReplies] = useState([]);
-  const [engagementsDisabled, setEngagementsDiabled] = useState(true);
+  const [engagementsDisabled, setEngagementsDiabled] = useState(false);
   const [visibility, setVisibility] = useState('invisible');
   const [isDone, setIsDone] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
-  const [tweetID] = useState(location.state.tweetID);
+  const [tweetId] = useState(location.state.tweetID);
   const [pastPath] = useState(location.state.pastPath);
   const [tweetData] = useState(location.state.tweetData);
 
@@ -25,7 +25,7 @@ function TweetPage() {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}tweets/${tweetID}/replies`,
+        `http://${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/replies`,
         {
           method: 'GET',
           origin: true,
@@ -43,14 +43,14 @@ function TweetPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [isLoading, isDone, tweetID]);
+  }, [isLoading, isDone, tweetId]);
 
   useEffect(() => {
     const getInitialReplies = async () => {
       try {
         setIsLoading(true);
         const response = await fetch(
-          `http://${import.meta.env.VITE_API_DOMAIN}tweets/${tweetID}/replies`,
+          `http://${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/replies`,
           {
             method: 'GET',
             origin: true,
@@ -89,6 +89,11 @@ function TweetPage() {
 
   const handelBackButton = () => {
     navigate(pastPath);
+  };
+  const handleClick = () => {
+    navigate(`/app/tweet/likers`, {
+      state: { pastPath: location.pathname, tweetId: { tweetId } },
+    });
   };
   return (
     <div
@@ -131,7 +136,7 @@ function TweetPage() {
             <button
               type="button"
               onClick={() => {
-                setVisibility(true);
+                handleClick();
               }}
               className=" rounded-md px-2 py-1 text-sm hover:bg-opacity-50 disabled:opacity-50 disabled:hover:bg-opacity-100 dark:bg-blue dark:text-white"
               disabled={engagementsDisabled}
@@ -141,7 +146,7 @@ function TweetPage() {
           </div>
           <AddReply
             setReplies={setReplies}
-            tweetId={tweetID}
+            tweetId={tweetId}
           />
           <RepliesList repliesData={replies} />
         </div>
@@ -149,7 +154,7 @@ function TweetPage() {
         <div className="flex w-20 items-center justify-center">
           <PostEngagements
             setVisibility={setVisibility}
-            tweetID={tweetID}
+            tweetId={tweetId}
           />
         </div>
       )}
