@@ -119,7 +119,6 @@ function Tweet({ data, tweets, setTweets }) {
             },
           );
           const res = await response.json();
-          console.log(res);
           if (res.status) {
             toggleRepost(!repost);
             setRepostsCount(repostsCount - 1);
@@ -181,7 +180,7 @@ function Tweet({ data, tweets, setTweets }) {
   };
   return (
     <div
-      className="tweet mb-[0.5px] mt-[-0.5px] flex w-[88%] border-collapse  flex-row border-y-[0.5px] border-y-border-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px] "
+      className="tweet mb-[0.5px] mt-[-0.5px] flex w-full border-collapse flex-row  border-y-[0.5px] border-y-border-gray bg-white px-3 pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black sm:px-[16px] md:w-[598px] "
       onClick={handleClick}
     >
       <div
@@ -206,7 +205,7 @@ function Tweet({ data, tweets, setTweets }) {
           <div
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className="relative right-24 top-[-1] z-10 mt-5 flex h-[250px]  w-[300px] flex-col justify-center "
+            className="relative right-24 top-[-1] z-10 mt-5 flex h-[250px]  flex-col justify-center sm:w-[300px] "
           >
             <PopoverUserCard
               popoverIsFollowed={data.user.isFollowed}
@@ -225,7 +224,7 @@ function Tweet({ data, tweets, setTweets }) {
         )}
       </div>
 
-      <div className="rightColumn w-[512px] ">
+      <div className="rightColumn w-full">
         <div
           className={` retweeted-info flex items-center text-xs font-semibold
           text-dark-gray ${repost === false ? 'hidden' : ''} `}
@@ -243,7 +242,7 @@ function Tweet({ data, tweets, setTweets }) {
             {data.isRetweeted ? 'You' : data.retweetedUser.screenName} reposted
           </span>
         </div>
-        <div className="flex justify-between ">
+        <div className="flex justify-between">
           <div
             className="userInfo flex flex-row"
             onClick={(e) => {
@@ -261,23 +260,25 @@ function Tweet({ data, tweets, setTweets }) {
                 {data.user.screenName}
               </div>
             </Link>
-            <div className="userName overflow-hidden text-[15px] text-dark-gray">
-              {' '}
-              &ensp;@<span>{data.user.username}</span>
-            </div>
+            <div className="flex w-full flex-wrap">
+              <div className="userName overflow-hidden text-[15px] text-dark-gray">
+                {' '}
+                &ensp;@<span>{data.user.username}</span>
+              </div>
 
-            <div className="date overflow-hidden text-[15px] text-dark-gray">
-              {' '}
-              &ensp;.&ensp;
-              <ReactTimeAgo
-                date={new Date(data.createdAt)}
-                locale="en-US"
-                timeStyle="twitter"
-              />
+              <div className="date overflow-hidden break-keep text-[15px] text-dark-gray">
+                {' '}
+                &ensp;.&ensp;
+                <ReactTimeAgo
+                  date={new Date(data.createdAt)}
+                  locale="en-US"
+                  timeStyle="twitter"
+                />
+              </div>
             </div>
           </div>
           <div
-            className=" "
+            className="pl-2"
             onClick={(e) => {
               e.stopPropagation();
             }}

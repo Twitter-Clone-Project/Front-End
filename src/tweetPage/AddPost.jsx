@@ -102,8 +102,8 @@ function AddPost({ setTweets }) {
       setHashtagsString(hashtags.join(','));
   }, [files, text]);
   return (
-    <div className="flex items-center justify-center border-y-[0.5px] border-y-border-gray">
-      <div className="tweet mt-[0.5px] flex w-[88%] flex-row   bg-white px-[16px] pt-[12px] dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
+    <div className="flex w-full items-center border-y-[0.5px] border-y-border-gray sm:justify-center">
+      <div className="tweet mt-[0.5px] flex w-full flex-row bg-white  px-3 pt-[12px] dark:bg-pure-black dark:text-white dark:hover:bg-pure-black sm:px-[16px] md:w-[598px]">
         <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
           <div className="profileImage leftColumn mr-[12px] h-[40px] w-[40px] ">
             <Link to={`/app/${user.username}`}>
@@ -117,7 +117,7 @@ function AddPost({ setTweets }) {
         </div>
 
         <div className="rightColumn h-auto w-full">
-          <div className="peer w-[500px] placeholder:text-light-thin">
+          <div className="peer placeholder:text-light-thin ">
             <TextField
               text={text}
               setText={setText}
