@@ -4,7 +4,7 @@
 /* eslint-disable max-len */
 /* eslint-disable react/forbid-prop-types */
 import React, { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ReactTimeAgo from 'react-time-ago';
 import PropTypes from 'prop-types';
@@ -15,30 +15,30 @@ import Media from './Media';
 import OwnToaster from '../components/OwnToaster';
 import ActionsMenu from './ActionsMenu';
 import PopoverUserCard from '../components/userComponents/PopoverUserCard';
+import { useAuth } from '../hooks/AuthContext';
 
 function Tweet({ data, tweets, setTweets }) {
-  const [repost, toggleRepost] = useState(data.isRetweeted);
-  const [reply, toggleReply] = useState(data.isReplied);
+  const [repost, toggleRepost] = useState(data.isRetweet);
   const [like, toggleLike] = useState(data.isLiked);
   const [repostsCount, setRepostsCount] = useState();
   const [repliesCount, setRepliesCount] = useState();
   const [likesCount, setLikesCount] = useState();
   const [isLikeLoading, setIsLikeLoading] = useState(false);
   const [isRepostLoading, setIsRepostLoading] = useState(false);
-
+  const { user: curUser } = useAuth();
   useEffect(() => {
     toggleLike(data.isLiked);
     toggleRepost(data.isRetweeted);
-    toggleReply(data.isReplied);
     setLikesCount(data.likesCount);
     setRepliesCount(data.repliesCount);
     setRepostsCount(data.retweetsCount);
   }, [data]);
   const navigate = useNavigate();
+  const location = useLocation();
   const handleClick = () => {
     navigate(`/app/tweet`, {
       state: {
-        pastPath: '/app/home',
+        pastPath: location.pathname,
         tweetID: `${data.id}`,
         tweetData: [data],
       },
@@ -50,7 +50,7 @@ function Tweet({ data, tweets, setTweets }) {
       const deleteLike = async () => {
         try {
           const response = await fetch(
-            `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+            `${import.meta.env.VITE_API_DOMAIN}tweets/${
               data.id
             }/deleteLike`,
             {
@@ -78,7 +78,7 @@ function Tweet({ data, tweets, setTweets }) {
       const postLike = async () => {
         try {
           const response = await fetch(
-            `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+            `${import.meta.env.VITE_API_DOMAIN}tweets/${
               data.id
             }/addlike`,
             {
@@ -109,7 +109,7 @@ function Tweet({ data, tweets, setTweets }) {
       const deleteRetweet = async () => {
         try {
           const response = await fetch(
-            `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+            `${import.meta.env.VITE_API_DOMAIN}tweets/${
               data.id
             }/deleteRetweet`,
             {
@@ -120,6 +120,7 @@ function Tweet({ data, tweets, setTweets }) {
             },
           );
           const res = await response.json();
+          console.log(res);
           if (res.status) {
             toggleRepost(!repost);
             setRepostsCount(repostsCount - 1);
@@ -137,7 +138,7 @@ function Tweet({ data, tweets, setTweets }) {
       const retweet = async () => {
         try {
           const response = await fetch(
-            `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+            `${import.meta.env.VITE_API_DOMAIN}tweets/${
               data.id
             }/retweet`,
             {
@@ -148,6 +149,7 @@ function Tweet({ data, tweets, setTweets }) {
             },
           );
           const res = await response.json();
+          console.log(res);
           if (res.status) {
             toggleRepost(!repost);
             setRepostsCount(repostsCount + 1);
@@ -178,7 +180,6 @@ function Tweet({ data, tweets, setTweets }) {
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
-
   return (
     <div
       className="tweet mb-[0.5px] mt-[-0.5px] flex w-[88%] border-collapse  flex-row border-y-[0.5px] border-y-border-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px] "
@@ -190,14 +191,6 @@ function Tweet({ data, tweets, setTweets }) {
           e.stopPropagation();
         }}
       >
-        <div className={` pb-1 ${repost === false ? 'hidden' : ''}`}>
-          <svg
-            viewBox="0 0 24 24"
-            className="ml-[24px] h-[16px] w-[16px] fill-dark-gray  "
-          >
-            <path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z" />
-          </svg>
-        </div>
         <div className="profileImage leftColumn absolute mr-[12px] h-[40px] w-[40px] ">
           <img
             data-testid={`profileImage${data.id}`}
@@ -235,15 +228,23 @@ function Tweet({ data, tweets, setTweets }) {
 
       <div className="rightColumn w-[512px] ">
         <div
-          className={` retweeted-info h-[16px] pb-4 text-[13px] font-semibold
+          className={` retweeted-info flex items-center text-xs font-semibold
           text-dark-gray ${repost === false ? 'hidden' : ''} `}
           onClick={(e) => {
             e.stopPropagation();
           }}
         >
-          <span>{data.retweetedUser.screenName}</span>
+          <svg
+            viewBox="0 0 24 24"
+            className="mr-1 h-[16px] w-[16px] fill-dark-gray  "
+          >
+            <path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z" />
+          </svg>
+          <span>
+            {data.isRetweeted ? 'You' : data.retweetedUser.screenName} reposted
+          </span>
         </div>
-        <div className="flex flex-row justify-between ">
+        <div className="flex justify-between ">
           <div
             className="userInfo flex flex-row"
             onClick={(e) => {
@@ -261,7 +262,7 @@ function Tweet({ data, tweets, setTweets }) {
                 {data.user.screenName}
               </div>
             </Link>
-            <div className="userName   overflow-hidden text-[15px] text-dark-gray">
+            <div className="userName overflow-hidden text-[15px] text-dark-gray">
               {' '}
               &ensp;@<span>{data.user.username}</span>
             </div>
@@ -321,7 +322,6 @@ function Tweet({ data, tweets, setTweets }) {
             <ReactButtons
               type="Reply"
               data={repliesCount}
-              clicked={reply}
             />
           </button>
           <button
@@ -336,7 +336,7 @@ function Tweet({ data, tweets, setTweets }) {
             <ReactButtons
               type="Repost"
               data={repostsCount}
-              clicked={repost}
+              clicked={data.isRetweeted}
             />
           </button>
           <button

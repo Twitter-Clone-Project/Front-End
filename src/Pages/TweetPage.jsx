@@ -11,7 +11,7 @@ import PostEngagements from './PostEngagements';
 
 function TweetPage() {
   const [replies, setReplies] = useState([]);
-  const [engagementsDisabled, setEngagementsDiabled] = useState(false);
+  const [engagementsDisabled, setEngagementsDiabled] = useState(true);
   const [visibility, setVisibility] = useState('invisible');
   const [isDone, setIsDone] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -25,7 +25,7 @@ function TweetPage() {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/replies`,
+        `${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/replies`,
         {
           method: 'GET',
           origin: true,
@@ -50,7 +50,7 @@ function TweetPage() {
       try {
         setIsLoading(true);
         const response = await fetch(
-          `http://${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/replies`,
+          `${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/replies`,
           {
             method: 'GET',
             origin: true,
@@ -132,13 +132,13 @@ function TweetPage() {
               ))}
             </div>
           )}
-          <div className="flex w-full justify-start p-2">
+          <div className="flex w-full justify-start py-2">
             <button
               type="button"
               onClick={() => {
                 handleClick();
               }}
-              className=" rounded-md px-2 py-1 text-sm hover:bg-opacity-50 disabled:opacity-50 disabled:hover:bg-opacity-100 dark:bg-blue dark:text-white"
+              className="flex w-full items-center justify-start border-b-[1px] border-b-light-thin py-1 text-sm text-blue hover:bg-opacity-50 hover:underline disabled:cursor-not-allowed   disabled:opacity-50 disabled:hover:bg-opacity-100  dark:border-b-border-gray"
               disabled={engagementsDisabled}
             >
               View Engagements

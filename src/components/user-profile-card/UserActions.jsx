@@ -23,21 +23,18 @@ function UserActions({ user }) {
   }, []);
 
   const blockReq = () => {
-    fetch(
-      `http://${import.meta.env.VITE_API_DOMAIN}users/${user.username}/block`,
-      {
-        method: 'POST',
-        origin: true,
-        credentials: 'include',
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userName: user.username,
-        }),
+    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${user.username}/block`, {
+      method: 'POST',
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
       },
-    )
+      body: JSON.stringify({
+        userName: user.username,
+      }),
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -55,21 +52,18 @@ function UserActions({ user }) {
   };
 
   const unBlockReq = () => {
-    fetch(
-      `http://${import.meta.env.VITE_API_DOMAIN}users/${user.username}/unblock`,
-      {
-        method: 'DELETE',
-        origin: true,
-        credentials: 'include',
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userName: user.username,
-        }),
+    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${user.username}/unblock`, {
+      method: 'DELETE',
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
       },
-    )
+      body: JSON.stringify({
+        userName: user.username,
+      }),
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -86,21 +80,18 @@ function UserActions({ user }) {
   };
 
   const muteReq = () => {
-    fetch(
-      `http://${import.meta.env.VITE_API_DOMAIN}users/${user.username}/mute`,
-      {
-        method: 'POST',
-        origin: true,
-        credentials: 'include',
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userName: user.username,
-        }),
+    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${user.username}/mute`, {
+      method: 'POST',
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
       },
-    )
+      body: JSON.stringify({
+        userName: user.username,
+      }),
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -117,21 +108,18 @@ function UserActions({ user }) {
   };
 
   const unMuteReq = () => {
-    fetch(
-      `http://${import.meta.env.VITE_API_DOMAIN}users/${user.username}/unmute`,
-      {
-        method: 'DELETE',
-        origin: true,
-        credentials: 'include',
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userName: user.username,
-        }),
+    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${user.username}/unmute`, {
+      method: 'DELETE',
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
       },
-    )
+      body: JSON.stringify({
+        userName: user.username,
+      }),
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -148,21 +136,18 @@ function UserActions({ user }) {
   };
 
   const followReq = () => {
-    fetch(
-      `http://${import.meta.env.VITE_API_DOMAIN}users/${user.username}/follow`,
-      {
-        method: 'POST',
-        origin: true,
-        credentials: 'include',
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userName: user.username,
-        }),
+    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${user.username}/follow`, {
+      method: 'POST',
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
       },
-    )
+      body: JSON.stringify({
+        userName: user.username,
+      }),
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -180,23 +165,18 @@ function UserActions({ user }) {
 
   // Function to handle unFollow request
   const unFollowReq = () => {
-    fetch(
-      `http://${import.meta.env.VITE_API_DOMAIN}users/${
-        user.username
-      }/unfollow`,
-      {
-        method: 'DELETE',
-        origin: true,
-        credentials: 'include',
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userid: user.username,
-        }),
+    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${user.username}/unfollow`, {
+      method: 'DELETE',
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
       },
-    )
+      body: JSON.stringify({
+        userid: user.username,
+      }),
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);

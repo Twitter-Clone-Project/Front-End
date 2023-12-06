@@ -36,18 +36,15 @@ function App() {
     const refresh = async () => {
       try {
         setIsLoading(true);
-        const res = await fetch(
-          `http://${import.meta.env.VITE_API_DOMAIN}auth/me`,
-          {
-            origin: true,
-            credentials: 'include',
-            withCredentials: true,
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
+        const res = await fetch(`${import.meta.env.VITE_API_DOMAIN}auth/me`, {
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        );
+        });
         const data = await res.json();
         if (data.status === false) throw new Error(data.message);
         dispatch({ type: 'LOGIN', payload: data.data.user });
@@ -119,7 +116,12 @@ function App() {
           >
             <Route
               index
-              element={<Navigate to="home" />}
+              element={
+                <Navigate
+                  to="home"
+                  replace
+                />
+              }
             />
             <Route
               path="home"
@@ -152,7 +154,12 @@ function App() {
             >
               <Route
                 index
-                element={<Navigate to="posts" />}
+                element={
+                  <Navigate
+                    to="posts"
+                    replace
+                  />
+                }
               />
               <Route
                 path="posts"

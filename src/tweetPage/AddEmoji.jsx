@@ -28,7 +28,7 @@ function AddEmoji({ text, setText }) {
         />
       </svg>
 
-      <div className="absolute left-0 right-0 top-5 flex flex-row justify-center">
+      <div className="absolute left-0 right-0 top-5 z-[100] flex flex-row justify-center">
         {showEmojiPicker && (
           <Picker
             data={data}

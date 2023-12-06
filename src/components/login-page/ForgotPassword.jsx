@@ -17,7 +17,7 @@ function ForgotPassword() {
     try {
       setIsLoading(true);
       const res = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}auth/forgetPassword`,
+        `${import.meta.env.VITE_API_DOMAIN}auth/forgetPassword`,
         {
           method: 'POST',
           headers: {
