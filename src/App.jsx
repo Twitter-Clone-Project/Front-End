@@ -25,6 +25,11 @@ import UpdateProfileForm from './components/user-profile-card/UpdateProfileForm'
 import TweetPage from './Pages/TweetPage';
 import LikersList from './Pages/LikersList';
 import RetweetersList from './Pages/RetweetersList';
+import SettingsPage from './components/Settings-page/SettingsPage';
+import AccountInfo from './components/Settings-page/AccountInfo';
+import BlockedUsers from './components/Settings-page/BlockedUsers';
+import MutedUsers from './components/Settings-page/MutedUsers';
+import ChangePassword from './components/Settings-page/ChangePassword';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -180,12 +185,29 @@ function App() {
             <Route
               exact
               path="settings"
-              element={
-                <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
-                  Settings
-                </h1>
-              }
-            />
+              element={<SettingsPage />}
+            >
+              <Route
+                exact
+                path="accountinfo"
+                element={<AccountInfo />}
+              />
+              <Route
+                exact
+                path="changepassword"
+                element={<ChangePassword />}
+              />
+              <Route
+                exact
+                path="blockedusers"
+                element={<BlockedUsers />}
+              />
+              <Route
+                exact
+                path="mutedusers"
+                element={<MutedUsers />}
+              />
+            </Route>
             <Route
               path="messages"
               element={<DirectMessages />}
