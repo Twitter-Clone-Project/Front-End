@@ -7,8 +7,11 @@ import PropTypes from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../form-controls/Button';
 
+import { useAuth } from '../../hooks/AuthContext';
+
 function PopoverUserCard({
   popoverIsFollowed,
+  popoverIsFollowing,
   popoverUserPicture,
   popoverUserName,
   popoverUserID,
@@ -18,6 +21,8 @@ function PopoverUserCard({
   popoverTestID,
   popoverSetLocalIsFollowed,
 }) {
+  const { user: curUser } = useAuth();
+
   // Function to handle follow request
   const followReq = () => {
     fetch(
@@ -95,70 +100,74 @@ function PopoverUserCard({
         >
           <img
             id="popoverImg"
-            src={popoverUserPicture}
+            src={popoverUserPicture || import.meta.env.VITE_DEFAULT_AVATAR}
             alt=""
             className=" h-16 w-16 rounded-full"
           />
         </Link>
-        <div
-          className=" h-9 w-28"
-          onMouseEnter={() => {
-            setPopoverButtonHovered(true);
-          }}
-          onMouseLeave={() => {
-            setPopoverButtonHovered(false);
-          }}
-          data-testid={`PopoverUserCard_${popoverTestID}_1`}
-          onClick={() => {
-            popoverIsFollowed ? unFollowReq() : followReq();
-          }}
-        >
-          <Button
-            backGroundColor={
-              popoverIsFollowed
-                ? isPopoverButtonHovered
-                  ? 'red'
+        {popoverUserID !== curUser.username ? (
+          <div
+            className=" h-9 w-28"
+            onMouseEnter={() => {
+              setPopoverButtonHovered(true);
+            }}
+            onMouseLeave={() => {
+              setPopoverButtonHovered(false);
+            }}
+            data-testid={`PopoverUserCard_${popoverTestID}_1`}
+            onClick={() => {
+              popoverIsFollowed ? unFollowReq() : followReq();
+            }}
+          >
+            <Button
+              backGroundColor={
+                popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'red'
+                    : 'white'
                   : 'white'
-                : 'white'
-            }
-            backGroundColorDark={
-              popoverIsFollowed
-                ? isPopoverButtonHovered
-                  ? 'red'
+              }
+              backGroundColorDark={
+                popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'red'
+                    : 'black'
                   : 'black'
-                : 'black'
-            }
-            borderColor={
-              popoverIsFollowed
-                ? isPopoverButtonHovered
-                  ? 'red'
+              }
+              borderColor={
+                popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'red'
+                    : 'gray'
                   : 'gray'
-                : 'gray'
-            }
-            label={
-              popoverIsFollowed
-                ? isPopoverButtonHovered
-                  ? 'Unfollow'
-                  : 'Following'
-                : 'Follow'
-            }
-            labelColor={
-              popoverIsFollowed
-                ? isPopoverButtonHovered
-                  ? 'red'
+              }
+              label={
+                popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'Unfollow'
+                    : 'Following'
+                  : 'Follow'
+              }
+              labelColor={
+                popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'red'
+                    : 'black'
                   : 'black'
-                : 'black'
-            }
-            labelColorDark={
-              popoverIsFollowed
-                ? isPopoverButtonHovered
-                  ? 'red'
+              }
+              labelColorDark={
+                popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'red'
+                    : 'white'
                   : 'white'
-                : 'white'
-            }
-            hight="h-9"
-          />
-        </div>
+              }
+              hight="h-9"
+            />
+          </div>
+        ) : (
+          ''
+        )}
       </div>
       <div className=" mt-2">
         <div className="flex h-[41.5px] flex-col">
@@ -176,7 +185,7 @@ function PopoverUserCard({
               <span className=" w-min cursor-pointer text-light-thin">
                 @{popoverUserID}
               </span>
-              {popoverIsFollowed && (
+              {popoverIsFollowing && (
                 <div
                   className=" ml-1 h-4 items-center rounded bg-x-light-gray px-1 py-0.5 dark:bg-border-gray"
                   data-testid={`PopoverUserCard_${popoverTestID}_2`}
@@ -197,7 +206,11 @@ function PopoverUserCard({
       </div>
       <div className="mt-3 flex flex-row">
         <div
-          onClick={() => navigate(`/app/${popoverUserID}/following`)}
+          onClick={() =>
+            navigate(`/app/${popoverUserID}/following`, {
+              state: window.location.pathname,
+            })
+          }
           data-testid={`PopoverUserCard_${popoverTestID}_3`}
         >
           <span className="mr-5 cursor-pointer text-pure-black hover:underline dark:text-white">
@@ -206,7 +219,11 @@ function PopoverUserCard({
           </span>
         </div>
         <div
-          onClick={() => navigate(`/app/${popoverUserID}/followers`)}
+          onClick={() =>
+            navigate(`/app/${popoverUserID}/followers`, {
+              state: window.location.pathname,
+            })
+          }
           data-testid={`PopoverUserCard_${popoverTestID}_4`}
         >
           <span className="mr-5  cursor-pointer text-pure-black hover:underline dark:text-white">

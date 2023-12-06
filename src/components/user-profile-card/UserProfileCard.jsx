@@ -8,7 +8,10 @@ import UpdateProfileForm from './UpdateProfileForm';
 function UserProfileCard({ user }) {
   const [updateFormOpen, setUpdateFormOpen] = useState(false);
   return (
-    <div className="w-full max-w-[600px] dark:text-white">
+    <div
+      data-testid={`${user.username}-card`}
+      className="w-full max-w-[600px] dark:text-white"
+    >
       {updateFormOpen && (
         <UpdateProfileForm setUpdateFormOpen={setUpdateFormOpen} />
       )}
@@ -16,10 +19,13 @@ function UserProfileCard({ user }) {
         <div className="profile-cover max-h-[500px]">
           <div className="object-fill">
             <PhotoProvider maskOpacity={0.5}>
-              <PhotoView src={user.bannerUrl}>
+              <PhotoView
+                src={user.bannerUrl || import.meta.env.VITE_DEFAULT_BANNER}
+              >
                 <img
                   className="m-auto aspect-[3/1] max-h-full w-full cursor-pointer object-fill"
-                  src={user.bannerUrl}
+                  data-testid="user-cover"
+                  src={user.bannerUrl || import.meta.env.VITE_DEFAULT_BANNER}
                   alt="cover"
                 />
               </PhotoView>
@@ -37,6 +43,7 @@ function UserProfileCard({ user }) {
 UserProfileCard.propTypes = {
   user: PropTypes.shape({
     bannerUrl: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
   }).isRequired,
 };
 export default UserProfileCard;

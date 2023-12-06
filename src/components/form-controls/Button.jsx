@@ -35,7 +35,7 @@ function Button({
               backGroundColor === 'black'
                 ? 'bg-pure-black hover:bg-[#031018]'
                 : ''
-            }  ${backGroundColor === 'red' ? 'bg-[#f7e1e3] ' : ''} ${
+            }  ${backGroundColor === 'red' ? 'bg-[#f4212e] ' : ''} ${
               backGroundColorDark === 'blue'
                 ? 'dark:bg-blue dark:hover:bg-[#1a8cd8]'
                 : ''
@@ -47,9 +47,9 @@ function Button({
               backGroundColorDark === 'black'
                 ? 'dark:bg-pure-black dark:hover:bg-[#031018]'
                 : ''
-            }  ${backGroundColorDark === 'red' ? 'dark:bg-[#200a0c] ' : ''}
+            }  ${backGroundColorDark === 'red' ? 'dark:bg-[#f4212e] ' : ''}
         h-full w-full border ${borderColor === 'blue' ? 'border-blue' : ''}  ${
-          borderColor === 'white' ? 'border-white' : ''
+          borderColor === 'white' ? 'border-white dark:border-border-gray' : ''
         }  ${borderColor === 'black' ? 'border-black' : ''} ${
           borderColor === 'gray' ? 'border-light-gray' : ''
         } ${
@@ -98,7 +98,11 @@ function Button({
               backGroundColor === 'black'
                 ? 'bg-pure-black hover:bg-[#031018]'
                 : ''
-            }  ${backGroundColor === 'red' ? 'bg-[#f7e1e3] ' : ''} ${
+            }  ${backGroundColor === 'red' ? 'bg-[#f7e1e3] ' : ''}   ${
+              backGroundColor === 'warningRed'
+                ? 'bg-warning hover:bg-[#dc1e29] '
+                : ''
+            } ${
               backGroundColorDark === 'blue'
                 ? 'dark:bg-blue dark:hover:bg-[#1a8cd8]'
                 : ''
@@ -112,7 +116,7 @@ function Button({
                 : ''
             }  ${backGroundColorDark === 'red' ? 'dark:bg-[#200a0c] ' : ''}
         h-full w-full border ${borderColor === 'blue' ? 'border-blue' : ''}  ${
-          borderColor === 'white' ? 'border-white' : ''
+          borderColor === 'white' ? 'border-border-gray dark:border-white' : ''
         }  ${borderColor === 'black' ? 'border-black' : ''} ${
           borderColor === 'gray' ? 'border-light-gray' : ''
         } ${

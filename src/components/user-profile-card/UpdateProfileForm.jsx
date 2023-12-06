@@ -1,4 +1,4 @@
-import React, { useReducer, useRef, useState } from 'react';
+import React, { useReducer, useRef, useState, useEffect, useMemo } from 'react';
 import moment from 'moment/moment';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
@@ -11,6 +11,7 @@ import DorpDownMenu from '../form-controls/DorpDownMenu';
 import TextArea from '../form-controls/TextArea';
 import ImageButton from './ImageButton';
 import OwnToaster from '../OwnToaster';
+import UpdateCancel from './UpdateCancel';
 
 function DOBReducer(state, action) {
   switch (action.type) {
@@ -55,16 +56,23 @@ function DOBReducer(state, action) {
 
 function UpdateProfileForm({ setUpdateFormOpen }) {
   const { user, dispatch } = useAuth();
-  const DOBInitialState = {
-    month: moment(new Date(user.birthDate)).format('MMMM'),
-    day: moment(new Date(user.birthDate)).format('D'),
-    year: moment(new Date(user.birthDate)).year(),
-    daysCnt: 31,
-    yearsCnt: 120,
-  };
+  const DOBInitialState = useMemo(
+    () => ({
+      month: moment(new Date(user.birthDate)).format('MMMM'),
+      day: moment(new Date(user.birthDate)).format('D'),
+      year: moment(new Date(user.birthDate)).year(),
+      daysCnt: 31,
+      yearsCnt: 120,
+    }),
+    [user],
+  );
   const bannerInput = useRef(null);
   const picInput = useRef(null);
-  const [curBanner, setCurBanner] = useState(user.bannerUrl);
+  const [updated, setUpdated] = useState(false);
+  const [confrimCancel, setConfirmCancel] = useState(false);
+  const [curBanner, setCurBanner] = useState(
+    user.bannerUrl || import.meta.env.VITE_DEFAULT_BANNER,
+  );
   const [banner, setBanner] = useState(null);
   const [pic, setPic] = useState(null);
   const [name, setName] = useState(user.name);
@@ -114,12 +122,49 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
       if (data.status === false) throw new Error(data.message);
       dispatch({ type: 'LOGIN', payload: data.data });
       toast('Your data has been updated successfully!');
+      setUpdateFormOpen(false);
     } catch (err) {
       toast(err.message);
     }
   };
+  useEffect(() => {
+    if (
+      !banner &&
+      curBanner === user.bannerUrl &&
+      !pic &&
+      name === user.name &&
+      bio === (user.bio || '') &&
+      location === (user.location || '') &&
+      website === (user.website || '') &&
+      JSON.stringify(DOB) === JSON.stringify(DOBInitialState)
+    )
+      setUpdated(false);
+    else setUpdated(true);
+  }, [
+    banner,
+    pic,
+    name,
+    bio,
+    location,
+    website,
+    DOB,
+    user,
+    DOBInitialState,
+    curBanner,
+  ]);
   return (
-    <div className="fixed bottom-0 left-0 top-0 z-[2000] flex h-screen w-full items-center justify-center bg-dark-gray bg-opacity-30">
+    <div
+      data-testid="update-profile-form"
+      className="fixed bottom-0 left-0 top-0 z-[2000] flex h-screen w-full items-center justify-center bg-dark-gray bg-opacity-30"
+    >
+      {confrimCancel && updated && (
+        <UpdateCancel
+          onCancel={() => setConfirmCancel(false)}
+          onDiscard={() => {
+            setUpdateFormOpen(false);
+          }}
+        />
+      )}
       <BoxCard
         header={
           <div className="flex h-full w-full items-center">
@@ -127,7 +172,9 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
               <p className="flex items-center justify-between gap-6 text-xl font-bold">
                 <button
                   type="button"
-                  onClick={() => setUpdateFormOpen(false)}
+                  onClick={() =>
+                    updated ? setConfirmCancel(true) : setUpdateFormOpen(false)
+                  }
                   className="flex h-8 w-8 items-center justify-center rounded-full align-middle hover:bg-light-hover-layout dark:hover:bg-hover-layout"
                 >
                   <span className="text-base">&#10005;</span>
@@ -207,7 +254,11 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
                 <div className="relative flex w-full justify-between">
                   <img
                     id="popoverImg"
-                    src={pic ? URL.createObjectURL(pic) : user.imageUrl}
+                    src={
+                      pic
+                        ? URL.createObjectURL(pic)
+                        : user.imageUrl || import.meta.env.VITE_DEFAULT_AVATAR
+                    }
                     alt=""
                     className="relative h-auto w-full cursor-pointer rounded-full border-4 border-white dark:border-pure-black"
                   />

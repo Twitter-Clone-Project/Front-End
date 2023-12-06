@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from 'react';
+// import { v4 as uuid4 } from 'uuid';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import LandingPage from './components/landingPage/LandingPage';
@@ -19,12 +20,11 @@ import DirectMessages from './components/Direct-Messages/DirectMessages';
 import Homepage from './tweetPage/Homepage';
 import ProfilePage from './components/user-profile-card/ProfilePage';
 import Posts from './components/user-profile-card/Posts';
-import Replies from './components/user-profile-card/Replies';
 import Likes from './components/user-profile-card/Likes';
-import Media from './components/user-profile-card/Media';
-import NoProfile from './components/user-profile-card/NoProfile';
-import BoxCard from './components/BoxCard';
 import UpdateProfileForm from './components/user-profile-card/UpdateProfileForm';
+import TweetPage from './Pages/TweetPage';
+import LikersList from './Pages/LikersList';
+import RetweetersList from './Pages/RetweetersList';
 import { ChatProvider } from './contexts/ChatProvider';
 
 TimeAgo.addDefaultLocale(en);
@@ -126,6 +126,18 @@ function App() {
               element={<Homepage />}
             />
             <Route
+              path="tweet"
+              element={<TweetPage />}
+            />
+            <Route
+              path="tweet/likers"
+              element={<LikersList />}
+            />
+            <Route
+              path="tweet/retweeters"
+              element={<RetweetersList />}
+            />
+            <Route
               path="notifications"
               element={
                 <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
@@ -145,14 +157,6 @@ function App() {
               <Route
                 path="posts"
                 element={<Posts />}
-              />
-              <Route
-                path="replies"
-                element={<Replies />}
-              />
-              <Route
-                path="media"
-                element={<Media />}
               />
               <Route
                 path="likes"

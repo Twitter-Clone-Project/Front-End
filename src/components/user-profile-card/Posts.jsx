@@ -5,6 +5,7 @@ import NoResults from './NoResults';
 import TweetList from '../../tweetPage/TweetList';
 import DotLoader from './DotLoader';
 import OwnToaster from '../OwnToaster';
+import { useAuth } from '../../hooks/AuthContext';
 
 function Posts() {
   const [page, setPage] = useState(2);
@@ -14,6 +15,34 @@ function Posts() {
   const [isDone, setIsDone] = useState(false);
   const [initialDone, setInitialDone] = useState(false);
   const { username } = useParams('username');
+  const { user: curUser, dispatch } = useAuth();
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await fetch(
+          `http://${import.meta.env.VITE_API_DOMAIN}profile/${username}`,
+          {
+            method: 'GET',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+          },
+        );
+        const data = await res.json();
+        if (data.status === false) throw new Error(data.message);
+        setUser(data.data.user);
+        if (username === curUser.username)
+          dispatch({ type: 'LOGIN', payload: data.data.user });
+      } catch (err) {
+        toast(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchUser();
+  }, [dispatch, username]);
 
   const fetchTweets = useCallback(async () => {
     if (isLoading || isDone) return;
@@ -87,17 +116,26 @@ function Posts() {
   }, [error]);
 
   return (
-    <>
-      {initialDone && posts.length === 0 ? (
-        <NoResults title=" There are No posts yet" />
-      ) : (
-        <div className="flex w-full flex-col items-center gap-5">
-          <TweetList data={posts} />
-          {isLoading && <DotLoader />}
+    <div data-testid={`${username}-Posts`}>
+      {!user.isBlockingMe ? (
+        <div>
+          {initialDone && posts.length === 0 ? (
+            <NoResults title=" There are No posts yet" />
+          ) : (
+            <div
+              data-testid="posts-list"
+              className="flex w-full flex-col items-center gap-5"
+            >
+              <TweetList data={posts} />
+              {isLoading && <DotLoader />}
+            </div>
+          )}
+          <OwnToaster />
         </div>
+      ) : (
+        <NoResults title="You’re blocked" />
       )}
-      <OwnToaster />
-    </>
+    </div>
   );
 }
 
