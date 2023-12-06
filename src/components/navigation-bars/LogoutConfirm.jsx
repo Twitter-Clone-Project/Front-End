@@ -13,7 +13,7 @@ function LogoutConfirm() {
   const handleLogout = async () => {
     try {
       const res = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}auth/signout`,
+        `${import.meta.env.VITE_API_DOMAIN}auth/signout`,
         {
           method: 'POST',
           headers: {

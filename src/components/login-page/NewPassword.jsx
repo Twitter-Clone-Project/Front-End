@@ -44,7 +44,7 @@ function NewPassword({ email, user }) {
     try {
       setIsLoading(true);
       const res = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}auth/resetPassword`,
+        `${import.meta.env.VITE_API_DOMAIN}auth/resetPassword`,
         {
           method: 'PATCH',
           headers: {

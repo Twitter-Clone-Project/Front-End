@@ -38,7 +38,7 @@
 //   // Fetch the list of Follower users
 //   //   useEffect(() => {
 //   //     fetch(
-//   //       `http://${import.meta.env.VITE_API_DOMAIN}/tweets/${tweetId}/retweeters`,
+//   //       `${import.meta.env.VITE_API_DOMAIN}/tweets/${tweetId}/retweeters`,
 //   //       {
 //   //         method: 'GET',
 //   //         origin: true,
@@ -175,7 +175,7 @@ function RetweetersList() {
   // Fetch the list of Following users
   //   useEffect(() => {
   //     fetch(
-  //       `http://${import.meta.env.VITE_API_DOMAIN}/tweets/${tweetId}/likers`,
+  //       `${import.meta.env.VITE_API_DOMAIN}/tweets/${tweetId}/likers`,
   //       {
   //         method: 'GET',
   //         origin: true,

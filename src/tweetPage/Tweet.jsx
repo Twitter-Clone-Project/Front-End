@@ -4,7 +4,7 @@
 /* eslint-disable max-len */
 /* eslint-disable react/forbid-prop-types */
 import React, { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ReactTimeAgo from 'react-time-ago';
 import PropTypes from 'prop-types';
@@ -34,10 +34,11 @@ function Tweet({ data, tweets, setTweets }) {
     setRepostsCount(data.retweetsCount);
   }, [data]);
   const navigate = useNavigate();
+  const location = useLocation();
   const handleClick = () => {
     navigate(`/app/tweet`, {
       state: {
-        pastPath: '/app/home',
+        pastPath: location.pathname,
         tweetID: `${data.id}`,
         tweetData: [data],
       },
@@ -49,7 +50,7 @@ function Tweet({ data, tweets, setTweets }) {
       const deleteLike = async () => {
         try {
           const response = await fetch(
-            `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+            `${import.meta.env.VITE_API_DOMAIN}tweets/${
               data.id
             }/deleteLike`,
             {
@@ -77,7 +78,7 @@ function Tweet({ data, tweets, setTweets }) {
       const postLike = async () => {
         try {
           const response = await fetch(
-            `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+            `${import.meta.env.VITE_API_DOMAIN}tweets/${
               data.id
             }/addlike`,
             {
@@ -108,7 +109,7 @@ function Tweet({ data, tweets, setTweets }) {
       const deleteRetweet = async () => {
         try {
           const response = await fetch(
-            `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+            `${import.meta.env.VITE_API_DOMAIN}tweets/${
               data.id
             }/deleteRetweet`,
             {
@@ -136,7 +137,7 @@ function Tweet({ data, tweets, setTweets }) {
       const retweet = async () => {
         try {
           const response = await fetch(
-            `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+            `${import.meta.env.VITE_API_DOMAIN}tweets/${
               data.id
             }/retweet`,
             {
@@ -336,7 +337,7 @@ function Tweet({ data, tweets, setTweets }) {
             <ReactButtons
               type="Repost"
               data={repostsCount}
-              clicked={false}
+              clicked={data.isRetweeted}
             />
           </button>
           <button

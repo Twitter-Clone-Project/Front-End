@@ -25,7 +25,7 @@ function TweetPage() {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/replies`,
+        `${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/replies`,
         {
           method: 'GET',
           origin: true,
@@ -50,7 +50,7 @@ function TweetPage() {
       try {
         setIsLoading(true);
         const response = await fetch(
-          `http://${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/replies`,
+          `${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/replies`,
           {
             method: 'GET',
             origin: true,

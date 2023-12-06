@@ -15,7 +15,7 @@ function Homepage() {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}users/${pageNum}/timeline`,
+        `${import.meta.env.VITE_API_DOMAIN}users/${pageNum}/timeline`,
         {
           method: 'GET',
           origin: true,
@@ -39,7 +39,7 @@ function Homepage() {
       try {
         setIsLoading(true);
         const response = await fetch(
-          `http://${import.meta.env.VITE_API_DOMAIN}users/1/timeline`,
+          `${import.meta.env.VITE_API_DOMAIN}users/1/timeline`,
           {
             method: 'GET',
             origin: true,
