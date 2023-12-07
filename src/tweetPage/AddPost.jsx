@@ -127,7 +127,6 @@ function AddPost({ setTweets }) {
               setText={setText}
             />
           </div>
-          {/* <Media images={filesURLs} /> */}
           <MediaRemove
             filesURLs={filesURLs}
             setFilesURLs={setFilesURLs}

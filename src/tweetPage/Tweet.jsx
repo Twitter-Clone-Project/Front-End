@@ -271,7 +271,7 @@ function Tweet({ data, tweets, setTweets }) {
           </div>
         </div>
         <div
-          className="caption"
+          className="caption  break-words"
           onClick={handleClick}
         >
           {data.text.split(' ').map((word) => {
