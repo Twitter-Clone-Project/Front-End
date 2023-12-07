@@ -57,7 +57,7 @@ function PostEngagements({ tweetID, setVisibility }) {
   // Fetch the list of Follower users
   // useEffect(() => {
   //   fetch(
-  //     `http://${import.meta.env.VITE_API_DOMAIN}users/${username}/followings`,
+  //     `${import.meta.env.VITE_API_DOMAIN}users/${username}/followings`,
   //     {
   //       method: 'GET',
   //       origin: true,

@@ -15,7 +15,7 @@ function Homepage() {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}users/${pageNum}/timeline`,
+        `${import.meta.env.VITE_API_DOMAIN}users/${pageNum}/timeline`,
         {
           method: 'GET',
           origin: true,
@@ -39,7 +39,7 @@ function Homepage() {
       try {
         setIsLoading(true);
         const response = await fetch(
-          `http://${import.meta.env.VITE_API_DOMAIN}users/1/timeline`,
+          `${import.meta.env.VITE_API_DOMAIN}users/1/timeline`,
           {
             method: 'GET',
             origin: true,
@@ -48,7 +48,6 @@ function Homepage() {
           },
         );
         const data = await response.json();
-        console.log(data.data);
         if (data.data.length === 0) setIsDone(true);
         setTweets(() => [...data.data]);
       } catch (error) {
@@ -73,7 +72,7 @@ function Homepage() {
   }, [fetchTweets]);
 
   return (
-    <div className="my-[60px] grid min-h-[calc(100%-60px)] w-full grid-cols-[1fr_auto] dark:text-white sm:my-auto sm:min-h-full md:w-auto ">
+    <div className="my-[60px] mb-20 grid min-h-[calc(100%-60px)] w-full grid-cols-[1fr_auto] dark:text-white sm:my-auto sm:min-h-full md:w-auto ">
       <div className=" flex h-full w-full flex-col border-border-gray sm:border-x-[1px]">
         <AddPost setTweets={setTweets} />
         <TweetList

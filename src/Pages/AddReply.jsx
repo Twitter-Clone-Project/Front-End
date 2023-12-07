@@ -31,7 +31,7 @@ function AddReply({ setReplies, tweetId }) {
     const postReply = async () => {
       try {
         const response = await fetch(
-          `http://${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/addReply`,
+          `${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/addReply`,
           {
             method: 'POST',
             origin: true,
@@ -46,8 +46,11 @@ function AddReply({ setReplies, tweetId }) {
         const data = await response.json();
         if (data.status) {
           data.data.screenName = user.name;
+          data.data.followingCount = '';
+          data.data.followersCount = '';
+          data.data.isFollowed = false;
           setReplies((prev) => [data.data, ...prev]);
-          // console.log(data.data);
+          console.log(data.data);
         }
       } catch (error) {
         toast('Error Adding Reply:', error);

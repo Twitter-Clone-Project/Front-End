@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../form-controls/Button';
 
+import { useAuth } from '../../hooks/AuthContext';
+
 function PopoverUserCard({
   popoverIsFollowed,
   popoverIsFollowing,
@@ -19,23 +21,22 @@ function PopoverUserCard({
   popoverTestID,
   popoverSetLocalIsFollowed,
 }) {
+  const { user: curUser } = useAuth();
+
   // Function to handle follow request
   const followReq = () => {
-    fetch(
-      `http://${import.meta.env.VITE_API_DOMAIN}users/${popoverUserID}/follow`,
-      {
-        method: 'POST',
-        origin: true,
-        credentials: 'include',
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userid: { popoverUserID },
-        }),
+    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${popoverUserID}/follow`, {
+      method: 'POST',
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
       },
-    )
+      body: JSON.stringify({
+        userid: { popoverUserID },
+      }),
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -53,23 +54,18 @@ function PopoverUserCard({
 
   // Function to handle unFollow request
   const unFollowReq = () => {
-    fetch(
-      `http://${
-        import.meta.env.VITE_API_DOMAIN
-      }users/${popoverUserID}/unfollow`,
-      {
-        method: 'DELETE',
-        origin: true,
-        credentials: 'include',
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userid: { popoverUserID },
-        }),
+    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${popoverUserID}/unfollow`, {
+      method: 'DELETE',
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
       },
-    )
+      body: JSON.stringify({
+        userid: { popoverUserID },
+      }),
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -101,65 +97,69 @@ function PopoverUserCard({
             className=" h-16 w-16 rounded-full"
           />
         </Link>
-        <div
-          className=" h-9 w-28"
-          onMouseEnter={() => {
-            setPopoverButtonHovered(true);
-          }}
-          onMouseLeave={() => {
-            setPopoverButtonHovered(false);
-          }}
-          data-testid={`PopoverUserCard_${popoverTestID}_1`}
-          onClick={() => {
-            popoverIsFollowed ? unFollowReq() : followReq();
-          }}
-        >
-          <Button
-            backGroundColor={
-              popoverIsFollowed
-                ? isPopoverButtonHovered
-                  ? 'red'
+        {popoverUserID !== curUser.username ? (
+          <div
+            className=" h-9 w-28"
+            onMouseEnter={() => {
+              setPopoverButtonHovered(true);
+            }}
+            onMouseLeave={() => {
+              setPopoverButtonHovered(false);
+            }}
+            data-testid={`PopoverUserCard_${popoverTestID}_1`}
+            onClick={() => {
+              popoverIsFollowed ? unFollowReq() : followReq();
+            }}
+          >
+            <Button
+              backGroundColor={
+                popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'red'
+                    : 'white'
                   : 'white'
-                : 'white'
-            }
-            backGroundColorDark={
-              popoverIsFollowed
-                ? isPopoverButtonHovered
-                  ? 'red'
+              }
+              backGroundColorDark={
+                popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'red'
+                    : 'black'
                   : 'black'
-                : 'black'
-            }
-            borderColor={
-              popoverIsFollowed
-                ? isPopoverButtonHovered
-                  ? 'red'
+              }
+              borderColor={
+                popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'red'
+                    : 'gray'
                   : 'gray'
-                : 'gray'
-            }
-            label={
-              popoverIsFollowed
-                ? isPopoverButtonHovered
-                  ? 'Unfollow'
-                  : 'Following'
-                : 'Follow'
-            }
-            labelColor={
-              popoverIsFollowed
-                ? isPopoverButtonHovered
-                  ? 'red'
+              }
+              label={
+                popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'Unfollow'
+                    : 'Following'
+                  : 'Follow'
+              }
+              labelColor={
+                popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'red'
+                    : 'black'
                   : 'black'
-                : 'black'
-            }
-            labelColorDark={
-              popoverIsFollowed
-                ? isPopoverButtonHovered
-                  ? 'red'
+              }
+              labelColorDark={
+                popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'red'
+                    : 'white'
                   : 'white'
-                : 'white'
-            }
-            hight="h-9"
-          />
-        </div>
+              }
+              hight="h-9"
+            />
+          </div>
+        ) : (
+          ''
+        )}
       </div>
       <div className=" mt-2">
         <div className="flex h-[41.5px] flex-col">

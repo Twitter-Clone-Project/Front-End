@@ -6,7 +6,7 @@ import Tweet from './Tweet';
 
 function TweetList({ data, setTweets }) {
   return (
-    <div>
+    <div className="w-full">
       {data.map((tweetItem) => (
         <Tweet
           key={uuid4()}

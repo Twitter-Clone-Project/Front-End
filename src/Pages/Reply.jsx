@@ -6,17 +6,28 @@ import ReactTimeAgo from 'react-time-ago';
 import PropTypes from 'prop-types';
 import { v4 as uuid4 } from 'uuid';
 import OwnToaster from '../components/OwnToaster';
+import PopoverUserCard from '../components/userComponents/PopoverUserCard';
 
 function Reply({ data }) {
   const [text, setText] = useState('');
 
   useEffect(() => {
+    let reply;
     if (typeof data.replyText === 'string') {
-      const reply = data.replyText.slice(14, data.replyText.length - 2);
-      // console.log(reply);
-      setText(reply);
+      reply = data.replyText.slice(14, data.replyText.length - 2);
+    } else if (typeof data.replyText === 'object') {
+      reply = data.replyText.replyText;
     }
+    setText(reply);
   }, [data]);
+  const [isHovered, setIsHovered] = useState(false);
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
 
   return (
     <div
@@ -24,21 +35,37 @@ function Reply({ data }) {
       data-testid={data.replyId}
     >
       <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
-        {/* <div className={` pb-1 ${repost === false ? 'hidden' : ''}`}>
-          <svg
-            viewBox="0 0 24 24"
-            className="ml-[24px] h-[16px] w-[16px] fill-dark-gray  "
-          >
-            <path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z" />
-          </svg>
-        </div> */}
-        <div className="profileImage leftColumn mr-[12px] h-[40px] w-[40px] ">
+        <div className="profileImage leftColumn absolute mr-[12px] h-[40px] w-[40px] ">
           <img
+            data-testid={`profileImage${data.id}`}
             src={data.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR}
             alt="profileImage"
-            className=" h-[40px] w-[40px] rounded-full object-cover"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className="  h-[40px] w-[40px] rounded-full object-cover transition-opacity"
           />
         </div>
+        {isHovered && (
+          <div
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className="relative right-24 top-[-1] z-10 mt-5 flex h-[250px]  w-[300px] flex-col justify-center "
+          >
+            <PopoverUserCard
+              popoverIsFollowed={data.isFollowed}
+              popoverUserPicture={
+                data.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
+              }
+              popoverUserName={data.screenName}
+              popoverUserID={data.username}
+              popoverDiscription=""
+              popoverFollowing={data.followingCount}
+              popoverFollowers={data.followersCount}
+              popoverTestID={`${data.username}-popover`}
+              popoverSetLocalIsFollowed
+            />
+          </div>
+        )}
       </div>
 
       <div className="rightColumn w-[512px] ">
@@ -74,7 +101,7 @@ function Reply({ data }) {
           })}
           {/* {text} */}
         </div>
-        <div className="h-[15px]" />
+        <div className="h-[30px]" />
       </div>
       <OwnToaster />
     </div>
