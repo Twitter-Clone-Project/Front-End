@@ -171,7 +171,7 @@ function Tweet({ data, tweets, setTweets }) {
   };
   return (
     <div
-      className="tweet mb-[0.5px] mt-[-0.5px] flex w-full border-collapse flex-row  border-y-[0.5px] border-y-border-gray bg-white px-3 pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black sm:px-[16px] md:w-[598px] "
+      className="tweet mb-[0.5px] mt-[-0.5px] grid w-full border-collapse grid-cols-[auto_1fr]  border-y-[0.5px] border-y-border-gray bg-white px-3 pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black sm:px-[16px] lg:w-[598px] "
       onClick={handleClick}
     >
       <div
@@ -215,10 +215,10 @@ function Tweet({ data, tweets, setTweets }) {
         )}
       </div>
 
-      <div className="rightColumn w-full">
+      <div className="rightColumn max-w-[95%]">
         {(data.isRetweet || repost) && (
           <div
-            className={` retweeted-info flex items-center text-xs font-semibold
+            className={` retweeted-info flex w-full items-center text-xs font-semibold
           text-dark-gray ${repost === false ? 'hidden' : ''} `}
             onClick={(e) => {
               e.stopPropagation();
@@ -238,25 +238,25 @@ function Tweet({ data, tweets, setTweets }) {
             </span>
           </div>
         )}
-        <div className="flex justify-between">
+        <div className="flex w-full justify-between">
           <div
-            className="userInfo flex flex-row"
+            className="userInfo flex flex-wrap"
             onClick={(e) => {
               e.stopPropagation();
             }}
           >
             <Link
               to={`/app/${data.user.username}`}
-              className="text-black"
+              className=" text-black"
             >
               <div
                 data-testid={`username${data.id}`}
-                className="name  text-[15px] font-bold dark:text-white"
+                className="name whitespace-nowrap text-[15px] font-bold dark:text-white"
               >
                 {data.user.screenName}
               </div>
             </Link>
-            <div className="flex w-full flex-wrap">
+            <div className="flex flex-wrap">
               <div className="userName overflow-hidden text-[15px] text-dark-gray">
                 {' '}
                 &ensp;@<span>{data.user.username}</span>
@@ -287,7 +287,7 @@ function Tweet({ data, tweets, setTweets }) {
             />
           </div>
         </div>
-        <div className="caption  break-words">
+        <div className="caption max-w-[95%] break-all">
           {data.text.split(' ').map((word) => {
             if (word.startsWith('#')) {
               return (
