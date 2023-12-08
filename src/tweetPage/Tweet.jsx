@@ -15,17 +15,15 @@ import Media from './Media';
 import OwnToaster from '../components/OwnToaster';
 import ActionsMenu from './ActionsMenu';
 import PopoverUserCard from '../components/userComponents/PopoverUserCard';
-import { useAuth } from '../hooks/AuthContext';
 
 function Tweet({ data, tweets, setTweets }) {
-  const [repost, toggleRepost] = useState(data.isRetweet);
+  const [repost, toggleRepost] = useState(data.isRetweeted);
   const [like, toggleLike] = useState(data.isLiked);
   const [repostsCount, setRepostsCount] = useState();
   const [repliesCount, setRepliesCount] = useState();
   const [likesCount, setLikesCount] = useState();
   const [isLikeLoading, setIsLikeLoading] = useState(false);
   const [isRepostLoading, setIsRepostLoading] = useState(false);
-  const { user: curUser } = useAuth();
   useEffect(() => {
     toggleLike(data.isLiked);
     toggleRepost(data.isRetweeted);
@@ -50,9 +48,7 @@ function Tweet({ data, tweets, setTweets }) {
       const deleteLike = async () => {
         try {
           const response = await fetch(
-            `${import.meta.env.VITE_API_DOMAIN}tweets/${
-              data.id
-            }/deleteLike`,
+            `${import.meta.env.VITE_API_DOMAIN}tweets/${data.id}/deleteLike`,
             {
               origin: true,
               credentials: 'include',
@@ -78,9 +74,7 @@ function Tweet({ data, tweets, setTweets }) {
       const postLike = async () => {
         try {
           const response = await fetch(
-            `${import.meta.env.VITE_API_DOMAIN}tweets/${
-              data.id
-            }/addlike`,
+            `${import.meta.env.VITE_API_DOMAIN}tweets/${data.id}/addlike`,
             {
               origin: true,
               credentials: 'include',
@@ -109,9 +103,7 @@ function Tweet({ data, tweets, setTweets }) {
       const deleteRetweet = async () => {
         try {
           const response = await fetch(
-            `${import.meta.env.VITE_API_DOMAIN}tweets/${
-              data.id
-            }/deleteRetweet`,
+            `${import.meta.env.VITE_API_DOMAIN}tweets/${data.id}/deleteRetweet`,
             {
               origin: true,
               credentials: 'include',
@@ -137,9 +129,7 @@ function Tweet({ data, tweets, setTweets }) {
       const retweet = async () => {
         try {
           const response = await fetch(
-            `${import.meta.env.VITE_API_DOMAIN}tweets/${
-              data.id
-            }/retweet`,
+            `${import.meta.env.VITE_API_DOMAIN}tweets/${data.id}/retweet`,
             {
               origin: true,
               credentials: 'include',
@@ -226,23 +216,28 @@ function Tweet({ data, tweets, setTweets }) {
       </div>
 
       <div className="rightColumn w-full">
-        <div
-          className={` retweeted-info flex items-center text-xs font-semibold
+        {(data.isRetweet || repost) && (
+          <div
+            className={` retweeted-info flex items-center text-xs font-semibold
           text-dark-gray ${repost === false ? 'hidden' : ''} `}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        >
-          <svg
-            viewBox="0 0 24 24"
-            className="mr-1 h-[16px] w-[16px] fill-dark-gray  "
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
           >
-            <path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z" />
-          </svg>
-          <span>
-            {data.isRetweeted ? 'You' : data.retweetedUser.screenName} reposted
-          </span>
-        </div>
+            <svg
+              viewBox="0 0 24 24"
+              className="mr-1 h-[16px] w-[16px] fill-dark-gray  "
+            >
+              <path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z" />
+            </svg>
+            <span>
+              {data.isRetweeted || repost
+                ? 'You'
+                : data.retweetedUser.screenName}{' '}
+              reposted
+            </span>
+          </div>
+        )}
         <div className="flex justify-between">
           <div
             className="userInfo flex flex-row"
@@ -337,7 +332,7 @@ function Tweet({ data, tweets, setTweets }) {
             <ReactButtons
               type="Repost"
               data={repostsCount}
-              clicked={data.isRetweeted}
+              clicked={repost}
             />
           </button>
           <button
