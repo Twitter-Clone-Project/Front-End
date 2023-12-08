@@ -39,7 +39,7 @@ function LikersList() {
   useEffect(() => {
     console.log(tweetId.tweetId, user);
     fetch(
-      `http://${import.meta.env.VITE_API_DOMAIN}tweets/${
+      `${import.meta.env.VITE_API_DOMAIN}tweets/${
         tweetId.tweetId
       }/likers`,
       {
