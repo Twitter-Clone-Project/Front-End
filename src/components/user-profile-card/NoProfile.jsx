@@ -4,7 +4,10 @@ import { useParams } from 'react-router';
 function NoProfile() {
   const { username: name } = useParams('username');
   return (
-    <div className="border-x-0 border-border-gray dark:text-white sm:border-x-2">
+    <div
+      data-testid="no-profile"
+      className="border-x-0 border-border-gray dark:text-white sm:border-x-2"
+    >
       <div className="w-full max-w-[600px] dark:text-white">
         <div className="mx-auto flex w-full flex-col">
           <div className="profile-cover max-h-[500px]">

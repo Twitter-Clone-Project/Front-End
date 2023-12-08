@@ -55,7 +55,6 @@ describe('Navigation components', () => {
     expect(getByTestId('drawer-btn')).toBeInTheDocument();
     expect(getByTestId('drawer-overlay')).toBeInTheDocument();
     expect(getByTestId('close-drawer-btn')).toBeInTheDocument();
-
     fireEvent.click(getByTestId('drawer-btn'));
     fireEvent.keyPress(getByTestId('nav-bar'), {
       key: 'Escape',

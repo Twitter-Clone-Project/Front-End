@@ -7,7 +7,7 @@ function GoogleSignInBtn({ label }) {
   const handleGoogleLogin = async () => {
     try {
       const res = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}auth/signWithGoogle`,
+        `${import.meta.env.VITE_API_DOMAIN}auth/signWithGoogle`,
         {
           method: 'POST',
           headers: {

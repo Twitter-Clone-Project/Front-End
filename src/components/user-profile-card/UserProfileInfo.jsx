@@ -56,7 +56,7 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
             className={`${
               user.isBlockingMe ? 'w-min' : 'w-[50%]'
             } min-w-[11rem]  max-w-[125px]`}
-            data-testid={`${user.userName}-UserProfile-UserActions`}
+            data-testid={`${user.username}-UserProfile-UserActions`}
           >
             <UserActions user={user} />
           </div>
@@ -72,7 +72,7 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
           </div>
         </div>
       </div>
-      <div data-testid={`${user.userName}-UsersProfile-Block-Test`}>
+      <div data-testid={`${user.username}-UsersProfile-Block-Test`}>
         {!user.isBlockingMe && (
           <div>
             {user.bio && (
@@ -141,7 +141,7 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
                 }
               >
                 <span
-                  data-testid="folllowing-count"
+                  data-testid="following-count"
                   className="mr-2 cursor-pointer text-pure-black hover:underline dark:text-white"
                 >
                   {following}
@@ -164,7 +164,7 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
                 }
               >
                 <span
-                  data-testid="folllowing-count"
+                  data-testid="folllowers-count"
                   className="mr-5  cursor-pointer text-pure-black hover:underline dark:text-white"
                 >
                   {followers}
