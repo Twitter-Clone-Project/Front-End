@@ -10,7 +10,6 @@ import UserImg from './UserImg';
 
 function NavBar() {
   const { user } = useAuth();
-  // console.log(user);
   const mobileItems = [
     {
       path: './home',
@@ -89,7 +88,7 @@ function NavBar() {
   ];
 
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -97,7 +96,7 @@ function NavBar() {
 
   useEffect(() => {
     setDrawerOpen(false);
-  }, [Navigate]);
+  }, [navigate]);
 
   useEffect(() => {
     const controlNavbar = () => {
@@ -122,7 +121,7 @@ function NavBar() {
   }, [lastScrollY]);
 
   const handleLogout = () => {
-    Navigate('/logout');
+    navigate('/logout');
   };
   useEffect(() => {
     const handler = (e) => {

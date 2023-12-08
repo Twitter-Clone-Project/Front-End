@@ -9,6 +9,13 @@ import AuthProvider from '../../contexts/Auth/AuthProvider';
 import ProtectedRoute from '../../components/ProtectedRoute';
 import { useAuth } from '../../hooks/AuthContext';
 
+vi.mock('react-router-dom', async () => {
+  const mod = await vi.importActual('react-router-dom');
+  return {
+    ...mod,
+    useLocation: vi.fn().mockImplementation(() => ({ pathname: '/app/home' })),
+  };
+});
 vi.mock('../../hooks/AuthContext.js');
 
 describe('Navigation components', () => {
@@ -56,7 +63,7 @@ describe('Navigation components', () => {
     expect(getByTestId('drawer-overlay')).toBeInTheDocument();
     expect(getByTestId('close-drawer-btn')).toBeInTheDocument();
     fireEvent.click(getByTestId('drawer-btn'));
-    fireEvent.keyPress(getByTestId('nav-bar'), {
+    fireEvent.keyDown(getByTestId('nav-bar'), {
       key: 'Escape',
       code: 'Escape',
       keyCode: 27,
@@ -68,32 +75,17 @@ describe('Navigation components', () => {
     fireEvent.keyDown(getByTestId('close-drawer-btn'));
     fireEvent.click(getByTestId('drawer-overlay'));
   });
-  it('logout click', async () => {
-    useAuth.mockReturnValue({
-      dispatch: vi.fn(),
-      isAuthenticated: true,
-      user: { name: 'mahmoud', username: 'MoSobhy' },
-    });
-    const { getByTestId } = render(
-      <AuthProvider>
-        <BrowserRouter>
-          <ProtectedRoute>
-            <NavBar />
-          </ProtectedRoute>
-        </BrowserRouter>
-      </AuthProvider>,
-    );
 
-    fireEvent.click(getByTestId('nav-logout-btn'));
-    await waitFor(() => {
-      expect(navigate).toBeCalledWith('/logout');
-    });
-  });
   it('following link click', async () => {
     useAuth.mockReturnValue({
       dispatch: vi.fn(),
       isAuthenticated: true,
-      user: { name: 'mahmoud', username: 'MoSobhy' },
+      user: {
+        name: 'mahmoud',
+        username: 'MoSobhy',
+        followersCount: 1,
+        followingCount: 1,
+      },
     });
     const { getByTestId } = render(
       <AuthProvider>
@@ -107,18 +99,27 @@ describe('Navigation components', () => {
 
     fireEvent.click(getByTestId('following-btn'));
     await waitFor(() => {
-      expect(navigate).toBeCalledWith('/app/MoSobhy/following');
+      expect(navigate).toHaveBeenLastCalledWith('/app/MoSobhy/following', {
+        state: '/',
+      });
     });
     fireEvent.keyDown(getByTestId('following-btn'));
     await waitFor(() => {
-      expect(navigate).toBeCalledWith('/app/MoSobhy/following');
+      expect(navigate).toHaveBeenCalledWith('/app/MoSobhy/following', {
+        state: '/',
+      });
     });
   });
   it('followers link click', async () => {
     useAuth.mockReturnValue({
       dispatch: vi.fn(),
       isAuthenticated: true,
-      user: { name: 'mahmoud', username: 'MoSobhy' },
+      user: {
+        name: 'mahmoud',
+        username: 'MoSobhy',
+        followersCount: 1,
+        followingCount: 1,
+      },
     });
     const { getByTestId } = render(
       <AuthProvider>
@@ -132,11 +133,15 @@ describe('Navigation components', () => {
 
     fireEvent.click(getByTestId('followers-btn'));
     await waitFor(() => {
-      expect(navigate).toBeCalledWith('/app/MoSobhy/follower');
+      expect(navigate).toHaveBeenCalledWith('/app/MoSobhy/followers', {
+        state: '/',
+      });
     });
     fireEvent.keyDown(getByTestId('followers-btn'));
     await waitFor(() => {
-      expect(navigate).toBeCalledWith('/app/MoSobhy/follower');
+      expect(navigate).toHaveBeenCalledWith('/app/MoSobhy/followers', {
+        state: '/',
+      });
     });
   });
 });

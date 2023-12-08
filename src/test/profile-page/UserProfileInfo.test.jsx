@@ -36,15 +36,6 @@ describe('UserPeorfileInfo component', () => {
   });
 
   it('should render with current user without errors', () => {
-    vi.mock('react-router-dom', async () => {
-      const mod = await vi.importActual('react-router-dom');
-      return {
-        ...mod,
-        useLocation: () => ({
-          pathname: '/app/MoSobhy',
-        }),
-      };
-    });
     useAuth.mockReturnValue({
       dispatch: vi.fn(),
       isAuthenticated: true,
@@ -75,15 +66,6 @@ describe('UserPeorfileInfo component', () => {
     fireEvent.click(getByTestId('Edit Profile'));
   });
   it('should render with other user without errors', () => {
-    vi.mock('react-router-dom', async () => {
-      const mod = await vi.importActual('react-router-dom');
-      return {
-        ...mod,
-        useLocation: () => ({
-          pathname: '/app/mooo',
-        }),
-      };
-    });
     useAuth.mockReturnValue({
       dispatch: vi.fn(),
       isAuthenticated: true,
