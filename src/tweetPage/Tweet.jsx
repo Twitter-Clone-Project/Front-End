@@ -50,9 +50,7 @@ function Tweet({ data, tweets, setTweets }) {
       const deleteLike = async () => {
         try {
           const response = await fetch(
-            `${import.meta.env.VITE_API_DOMAIN}tweets/${
-              data.id
-            }/deleteLike`,
+            `${import.meta.env.VITE_API_DOMAIN}tweets/${data.id}/deleteLike`,
             {
               origin: true,
               credentials: 'include',
@@ -78,9 +76,7 @@ function Tweet({ data, tweets, setTweets }) {
       const postLike = async () => {
         try {
           const response = await fetch(
-            `${import.meta.env.VITE_API_DOMAIN}tweets/${
-              data.id
-            }/addlike`,
+            `${import.meta.env.VITE_API_DOMAIN}tweets/${data.id}/addlike`,
             {
               origin: true,
               credentials: 'include',
@@ -109,9 +105,7 @@ function Tweet({ data, tweets, setTweets }) {
       const deleteRetweet = async () => {
         try {
           const response = await fetch(
-            `${import.meta.env.VITE_API_DOMAIN}tweets/${
-              data.id
-            }/deleteRetweet`,
+            `${import.meta.env.VITE_API_DOMAIN}tweets/${data.id}/deleteRetweet`,
             {
               origin: true,
               credentials: 'include',
@@ -137,9 +131,7 @@ function Tweet({ data, tweets, setTweets }) {
       const retweet = async () => {
         try {
           const response = await fetch(
-            `${import.meta.env.VITE_API_DOMAIN}tweets/${
-              data.id
-            }/retweet`,
+            `${import.meta.env.VITE_API_DOMAIN}tweets/${data.id}/retweet`,
             {
               origin: true,
               credentials: 'include',
