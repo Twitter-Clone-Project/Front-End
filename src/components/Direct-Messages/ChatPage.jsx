@@ -1,13 +1,6 @@
 /* eslint-disable react/prop-types */
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useContext,
-  useCallback,
-} from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
-import dayjs from 'dayjs';
 import PersonCard from './PersonCard';
 import MessagesInput from './MessagesInput';
 import Messages from './Messages';
@@ -15,13 +8,9 @@ import Header from './Header';
 import Button from '../form-controls/Button';
 import { ChatContext } from '../../hooks/ContactContext';
 
-// eslint-disable-next-line react/prop-types
-function ChatPage({ width, visibility, showArrow, socket }) {
-  const [messages, setMessages] = useState([]);
-  const [socketMessages, setSocketMessages] = useState([]);
+function ChatPage({ width, visibility, showArrow }) {
   const [imgVisible, setImgVisible] = useState(false);
-  const { chatContext, setChatContext, top, setTop } = useContext(ChatContext);
-
+  const { chatContext } = useContext(ChatContext);
   const imgRef = useRef(null);
 
   const handleScroll = () => {
@@ -34,54 +23,6 @@ function ChatPage({ width, visibility, showArrow, socket }) {
       }
     }
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (chatContext.conversationId !== '') {
-        const response = await fetch(
-          `http://${import.meta.env.VITE_API_DOMAIN}conversations/${
-            chatContext.conversationId
-          }/history`,
-          {
-            method: 'GET',
-            origin: true,
-            credentials: 'include',
-            withCredentials: true,
-          },
-        );
-        const Json = await response.json();
-        setMessages(Json.data.messages);
-      }
-    };
-    fetchData();
-  }, [chatContext]);
-
-  useEffect(() => {
-    setSocketMessages([]);
-  }, [chatContext]);
-
-  // console.log('received', message.conversationId); // ====1
-  // console.log('chatContext', chatContext.conversationId); // ====2
-  // console.log(
-  //   'condiation',
-  //   chatContext.conversationId === message.conversationId,
-  // );
-
-  const func = useCallback(
-    async (message) => {
-      setTop({ conversationId: message.conversationId, text: message.text });
-      if (chatContext.conversationId === message.conversationId) {
-        // console.log('iam inside ');
-        setSocketMessages((prevMessages) => [...prevMessages, message]);
-      }
-    },
-    [chatContext.conversationId, setTop],
-  );
-
-  useEffect(() => {
-    if (socket === null) return;
-    socket.on('msg-receive', func);
-  }, [chatContext, func, socket]);
 
   if (visibility) {
     if (chatContext.conversationId !== '') {
@@ -98,32 +39,17 @@ function ChatPage({ width, visibility, showArrow, socket }) {
           <div
             onScroll={handleScroll}
             className="
-        flex flex-grow flex-col overflow-y-auto px-4 scrollbar-thin scrollbar-track-[#f9f9f9] 
-        scrollbar-thumb-[#c0c0c0]
-        scrollbar-thumb-rounded-full hover:scrollbar-thumb-[#7b7b7b] dark:scrollbar-track-[#272727] dark:scrollbar-thumb-[#4a4a4a] dark:hover:scrollbar-thumb-[#888888]"
+            flex flex-grow flex-col overflow-y-auto px-4 scrollbar-thin scrollbar-track-[#f9f9f9] 
+            scrollbar-thumb-[#c0c0c0]
+            scrollbar-thumb-rounded-full hover:scrollbar-thumb-[#7b7b7b] dark:scrollbar-track-[#272727] dark:scrollbar-thumb-[#4a4a4a] dark:hover:scrollbar-thumb-[#888888]"
           >
             <div>
-              <PersonCard
-                image={chatContext.contact.imageUrl}
-                name={chatContext.contact.name}
-                tag={chatContext.contact.username}
-                date={dayjs(chatContext.contact.createdAt).format('MMMM YYYY')}
-                followers={chatContext.contact.followersCount}
-                commonFollowers={chatContext.contact.commonFollowers}
-                imgRef={imgRef}
-              />
+              <PersonCard />
             </div>
-            <Messages
-              messages={messages}
-              socketMessages={socketMessages}
-            />
+            <Messages />
           </div>
           <div>
-            <MessagesInput
-              socket={socket}
-              socketMessages={socketMessages}
-              setSocketMessages={setSocketMessages}
-            />
+            <MessagesInput />
           </div>
         </div>
       );
@@ -131,10 +57,10 @@ function ChatPage({ width, visibility, showArrow, socket }) {
     if (width > 768) {
       return (
         <div
-          className=" lg:w-[600px ]md:min-w-[600px]  flex h-screen min-w-[600px] flex-col  justify-center 
-           border-x-[1px] border-[#f6f8f9] dark:border-[#252829]
-        dark:bg-black dark:text-white
-          xl:w-[600px]"
+          className="lg:w-[600px ]md:min-w-[600px]  flex h-screen min-w-[600px] flex-col  justify-center 
+                      border-x-[1px] border-[#f6f8f9] dark:border-[#252829]
+                    dark:bg-black dark:text-white
+                      xl:w-[600px]"
         >
           <div className="mx-[100px] flex flex-col">
             <div className="text-[31px] font-bold">Select a message</div>

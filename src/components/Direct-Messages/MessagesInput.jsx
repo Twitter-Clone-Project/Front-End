@@ -2,14 +2,20 @@
 import React, { useRef, useState, useContext } from 'react';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
-import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 import { useAuth } from '../../hooks/AuthContext';
 import { ChatContext } from '../../hooks/ContactContext';
 
-function MessagesInput({ socketMessages, setSocketMessages, socket }) {
+function MessagesInput() {
   const { user } = useAuth();
-  const { chatContext, setTop } = useContext(ChatContext);
+  const {
+    chatContext,
+    setTop,
+    inConversation,
+    socketMessages,
+    setSocketMessages,
+    socket,
+  } = useContext(ChatContext);
   const [showEmoji, setShowEmoji] = useState(false);
   const [message, setMessage] = useState('');
   const buttonRef = useRef();
@@ -26,6 +32,7 @@ function MessagesInput({ socketMessages, setSocketMessages, socket }) {
       senderId: user.userId,
       receiverId: chatContext.contact.id,
       text: message,
+      isSeen: inConversation,
     };
     setTop({
       conversationId: chatContext.conversationId,
@@ -36,10 +43,9 @@ function MessagesInput({ socketMessages, setSocketMessages, socket }) {
     setSocketMessages([
       ...socketMessages,
       {
-        messageId: '0',
         text: message,
         isFromMe: true,
-        isSeen: false,
+        isSeen: inConversation, // true --Seen   false --Sent
         time: dayjs().format('YYYY-MM-DD HH:mm:ssZ'),
       },
     ]);
@@ -144,9 +150,6 @@ function MessagesInput({ socketMessages, setSocketMessages, socket }) {
   );
 }
 
-MessagesInput.propTypes = {
-  socketMessages: PropTypes.array.isRequired,
-  setSocketMessages: PropTypes.func.isRequired,
-};
+MessagesInput.propTypes = {};
 
 export default MessagesInput;

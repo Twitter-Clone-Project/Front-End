@@ -5,97 +5,53 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
+import Time from './Time';
+
 import { ChatContext } from '../../hooks/ContactContext';
 import { useAuth } from '../../hooks/AuthContext';
 
-function ConversationCard({ conversationData, socket, setOpenedId }) {
-  const { chatContext, setChatContext } = useContext(ChatContext);
+function ConversationCard({ conversationData, setOpenedId }) {
+  const { chatContext, setChatContext, socket } = useContext(ChatContext);
   const { user } = useAuth();
 
-  let differenceInSeconds = 0;
-  let differenceInMinutes = 0;
-  let differenceInHours = 0;
-  let differenceInMonths = 0;
-  let differenceInYears = 0;
-  let differenceInDays = 0;
-  dayjs.extend(customParseFormat);
-
-  if (conversationData.lastMessage !== '') {
-    const timestampString = conversationData.lastMessage.timestamp;
-    const givenTimestamp = dayjs(timestampString);
-    const currentTime = dayjs();
-    differenceInSeconds = Math.floor(
-      currentTime.diff(givenTimestamp, 'second'),
-    );
-    differenceInMinutes = Math.floor(
-      currentTime.diff(givenTimestamp, 'minute'),
-    );
-    differenceInHours = Math.floor(currentTime.diff(givenTimestamp, 'hour'));
-    differenceInDays = Math.floor(currentTime.diff(givenTimestamp, 'day'));
-    differenceInMonths = Math.floor(currentTime.diff(givenTimestamp, 'month'));
-    differenceInYears = Math.floor(currentTime.diff(givenTimestamp, 'year'));
-  }
-  let time = 0;
-  let sign = '';
-  if (
-    differenceInMinutes === 0 &&
-    differenceInHours === 0 &&
-    differenceInDays === 0 &&
-    differenceInMonths === 0 &&
-    differenceInYears === 0
-  ) {
-    time = differenceInSeconds;
-    sign = 's';
-  } else if (
-    differenceInHours === 0 &&
-    differenceInDays === 0 &&
-    differenceInMonths === 0 &&
-    differenceInYears === 0
-  ) {
-    time = differenceInMinutes;
-    sign = 'm';
-  } else if (
-    differenceInDays === 0 &&
-    differenceInMonths === 0 &&
-    differenceInYears === 0
-  ) {
-    time = differenceInHours;
-    sign = 'h';
-  } else if (differenceInMonths === 0 && differenceInYears === 0) {
-    time = differenceInDays;
-    sign = 'd';
-  } else if (differenceInYears === 0) {
-    time = differenceInMonths;
-    sign = 'm';
-  } else {
-    time = differenceInYears;
-    sign = 'y';
-  }
-
-  console.log(
-    conversationData.conversationId,
-    !conversationData.lastMessage.isSeen,
-    conversationData.conversationId === chatContext.conversationId,
-  );
   return (
     <div
       onClick={() => {
-        setChatContext({ ...conversationData });
-        setOpenedId(conversationData.conversationId);
-        socket.emit('chat-opened', {
-          userId: user.userId,
-          conversationId: conversationData.conversationId,
-        });
+        if (chatContext.conversationId === '') {
+          // console.log('First open id:', conversationData.conversationId);
+          setChatContext({ ...conversationData });
+          setOpenedId(conversationData.conversationId);
+          socket.emit('chat-opened', {
+            userId: user.userId,
+            conversationId: conversationData.conversationId,
+            contactId: conversationData.contact.id,
+          });
+        } else if (
+          chatContext.conversationId !== conversationData.conversationId
+        ) {
+          // console.log('closing id', chatContext.conversationId);
+          socket.emit('chat-closed', {
+            userId: user.userId,
+            conversationId: chatContext.conversationId,
+            contactId: chatContext.contact.id,
+          });
+          setChatContext({ ...conversationData });
+          setOpenedId(conversationData.conversationId);
+          // console.log('opening id', conversationData.conversationId);
+          socket.emit('chat-opened', {
+            userId: user.userId,
+            conversationId: conversationData.conversationId,
+            contactId: conversationData.contact.id,
+          });
+        }
       }}
       className={`${
         conversationData.conversationId === chatContext.conversationId
-          ? 'border-r-2 border-blue '
+          ? 'border-r-2 border-blue'
           : 'bg-white hover:bg-xx-light-gray dark:bg-black  dark:hover:bg-[#16171a]'
       } 
       ${
-        !conversationData.lastMessage.isSeen ||
+        !conversationData.isConversationSeen ||
         conversationData.conversationId === chatContext.conversationId
           ? 'bg-xx-light-gray dark:dark:bg-[#16171a]'
           : 'bg-white hover:bg-xx-light-gray dark:bg-black  dark:hover:bg-[#16171a]'
@@ -124,15 +80,16 @@ function ConversationCard({ conversationData, socket, setOpenedId }) {
           </div>
 
           <div className="text-base text-[#71767B]">
-            {time}
-            {sign}
+            {conversationData.lastMessage !== null && (
+              <Time sendedTime={conversationData.lastMessage.timestamp} />
+            )}
           </div>
         </div>
 
         <div
           className={` ${
             conversationData.conversationId === chatContext.conversationId ||
-            !conversationData.lastMessage.isSeen
+            !conversationData.isConversationSeen
               ? ' text-black dark:text-white'
               : 'text-[#71767B]'
           } flex  
@@ -142,7 +99,7 @@ function ConversationCard({ conversationData, socket, setOpenedId }) {
         </div>
       </div>
 
-      {!conversationData.lastMessage.isSeen && (
+      {!conversationData.isConversationSeen && (
         <div className="h-3 w-3 rounded-full bg-blue" />
       )}
     </div>

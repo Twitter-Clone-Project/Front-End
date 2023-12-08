@@ -8,8 +8,14 @@ export function ChatProvider() {
     conversationId: '',
     text: '',
   });
+  const [socket, setSocket] = useState(null);
+  const [socketMessages, setSocketMessages] = useState([]);
+  const [inConversation, setInConversation] = useState(false);
+  const [chatState, setChatState] = useState([]);
+
   const [chatContext, setChatContext] = useState({
     conversationId: '',
+    isConversationSeen: false,
     contact: {
       id: '',
       email: '',
@@ -33,6 +39,7 @@ export function ChatProvider() {
       commonFollowersCnt: 0,
     },
     lastMessage: {
+      id: '',
       text: '',
       timestamp: '',
       isSeen: '',
@@ -42,8 +49,34 @@ export function ChatProvider() {
   return (
     <ChatContext.Provider
       value={useMemo(
-        () => ({ chatContext, setChatContext, top, setTop }),
-        [chatContext, setChatContext, top, setTop],
+        () => ({
+          chatContext,
+          setChatContext,
+          top,
+          setTop,
+          socket,
+          setSocket,
+          socketMessages,
+          setSocketMessages,
+          inConversation,
+          setInConversation,
+          chatState,
+          setChatState,
+        }),
+        [
+          chatContext,
+          setChatContext,
+          top,
+          setTop,
+          socket,
+          setSocket,
+          socketMessages,
+          setSocketMessages,
+          inConversation,
+          setInConversation,
+          chatState,
+          setChatState,
+        ],
       )}
     >
       <DirectMessages />

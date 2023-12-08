@@ -2,18 +2,24 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useContext } from 'react';
 // import PropTypes from 'prop-types';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
 import ConversationCard from './ConversationCard';
 import { ChatContext } from '../../hooks/ContactContext';
 
-function ConversationsHistory({ socket }) {
+function ConversationsHistory() {
   const [conversations, setConversations] = useState([]);
-  const { chatContext, top } = useContext(ChatContext);
+  const { chatContext, top, socket, setChatState } = useContext(ChatContext);
   const [openedId, setOpenedId] = useState('');
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}conversations`,
+        `${import.meta.env.VITE_API_DOMAIN}conversations`,
         {
           method: 'GET',
           origin: true,
@@ -24,7 +30,17 @@ function ConversationsHistory({ socket }) {
       const Json = await response.json();
       const { data } = Json;
       setConversations(data.conversations);
-      console.log(data.conversations);
+
+      data.conversations.map((conversation) => {
+        setChatState((prevConversations) => [
+          ...prevConversations,
+          {
+            conversationId: conversation.conversationId,
+            inChat: conversation.inChat,
+          },
+        ]);
+        return conversation;
+      });
     };
     fetchData();
   }, []);
@@ -36,7 +52,7 @@ function ConversationsHistory({ socket }) {
     );
     if (conversationIndex !== -1) {
       const updatedConversations = [...conversations];
-      updatedConversations[conversationIndex].lastMessage.isSeen = true;
+      updatedConversations[conversationIndex].isConversationSeen = true;
       setConversations(updatedConversations);
     }
   }, [openedId]);
@@ -53,8 +69,10 @@ function ConversationsHistory({ socket }) {
         1,
       );
       removedConversation.lastMessage.text = top.text;
+      removedConversation.lastMessage.timestamp = dayjs().format();
+
       if (removedConversation.conversationId !== chatContext.conversationId) {
-        removedConversation.lastMessage.isSeen = false;
+        removedConversation.isConversationSeen = false;
       }
       updatedConversations.unshift(removedConversation);
       setConversations(updatedConversations);
@@ -76,11 +94,5 @@ function ConversationsHistory({ socket }) {
     );
   }
 }
-
-ConversationsHistory.propTypes = {
-  // selectedConversationId: PropTypes.string.isRequired,
-  // setSelectedConversationId: PropTypes.func.isRequired,
-  // setContact: PropTypes.func.isRequired,
-};
 
 export default ConversationsHistory;

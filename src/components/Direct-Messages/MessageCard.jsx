@@ -15,7 +15,7 @@ function MessageCard({
   setClicked,
   time,
 }) {
-  const parsedDate = dayjs(time);
+  const Date = dayjs(time);
   return (
     <div
       onClick={() => {
@@ -53,7 +53,7 @@ function MessageCard({
       <div className="h-fit">
         {id === clicked && (
           <div className=" w-fit cursor-pointer text-sm text-[#536571] hover:underline">
-            {parsedDate.format('YYYY-MM-DD h:mm A')}{' '}
+            {Date.format('YYYY-MM-DD h:mm A')}{' '}
             {!isFromMe ? '' : isSeen ? 'Seen' : 'Sent'}
           </div>
         )}

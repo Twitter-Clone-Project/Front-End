@@ -6,7 +6,7 @@ import ConversationsHistory from './ConversationHistory';
 import SearchResults from './SearchResults';
 import Header from './Header';
 
-function ConversationsPage({ visibility, socket }) {
+function ConversationsPage({ visibility }) {
   const [searchValue, setSearchValue] = useState('');
   const [mode, setMode] = useState(false);
 
@@ -29,7 +29,7 @@ function ConversationsPage({ visibility, socket }) {
           />
         </div>
         <div className="overflow-y-auto no-scrollbar">
-          {!mode && <ConversationsHistory socket={socket} />}
+          {!mode && <ConversationsHistory />}
           {mode && <SearchResults searchValue={searchValue} />}
         </div>
       </div>

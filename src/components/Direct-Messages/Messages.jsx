@@ -1,15 +1,104 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-unneeded-ternary */
-/* eslint-disable react/prop-types */
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import MessageCard from './MessageCard';
-import dayjs from 'dayjs';
+import { ChatContext } from '../../hooks/ContactContext';
 
-// eslint-disable-next-line react/prop-types
-function Messages({ messages, socketMessages }) {
+function Messages() {
   const divRef = useRef(null);
   const [clicked, setClicked] = useState('');
+  const [messages, setMessages] = useState([]); // API
+  const {
+    chatContext,
+    socketMessages,
+    setSocketMessages,
+    socket,
+    setInConversation,
+  } = useContext(ChatContext);
+
+  // We Make this trick because the chatcontext
+  // is an object or a complex data structure
+  // and we need the last value at the receive event
+  // so we track its value using useRef
+  const chatContextRef = useRef();
+  useEffect(() => {
+    chatContextRef.current = chatContext;
+  }, [chatContext]);
+
+  const messagesRef = useRef();
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
+
+  const socketmessagesRef = useRef();
+  useEffect(() => {
+    socketmessagesRef.current = socketMessages;
+  }, [socketMessages]);
+
+  // Get the API messages
+  useEffect(() => {
+    if (chatContext.conversationId !== '') {
+      const fetchData = async () => {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_DOMAIN}conversations/${
+            chatContext.conversationId
+          }/history`,
+          {
+            method: 'GET',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+          },
+        );
+        const Json = await response.json();
+        setMessages(Json.data.messages);
+      };
+      fetchData();
+    }
+  }, [chatContext]);
+
+  // When the receiver open the chat make all  API and Socket messages seen
+  // will goo
+
+  useEffect(() => {
+    if (socket === null) return;
+    socket.on('status-of-contact', (data) => {
+      const lastChatContext = chatContextRef.current;
+      const lastMessages = messagesRef.current;
+      const lastSocketMessages = socketmessagesRef.current;
+      if (
+        lastChatContext &&
+        lastChatContext.conversationId === data.conversationId &&
+        data.inConversation
+      ) {
+        setInConversation(true);
+        if (lastMessages) {
+          const updatedAPIMessages = lastMessages.map((message) => ({
+            ...message,
+            isSeen: true,
+          }));
+          setMessages(updatedAPIMessages);
+        }
+        if (lastSocketMessages) {
+          const updatedSocketMessages = lastSocketMessages.map(
+            (socketMessage) => ({
+              ...socketMessage,
+              isSeen: true,
+            }),
+          );
+          setSocketMessages(updatedSocketMessages);
+        }
+      }
+      if (
+        lastChatContext &&
+        lastChatContext.conversationId === data.conversationId &&
+        !data.inConversation
+      ) {
+        setInConversation(false);
+      }
+    });
+  }, [socket]);
 
   useEffect(() => {
     divRef.current?.scrollIntoView();
@@ -43,15 +132,14 @@ function Messages({ messages, socketMessages }) {
             i === socketMessage.length - 1 ? socketMessage.messageId : '-1'
           }
           isFromMe={socketMessage.hasOwnProperty('isFromMe') ? true : false}
-          isSeen={false}
-          time={
-            socketMessage.hasOwnProperty('time')
-              ? socketMessage.time
-              : dayjs().format('YYYY-MM-DD HH:mm:ssZ')
+          isSeen={
+            socketMessage.hasOwnProperty('isSeen')
+              ? socketMessage.isSeen
+              : false
           }
+          time={socketMessage.time}
         />
       ))}
-
       <div ref={divRef} />
     </div>
   );
