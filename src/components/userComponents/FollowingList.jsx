@@ -37,15 +37,12 @@ function FollowingList() {
 
   // Fetch the list of Follower users
   useEffect(() => {
-    fetch(
-      `http://${import.meta.env.VITE_API_DOMAIN}users/${username}/followings`,
-      {
-        method: 'GET',
-        origin: true,
-        credentials: 'include',
-        withCredentials: true,
-      },
-    )
+    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${username}/followings`, {
+      method: 'GET',
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);

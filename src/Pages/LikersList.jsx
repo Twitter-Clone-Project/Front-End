@@ -3,47 +3,52 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
-import UserItem from './UserItem';
-import ListNav from '../navigation-bars/ListNav';
+import { useAuth } from '../hooks/AuthContext';
+import UserItem from '../components/userComponents/UserItem';
+import ListNav from '../components/navigation-bars/ListNav';
 
-function FollowersList() {
+function LikersList() {
   // Get the past location for Back Button
   const location = useLocation();
-  const pastPath = location.state;
-
-  // Get the username from the URL params
-  const { username } = useParams('username');
+  const { pastPath, tweetId } = location.state;
+  const { user } = useAuth();
+  //   const { tweetId } = useParams('tweetId');
 
   // Define navigation items for the ListNav component
   const ListNavItems = [
     {
-      label: 'Following',
-      path: `/app/${username}/following`,
+      label: 'Likers',
+      path: `/app/tweet/likers`,
     },
     {
-      label: 'Followers',
-      path: `/app/${username}/followers`,
+      label: 'Retweeters',
+      path: `/app/tweet/retweeters`,
     },
   ];
 
   const [users, setUsers] = useState([]);
-  const [name, setName] = useState([]);
   const navigate = useNavigate();
 
   const handelBackButton = () => {
     navigate(pastPath);
   };
 
-  // Fetch the list of Following users
+  // Fetch the list of likers
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${username}/followers`, {
-      method: 'GET',
-      origin: true,
-      credentials: 'include',
-      withCredentials: true,
-    })
+    console.log(tweetId.tweetId, user);
+    fetch(
+      `${import.meta.env.VITE_API_DOMAIN}tweets/${
+        tweetId.tweetId
+      }/likers`,
+      {
+        method: 'GET',
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+      },
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -51,13 +56,13 @@ function FollowersList() {
         return response.json();
       })
       .then((data) => {
-        setUsers(data.data.users);
-        setName(data.data.name);
+        setUsers(data.data);
       })
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
-  }, [username]);
+  }, [tweetId]);
+
   return (
     <div className="flex h-full min-h-screen w-full justify-center bg-white dark:bg-pure-black">
       <div className="w-full overflow-y-clip bg-white dark:bg-pure-black">
@@ -88,14 +93,14 @@ function FollowersList() {
                   className=" cursor-pointer text-[20px] font-bold leading-6 text-pure-black hover:underline dark:text-white"
                   data-popover-target="popover-user-profile"
                 >
-                  {name}
+                  {user.name}
                 </span>
               </div>
               <span
                 className=" w-min text-sm leading-4 text-light-thin"
                 data-popover-target="popover-user-profile"
               >
-                @{username}
+                @{user.username}
               </span>
             </div>
           </div>
@@ -110,19 +115,21 @@ function FollowersList() {
           </div>
         </div>
         <div data-testid="FollowerList_2">
-          {users.map((user, index) => (
+          {users.map((userDetails, index) => (
             <UserItem
               key={uuid4()}
-              isFollowed={user.isFollowed}
-              isFollowing={user.isFollowing}
-              userPicture={user.imageUrl || import.meta.env.VITE_DEFAULT_AVATAR}
+              isFollowed={userDetails.isFollowed}
+              isFollowing="false"
+              userPicture={
+                user.profileImageUrl || import.meta.env.VITE_DEFAULT_AVATAR
+              }
               userName={user.name}
               userID={user.username}
-              discription={user.bio}
-              following={user.followingsCount}
-              followers={user.followersCount}
+              discription=""
+              following="0"
+              followers="0"
               testID={index}
-              itemID={user.userId}
+              itemID={userDetails.id}
             />
           ))}
         </div>
@@ -131,4 +138,4 @@ function FollowersList() {
   );
 }
 
-export default FollowersList;
+export default LikersList;

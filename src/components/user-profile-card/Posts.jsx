@@ -22,7 +22,7 @@ function Posts() {
     const fetchUser = async () => {
       try {
         const res = await fetch(
-          `http://${import.meta.env.VITE_API_DOMAIN}profile/${username}`,
+          `${import.meta.env.VITE_API_DOMAIN}profile/${username}`,
           {
             method: 'GET',
             origin: true,
@@ -49,9 +49,7 @@ function Posts() {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `http://${
-          import.meta.env.VITE_API_DOMAIN
-        }users/${username}/tweets/${page}`,
+        `${import.meta.env.VITE_API_DOMAIN}users/${username}/tweets/${page}`,
         {
           method: 'GET',
           origin: true,
@@ -77,7 +75,7 @@ function Posts() {
       try {
         setIsLoading(true);
         const response = await fetch(
-          `http://${import.meta.env.VITE_API_DOMAIN}users/${username}/tweets/1`,
+          `${import.meta.env.VITE_API_DOMAIN}users/${username}/tweets/1`,
           {
             method: 'GET',
             origin: true,
