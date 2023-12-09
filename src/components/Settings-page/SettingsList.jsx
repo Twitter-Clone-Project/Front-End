@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Navigate } from 'react-router-dom';
 
 function SettingsList({ windowWidth }) {
   const list = [
@@ -25,8 +24,8 @@ function SettingsList({ windowWidth }) {
 
   if (windowWidth > 988 || window.location.pathname == '/app/settings') {
     return (
-      <div className="h-screen w-full  min-w-[318px] max-w-full flex-col border-l  border-[#f6f8f9] dark:border-border-gray dark:bg-black">
-        <div className=" flex h-[53px] w-full items-center border-b border-[#f6f8f9] px-4 dark:border-border-gray">
+      <div className="h-screen w-full  min-w-[318px] max-w-full flex-col border-l  border-light-gray dark:border-border-gray dark:bg-black">
+        <div className=" flex h-[53px] w-full items-center border-b border-light-gray px-4 dark:border-border-gray">
           {windowWidth < 640 && (
             <button
               className="mr-3"
@@ -55,7 +54,7 @@ function SettingsList({ windowWidth }) {
               to={item.path}
               className={({ isActive }) =>
                 isActive
-                  ? 'list-nav-active flex-1 bg-[#16181c] hover:no-underline '
+                  ? 'list-nav-active flex-1 bg-xx-light-gray hover:no-underline dark:bg-[#16181c] '
                   : 'flex-1  hover:no-underline'
               }
             >

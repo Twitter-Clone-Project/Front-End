@@ -25,7 +25,7 @@ function SettingPage() {
         <div className="">
           <SettingsList windowWidth={windowWidth} />
         </div>
-        <div className=" h-screen w-full  max-w-full flex-col border-x-[1px]  border-[#f6f8f9] dark:border-[#252829] dark:bg-black md:w-[600px]   lg:w-[600px] xl:w-[600px]">
+        <div className=" h-screen w-full  max-w-full flex-col border-x-[1px]  border-light-gray dark:border-border-gray dark:bg-black md:w-[600px]   lg:w-[600px] xl:w-[600px]">
           {/* {windowWidth < 988 && window.location.pathname != '/app/settings' && (
             <button
               className=" absolute left-2 top-2"
