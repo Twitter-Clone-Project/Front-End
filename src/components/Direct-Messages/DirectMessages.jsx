@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
+
 import io from 'socket.io-client';
 import dayjs from 'dayjs';
-import ChatPage from './ChatPage';
+import { Outlet } from 'react-router';
 import ConversationsPage from './ConversationsPage';
+import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
 import { ChatContext } from '../../hooks/ContactContext';
 
@@ -10,7 +12,6 @@ function DirectMessages() {
   const { user } = useAuth();
   const {
     chatContext,
-    setChatContext,
     socket,
     setSocket,
     setSocketMessages,
@@ -104,75 +105,35 @@ function DirectMessages() {
   return (
     <div className="h-screen w-full">
       <div className="layout mx-auto h-full grid-cols-[auto_1fr] grid-rows-1 overflow-auto dark:bg-black  md:grid ">
-        <ConversationsPage
-          visibility={
-            (windowWidth < 1024 && chatContext.conversationId === '') ||
-            windowWidth >= 1024
-          }
-        />
-        <div className="relative">
-          {windowWidth < 1024 && chatContext.conversationId !== '' && (
-            <button
-              className=" absolute left-2 top-2"
-              type="button"
-              onClick={() => {
-                // console.log('closing id', chatContext.conversationId);
-                socket.emit('chat-closed', {
-                  userId: user.userId,
-                  conversationId: chatContext.conversationId,
-                  contactId: chatContext.contact.id,
-                });
-                setChatContext({
-                  conversationId: '',
-                  contact: {
-                    id: '',
-                    email: '',
-                    name: '',
-                    username: '',
-                    imageUrl: '',
-                    followersCount: '',
-                    createdAt: '',
-                    commonFollowers: [
-                      {
-                        name: '',
-                        username: '',
-                        imageUrl: '',
-                      },
-                      {
-                        name: '',
-                        username: '',
-                        imageUrl: null,
-                      },
-                    ],
-                    commonFollowersCnt: 0,
-                  },
-                  lastMessage: {
-                    text: '',
-                    timestamp: '',
-                    isSeen: '',
-                  },
-                });
-              }}
-            >
-              <div className="flex h-[34px] w-[34px] items-center justify-center rounded-full hover:bg-[#e7e7e7] dark:hover:bg-[#181919]">
-                <svg
-                  className="h-5 w-5 fill-black dark:fill-white"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M7.414 13l5.043 5.04-1.414 1.42L3.586 12l7.457-7.46 1.414 1.42L7.414 11H21v2H7.414z" />
-                </svg>
+        {((windowWidth < 1024 && chatContext.conversationId === '') ||
+          windowWidth >= 1024) && <ConversationsPage />}
+        {windowWidth >= 1024 && chatContext.conversationId === '' && (
+          <div
+            className="lg:w-[600px ]md:min-w-[600px]  flex h-screen min-w-[600px] flex-col  justify-center
+                      border-x-[1px] border-[#f6f8f9] dark:border-[#252829]
+                    dark:bg-black dark:text-white
+                      xl:w-[600px]"
+          >
+            <div className="mx-[100px] flex flex-col">
+              <div className="text-[31px] font-bold">Select a message</div>
+              <div className="text-[#71767B]">
+                Choose from your existing conversations, start a
               </div>
-            </button>
-          )}
-          <ChatPage
-            width={windowWidth}
-            showArrow={windowWidth < 1024 && chatContext.conversationId !== ''}
-            visibility={
-              (windowWidth < 1024 && chatContext.conversationId !== '') ||
-              windowWidth >= 1024
-            }
-          />
-        </div>
+              <div className="mb-7 text-[#71767B]">
+                new one, or just keep swimming.
+              </div>
+              <Button
+                backGroundColor="blue"
+                borderColor="none"
+                label="New Message"
+                labelColor="white"
+                width="w-[179px]"
+              />
+            </div>
+          </div>
+        )}
+        {((windowWidth < 1024 && chatContext.conversationId !== '') ||
+          windowWidth >= 1024) && <Outlet />}
       </div>
     </div>
   );
