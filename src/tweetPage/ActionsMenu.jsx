@@ -73,6 +73,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
     >
       <button
         type="submit"
+        data-testid={`${tweet.id}menubtn`}
         onClick={() => showMenu()}
         className="dropbtn group rounded-full hover:bg-blue-light"
       >
@@ -89,6 +90,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
       {show && (
         <div
           id="myDropdown"
+          data-testid={`${tweet.id}menu`}
           className={`dropdown-content absolute  
           right-[-10px]  flex w-[480px]
            flex-col rounded-2xl bg-white py-3 drop-shadow-xl`}

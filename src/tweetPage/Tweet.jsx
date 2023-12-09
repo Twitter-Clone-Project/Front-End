@@ -171,6 +171,7 @@ function Tweet({ data, tweets, setTweets }) {
   };
   return (
     <div
+      data-testid={`${data.id}`}
       className="tweet mb-[0.5px] mt-[-0.5px] grid w-full border-collapse grid-cols-[auto_1fr]  border-y-[0.5px] border-y-border-gray bg-white px-3 pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black sm:px-[16px] lg:w-[598px] "
       onClick={handleClick}
     >
@@ -280,6 +281,7 @@ function Tweet({ data, tweets, setTweets }) {
             }}
           >
             <ActionsMenu
+             
               userId={data.user.userId}
               tweet={data}
               tweets={tweets}
@@ -308,7 +310,7 @@ function Tweet({ data, tweets, setTweets }) {
         </div>
         <div className="buttons flex h-[32px] flex-row  justify-between">
           <button
-            data-testid="reply"
+            data-testid={`${data.id}reply`}
             type="submit"
             onClick={(e) => {
               e.stopPropagation();
@@ -321,7 +323,7 @@ function Tweet({ data, tweets, setTweets }) {
             />
           </button>
           <button
-            data-testid="repost"
+           data-testid={`${data.id}repost`}
             type="submit"
             disabled={isRepostLoading}
             onClick={(e) => {
@@ -336,7 +338,7 @@ function Tweet({ data, tweets, setTweets }) {
             />
           </button>
           <button
-            data-testid="like"
+            data-testid={`${data.id}like`}
             disabled={isLikeLoading}
             type="submit"
             onClick={(e) => {
