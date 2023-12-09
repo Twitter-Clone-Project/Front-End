@@ -1,6 +1,6 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 // import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -9,10 +9,13 @@ import timezone from 'dayjs/plugin/timezone';
 import ConversationCard from './ConversationCard';
 import { ChatContext } from '../../hooks/ContactContext';
 
-function ConversationsHistory() {
-  const [conversations, setConversations] = useState([]);
+function ConversationsHistory({
+  setOpenedId,
+  openedId,
+  conversations,
+  setConversations,
+}) {
   const { chatContext, top, socket, setChatState } = useContext(ChatContext);
-  const [openedId, setOpenedId] = useState('');
   dayjs.extend(utc);
   dayjs.extend(timezone);
 
@@ -31,14 +34,14 @@ function ConversationsHistory() {
       const { data } = Json;
       setConversations(data.conversations);
 
+      // set the initial state of the chatState
       data.conversations.map((conversation) => {
-        setChatState((prevConversations) => [
+        setChatState((prevConversations) => ({
           ...prevConversations,
-          {
-            conversationId: conversation.conversationId,
-            inChat: conversation.inChat,
+          [conversation.conversationId]: {
+            inChat: conversation.contact.inConversation,
           },
-        ]);
+        }));
         return conversation;
       });
     };
@@ -68,8 +71,17 @@ function ConversationsHistory() {
         conversationIndex,
         1,
       );
-      removedConversation.lastMessage.text = top.text;
-      removedConversation.lastMessage.timestamp = dayjs().format();
+      if (removedConversation.lastMessage === null) {
+        removedConversation.lastMessage = {
+          id: '',
+          text: top.text,
+          timestamp: dayjs().format(),
+          isSeen: true,
+        };
+      } else {
+        removedConversation.lastMessage.text = top.text;
+        removedConversation.lastMessage.timestamp = dayjs().format();
+      }
 
       if (removedConversation.conversationId !== chatContext.conversationId) {
         removedConversation.isConversationSeen = false;

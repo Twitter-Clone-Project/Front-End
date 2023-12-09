@@ -9,13 +9,8 @@ function Messages() {
   const divRef = useRef(null);
   const [clicked, setClicked] = useState('');
   const [messages, setMessages] = useState([]); // API
-  const {
-    chatContext,
-    socketMessages,
-    setSocketMessages,
-    socket,
-    setInConversation,
-  } = useContext(ChatContext);
+  const { chatContext, socketMessages, setSocketMessages, chatState } =
+    useContext(ChatContext);
 
   // We Make this trick because the chatcontext
   // is an object or a complex data structure
@@ -59,46 +54,29 @@ function Messages() {
   }, [chatContext]);
 
   // When the receiver open the chat make all  API and Socket messages seen
-  // will goo
-
   useEffect(() => {
-    if (socket === null) return;
-    socket.on('status-of-contact', (data) => {
-      const lastChatContext = chatContextRef.current;
-      const lastMessages = messagesRef.current;
-      const lastSocketMessages = socketmessagesRef.current;
-      if (
-        lastChatContext &&
-        lastChatContext.conversationId === data.conversationId &&
-        data.inConversation
-      ) {
-        setInConversation(true);
-        if (lastMessages) {
-          const updatedAPIMessages = lastMessages.map((message) => ({
-            ...message,
+    const lastChatContext = chatContextRef.current;
+    const lastMessages = messagesRef.current;
+    const lastSocketMessages = socketmessagesRef.current;
+    if (lastChatContext && chatState[lastChatContext.conversationId]) {
+      if (lastMessages) {
+        const updatedAPIMessages = lastMessages.map((message) => ({
+          ...message,
+          isSeen: true,
+        }));
+        setMessages(updatedAPIMessages);
+      }
+      if (lastSocketMessages) {
+        const updatedSocketMessages = lastSocketMessages.map(
+          (socketMessage) => ({
+            ...socketMessage,
             isSeen: true,
-          }));
-          setMessages(updatedAPIMessages);
-        }
-        if (lastSocketMessages) {
-          const updatedSocketMessages = lastSocketMessages.map(
-            (socketMessage) => ({
-              ...socketMessage,
-              isSeen: true,
-            }),
-          );
-          setSocketMessages(updatedSocketMessages);
-        }
+          }),
+        );
+        setSocketMessages(updatedSocketMessages);
       }
-      if (
-        lastChatContext &&
-        lastChatContext.conversationId === data.conversationId &&
-        !data.inConversation
-      ) {
-        setInConversation(false);
-      }
-    });
-  }, [socket]);
+    }
+  }, [chatState]);
 
   useEffect(() => {
     divRef.current?.scrollIntoView();

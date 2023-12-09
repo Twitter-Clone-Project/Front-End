@@ -10,8 +10,7 @@ export function ChatProvider() {
   });
   const [socket, setSocket] = useState(null);
   const [socketMessages, setSocketMessages] = useState([]);
-  const [inConversation, setInConversation] = useState(false);
-  const [chatState, setChatState] = useState([]);
+  const [chatState, setChatState] = useState({});
 
   const [chatContext, setChatContext] = useState({
     conversationId: '',
@@ -58,8 +57,6 @@ export function ChatProvider() {
           setSocket,
           socketMessages,
           setSocketMessages,
-          inConversation,
-          setInConversation,
           chatState,
           setChatState,
         }),
@@ -72,8 +69,6 @@ export function ChatProvider() {
           setSocket,
           socketMessages,
           setSocketMessages,
-          inConversation,
-          setInConversation,
           chatState,
           setChatState,
         ],

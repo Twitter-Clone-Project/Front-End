@@ -95,7 +95,9 @@ function ConversationCard({ conversationData, setOpenedId }) {
           } flex  
           w-full max-w-fit overflow-clip whitespace-nowrap pr-8 text-base`}
         >
-          <div>{conversationData.lastMessage.text}</div>
+          {conversationData.lastMessage !== null && (
+            <div>{conversationData.lastMessage.text}</div>
+          )}
         </div>
       </div>
 

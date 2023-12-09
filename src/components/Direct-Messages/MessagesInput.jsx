@@ -11,10 +11,10 @@ function MessagesInput() {
   const {
     chatContext,
     setTop,
-    inConversation,
     socketMessages,
     setSocketMessages,
     socket,
+    chatState,
   } = useContext(ChatContext);
   const [showEmoji, setShowEmoji] = useState(false);
   const [message, setMessage] = useState('');
@@ -32,20 +32,20 @@ function MessagesInput() {
       senderId: user.userId,
       receiverId: chatContext.contact.id,
       text: message,
-      isSeen: inConversation,
+      isSeen: chatState[chatContext.conversationId].inChat,
     };
     setTop({
       conversationId: chatContext.conversationId,
       text: message,
     });
     socket.emit('msg-send', newMessage);
-
     setSocketMessages([
       ...socketMessages,
       {
         text: message,
         isFromMe: true,
-        isSeen: inConversation, // true --Seen   false --Sent
+        // true --Seen   false --Sent
+        isSeen: chatState[chatContext.conversationId].inChat,
         time: dayjs().format('YYYY-MM-DD HH:mm:ssZ'),
       },
     ]);

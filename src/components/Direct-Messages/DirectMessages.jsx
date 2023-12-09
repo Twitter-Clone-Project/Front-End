@@ -14,6 +14,7 @@ function DirectMessages() {
     socket,
     setSocket,
     setSocketMessages,
+    setChatState,
     setTop,
   } = useContext(ChatContext);
   const [windowWidth, setWindowWidth] = useState(window.outerWidth);
@@ -71,6 +72,24 @@ function DirectMessages() {
   useEffect(() => {
     setSocketMessages([]);
   }, [chatContext]);
+
+  // track the chats (opened/closed)
+  useEffect(() => {
+    if (socket === null) return;
+    socket.on('status-of-contact', (data) => {
+      setChatState((prevChatState) => {
+        const { conversationId } = data;
+        if (prevChatState[conversationId]) {
+          return {
+            ...prevChatState,
+            [conversationId]: {
+              inChat: data.inConversation,
+            },
+          };
+        }
+      });
+    });
+  }, [socket]);
 
   useEffect(() => {
     const handleResize = () => {

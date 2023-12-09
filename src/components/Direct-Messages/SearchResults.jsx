@@ -1,25 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import SearchCard from './SearchCard';
 
-function SearchResults({
-  // selectedConversationId,
-  // setSelectedConversationIdx,
-  searchValue,
-}) {
-  const [searchResults, setSearchResults] = useState([]);
-  useEffect(() => {
-    if (searchValue !== '') {
-      fetch('http://localhost:3000/search')
-        .then((response) => response.json())
-        .then((data) => {
-          setSearchResults(data);
-        });
-    } else {
-      setSearchResults([]);
-    }
-  }, [searchValue]);
-
+function SearchResults({ conversations, searchValue, setOpenedId }) {
+  const filteredConversations = conversations.filter((conversation) =>
+    conversation.contact.name.toLowerCase().includes(searchValue.toLowerCase()),
+  );
   return (
     <div>
       {searchValue === '' && (
@@ -29,14 +15,11 @@ function SearchResults({
       )}
       {searchValue !== '' && (
         <div>
-          {searchResults.map((result) => (
+          {filteredConversations.map((conversation) => (
             <SearchCard
-              key={result.id}
-              image={result.image}
-              name={result.name}
-              tag={result.tag}
-              // setSelectedTag={selectedConversationId}
-              // selectedTag={setSelectedConversationIdx}
+              key={conversation.conversationId}
+              conversationData={conversation}
+              setOpenedId={setOpenedId}
             />
           ))}
         </div>
@@ -47,6 +30,8 @@ function SearchResults({
 
 SearchResults.propTypes = {
   searchValue: PropTypes.string.isRequired,
+  setOpenedId: PropTypes.func.isRequired,
+  conversations: PropTypes.array.isRequired,
 };
 
 export default SearchResults;

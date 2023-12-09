@@ -9,6 +9,8 @@ import Header from './Header';
 function ConversationsPage({ visibility }) {
   const [searchValue, setSearchValue] = useState('');
   const [mode, setMode] = useState(false);
+  const [conversations, setConversations] = useState([]);
+  const [openedId, setOpenedId] = useState('');
 
   if (visibility)
     return (
@@ -29,8 +31,21 @@ function ConversationsPage({ visibility }) {
           />
         </div>
         <div className="overflow-y-auto no-scrollbar">
-          {!mode && <ConversationsHistory />}
-          {mode && <SearchResults searchValue={searchValue} />}
+          {!mode && (
+            <ConversationsHistory
+              setOpenedId={setOpenedId}
+              openedId={openedId}
+              setConversations={setConversations}
+              conversations={conversations}
+            />
+          )}
+          {mode && (
+            <SearchResults
+              setOpenedId={setOpenedId}
+              searchValue={searchValue}
+              conversations={conversations}
+            />
+          )}
         </div>
       </div>
     );
