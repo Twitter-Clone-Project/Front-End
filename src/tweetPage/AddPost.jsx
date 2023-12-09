@@ -17,6 +17,8 @@ function AddPost({ setTweets }) {
   const [text, setText] = useState('');
   const [postDisabled, setPostDisabled] = useState(true);
   const [isWhitespace, setIsWhitespace] = useState(true);
+  const [addFileDisabled, setAddFileDisabled] = useState(false);
+  const [acceptVideo, setAcceptVideo] = useState(true);
   const resetAll = () => {
     setText('');
     setFilesURLs([]);
@@ -64,18 +66,67 @@ function AddPost({ setTweets }) {
     postData();
   };
 
-  const handleImageChange = (e) => {
-    const fileList = Array.from(e.target.files);
-    setFiles(fileList);
-    const fileType = fileList[0].type.split('/');
-    if (fileList.length > 4) {
+  useEffect(() => {
+    if (files.length > 4) {
       setFiles([]);
       setFilesURLs([]);
-    } else if (fileList.length > 1 && fileType[0] === 'video') {
-      setFiles([fileList[0]]);
-      setFilesURLs([URL.createObjectURL(fileList[0])]);
+      console.log('more than 4');
+    }
+    console.log(files.length);
+    if (files.length === 0) {
+      setAddFileDisabled(false);
+      setAcceptVideo(true);
+    } else setAddFileDisabled(false);
+    if (files.length === 4) {
+      setAddFileDisabled(true);
+    }
+    if (files[0]) {
+      const fileType = files[0].type.split('/');
+      if (files.length === 1 && fileType[0] === 'video') {
+        setAddFileDisabled(true);
+        console.log('button disable one video', addFileDisabled);
+      }
+    }
+  }, [files]);
+  const handleImageChange = (e) => {
+    const fileList = Array.from(e.target.files);
+    console.log(files);
+    if (files.length > 4) {
+      setFiles([]);
+      setFilesURLs([]);
+      console.log('more than 4');
     } else {
-      setFilesURLs(fileList.map((file) => URL.createObjectURL(file)));
+      let flag = true;
+      // 2,3,4 files if one video-->flag=true
+      if (fileList.length <= 4 && fileList.length > 1) {
+        for (let i = 0; i < fileList.length; i += 1) {
+          const fileType = fileList[i].type.split('/');
+          if (fileType[0] === 'video') {
+            console.log('video with images error');
+            flag = false;
+            break;
+          }
+        }
+      }
+      // 1 video or 1,2,3,4 images
+      if (flag) {
+        const fileType = fileList[0].type.split('/');
+        if (fileList.length === 1 && fileType[0] === 'video') {
+          setAddFileDisabled(true);
+          setFiles([fileList[0]]);
+          setFilesURLs([URL.createObjectURL(fileList[0])]);
+          console.log('button disable one video', addFileDisabled);
+        } else {
+          setFiles((prev) => [...prev, ...fileList]);
+          const urls = fileList.map((file) => URL.createObjectURL(file));
+          setFilesURLs((prev) => [...prev, ...urls]);
+          setAcceptVideo(false);
+        }
+      }
+    }
+    if (files.length > 2) {
+      console.log('button disable');
+      setAddFileDisabled(true);
     }
     if (fileList.length !== 0) {
       setPostDisabled(false);
@@ -131,26 +182,29 @@ function AddPost({ setTweets }) {
             setFiles={setFiles}
           />
           <div className="mt-2 flex w-full items-center justify-between border-t-border-gray peer-focus-within:border-t-[0.5px]">
-            <div className="media my-4 flex w-[18%] flex-row justify-between">
+            <div className="media my-4 flex w-[18%] flex-row justify-between ">
               <label
                 htmlFor="mediaUpload"
                 className=" cursor-pointer"
               >
                 <svg
                   viewBox="0 0 24 24"
-                  className="h-[18.75px] w-[18.75px] "
+                  className={`h-[18.75px] w-[18.75px]  ${
+                    addFileDisabled ? 'opacity-50' : ''
+                  }`}
                 >
                   <path
                     d="M3 5.5C3 4.119 4.119 3 5.5 3h13C19.881 3 21 4.119 21 5.5v13c0 1.381-1.119 2.5-2.5 2.5h-13C4.119 21 3 19.881 3 18.5v-13zM5.5 5c-.276 0-.5.224-.5.5v9.086l3-3 3 3 5-5 3 3V5.5c0-.276-.224-.5-.5-.5h-13zM19 15.414l-3-3-5 5-3-3-3 3V18.5c0 .276.224.5.5.5h13c.276 0 .5-.224.5-.5v-3.086zM9.75 7C8.784 7 8 7.784 8 8.75s.784 1.75 1.75 1.75 1.75-.784 1.75-1.75S10.716 7 9.75 7z"
-                    className=" fill-blue"
+                    className=" fill-blue "
                   />
                 </svg>
               </label>
               <input
-                type="file"
-                accept="image/*, video/*"
-                id="mediaUpload"
                 className="hidden"
+                disabled={addFileDisabled}
+                type="file"
+                accept={`image/*, ${acceptVideo ? 'video/*' : ''}`}
+                id="mediaUpload"
                 onChange={handleImageChange}
                 multiple
               />
