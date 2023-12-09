@@ -123,3 +123,12 @@ a.list-nav-active span:after {
 .nsm7Bb-HzV7m-LgbsSe.jVeSEe.i5vt6e-Ia7Qfc.JGcpL-RbRzK {
   min-width: 300px !important;
 }
+img:before {
+  content: ' ';
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url('/public/default_avatar.jpg');
+}
