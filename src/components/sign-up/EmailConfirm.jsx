@@ -20,7 +20,7 @@ function EmailConfirm({ email, type = 'reset' }) {
     try {
       setIsLoading(true);
       const res = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}auth/resendConfirmEmail`,
+        `${import.meta.env.VITE_API_DOMAIN}auth/resendConfirmEmail`,
         {
           method: 'POST',
           headers: {
@@ -43,7 +43,7 @@ function EmailConfirm({ email, type = 'reset' }) {
     try {
       setIsLoading(true);
       const res = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}auth/verifyEmail`,
+        `${import.meta.env.VITE_API_DOMAIN}auth/verifyEmail`,
         {
           method: 'POST',
           headers: {

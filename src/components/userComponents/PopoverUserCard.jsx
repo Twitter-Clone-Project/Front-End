@@ -27,21 +27,18 @@ function PopoverUserCard({
   // Function to handle follow request
 
   const followReq = () => {
-    fetch(
-      `http://${import.meta.env.VITE_API_DOMAIN}users/${popoverUserID}/follow`,
-      {
-        method: 'POST',
-        origin: true,
-        credentials: 'include',
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userid: { popoverUserID },
-        }),
+    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${popoverUserID}/follow`, {
+      method: 'POST',
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
       },
-    )
+      body: JSON.stringify({
+        userid: { popoverUserID },
+      }),
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -59,23 +56,18 @@ function PopoverUserCard({
 
   // Function to handle unFollow request
   const unFollowReq = () => {
-    fetch(
-      `http://${
-        import.meta.env.VITE_API_DOMAIN
-      }users/${popoverUserID}/unfollow`,
-      {
-        method: 'DELETE',
-        origin: true,
-        credentials: 'include',
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userid: { popoverUserID },
-        }),
+    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${popoverUserID}/unfollow`, {
+      method: 'DELETE',
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
       },
-    )
+      body: JSON.stringify({
+        userid: { popoverUserID },
+      }),
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);

@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
 import PropTypes from 'prop-types';
 
-function ListNav({ items }) {
+function ListNav({ items, pastPath }) {
   return (
     <div className="flex w-full items-center justify-center text-sm font-bold dark:bg-pure-black dark:text-white">
       <div className="flex h-[53px] w-full items-center justify-between text-center">
@@ -11,6 +11,7 @@ function ListNav({ items }) {
           <NavLink
             key={uuid4()}
             to={item.path}
+            state={pastPath}
             className={({ isActive }) =>
               isActive
                 ? 'list-nav-active flex-1 text-black hover:no-underline dark:text-white'
@@ -33,6 +34,6 @@ ListNav.propTypes = {
       path: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  // pastPath: PropTypes.string.isRequired,
+  pastPath: PropTypes.string.isRequired,
 };
 export default ListNav;

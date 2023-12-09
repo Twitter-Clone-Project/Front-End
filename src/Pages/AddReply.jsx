@@ -31,7 +31,7 @@ function AddReply({ setReplies, tweetId }) {
     const postReply = async () => {
       try {
         const response = await fetch(
-          `http://${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/addReply`,
+          `${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/addReply`,
           {
             method: 'POST',
             origin: true,

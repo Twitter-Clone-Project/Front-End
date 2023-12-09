@@ -31,7 +31,7 @@ function ProfilePage() {
     const fetchUser = async () => {
       try {
         const res = await fetch(
-          `http://${import.meta.env.VITE_API_DOMAIN}profile/${username}`,
+          `${import.meta.env.VITE_API_DOMAIN}profile/${username}`,
           {
             method: 'GET',
             origin: true,

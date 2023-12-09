@@ -134,7 +134,7 @@ function SignUpForm({ test }) {
       const usernameCheck = async () => {
         try {
           const res = await fetch(
-            `http://${
+            `${
               import.meta.env.VITE_API_DOMAIN
             }users/${userName}/isUsernameFound`,
             {
@@ -172,9 +172,7 @@ function SignUpForm({ test }) {
       const emailCheck = async () => {
         try {
           const res = await fetch(
-            `http://${
-              import.meta.env.VITE_API_DOMAIN
-            }users/${email}/isEmailFound`,
+            `${import.meta.env.VITE_API_DOMAIN}users/${email}/isEmailFound`,
             {
               signal: controller.signal,
             },
@@ -222,19 +220,16 @@ function SignUpForm({ test }) {
         }-${dateDay < 10 ? `0${dateDay}` : `${dateDay}`}`,
         gRecaptchaResponse: cap,
       };
-      const res = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}auth/signup`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          origin: true,
-          credentials: 'include',
-          withCredentials: true,
-          body: JSON.stringify(info),
+      const res = await fetch(`${import.meta.env.VITE_API_DOMAIN}auth/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        body: JSON.stringify(info),
+      });
       const data = await res.json();
       if (data.status === false) {
         throw new Error(data.message);
