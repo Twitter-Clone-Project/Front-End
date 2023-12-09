@@ -20,10 +20,12 @@ function PopoverUserCard({
   popoverFollowers,
   popoverTestID,
   popoverSetLocalIsFollowed,
+  popoverIsBlocked,
 }) {
   const { user: curUser } = useAuth();
 
   // Function to handle follow request
+
   const followReq = () => {
     fetch(
       `http://${import.meta.env.VITE_API_DOMAIN}users/${popoverUserID}/follow`,
@@ -89,6 +91,16 @@ function PopoverUserCard({
       });
   };
 
+  const handelButtonClick = () => {
+    if (!popoverIsBlocked) {
+      if (popoverIsFollowed) {
+        unFollowReq();
+      } else {
+        followReq();
+      }
+    }
+  };
+
   const [isPopoverButtonHovered, setPopoverButtonHovered] = useState(false);
   const navigate = useNavigate();
   return (
@@ -116,53 +128,68 @@ function PopoverUserCard({
             }}
             data-testid={`PopoverUserCard_${popoverTestID}_1`}
             onClick={() => {
-              popoverIsFollowed ? unFollowReq() : followReq();
+              handelButtonClick;
             }}
           >
             <Button
               backGroundColor={
-                popoverIsFollowed
+                popoverIsBlocked
+                  ? 'warningRed'
+                  : popoverIsFollowed
                   ? isPopoverButtonHovered
                     ? 'red'
                     : 'white'
                   : 'white'
               }
               backGroundColorDark={
-                popoverIsFollowed
+                popoverIsBlocked
+                  ? 'warningRed'
+                  : popoverIsFollowed
                   ? isPopoverButtonHovered
                     ? 'red'
                     : 'black'
                   : 'black'
               }
               borderColor={
-                popoverIsFollowed
+                popoverIsBlocked
+                  ? 'none'
+                  : popoverIsFollowed
                   ? isPopoverButtonHovered
                     ? 'red'
                     : 'gray'
                   : 'gray'
               }
               label={
-                popoverIsFollowed
+                popoverIsBlocked
+                  ? isPopoverButtonHovered
+                    ? 'Blocked'
+                    : 'Blocked'
+                  : popoverIsFollowed
                   ? isPopoverButtonHovered
                     ? 'Unfollow'
                     : 'Following'
                   : 'Follow'
               }
               labelColor={
-                popoverIsFollowed
+                popoverIsBlocked
+                  ? 'white'
+                  : popoverIsFollowed
                   ? isPopoverButtonHovered
                     ? 'red'
                     : 'black'
                   : 'black'
               }
               labelColorDark={
-                popoverIsFollowed
+                popoverIsBlocked
+                  ? 'white'
+                  : popoverIsFollowed
                   ? isPopoverButtonHovered
                     ? 'red'
                     : 'white'
                   : 'white'
               }
               hight="h-9"
+              textSize="text-sm"
             />
           </div>
         ) : (
