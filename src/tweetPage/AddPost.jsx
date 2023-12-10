@@ -7,6 +7,7 @@ import AddEmoji from './AddEmoji';
 import TextField from './TextField';
 import { useAuth } from '../hooks/AuthContext';
 import MediaRemove from './MediaRemove';
+import OwnToaster from '../components/OwnToaster';
 
 function AddPost({ setTweets }) {
   const { user } = useAuth();
@@ -70,9 +71,8 @@ function AddPost({ setTweets }) {
     if (files.length > 4) {
       setFiles([]);
       setFilesURLs([]);
-      console.log('more than 4');
+      toast('Please choose either 1 video or up to 4 photos');
     }
-    console.log(files.length);
     if (files.length === 0) {
       setAddFileDisabled(false);
       setAcceptVideo(true);
@@ -84,17 +84,15 @@ function AddPost({ setTweets }) {
       const fileType = files[0].type.split('/');
       if (files.length === 1 && fileType[0] === 'video') {
         setAddFileDisabled(true);
-        console.log('button disable one video', addFileDisabled);
       }
     }
   }, [files]);
   const handleImageChange = (e) => {
     const fileList = Array.from(e.target.files);
-    console.log(files);
     if (files.length > 4) {
       setFiles([]);
       setFilesURLs([]);
-      console.log('more than 4');
+      toast('Please choose either 1 video or up to 4 photos');
     } else {
       let flag = true;
       // 2,3,4 files if one video-->flag=true
@@ -102,7 +100,7 @@ function AddPost({ setTweets }) {
         for (let i = 0; i < fileList.length; i += 1) {
           const fileType = fileList[i].type.split('/');
           if (fileType[0] === 'video') {
-            console.log('video with images error');
+            toast('Please choose either 1 video or up to 4 photos');
             flag = false;
             break;
           }
@@ -115,7 +113,6 @@ function AddPost({ setTweets }) {
           setAddFileDisabled(true);
           setFiles([fileList[0]]);
           setFilesURLs([URL.createObjectURL(fileList[0])]);
-          console.log('button disable one video', addFileDisabled);
         } else {
           setFiles((prev) => [...prev, ...fileList]);
           const urls = fileList.map((file) => URL.createObjectURL(file));
@@ -125,7 +122,6 @@ function AddPost({ setTweets }) {
       }
     }
     if (files.length > 2) {
-      console.log('button disable');
       setAddFileDisabled(true);
     }
     if (fileList.length !== 0) {
@@ -226,6 +222,7 @@ function AddPost({ setTweets }) {
           </div>
         </div>
       </div>
+      <OwnToaster />
     </div>
   );
 }
