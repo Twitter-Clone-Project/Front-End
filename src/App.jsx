@@ -27,6 +27,7 @@ import RetweetersList from './Pages/RetweetersList';
 import { ChatProvider } from './contexts/ChatProvider';
 import ChatPage from './components/Direct-Messages/ChatPage';
 import InfoPage from './components/Direct-Messages/InfoPage';
+import ComposePage from './components/Direct-Messages/ComposePage';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -209,6 +210,10 @@ function App() {
               />
 
               <Route />
+              <Route
+                path="/app/messages/compose"
+                element={<ComposePage />}
+              />
             </Route>
           </Route>
         </Routes>

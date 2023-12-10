@@ -9,7 +9,7 @@ import Header from './Header';
 import { ChatContext } from '../../hooks/ContactContext';
 
 function ChatPage() {
-  const [imgVisible, setImgVisible] = useState(false);
+  const [imgVisible, setImgVisible] = useState(true);
   const { chatContext } = useContext(ChatContext);
   const imgRef = useRef(null);
 

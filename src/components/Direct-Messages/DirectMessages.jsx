@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import io from 'socket.io-client';
 import dayjs from 'dayjs';
 import { Outlet } from 'react-router';
+import { Link } from 'react-router-dom';
 import ConversationsPage from './ConversationsPage';
 import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
@@ -103,16 +104,16 @@ function DirectMessages() {
   });
 
   return (
-    <div className="h-screen w-full">
-      <div className="layout mx-auto h-full grid-cols-[auto_1fr] grid-rows-1 overflow-auto dark:bg-black  md:grid ">
+    <div className="h-full w-full text-black">
+      <div className="layout max-h-screenoverflow-auto mx-auto  h-full grid-cols-[auto_1fr]  grid-rows-1 dark:bg-black  md:grid ">
         {((windowWidth < 1024 && chatContext.conversationId === '') ||
           windowWidth >= 1024) && <ConversationsPage />}
         {windowWidth >= 1024 && chatContext.conversationId === '' && (
           <div
-            className="lg:w-[600px ]md:min-w-[600px]  flex h-screen min-w-[600px] flex-col  justify-center
+            className="lg:w-[600px]md:min-w-[600px]  flex h-screen min-w-[600px] flex-col  justify-center
                       border-x-[1px] border-[#f6f8f9] dark:border-[#252829]
                     dark:bg-black dark:text-white
-                      xl:w-[600px]"
+                      xl:w-[600px] "
           >
             <div className="mx-[100px] flex flex-col">
               <div className="text-[31px] font-bold">Select a message</div>
@@ -122,13 +123,19 @@ function DirectMessages() {
               <div className="mb-7 text-[#71767B]">
                 new one, or just keep swimming.
               </div>
-              <Button
-                backGroundColor="blue"
-                borderColor="none"
-                label="New Message"
-                labelColor="white"
-                width="w-[179px]"
-              />
+
+              <Link
+                style={{ textDecoration: 'inherit' }}
+                to="/app/messages/compose"
+              >
+                <Button
+                  backGroundColor="blue"
+                  borderColor="none"
+                  label="New Message"
+                  labelColor="white"
+                  width="w-[179px]"
+                />
+              </Link>
             </div>
           </div>
         )}

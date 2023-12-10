@@ -1,15 +1,16 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import UserItem from '../userComponents/UserItem';
 import { ChatContext } from '../../hooks/ContactContext';
 import ConfirmPopUp from '../user-profile-card/ConfirmPopUp';
 import Button from '../form-controls/Button';
 
 export default function InfoPage() {
-  const { chatContext } = useContext(ChatContext);
+  const { chatContext, setChatContext } = useContext(ChatContext);
   const [user, setUser] = useState(null);
   const [block, isBlock] = useState(false);
   const [leave, isleave] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -51,6 +52,12 @@ export default function InfoPage() {
         }),
       },
     );
+    setChatContext((prevChatContext) => ({
+      ...prevChatContext,
+      conversationId: '',
+    }));
+    navigate(`/app/messages/`);
+    window.location.reload();
   };
   const handleBlock = async () => {
     await fetch(
@@ -67,6 +74,8 @@ export default function InfoPage() {
         withCredentials: true,
       },
     );
+    navigate(`/app/messages/`);
+    window.location.reload();
   };
 
   if (user)
@@ -140,10 +149,10 @@ export default function InfoPage() {
                   <Button
                     onClick={handleBlock}
                     backGroundColor="black"
-                    backGroundColorDark="black"
+                    backGroundColorDark="white"
                     label="Leave"
                     labelColor="white"
-                    labelColorDark="white"
+                    labelColorDark="black"
                     borderColor="none"
                   />
                   <Button

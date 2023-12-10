@@ -21,67 +21,72 @@ function Header({ title, path, type, image, imgVisible }) {
   return (
     <div>
       <div className="flex h-[53px] items-center justify-between px-4">
-        <div className=" flex  gap-5 ">
-          <div>
-            {type === '-' &&
-              windowWidth < 1024 &&
-              chatContext.conversationId !== '' && (
-                <Link
-                  style={{ textDecoration: 'inherit' }}
-                  to="/app/messages"
-                  className=" absolute left-2 top-2 w-fit"
-                  onClick={() => {
-                    // console.log('closing id', chatContext.conversationId);
-                    socket.emit('chat-closed', {
-                      userId: user.userId,
-                      conversationId: chatContext.conversationId,
-                      contactId: chatContext.contact.id,
-                    });
-                    setChatContext({
-                      conversationId: '',
-                      contact: {
-                        id: '',
-                        email: '',
-                        name: '',
-                        username: '',
-                        imageUrl: '',
-                        followersCount: '',
-                        createdAt: '',
-                        commonFollowers: [
-                          {
-                            name: '',
-                            username: '',
-                            imageUrl: '',
-                          },
-                          {
-                            name: '',
-                            username: '',
-                            imageUrl: null,
-                          },
-                        ],
-                        commonFollowersCnt: 0,
-                      },
-                      lastMessage: {
-                        text: '',
-                        timestamp: '',
-                        isSeen: '',
-                      },
-                    });
-                  }}
+        <div className=" flex gap-5 ">
+          {type === '-' &&
+            windowWidth < 1024 &&
+            chatContext.conversationId !== '' && (
+              <Link
+                style={{ textDecoration: 'inherit' }}
+                to="/app/messages"
+                className=" absolute left-2 top-2 w-fit"
+                onClick={() => {
+                  // console.log('closing id', chatContext.conversationId);
+                  socket.emit('chat-closed', {
+                    userId: user.userId,
+                    conversationId: chatContext.conversationId,
+                    contactId: chatContext.contact.id,
+                  });
+                  setChatContext({
+                    conversationId: '',
+                    contact: {
+                      id: '',
+                      email: '',
+                      name: '',
+                      username: '',
+                      imageUrl: '',
+                      followersCount: '',
+                      createdAt: '',
+                      commonFollowers: [
+                        {
+                          name: '',
+                          username: '',
+                          imageUrl: '',
+                        },
+                        {
+                          name: '',
+                          username: '',
+                          imageUrl: null,
+                        },
+                      ],
+                      commonFollowersCnt: 0,
+                    },
+                    lastMessage: {
+                      text: '',
+                      timestamp: '',
+                      isSeen: '',
+                    },
+                  });
+                }}
+              >
+                <div
+                  className={` ${
+                    windowWidth < 1024 && windowWidth > 638 ? 'ml-24' : ''
+                  } 
+                     flex h-[34px] w-[34px] items-center justify-center
+                     rounded-full pt-1 
+                    hover:bg-[#e7e7e7] dark:hover:bg-[#181919]`}
                 >
-                  <div className=" flex h-[34px] w-[34px] items-center justify-center rounded-full pt-1 hover:bg-[#e7e7e7] dark:hover:bg-[#181919]">
-                    <svg
-                      className="h-5 w-5  fill-black dark:fill-white"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M7.414 13l5.043 5.04-1.414 1.42L3.586 12l7.457-7.46 1.414 1.42L7.414 11H21v2H7.414z" />
-                    </svg>
-                  </div>
-                </Link>
-              )}
-          </div>
+                  <svg
+                    className="h-5 w-5  fill-black dark:fill-white"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M7.414 13l5.043 5.04-1.414 1.42L3.586 12l7.457-7.46 1.414 1.42L7.414 11H21v2H7.414z" />
+                  </svg>
+                </div>
+              </Link>
+            )}
 
-          <div className="flex gap-2">
+          <div className={`${windowWidth < 1024 ? 'ml-6' : ''} flex gap-2 `}>
             {!imgVisible && (
               <img
                 src={image}
