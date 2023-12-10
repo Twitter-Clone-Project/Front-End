@@ -13,6 +13,7 @@ function NoProfile() {
           <div className="profile-cover max-h-[500px]">
             <div className="object-fill">
               <img
+                data-testid="default-banner"
                 src={import.meta.env.VITE_DEFAULT_BANNER}
                 alt=""
               />
@@ -21,6 +22,7 @@ function NoProfile() {
           <div className="relative cursor-auto bg-white bg-opacity-100 p-4 text-black dark:bg-pure-black dark:text-white">
             <div className="absolute -top-0 z-10 flex aspect-square w-1/4 min-w-[3rem] -translate-y-1/2 justify-between">
               <img
+                data-testid="default-avatar"
                 id="popoverImg"
                 src={import.meta.env.VITE_DEFAULT_AVATAR}
                 alt=""
@@ -32,7 +34,10 @@ function NoProfile() {
             </div>
             <div className="mb-5 mt-2">
               <div className="flex h-[41.5px] flex-col">
-                <span className="text-xl font-bold text-pure-black dark:text-white">
+                <span
+                  data-testid={name}
+                  className="text-xl font-bold text-pure-black dark:text-white"
+                >
                   @{name}
                 </span>
               </div>
