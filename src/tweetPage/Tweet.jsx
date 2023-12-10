@@ -43,113 +43,136 @@ function Tweet({ data, tweets, setTweets }) {
     });
   };
   const handleLike = () => {
-    if (like === true && !isLikeLoading) {
-      setIsLikeLoading(true);
-      const deleteLike = async () => {
-        try {
-          const response = await fetch(
-            `${import.meta.env.VITE_API_DOMAIN}tweets/${data.id}/deleteLike`,
-            {
-              origin: true,
-              credentials: 'include',
-              withCredentials: true,
-              method: 'DELETE',
-            },
-          );
-          const res = await response.json();
-          if (res.status) {
-            toggleLike(!like);
-            setLikesCount(likesCount - 1);
+    if (like === true) {
+      setLikesCount(likesCount - 1);
+      toggleLike(!like);
+      if (!isLikeLoading) {
+        setIsLikeLoading(true);
+        const deleteLike = async () => {
+          try {
+            const response = await fetch(
+              `${import.meta.env.VITE_API_DOMAIN}tweets/${data.id}/deleteLike`,
+              {
+                origin: true,
+                credentials: 'include',
+                withCredentials: true,
+                method: 'DELETE',
+              },
+            );
+            const res = await response.json();
+            if (!res.status) {
+              toggleLike(!like);
+              setLikesCount(likesCount + 1);
+              throw new Error(res.message);
+            }
+          } catch (err) {
+            toast(err.message);
+          } finally {
+            setIsLikeLoading(false);
           }
-        } catch (err) {
-          toast(err.message);
-        } finally {
-          setIsLikeLoading(false);
-        }
-      };
+        };
 
-      deleteLike();
-    } else if (like === false && !isLikeLoading) {
-      setIsLikeLoading(true);
-      const postLike = async () => {
-        try {
-          const response = await fetch(
-            `${import.meta.env.VITE_API_DOMAIN}tweets/${data.id}/addlike`,
-            {
-              origin: true,
-              credentials: 'include',
-              withCredentials: true,
-              method: 'POST',
-            },
-          );
-          const res = await response.json();
-          if (res.status) {
-            setLikesCount(likesCount + 1);
-            toggleLike(!like);
+        deleteLike();
+      }
+    } else if (like === false) {
+      setLikesCount(likesCount + 1);
+      toggleLike(!like);
+
+      if (!isLikeLoading) {
+        setIsLikeLoading(true);
+        const postLike = async () => {
+          try {
+            const response = await fetch(
+              `${import.meta.env.VITE_API_DOMAIN}tweets/${data.id}/addlike`,
+              {
+                origin: true,
+                credentials: 'include',
+                withCredentials: true,
+                method: 'POST',
+              },
+            );
+            const res = await response.json();
+            if (!res.status) {
+              setLikesCount(likesCount - 1);
+              toggleLike(!like);
+              throw new Error(res.message);
+            }
+          } catch (err) {
+            toast(err.message);
+          } finally {
+            setIsLikeLoading(false);
           }
-        } catch (err) {
-          toast(err.message);
-        } finally {
-          setIsLikeLoading(false);
-        }
-      };
+        };
 
-      postLike();
+        postLike();
+      }
     }
   };
   const handleRepost = () => {
-    if (repost === true && !isRepostLoading) {
-      setIsLikeLoading(true);
-      const deleteRetweet = async () => {
-        try {
-          const response = await fetch(
-            `${import.meta.env.VITE_API_DOMAIN}tweets/${data.id}/deleteRetweet`,
-            {
-              origin: true,
-              credentials: 'include',
-              withCredentials: true,
-              method: 'DELETE',
-            },
-          );
-          const res = await response.json();
-          if (res.status) {
-            toggleRepost(!repost);
-            setRepostsCount(repostsCount - 1);
+    if (repost === true) {
+      toggleRepost(!repost);
+      setRepostsCount(repostsCount - 1);
+      if (!isRepostLoading) {
+        setIsLikeLoading(true);
+        const deleteRetweet = async () => {
+          try {
+            const response = await fetch(
+              `${import.meta.env.VITE_API_DOMAIN}tweets/${
+                data.id
+              }/deleteRetweet`,
+              {
+                origin: true,
+                credentials: 'include',
+                withCredentials: true,
+                method: 'DELETE',
+              },
+            );
+            const res = await response.json();
+            if (!res.status) {
+              toggleRepost(!repost);
+              setRepostsCount(repostsCount + 1);
+              throw new Error(res.message);
+            }
+          } catch (err) {
+            toast(err.message);
+          } finally {
+            setIsRepostLoading(false);
           }
-        } catch (err) {
-          toast(err.message);
-        } finally {
-          setIsRepostLoading(false);
-        }
-      };
+        };
 
-      deleteRetweet();
-    } else if (repost === false && !isRepostLoading) {
-      setIsRepostLoading(true);
-      const retweet = async () => {
-        try {
-          const response = await fetch(
-            `${import.meta.env.VITE_API_DOMAIN}tweets/${data.id}/retweet`,
-            {
-              origin: true,
-              credentials: 'include',
-              withCredentials: true,
-              method: 'POST',
-            },
-          );
-          const res = await response.json();
-          console.log(res);
-          if (res.status) {
-            toggleRepost(!repost);
-            setRepostsCount(repostsCount + 1);
+        deleteRetweet();
+      }
+    } else if (repost === false) {
+      toggleRepost(!repost);
+      setRepostsCount(repostsCount + 1);
+      if (!isRepostLoading) {
+        setIsRepostLoading(true);
+        const retweet = async () => {
+          try {
+            const response = await fetch(
+              `${import.meta.env.VITE_API_DOMAIN}tweets/${data.id}/retweet`,
+              {
+                origin: true,
+                credentials: 'include',
+                withCredentials: true,
+                method: 'POST',
+              },
+            );
+            const res = await response.json();
+            console.log(res);
+            if (!res.status) {
+              toggleRepost(!repost);
+              setRepostsCount(repostsCount - 1);
+              throw new Error(res.message);
+            }
+          } catch (err) {
+            toast(err.message);
+          } finally {
+            setIsRepostLoading(false);
           }
-        } catch (err) {
-          toast(err.message);
-        } finally {
-          setIsRepostLoading(false);
-        }
-      };
-      retweet();
+        };
+        retweet();
+      }
     }
   };
 
@@ -201,6 +224,7 @@ function Tweet({ data, tweets, setTweets }) {
           >
             <PopoverUserCard
               popoverIsFollowed={data.user.isFollowed}
+              popoverIsFollowing={data.user.isFollowing}
               popoverUserPicture={
                 data.user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
               }
