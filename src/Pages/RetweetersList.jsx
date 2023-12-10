@@ -31,7 +31,7 @@ function RetweetersList() {
   const navigate = useNavigate();
 
   const handelBackButton = () => {
-    navigate(`/app/tweets/${tweetId}`);
+    navigate(-1);
   };
 
   // Fetch the list of retweeters

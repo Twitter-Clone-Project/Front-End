@@ -11,6 +11,7 @@ function ListNav({ items, pastPath }) {
           <NavLink
             key={uuid4()}
             to={item.path}
+            replace
             state={pastPath}
             className={({ isActive }) =>
               isActive
