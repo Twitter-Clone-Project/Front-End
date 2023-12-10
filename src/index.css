@@ -130,5 +130,5 @@ img:before {
   height: 100%;
   background-repeat: no-repeat;
   background-size: cover;
-  background-image: url('/public/default_avatar.jpg');
+  background-image: url('/default_avatar.jpg');
 }
