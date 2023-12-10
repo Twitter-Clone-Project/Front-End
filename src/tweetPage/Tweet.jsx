@@ -281,7 +281,6 @@ function Tweet({ data, tweets, setTweets }) {
             }}
           >
             <ActionsMenu
-             
               userId={data.user.userId}
               tweet={data}
               tweets={tweets}
@@ -289,7 +288,7 @@ function Tweet({ data, tweets, setTweets }) {
             />
           </div>
         </div>
-        <div className="caption max-w-[95%] break-all">
+        <div className="caption max-w-[95%] break-words">
           {data.text.split(' ').map((word) => {
             if (word.startsWith('#')) {
               return (
@@ -323,7 +322,7 @@ function Tweet({ data, tweets, setTweets }) {
             />
           </button>
           <button
-           data-testid={`${data.id}repost`}
+            data-testid={`${data.id}repost`}
             type="submit"
             disabled={isRepostLoading}
             onClick={(e) => {
