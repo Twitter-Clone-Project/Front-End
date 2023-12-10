@@ -64,7 +64,6 @@ function TweetPage() {
         setIsLoading(false);
       }
     };
-    setVisibility(false);
     getInitialReplies();
   }, []);
 
