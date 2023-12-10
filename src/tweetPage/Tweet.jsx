@@ -312,7 +312,7 @@ function Tweet({ data, tweets, setTweets }) {
             />
           </div>
         </div>
-        <div className="caption max-w-[95%] break-all">
+        <div className="caption max-w-[95%] break-words">
           {data.text.split(' ').map((word) => {
             if (word.startsWith('#')) {
               return (
