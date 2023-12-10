@@ -9,11 +9,20 @@ import AddReply from './AddReply';
 import RepliesList from './RepliesList';
 
 function TweetPage() {
+  const location = useLocation();
+  const pastPath = location.state?.pastPath;
   const [replies, setReplies] = useState([]);
   const [isDone, setIsDone] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { tweetId } = useParams();
   const [tweetData, setTweetData] = useState();
+  const [fetchLikes, setFetchLikes] = useState(false);
+  const [fetchRetweets, setFetchRetweets] = useState(false);
+
+  const navigate = useNavigate();
+  const handelBackButton = () => {
+    navigate(pastPath.pathname || -1);
+  };
 
   const fetchReplies = useCallback(async () => {
     if (isLoading || isDone) return;
@@ -102,17 +111,84 @@ function TweetPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [fetchReplies]);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    // console.log('Like changed');
+    const getInitialTweet = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}`,
+          {
+            method: 'GET',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+          },
+        );
+        const data = await response.json();
+        if (data.status) {
+          setTweetData([data.data]);
+        }
+      } catch (error) {
+        toast(error.message);
+      }
+    };
+    getInitialTweet();
+    setFetchLikes(false);
+  }, [fetchLikes]);
 
-  const handelBackButton = () => {
-    navigate('/app/home');
-  };
+  useEffect(() => {
+    const getInitialTweet = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}`,
+          {
+            method: 'GET',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+          },
+        );
+        const data = await response.json();
+        if (data.status) {
+          setTweetData([data.data]);
+        }
+      } catch (error) {
+        toast(error.message);
+      }
+    };
+    getInitialTweet();
+    setFetchRetweets(false);
+  }, [fetchRetweets]);
+
+  useEffect(() => {
+    const getInitialTweet = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}`,
+          {
+            method: 'GET',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+          },
+        );
+        const data = await response.json();
+        if (data.status) {
+          setTweetData([data.data]);
+        }
+      } catch (error) {
+        toast(error.message);
+      }
+    };
+    getInitialTweet();
+  }, [replies]);
+
   return (
     <div
-      className="flex h-auto justify-center"
+      className="flex h-auto justify-center border-x-[0.5px] border-x-light-gray dark:border-x-border-gray"
       data-testid="tweet-page"
     >
-      <div className="flex flex-col items-start">
+      <div className="mx-2 flex flex-col items-start">
         <div className="flex flex-wrap items-center sm:w-full">
           <div className="mb-2 mt-[9px] flex h-7 w-7 items-center justify-center rounded-full hover:bg-x-light-gray hover:dark:bg-light-thin">
             <svg
@@ -142,39 +218,49 @@ function TweetPage() {
                 <Tweet
                   data={tweetItem}
                   // eslint-disable-next-line react/no-array-index-key
+                  setFetchLikes={() => {
+                    setFetchLikes(true);
+                    // console.log('Handling Likes');
+                  }}
+                  setFetchRetweets={() => {
+                    setFetchRetweets(true);
+                    // console.log('Handling Retweets');
+                  }}
                   key={index}
                 />
               ))}
             </div>
 
-            <div className="flex w-full items-center justify-start gap-3 py-2">
-              <div className="flex flex-row items-center gap-1">
-                <Link
-                  to={`/app/tweets/${tweetId}/likes`}
-                  relative="path"
-                  className="text-white hover:no-underline"
-                >
+            <div className="flex w-full items-center justify-start gap-3 border-b-[0.5px] border-b-light-gray px-2 py-2 dark:border-b-border-gray">
+              <Link
+                to={`/app/tweets/${tweetId}/likes`}
+                relative="path"
+                className="hover:no-underline dark:text-white"
+              >
+                <div className="flex flex-row items-center gap-1">
                   {tweetData[0].likesCount}
-                </Link>
-                <span className="text-sm text-light-thin">likes</span>
-              </div>
-              <div className="flex flex-row items-center gap-1">
-                <hr />
-                <Link
-                  to={`/app/tweets/${tweetId}/retweets`}
-                  relative="path"
-                  className="text-white hover:no-underline"
-                >
+                  <span className="text-sm text-light-thin">likes</span>
+                </div>
+              </Link>
+              <Link
+                to={`/app/tweets/${tweetId}/retweets`}
+                relative="path"
+                className="hover:no-underline dark:text-white"
+              >
+                <div className="flex flex-row items-center gap-1">
                   {tweetData[0].retweetsCount}
-                </Link>
-                <span className="text-sm text-light-thin">retweets</span>
-              </div>
+                  <span className="text-sm text-light-thin">retweets</span>
+                </div>
+              </Link>
             </div>
-            <AddReply
-              setReplies={setReplies}
-              tweetId={tweetId}
-              replyFor={tweetData[0].user.userName}
-            />
+            <div className="w-[88%] lg:w-full">
+              <AddReply
+                setReplies={setReplies}
+                tweetId={tweetId}
+                replyFor={tweetData[0].user.userName}
+              />
+            </div>
+
             <RepliesList repliesData={replies} />
           </>
         )}

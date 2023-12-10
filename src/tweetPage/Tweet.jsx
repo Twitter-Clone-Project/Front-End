@@ -17,7 +17,7 @@ import ActionsMenu from './ActionsMenu';
 import PopoverUserCard from '../components/userComponents/PopoverUserCard';
 import { useAuth } from '../hooks/AuthContext';
 
-function Tweet({ data, tweets, setTweets }) {
+function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
   const [repost, toggleRepost] = useState(data.isRetweet);
   const [like, toggleLike] = useState(data.isLiked);
   const [repostsCount, setRepostsCount] = useState();
@@ -26,7 +26,9 @@ function Tweet({ data, tweets, setTweets }) {
   const [isLikeLoading, setIsLikeLoading] = useState(false);
   const [isRepostLoading, setIsRepostLoading] = useState(false);
   const { user: curUser } = useAuth();
+  const location = useLocation();
   useEffect(() => {
+    console.log(location);
     toggleLike(data.isLiked);
     toggleRepost(data.isRetweeted);
     setLikesCount(data.likesCount);
@@ -34,15 +36,9 @@ function Tweet({ data, tweets, setTweets }) {
     setRepostsCount(data.retweetsCount);
   }, [data]);
   const navigate = useNavigate();
-  const location = useLocation();
+
   const handleClick = () => {
-    navigate(`/app/tweets/${data.id}`, {
-      state: {
-        pastPath: location.pathname,
-        tweetID: `${data.id}`,
-        tweetData: [data],
-      },
-    });
+    navigate(`/app/tweets/${data.id}`, { state: { pastPath: location } });
   };
   const handleLike = () => {
     if (like === true && !isLikeLoading) {
@@ -98,6 +94,7 @@ function Tweet({ data, tweets, setTweets }) {
 
       postLike();
     }
+    setFetchLikes();
   };
   const handleRepost = () => {
     if (repost === true && !isRepostLoading) {
@@ -154,13 +151,10 @@ function Tweet({ data, tweets, setTweets }) {
       };
       retweet();
     }
+    setFetchRetweets();
   };
 
   const handleReply = () => {
-    // if (reply === true) setRepliesCount(repliesCount - 1);
-    // else setRepliesCount(repliesCount + 1);
-    // toggleReply(!reply);
-    // console.log(tweetID);
     handleClick();
   };
 
@@ -174,7 +168,7 @@ function Tweet({ data, tweets, setTweets }) {
   };
   return (
     <div
-      className="tweet mb-[0.5px] mt-[-0.5px] flex w-[88%] border-collapse  flex-row border-y-[0.5px] border-y-border-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px] "
+      className="tweet mb-[0.5px] mt-[-0.5px] flex w-[88%] border-collapse  flex-row border-y-[0.5px] border-y-light-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:border-y-border-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px] "
       onClick={handleClick}
     >
       <div
@@ -356,6 +350,17 @@ function Tweet({ data, tweets, setTweets }) {
 Tweet.propTypes = {
   // eslint-disable-next-line no-undef
   data: PropTypes.object.isRequired,
+  setFetchLikes: PropTypes.func,
+  setFetchRetweets: PropTypes.func,
+};
+
+Tweet.defaultProps = {
+  setFetchLikes: () => {
+    console.log('Hi');
+  },
+  setFetchRetweets: () => {
+    console.log('Hi');
+  },
 };
 
 export default Tweet;

@@ -8,6 +8,7 @@ import OwnToaster from '../components/OwnToaster';
 
 function AddReply({ setReplies, tweetId, replyFor }) {
   const { user } = useAuth();
+  const [focus, setFocus] = useState(false);
   const [replyText, setReplyText] = useState('');
   const [replyDisabled, setReplyDisabled] = useState(true);
   // const [hashtags, setHashtags] = useState([]);
@@ -48,7 +49,7 @@ function AddReply({ setReplies, tweetId, replyFor }) {
         const data = await response.json();
         if (data.status) {
           // console.log(data.data);
-          data.data.screenName = user.name;
+          data.data.screenName = 'Nour';
           data.data.followingCount = '';
           data.data.followersCount = '';
           data.data.isFollowed = false;
@@ -66,14 +67,21 @@ function AddReply({ setReplies, tweetId, replyFor }) {
     navigate(`/app/${user.username}`);
   };
   return (
-    <div className="flex w-full flex-col gap-1">
-      <div className="ml-16 flex flex-row gap-1">
-        <span className="text-sm text-light-thin">Replying to</span>
-        <span className="text-sm text-blue underline">@{replyFor}</span>
-      </div>
+    <div className="flex w-full flex-col gap-1 border-b-[0.5px] border-b-light-gray py-2 dark:border-border-gray">
+      {focus ? (
+        <div className="ml-16 flex flex-row gap-1">
+          <span className="text-sm text-light-thin">Replying to</span>
+          <span className="text-sm text-blue underline">@{replyFor}</span>
+        </div>
+      ) : (
+        ''
+      )}
       <div
         className="flex flex-wrap items-center justify-between px-2 sm:w-full"
         data-testid="add-reply"
+        onClick={() => {
+          setFocus(true);
+        }}
       >
         <div
           onClick={() => {

@@ -31,7 +31,7 @@ function Reply({ data }) {
 
   return (
     <div
-      className="tweet mb-[0.5px] mt-[-0.5px] flex w-[88%] border-collapse  flex-row border-y-[0.5px] border-y-border-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]"
+      className="tweet mb-[0.5px] mt-[-0.5px] flex w-[88%] border-collapse flex-row border-b-[0.5px] border-b-light-gray bg-white px-[16px] pb-4 pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:border-b-border-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]"
       data-testid={data.replyId}
     >
       <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
@@ -71,7 +71,9 @@ function Reply({ data }) {
       <div className="rightColumn w-[512px] ">
         <div className="flex flex-row justify-between ">
           <div className="userInfo flex flex-row">
-            <div className="name  text-[15px] font-bold">{data.screenName}</div>
+            <div className="name  text-[15px] font-bold dark:text-white">
+              {data.screenName}
+            </div>
             <div className="userName   overflow-hidden text-[15px] text-dark-gray">
               &ensp;@<span>{data.username}</span>
             </div>
@@ -101,7 +103,6 @@ function Reply({ data }) {
           })}
           {/* {text} */}
         </div>
-        <div className="h-[30px]" />
       </div>
       <OwnToaster />
     </div>

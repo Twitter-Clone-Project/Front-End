@@ -50,7 +50,6 @@ function RetweetersList() {
       })
       .then((data) => {
         setRetweetsData(data.data);
-        console.log(data.data);
       })
       .catch((error) => {
         console.error('Error during fetch:', error);

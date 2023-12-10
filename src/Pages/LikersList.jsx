@@ -37,7 +37,7 @@ function LikersList() {
 
   // Fetch the list of likers
   useEffect(() => {
-    console.log(tweetId.tweetId, user);
+    console.log(tweetId, user);
     fetch(`${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/likers`, {
       method: 'GET',
       origin: true,
