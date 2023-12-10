@@ -68,7 +68,12 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
             {name}
           </span>
           <div className="flex h-5 flex-row items-center">
-            <span className="w-min text-light-thin">@{username}</span>
+            <span
+              data-testid={`${username}-username`}
+              className="w-min text-light-thin"
+            >
+              @{username}
+            </span>
           </div>
         </div>
       </div>
