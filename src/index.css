@@ -134,3 +134,9 @@ img:before {
   background-size: cover;
   background-image: url('/default_avatar.jpg');
 }
+.hyphens {
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+}
