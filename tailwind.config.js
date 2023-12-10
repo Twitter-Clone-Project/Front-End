@@ -4,9 +4,15 @@ export default {
   theme: {
     extend: {
       screens: {
+        "2xl": {
+          min: '1440px'
+        },
         mlg: {
-          min: '1415px',
-        }
+          min: '1280px',
+        },
+        xmed: {
+          min: '1000px'
+        },
       }
     },
     colors: {
