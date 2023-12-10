@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
 import { useAuth } from '../hooks/AuthContext';
 import AddEmoji from '../tweetPage/AddEmoji';
+import { useNavigate } from 'react-router';
+import OwnToaster from '../components/OwnToaster';
 
-function AddReply({ setReplies, tweetId }) {
+function AddReply({ setReplies, tweetId, replyFor }) {
   const { user } = useAuth();
   const [replyText, setReplyText] = useState('');
   const [replyDisabled, setReplyDisabled] = useState(true);
@@ -45,12 +47,13 @@ function AddReply({ setReplies, tweetId }) {
         );
         const data = await response.json();
         if (data.status) {
+          // console.log(data.data);
           data.data.screenName = user.name;
           data.data.followingCount = '';
           data.data.followersCount = '';
           data.data.isFollowed = false;
-          setReplies((prev) => [data.data, ...prev]);
           console.log(data.data);
+          setReplies((prev) => [data.data, ...prev]);
         }
       } catch (error) {
         toast('Error Adding Reply:', error);
@@ -58,42 +61,58 @@ function AddReply({ setReplies, tweetId }) {
     };
     postReply();
   };
-
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`/app/${user.username}`);
+  };
   return (
-    <div
-      className="flex flex-wrap items-center justify-between px-2 sm:w-full"
-      data-testid="add-reply"
-    >
-      <img
-        className=" mr-[12px] h-[40px] w-[40px] rounded-full object-cover"
-        src={user.imageUrl || import.meta.env.VITE_DEFAULT_AVATAR}
-        alt="profileImage"
-      />
-      <div className="flex w-[70%] flex-wrap items-center pl-1">
-        <input
-          className="h-[60px] w-[90%] focus:outline-0
-              dark:bg-pure-black dark:text-white"
-          placeholder="Post your reply"
-          value={replyText}
-          onChange={(event) => {
-            setReplyText(event.target.value);
+    <div className="flex w-full flex-col gap-1">
+      <div className="ml-16 flex flex-row gap-1">
+        <span className="text-sm text-light-thin">Replying to</span>
+        <span className="text-sm text-blue underline">@{replyFor}</span>
+      </div>
+      <div
+        className="flex flex-wrap items-center justify-between px-2 sm:w-full"
+        data-testid="add-reply"
+      >
+        <div
+          onClick={() => {
+            handleClick();
           }}
-        />
-        <div className="flex w-[10%] justify-center">
-          <AddEmoji
-            text={replyText}
-            setText={setReplyText}
+        >
+          <img
+            className=" mr-[12px] h-[40px] w-[40px] cursor-pointer rounded-full object-cover"
+            src={user.imageUrl || import.meta.env.VITE_DEFAULT_AVATAR}
+            alt="profileImage"
           />
         </div>
+
+        <div className="flex w-[70%] flex-wrap items-center pl-1">
+          <input
+            className="h-[60px] w-[90%] focus:outline-0
+              dark:bg-pure-black dark:text-white"
+            placeholder="Post your reply"
+            value={replyText}
+            onChange={(event) => {
+              setReplyText(event.target.value);
+            }}
+          />
+          <div className="flex w-[10%] justify-center">
+            <AddEmoji
+              text={replyText}
+              setText={setReplyText}
+            />
+          </div>
+        </div>
+        <button
+          onClick={handleReply}
+          type="submit"
+          className="h-[30px] w-[20%] rounded-full bg-blue text-white disabled:opacity-50"
+          disabled={replyDisabled}
+        >
+          Reply
+        </button>
       </div>
-      <button
-        onClick={handleReply}
-        type="submit"
-        className="h-[30px] w-[20%] rounded-full bg-blue text-white disabled:opacity-50"
-        disabled={replyDisabled}
-      >
-        Reply
-      </button>
     </div>
   );
 }
@@ -101,5 +120,6 @@ function AddReply({ setReplies, tweetId }) {
 AddReply.propTypes = {
   setReplies: PropTypes.func.isRequired,
   tweetId: PropTypes.string.isRequired,
+  replyFor: PropTypes.string.isRequired,
 };
 export default AddReply;
