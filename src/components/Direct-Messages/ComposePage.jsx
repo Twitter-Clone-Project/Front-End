@@ -4,6 +4,7 @@ import Button from '../form-controls/Button';
 import AddResults from './AddResults';
 import AddCard from './AddCard';
 import { ChatContext } from '../../hooks/ContactContext';
+import BoxCard from '../BoxCard';
 
 export default function ComposePage() {
   const navigate = useNavigate();
@@ -91,52 +92,41 @@ export default function ComposePage() {
 
   return (
     <div className="absolute bottom-0 left-0 top-0 z-20 flex max-h-screen w-full items-center justify-center  md:bg-dark-gray md:bg-opacity-50">
-      <div
-        data-testid="box-card"
-        className={` relative mx-auto   flex w-full 
-      flex-col  justify-between
-      border-light-gray bg-white pb-4 pt-8 text-lg text-black dark:border-none 
-      dark:bg-pure-black dark:text-white 
-      
-      ${
-        windowWidth > 640
-          ? ' mx-44 min-h-[650px] w-[615px]  rounded-2xl border-[1px]'
-          : 'h-full w-full'
-      }
-      
-      `}
-      >
-        <div className="absolute left-0 top-0 flex  h-[53px] w-full min-w-[300px] items-center">
-          <button
-            type="submit"
-            data-testid="close-btn"
-            onClick={() =>
-              navigate(`/app/messages/${chatContext.contact.name}`)
-            }
-            className="absolute left-3 top-5 h-[20px] w-[20px]  text-sm "
-          >
-            <svg
-              viewBox="0 1 23 24"
-              fill="#4a4a4c"
+      <BoxCard
+        header={
+          <div className="absolute left-0 top-0 flex  h-[53px] w-full min-w-[300px] items-center">
+            <button
+              type="submit"
+              data-testid="close-btn"
+              onClick={() =>
+                navigate(`/app/messages/${chatContext.contact.name}`)
+              }
+              className="absolute left-3 top-5 h-[20px] w-[20px]  text-sm "
             >
-              <path d="M10.59 12L4.54 5.96l1.42-1.42L12 10.59l6.04-6.05 1.42 1.42L13.41 12l6.05 6.04-1.42 1.42L12 13.41l-6.04 6.05-1.42-1.42L10.59 12z" />
-            </svg>
-          </button>
-          <div className="absolute left-20 top-4  text-[20px] font-bold">
-            New message
+              <svg
+                viewBox="0 1 23 24"
+                fill="#4a4a4c"
+              >
+                <path d="M10.59 12L4.54 5.96l1.42-1.42L12 10.59l6.04-6.05 1.42 1.42L13.41 12l6.05 6.04-1.42 1.42L12 13.41l-6.04 6.05-1.42-1.42L10.59 12z" />
+              </svg>
+            </button>
+            <div className="absolute left-20 top-4  text-[20px] font-bold">
+              New message
+            </div>
+            <div className=" absolute right-4 top-3 w-[70px]">
+              <Button
+                onClick={handleAdd}
+                backGroundColor={persons.length > 0 ? 'black' : 'white'}
+                backGroundColorDark={persons.length > 0 ? 'white' : 'black'}
+                borderColor="gray"
+                label="Next"
+                labelColor={persons.length > 0 ? 'white' : 'black'}
+                labelColorDark={persons.length > 0 ? 'black' : 'white'}
+              />
+            </div>
           </div>
-          <div className=" absolute right-4 top-3 w-[70px]">
-            <Button
-              onClick={handleAdd}
-              backGroundColor={persons.length > 0 ? 'black' : 'white'}
-              backGroundColorDark={persons.length > 0 ? 'white' : 'black'}
-              borderColor="gray"
-              label="Next"
-              labelColor={persons.length > 0 ? 'white' : 'black'}
-              labelColorDark={persons.length > 0 ? 'black' : 'white'}
-            />
-          </div>
-        </div>
+        }
+      >
         <div className="flex flex-col ">
           <div className="flex flex-col border-b-[2px]  border-[#f6f8f9] dark:border-[#252829] dark:bg-black">
             <div className="mt-5 flex items-center gap-3 ">
@@ -186,7 +176,7 @@ export default function ComposePage() {
             />
           </div>
         </div>
-      </div>
+      </BoxCard>
     </div>
   );
 }

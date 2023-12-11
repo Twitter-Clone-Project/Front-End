@@ -41,11 +41,13 @@ function DirectMessages() {
       if (newSocket.connected) {
         if (chatContext.conversationId === '') {
           // mark the current chat as closed before closed the website
-          socket.emit('chat-closed', {
-            userId: user.userId,
-            conversationId: chatContext.conversationId,
-            contactId: chatContext.contact.id,
-          });
+          if (chatContext.conversationId !== '') {
+            socket.emit('chat-closed', {
+              userId: user.userId,
+              conversationId: chatContext.conversationId,
+              contactId: chatContext.contact.id,
+            });
+          }
         }
         newSocket.disconnect();
       }
