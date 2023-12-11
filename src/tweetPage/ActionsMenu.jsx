@@ -69,7 +69,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
   return (
     <div
       ref={dropdownRef}
-      className="dropdown relative z-0 flex scale-75"
+      className="dropdown flex scale-75"
     >
       <button
         type="submit"
