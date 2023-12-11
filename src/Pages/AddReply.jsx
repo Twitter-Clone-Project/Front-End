@@ -1,10 +1,11 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
 import { useAuth } from '../hooks/AuthContext';
 import AddEmoji from '../tweetPage/AddEmoji';
-import { useNavigate } from 'react-router';
-import OwnToaster from '../components/OwnToaster';
 
 function AddReply({ setReplies, tweetId, replyFor }) {
   const { user } = useAuth();
@@ -49,11 +50,6 @@ function AddReply({ setReplies, tweetId, replyFor }) {
         const data = await response.json();
         if (data.status) {
           // console.log(data.data);
-          data.data.screenName = 'Nour';
-          data.data.followingCount = '';
-          data.data.followersCount = '';
-          data.data.isFollowed = false;
-          console.log(data.data);
           setReplies((prev) => [data.data, ...prev]);
         }
       } catch (error) {

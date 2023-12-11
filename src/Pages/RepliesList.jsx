@@ -10,8 +10,12 @@ function RepliesList({ repliesData }) {
         ''
       ) : (
         <div className="w-screen sm:w-full">
-          {repliesData.map((replyItem) => (
-            <Reply data={replyItem} />
+          {repliesData.map((replyItem, index) => (
+            <Reply
+              data={replyItem}
+              // eslint-disable-next-line react/no-array-index-key
+              key={index}
+            />
           ))}
         </div>
       )}

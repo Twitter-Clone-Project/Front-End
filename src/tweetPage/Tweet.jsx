@@ -4,7 +4,7 @@
 /* eslint-disable max-len */
 /* eslint-disable react/forbid-prop-types */
 import React, { useEffect, useState } from 'react';
-import { useNavigate, Link, useLocation, useParams } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ReactTimeAgo from 'react-time-ago';
 import PropTypes from 'prop-types';
@@ -15,7 +15,7 @@ import Media from './Media';
 import OwnToaster from '../components/OwnToaster';
 import ActionsMenu from './ActionsMenu';
 import PopoverUserCard from '../components/userComponents/PopoverUserCard';
-import { useAuth } from '../hooks/AuthContext';
+// import { useAuth } from '../hooks/AuthContext';
 
 function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
   const [repost, toggleRepost] = useState(data.isRetweet);
@@ -25,10 +25,17 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
   const [likesCount, setLikesCount] = useState();
   const [isLikeLoading, setIsLikeLoading] = useState(false);
   const [isRepostLoading, setIsRepostLoading] = useState(false);
-  const { user: curUser } = useAuth();
+  // const { user: curUser } = useAuth();
   const location = useLocation();
+  const [images, setImages] = useState();
   useEffect(() => {
-    console.log(location);
+    if (data.attachmentsUrl) {
+      setImages(data.attachmentsUrl);
+      // console.log(data.attachmentsUrl, 'Url');
+    } else {
+      setImages(data.attachmentsURL);
+      // console.log(data.attachmentsURL, 'URL');
+    }
     toggleLike(data.isLiked);
     toggleRepost(data.isRetweeted);
     setLikesCount(data.likesCount);
@@ -111,7 +118,7 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             },
           );
           const res = await response.json();
-          console.log(res);
+          // console.log(res);
           if (res.status) {
             toggleRepost(!repost);
             setRepostsCount(repostsCount - 1);
@@ -138,7 +145,7 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             },
           );
           const res = await response.json();
-          console.log(res);
+          // console.log(res);
           if (res.status) {
             toggleRepost(!repost);
             setRepostsCount(repostsCount + 1);
@@ -226,9 +233,9 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
           >
             <path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z" />
           </svg>
-          {/* <span>
+          <span>
             {data.isRetweeted ? 'You' : data.retweetedUser.screenName} reposted
-          </span> */}
+          </span>
         </div>
         <div className="flex justify-between ">
           <div
@@ -293,9 +300,9 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
           })}
         </div>
 
-        {/* <div>
-          <Media images={data.attachmentsUrl} />
-        </div> */}
+        <div>
+          <Media images={images} />
+        </div>
         <div className="buttons flex h-[32px] flex-row  justify-between">
           <button
             data-testid="reply"
@@ -356,10 +363,10 @@ Tweet.propTypes = {
 
 Tweet.defaultProps = {
   setFetchLikes: () => {
-    console.log('Hi');
+    // console.log('Hi');
   },
   setFetchRetweets: () => {
-    console.log('Hi');
+    // console.log('Hi');
   },
 };
 

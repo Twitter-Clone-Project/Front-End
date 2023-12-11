@@ -91,6 +91,7 @@ function TweetPage() {
         const data = await response.json();
         if (data.status) {
           setTweetData([data.data]);
+          // console.log(data.data);
         }
       } catch (error) {
         toast(error.message);
@@ -226,6 +227,7 @@ function TweetPage() {
                     setFetchRetweets(true);
                     // console.log('Handling Retweets');
                   }}
+                  // eslint-disable-next-line react/no-array-index-key
                   key={index}
                 />
               ))}

@@ -5,6 +5,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
+import toast from 'react-hot-toast';
 import { useAuth } from '../hooks/AuthContext';
 import UserItem from '../components/userComponents/UserItem';
 import ListNav from '../components/navigation-bars/ListNav';
@@ -37,7 +38,7 @@ function LikersList() {
 
   // Fetch the list of likers
   useEffect(() => {
-    console.log(tweetId, user);
+    // console.log(tweetId, user);
     fetch(`${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/likers`, {
       method: 'GET',
       origin: true,
@@ -52,10 +53,10 @@ function LikersList() {
       })
       .then((data) => {
         setLikesData(data.data);
-        console.log(data.data);
+        // console.log(data.data);
       })
       .catch((error) => {
-        console.error('Error during fetch:', error);
+        toast('Error during fetch:', error);
       });
   }, [tweetId]);
 
@@ -110,28 +111,27 @@ function LikersList() {
             />
           </div>
         </div>
-        <p className="text-white">
-          {likesData && likesData.length > 0 && likesData[0].screenName}
-        </p>
-        {/* <div data-testid="FollowerList_2">
-          {users.map((userDetails, index) => (
-            <UserItem
-              key={uuid4()}
-              isFollowed={userDetails.isFollowed}
-              isFollowing="false"
-              userPicture={
-                user.profileImageUrl || import.meta.env.VITE_DEFAULT_AVATAR
-              }
-              userName={user.name}
-              userID={user.username}
-              discription=""
-              following="0"
-              followers="0"
-              testID={index}
-              itemID={userDetails.id}
-            />
-          ))}
-        </div> */}
+        <div data-testid="LikersList_2">
+          {likesData
+            ? likesData.map((userDetails, index) => (
+                <UserItem
+                  key={uuid4()}
+                  isFollowed={userDetails.isFollowed}
+                  isFollowing={userDetails.isFollowing}
+                  userPicture={
+                    user.profileImageUrl || import.meta.env.VITE_DEFAULT_AVATAR
+                  }
+                  userName={user.name}
+                  userID={user.username}
+                  discription=""
+                  following={userDetails.followingsCount}
+                  followers={userDetails.followersCount}
+                  testID={index}
+                  itemID={userDetails.id}
+                />
+              ))
+            : ''}
+        </div>
       </div>
     </div>
   );

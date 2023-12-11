@@ -7,9 +7,11 @@ import PropTypes from 'prop-types';
 import { v4 as uuid4 } from 'uuid';
 import OwnToaster from '../components/OwnToaster';
 import PopoverUserCard from '../components/userComponents/PopoverUserCard';
+import { useAuth } from '../hooks/AuthContext';
 
 function Reply({ data }) {
   const [text, setText] = useState('');
+  const { user } = useAuth();
 
   useEffect(() => {
     let reply;
@@ -72,7 +74,7 @@ function Reply({ data }) {
         <div className="flex flex-row justify-between ">
           <div className="userInfo flex flex-row">
             <div className="name  text-[15px] font-bold dark:text-white">
-              {data.screenName}
+              {data.screenName || user.name}
             </div>
             <div className="userName   overflow-hidden text-[15px] text-dark-gray">
               &ensp;@<span>{data.username}</span>
