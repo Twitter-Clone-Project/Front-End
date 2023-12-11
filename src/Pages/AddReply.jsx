@@ -73,7 +73,7 @@ function AddReply({ setReplies, tweetId, replyFor }) {
         ''
       )}
       <div
-        className="flex flex-wrap items-center justify-between px-2 sm:w-full"
+        className="flex w-full flex-wrap items-center justify-between px-2"
         data-testid="add-reply"
         onClick={() => {
           setFocus(true);
@@ -85,13 +85,13 @@ function AddReply({ setReplies, tweetId, replyFor }) {
           }}
         >
           <img
-            className=" mr-[12px] h-[40px] w-[40px] cursor-pointer rounded-full object-cover"
+            className=" h-[40px] w-10 cursor-pointer rounded-full object-cover sm:mr-[12px]"
             src={user.imageUrl || import.meta.env.VITE_DEFAULT_AVATAR}
             alt="profileImage"
           />
         </div>
 
-        <div className="flex w-[70%] flex-wrap items-center pl-1">
+        <div className="flex w-[60%] flex-wrap items-center sm:w-[65%] sm:pl-1">
           <input
             className="h-[60px] w-[90%] focus:outline-0
               dark:bg-pure-black dark:text-white"

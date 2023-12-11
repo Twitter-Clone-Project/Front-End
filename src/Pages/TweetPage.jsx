@@ -255,7 +255,7 @@ function TweetPage() {
                 </div>
               </Link>
             </div>
-            <div className="w-[88%] lg:w-full">
+            <div className="w-[88%] md:w-full">
               <AddReply
                 setReplies={setReplies}
                 tweetId={tweetId}

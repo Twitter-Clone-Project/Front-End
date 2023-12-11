@@ -51,7 +51,7 @@ function Reply({ data }) {
           <div
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className="relative right-24 top-[-1] z-10 mt-5 flex h-[250px]  w-[300px] flex-col justify-center "
+            className="relative left-0 right-24 top-[-1] z-10 mt-5 flex h-[250px]  w-[300px] flex-col justify-center "
           >
             <PopoverUserCard
               popoverIsFollowed={data.isFollowed}
