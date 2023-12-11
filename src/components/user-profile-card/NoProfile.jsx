@@ -5,7 +5,7 @@ function NoProfile() {
   const { username: name } = useParams('username');
   return (
     <div
-      data-testid="user-not-found"
+      data-testid="no-profile"
       className="border-x-0 border-border-gray dark:text-white sm:border-x-2"
     >
       <div className="w-full max-w-[600px] dark:text-white">

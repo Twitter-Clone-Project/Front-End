@@ -17,7 +17,6 @@ import SignUpForm from './components/sign-up/SignUpForm';
 import FollowersList from './components/userComponents/FollowersList';
 import FollowingList from './components/userComponents/FollowingList';
 import LogoutConfirm from './components/navigation-bars/LogoutConfirm';
-import DirectMessages from './components/Direct-Messages/DirectMessages';
 import Homepage from './tweetPage/Homepage';
 import ProfilePage from './components/user-profile-card/ProfilePage';
 import Posts from './components/user-profile-card/Posts';
@@ -26,6 +25,10 @@ import UpdateProfileForm from './components/user-profile-card/UpdateProfileForm'
 import TweetPage from './Pages/TweetPage';
 import LikersList from './Pages/LikersList';
 import RetweetersList from './Pages/RetweetersList';
+import { ChatProvider } from './contexts/ChatProvider';
+import ChatPage from './components/Direct-Messages/ChatPage';
+import InfoPage from './components/Direct-Messages/InfoPage';
+import ComposePage from './components/Direct-Messages/ComposePage';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -195,9 +198,24 @@ function App() {
               }
             />
             <Route
-              path="messages"
-              element={<DirectMessages />}
-            />
+              path="messages/"
+              element={<ChatProvider />}
+            >
+              <Route
+                path="/app/messages/:conversationId"
+                element={<ChatPage />}
+              />
+              <Route
+                path="/app/messages/:conversationId/info"
+                element={<InfoPage />}
+              />
+
+              <Route />
+              <Route
+                path="/app/messages/compose"
+                element={<ComposePage />}
+              />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>
