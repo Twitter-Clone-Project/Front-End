@@ -59,7 +59,9 @@ function FollowersList() {
       });
   }, [username]);
   return (
-    <div className="flex h-full min-h-screen w-full justify-center bg-white dark:bg-pure-black">
+    <div className="flex h-full min-h-screen w-full justify-center bg-white dark:bg-pure-black"
+    data-testid="FollowerList_0"
+    >
       <div className="w-full overflow-y-clip bg-white dark:bg-pure-black">
         <div className=" flex h-28 flex-col hover:cursor-pointer">
           <div className="flex h-[53px] flex-row px-4 ">
@@ -67,6 +69,7 @@ function FollowersList() {
               <div
                 className="mb-2 mt-[9px] flex h-9 w-9 items-center justify-center rounded-full hover:bg-x-light-gray dark:hover:bg-[#181919]"
                 onClick={handelBackButton}
+                data-testid="FollowerList_BackButton"
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -84,17 +87,11 @@ function FollowersList() {
             </div>
             <div className="mb-[3px] mt-[6px] flex flex-col">
               <div className=" h-7 py-0.5">
-                <span
-                  className=" cursor-pointer text-[20px] font-bold leading-6 text-pure-black hover:underline dark:text-white"
-                  data-popover-target="popover-user-profile"
-                >
+                <span className=" cursor-pointer text-[20px] font-bold leading-6 text-pure-black hover:underline dark:text-white">
                   {name}
                 </span>
               </div>
-              <span
-                className=" w-min text-sm leading-4 text-light-thin"
-                data-popover-target="popover-user-profile"
-              >
+              <span className=" w-min text-sm leading-4 text-light-thin">
                 @{username}
               </span>
             </div>
