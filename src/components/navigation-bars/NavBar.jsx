@@ -10,7 +10,6 @@ import UserImg from './UserImg';
 
 function NavBar() {
   const { user } = useAuth();
-  // console.log(user);
   const mobileItems = [
     {
       path: './home',
@@ -89,7 +88,7 @@ function NavBar() {
   ];
 
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -97,7 +96,7 @@ function NavBar() {
 
   useEffect(() => {
     setDrawerOpen(false);
-  }, [Navigate]);
+  }, [navigate]);
 
   useEffect(() => {
     const controlNavbar = () => {
@@ -122,7 +121,7 @@ function NavBar() {
   }, [lastScrollY]);
 
   const handleLogout = () => {
-    Navigate('/logout');
+    navigate('/logout');
   };
   useEffect(() => {
     const handler = (e) => {
@@ -137,7 +136,7 @@ function NavBar() {
     <div
       ref={screen}
       data-testid="nav-bar"
-      className="flex w-0 items-start justify-center overflow-auto dark:bg-pure-black sm:mt-auto sm:h-full sm:w-full sm:min-w-[100px] mlg:min-w-[280px] mlg:max-w-[300px]"
+      className="mx-auto flex w-0 items-start justify-center overflow-auto dark:bg-pure-black sm:mt-auto sm:h-full sm:w-[76px] mlg:w-[280px]"
     >
       <FloatingHeader
         drawerOpen={drawerOpen}
@@ -145,15 +144,15 @@ function NavBar() {
         setDrawerOpen={setDrawerOpen}
         handleLogout={handleLogout}
       />
-      <div className="relative h-full w-full overflow-auto px-12 text-start transition-colors duration-200 sm:border-0 mlg:min-w-[280px] mlg:max-w-[300px] mlg:px-3">
+      <div className="relative h-full w-full overflow-auto text-start transition-colors duration-200 sm:border-0 mlg:min-w-[230px] mlg:max-w-[230px]">
         <div
-          className={`fixed bottom-0 left-0 z-10 flex
-          w-full items-end justify-between
+          className={`fixed bottom-0 left-0 z-10
+          flex w-full justify-between
           border-t-[0.5px] border-border-gray
-          bg-white p-2 dark:bg-pure-black sm:left-2
-          sm:mx-2 sm:mt-0 sm:h-full sm:w-auto sm:flex-1
-          sm:flex-col sm:items-start sm:justify-between sm:gap-1 sm:border-0 
-          mlg:left-auto ${!show ? 'opacity-30 sm:opacity-100' : ''}`}
+          bg-white p-2 dark:bg-pure-black sm:left-auto
+          sm:mt-0 sm:h-full sm:w-auto sm:flex-col
+          sm:items-start sm:justify-between sm:gap-1 sm:border-0 sm:px-2 
+          ${!show ? 'opacity-30 sm:opacity-100' : ''}`}
         >
           <div className="mb-4 hidden overflow-auto p-3 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:flex">
             <Link to="/">

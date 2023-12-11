@@ -96,7 +96,10 @@ function PopoverUserCard({
   const [isPopoverButtonHovered, setPopoverButtonHovered] = useState(false);
   const navigate = useNavigate();
   return (
-    <div className="w-[300px] cursor-auto rounded-2xl bg-white bg-opacity-100 p-4 text-black shadow shadow-light-gray dark:bg-pure-black dark:text-white">
+    <div
+      data-testid={`${popoverUserID}-popover`}
+      className="w-[300px] cursor-auto rounded-2xl bg-white bg-opacity-100 p-4 text-black shadow shadow-light-gray dark:bg-pure-black dark:text-white"
+    >
       <div className="flex w-full flex-row justify-between">
         <Link
           to={`/app/${popoverUserID}`}

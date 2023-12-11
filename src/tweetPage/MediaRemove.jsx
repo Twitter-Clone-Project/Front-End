@@ -144,5 +144,5 @@ function MediaRemove({ filesURLs, setFilesURLs, files, setFiles }) {
     </div>
   );
 }
-
-export default MediaRemove;
+const MediaMemorized = React.memo(MediaRemove);
+export default MediaMemorized;
