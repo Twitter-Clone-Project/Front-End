@@ -219,7 +219,7 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
         )}
       </div>
 
-      <div className="rightColumn w-[512px] ">
+      <div className="rightColumn w-[512px] pl-2">
         <div
           className={` retweeted-info flex items-center text-xs font-semibold
           text-dark-gray ${repost === false ? 'hidden' : ''} `}

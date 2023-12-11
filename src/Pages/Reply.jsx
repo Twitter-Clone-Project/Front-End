@@ -70,7 +70,7 @@ function Reply({ data }) {
         )}
       </div>
 
-      <div className="rightColumn w-[512px] ">
+      <div className="rightColumn w-[512px] pl-2">
         <div className="flex flex-row justify-between ">
           <div className="userInfo flex flex-row">
             <div className="name  text-[15px] font-bold dark:text-white">

@@ -9,7 +9,7 @@ function RepliesList({ repliesData }) {
       {repliesData.length === 0 ? (
         ''
       ) : (
-        <div className="w-screen sm:w-full">
+        <div className="w-full">
           {repliesData.map((replyItem, index) => (
             <Reply
               data={replyItem}
