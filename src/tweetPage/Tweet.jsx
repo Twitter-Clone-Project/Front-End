@@ -15,8 +15,9 @@ import Media from './Media';
 import OwnToaster from '../components/OwnToaster';
 import ActionsMenu from './ActionsMenu';
 import PopoverUserCard from '../components/userComponents/PopoverUserCard';
+// import { useAuth } from '../hooks/AuthContext';
 
-function Tweet({ data, tweets, setTweets }) {
+function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
   const [repost, toggleRepost] = useState(data.isRetweeted);
   const [like, toggleLike] = useState(data.isLiked);
   const [repostsCount, setRepostsCount] = useState();
@@ -24,7 +25,17 @@ function Tweet({ data, tweets, setTweets }) {
   const [likesCount, setLikesCount] = useState();
   const [isLikeLoading, setIsLikeLoading] = useState(false);
   const [isRepostLoading, setIsRepostLoading] = useState(false);
+  // const { user: curUser } = useAuth();
+  const location = useLocation();
+  const [images, setImages] = useState();
   useEffect(() => {
+    if (data.attachmentsUrl) {
+      setImages(data.attachmentsUrl);
+      // console.log(data.attachmentsUrl, 'Url');
+    } else {
+      setImages(data.attachmentsURL);
+      // console.log(data.attachmentsURL, 'URL');
+    }
     toggleLike(data.isLiked);
     toggleRepost(data.isRetweeted);
     setLikesCount(data.likesCount);
@@ -32,15 +43,9 @@ function Tweet({ data, tweets, setTweets }) {
     setRepostsCount(data.retweetsCount);
   }, [data]);
   const navigate = useNavigate();
-  const location = useLocation();
+
   const handleClick = () => {
-    navigate(`/app/tweet`, {
-      state: {
-        pastPath: location.pathname,
-        tweetID: `${data.id}`,
-        tweetData: [data],
-      },
-    });
+    navigate(`/app/tweets/${data.id}`, { state: { pastPath: location } });
   };
   const handleLike = () => {
     if (like === true) {
@@ -107,6 +112,7 @@ function Tweet({ data, tweets, setTweets }) {
         postLike();
       }
     }
+    setFetchLikes();
   };
   const handleRepost = () => {
     if (repost === true) {
@@ -174,13 +180,10 @@ function Tweet({ data, tweets, setTweets }) {
         retweet();
       }
     }
+    setFetchRetweets();
   };
 
   const handleReply = () => {
-    // if (reply === true) setRepliesCount(repliesCount - 1);
-    // else setRepliesCount(repliesCount + 1);
-    // toggleReply(!reply);
-    // console.log(tweetID);
     handleClick();
   };
 
@@ -220,7 +223,7 @@ function Tweet({ data, tweets, setTweets }) {
           <div
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className="relative right-24 top-[-1] z-10 mt-5 flex h-[250px]  flex-col justify-center sm:w-[300px] "
+            className="relative left-0 right-24 top-[-1] z-10 mt-5 flex h-[250px]  flex-col justify-center sm:w-[300px] "
           >
             <PopoverUserCard
               popoverIsFollowed={data.user.isFollowed}
@@ -334,7 +337,7 @@ function Tweet({ data, tweets, setTweets }) {
         </div>
 
         <div>
-          <Media images={data.attachmentsUrl} />
+          <Media images={images} />
         </div>
         <div className="buttons flex h-[32px] flex-row  justify-between">
           <button
@@ -390,6 +393,17 @@ function Tweet({ data, tweets, setTweets }) {
 Tweet.propTypes = {
   // eslint-disable-next-line no-undef
   data: PropTypes.object.isRequired,
+  setFetchLikes: PropTypes.func,
+  setFetchRetweets: PropTypes.func,
+};
+
+Tweet.defaultProps = {
+  setFetchLikes: () => {
+    // console.log('Hi');
+  },
+  setFetchRetweets: () => {
+    // console.log('Hi');
+  },
 };
 
 export default Tweet;

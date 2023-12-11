@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import * as React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -127,15 +128,15 @@ function App() {
               element={<Homepage />}
             />
             <Route
-              path="tweet"
+              path="tweets/:tweetId"
               element={<TweetPage />}
             />
             <Route
-              path="tweet/likers"
+              path="tweets/:tweetId/likes"
               element={<LikersList />}
             />
             <Route
-              path="tweet/retweeters"
+              path="tweets/:tweetId/retweets"
               element={<RetweetersList />}
             />
             <Route
