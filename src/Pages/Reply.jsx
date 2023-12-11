@@ -7,9 +7,11 @@ import PropTypes from 'prop-types';
 import { v4 as uuid4 } from 'uuid';
 import OwnToaster from '../components/OwnToaster';
 import PopoverUserCard from '../components/userComponents/PopoverUserCard';
+import { useAuth } from '../hooks/AuthContext';
 
 function Reply({ data }) {
   const [text, setText] = useState('');
+  const { user } = useAuth();
 
   useEffect(() => {
     let reply;
@@ -31,7 +33,7 @@ function Reply({ data }) {
 
   return (
     <div
-      className="tweet mb-[0.5px] mt-[-0.5px] flex w-[88%] border-collapse  flex-row border-y-[0.5px] border-y-border-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]"
+      className="tweet mb-[0.5px] mt-[-0.5px] flex w-[88%] border-collapse flex-row border-b-[0.5px] border-b-light-gray bg-white px-[16px] pb-4 pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:border-b-border-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]"
       data-testid={data.replyId}
     >
       <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
@@ -42,14 +44,14 @@ function Reply({ data }) {
             alt="profileImage"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className="  h-[40px] w-[40px] rounded-full object-cover transition-opacity"
+            className="h-[40px] w-[40px] rounded-full object-cover transition-opacity"
           />
         </div>
         {isHovered && (
           <div
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className="relative right-24 top-[-1] z-10 mt-5 flex h-[250px]  w-[300px] flex-col justify-center "
+            className="relative left-0 right-24 top-[-1] z-10 mt-5 flex h-[250px]  w-[300px] flex-col justify-center "
           >
             <PopoverUserCard
               popoverIsFollowed={data.isFollowed}
@@ -68,10 +70,12 @@ function Reply({ data }) {
         )}
       </div>
 
-      <div className="rightColumn w-[512px] ">
+      <div className="rightColumn w-[512px] pl-2">
         <div className="flex flex-row justify-between ">
           <div className="userInfo flex flex-row">
-            <div className="name  text-[15px] font-bold">{data.screenName}</div>
+            <div className="name  text-[15px] font-bold dark:text-white">
+              {data.screenName || user.name}
+            </div>
             <div className="userName   overflow-hidden text-[15px] text-dark-gray">
               &ensp;@<span>{data.username}</span>
             </div>
@@ -101,7 +105,6 @@ function Reply({ data }) {
           })}
           {/* {text} */}
         </div>
-        <div className="h-[30px]" />
       </div>
       <OwnToaster />
     </div>
