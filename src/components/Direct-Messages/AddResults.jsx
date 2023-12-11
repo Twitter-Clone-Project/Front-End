@@ -6,20 +6,26 @@ import AddResultCard from './AddResultCard';
 
 function AddResults({ value, setPerson, deletePerson }) {
   const [results, setResults] = useState([]);
-
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`http://localhost:3000/search`, {
-        method: 'GET',
-        // origin: true,
-        // credentials: 'include',
-        // withCredentials: true,
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_DOMAIN}users/search?query=${value}`,
+        {
+          method: 'GET',
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+        },
+      );
       const Json = await response.json();
-      setResults(Json);
+      const { data } = Json;
+      console.log(data);
+      setResults(data);
     };
-    fetchData();
+    if (value && value !== '') fetchData();
+    else setResults([]);
   }, [value]);
+
   if (results)
     return (
       <div

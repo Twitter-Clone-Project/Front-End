@@ -5,7 +5,7 @@ function AddCard({ person, setDeletePerson }) {
   return (
     <div className="flex w-fit items-center gap-2 rounded-3xl border border-dark-gray p-1 dark:border-[#252829] dark:bg-black">
       <img
-        src={person.image}
+        src={person.profileImageURL}
         alt=""
         className="h-5 w-5 rounded-full"
       />

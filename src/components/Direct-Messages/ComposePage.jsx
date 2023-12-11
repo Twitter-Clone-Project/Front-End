@@ -14,6 +14,8 @@ export default function ComposePage() {
   const [ids, setIds] = useState([]);
   const { chatContext } = useContext(ChatContext);
   const [windowWidth, setWindowWidth] = useState(window.outerWidth);
+  const [input, setInput] = useState('');
+  const [timeoutId, setTimeoutId] = useState(null);
 
   useEffect(() => {
     if (person) {
@@ -32,6 +34,8 @@ export default function ComposePage() {
         setIds(filteredIds);
         setPersons(filteredPersons);
       }
+      setValue('');
+      setInput('');
       setPerson(null);
     }
   }, [person]);
@@ -45,6 +49,15 @@ export default function ComposePage() {
       setDeletePerson(null);
     }
   }, [deletePerson]);
+
+  const handleInputChange = (event) => {
+    setInput(event.target.value);
+    clearTimeout(timeoutId);
+    const newTimeouId = setTimeout(() => {
+      setValue(event.target.value);
+    }, 400);
+    setTimeoutId(newTimeouId);
+  };
 
   const handleAdd = async () => {
     await fetch(
@@ -80,14 +93,14 @@ export default function ComposePage() {
     <div className="absolute bottom-0 left-0 top-0 z-20 flex max-h-screen w-full items-center justify-center  md:bg-dark-gray md:bg-opacity-50">
       <div
         data-testid="box-card"
-        className={`relative mx-auto flex   w-full flex-col 
-      justify-between  
+        className={` relative mx-auto   flex w-full 
+      flex-col  justify-between
       border-light-gray bg-white pb-4 pt-8 text-lg text-black dark:border-none 
       dark:bg-pure-black dark:text-white 
       
       ${
         windowWidth > 640
-          ? 'min-h-[650px] w-[615px]  rounded-2xl border-[1px]'
+          ? ' mx-44 min-h-[650px] w-[615px]  rounded-2xl border-[1px]'
           : 'h-full w-full'
       }
       
@@ -138,10 +151,8 @@ export default function ComposePage() {
               <input
                 className=" w-full p-3 outline-none dark:bg-black"
                 placeholder="Search People"
-                value={value}
-                onChange={(event) => {
-                  setValue(event.target.value);
-                }}
+                value={input}
+                onChange={handleInputChange}
               />
             </div>
             <div

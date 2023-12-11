@@ -23,7 +23,7 @@ function AddResultCard({ setPerson, result, deletePerson }) {
     >
       <div className="mr-3 w-fit min-w-[40px]">
         <img
-          src={result.image}
+          src={result.profileImageURL}
           alt=""
           className="h-10 w-10 rounded-full"
         />
@@ -33,7 +33,7 @@ function AddResultCard({ setPerson, result, deletePerson }) {
           {result.name}
         </div>
         <div className="w-[90%]  max-w-fit overflow-clip whitespace-nowrap text-base text-[#71767B]">
-          @{result.tag}
+          @{result.username}
         </div>
       </div>
 
