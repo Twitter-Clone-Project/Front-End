@@ -9,7 +9,6 @@ import Header from './Header';
 function ConversationsPage() {
   const [searchValue, setSearchValue] = useState('');
   const [mode, setMode] = useState(false);
-  const [conversations, setConversations] = useState([]);
   const [openedId, setOpenedId] = useState('');
 
   return (
@@ -34,15 +33,12 @@ function ConversationsPage() {
           <ConversationsHistory
             setOpenedId={setOpenedId}
             openedId={openedId}
-            setConversations={setConversations}
-            conversations={conversations}
           />
         )}
         {mode && (
           <SearchResults
             setOpenedId={setOpenedId}
             searchValue={searchValue}
-            conversations={conversations}
           />
         )}
       </div>
