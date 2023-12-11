@@ -44,7 +44,7 @@ function Reply({ data }) {
             alt="profileImage"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className="  h-[40px] w-[40px] rounded-full object-cover transition-opacity"
+            className="h-[40px] w-[40px] rounded-full object-cover transition-opacity"
           />
         </div>
         {isHovered && (

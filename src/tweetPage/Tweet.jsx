@@ -223,7 +223,7 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
           <div
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className="relative left-0 right-24 top-[-1] z-10 mt-5 flex h-[250px]  w-[300px] flex-col justify-center "
+            className="relative left-0 right-24 top-[-1] z-10 mt-5 flex h-[250px]  flex-col justify-center sm:w-[300px] "
           >
             <PopoverUserCard
               popoverIsFollowed={data.user.isFollowed}
@@ -243,25 +243,8 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
         )}
       </div>
 
-      <div className="rightColumn w-[512px] pl-2">
-        <div
-          className={` retweeted-info flex items-center text-xs font-semibold
-          text-dark-gray ${repost === false ? 'hidden' : ''} `}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        >
-          <svg
-            viewBox="0 0 24 24"
-            className="mr-1 h-[16px] w-[16px] fill-dark-gray  "
-          >
-            <path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z" />
-          </svg>
-          <span>
-            {data.isRetweeted ? 'You' : data.retweetedUser.screenName} reposted
-          </span>
-        </div>
-        <div className="flex justify-between ">
+      <div className="rightColumn max-w-[95%]">
+        {(data.isRetweet || repost) && (
           <div
             className={` retweeted-info flex w-full items-center text-xs font-semibold
           text-dark-gray ${repost === false ? 'hidden' : ''} `}
@@ -278,128 +261,128 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             <span>
               {data.isRetweeted || repost
                 ? 'You'
-                : data.retweetedUser.screenName}
+                : data.retweetedUser.screenName}{' '}
               reposted
             </span>
           </div>
-          <div className="flex w-full justify-between">
-            <div
-              className="userInfo flex flex-wrap"
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
+        )}
+        <div className="flex w-full justify-between">
+          <div
+            className="userInfo flex flex-wrap"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <Link
+              to={`/app/${data.user.username}`}
+              className=" text-black"
             >
-              <Link
-                to={`/app/${data.user.username}`}
-                className=" text-black"
+              <div
+                data-testid={`username${data.id}`}
+                className="name whitespace-nowrap text-[15px] font-bold dark:text-white"
               >
-                <div
-                  data-testid={`username${data.id}`}
-                  className="name whitespace-nowrap text-[15px] font-bold dark:text-white"
-                >
-                  {data.user.screenName}
-                </div>
-              </Link>
-              <div className="flex flex-wrap">
-                <div className="userName overflow-hidden text-[15px] text-dark-gray">
-                  {' '}
-                  &ensp;@<span>{data.user.username}</span>
-                </div>
+                {data.user.screenName}
+              </div>
+            </Link>
+            <div className="flex flex-wrap">
+              <div className="userName overflow-hidden text-[15px] text-dark-gray">
+                {' '}
+                &ensp;@<span>{data.user.username}</span>
+              </div>
 
-                <div className="date overflow-hidden break-keep text-[15px] text-dark-gray">
-                  {' '}
-                  &ensp;.&ensp;
-                  <ReactTimeAgo
-                    date={new Date(data.createdAt)}
-                    locale="en-US"
-                    timeStyle="twitter"
-                  />
-                </div>
+              <div className="date overflow-hidden break-keep text-[15px] text-dark-gray">
+                {' '}
+                &ensp;.&ensp;
+                <ReactTimeAgo
+                  date={new Date(data.createdAt)}
+                  locale="en-US"
+                  timeStyle="twitter"
+                />
               </div>
             </div>
-            <div
-              className="pl-2"
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-            >
-              <ActionsMenu
-                userId={data.user.userId}
-                tweet={data}
-                tweets={tweets}
-                setTweets={setTweets}
-              />
-            </div>
           </div>
-          <div className="caption max-w-[95%]">
-            <p
-              className="break-words"
-              style={{ wordBreak: 'break-word' }}
-            >
-              {data.text.split(' ').map((word) => {
-                if (word.startsWith('#')) {
-                  return (
-                    <span
-                      key={uuid4()}
-                      className=" text-blue"
-                    >
-                      {word}{' '}
-                    </span>
-                  );
-                }
-                return `${word} `;
-              })}
-            </p>
+          <div
+            className="pl-2"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <ActionsMenu
+              userId={data.user.userId}
+              tweet={data}
+              tweets={tweets}
+              setTweets={setTweets}
+            />
           </div>
+        </div>
+        <div className="caption max-w-[95%]">
+          <p
+            className="break-words"
+            style={{ wordBreak: 'break-word' }}
+          >
+            {data.text.split(' ').map((word) => {
+              if (word.startsWith('#')) {
+                return (
+                  <span
+                    key={uuid4()}
+                    className=" text-blue"
+                  >
+                    {word}{' '}
+                  </span>
+                );
+              }
+              return `${word} `;
+            })}
+          </p>
+        </div>
 
-          <div>
-            <Media images={images} />
-          </div>
-          <div className="buttons flex h-[32px] flex-row  justify-between">
-            <button
-              data-testid={`${data.id}reply`}
-              type="submit"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleReply();
-              }}
-            >
-              <ReactButtons
-                type="Reply"
-                data={repliesCount}
-              />
-            </button>
-            <button
-              data-testid={`${data.id}repost`}
-              type="submit"
-              disabled={isRepostLoading}
-              onClick={(e) => {
-                e.stopPropagation();
-                handleRepost();
-              }}
-            >
-              <ReactButtons
-                type="Repost"
-                data={repostsCount}
-                clicked={repost}
-              />
-            </button>
-            <button
-              data-testid={`${data.id}like`}
-              disabled={isLikeLoading}
-              type="submit"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleLike();
-              }}
-            >
-              <ReactButtons
-                type="Like"
-                data={likesCount}
-                clicked={like}
-              />
-            </button>
-          </div>
+        <div>
+          <Media images={images} />
+        </div>
+        <div className="buttons flex h-[32px] flex-row  justify-between">
+          <button
+            data-testid={`${data.id}reply`}
+            type="submit"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleReply();
+            }}
+          >
+            <ReactButtons
+              type="Reply"
+              data={repliesCount}
+            />
+          </button>
+          <button
+            data-testid={`${data.id}repost`}
+            type="submit"
+            disabled={isRepostLoading}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleRepost();
+            }}
+          >
+            <ReactButtons
+              type="Repost"
+              data={repostsCount}
+              clicked={repost}
+            />
+          </button>
+          <button
+            data-testid={`${data.id}like`}
+            disabled={isLikeLoading}
+            type="submit"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleLike();
+            }}
+          >
+            <ReactButtons
+              type="Like"
+              data={likesCount}
+              clicked={like}
+            />
+          </button>
         </div>
       </div>
       <OwnToaster />
