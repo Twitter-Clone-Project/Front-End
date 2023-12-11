@@ -25,6 +25,7 @@ import UpdateProfileForm from './components/user-profile-card/UpdateProfileForm'
 import TweetPage from './Pages/TweetPage';
 import LikersList from './Pages/LikersList';
 import RetweetersList from './Pages/RetweetersList';
+import ComposePost from './components/compose-popup/ComposePost';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -196,6 +197,10 @@ function App() {
             <Route
               path="messages"
               element={<DirectMessages />}
+            />
+            <Route
+              path="compose"
+              element={<ComposePost />}
             />
           </Route>
         </Routes>
