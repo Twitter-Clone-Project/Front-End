@@ -35,9 +35,6 @@ function PopoverUserCard({
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        userid: { popoverUserID },
-      }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -64,9 +61,6 @@ function PopoverUserCard({
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        userid: { popoverUserID },
-      }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -97,13 +91,14 @@ function PopoverUserCard({
   const navigate = useNavigate();
   return (
     <div
-      data-testid={`${popoverUserID}-popover`}
       className="w-[300px] cursor-auto rounded-2xl bg-white bg-opacity-100 p-4 text-black shadow shadow-light-gray dark:bg-pure-black dark:text-white"
+      data-testid={`PopoverUserCard_${popoverTestID}_0`}
     >
       <div className="flex w-full flex-row justify-between">
         <Link
           to={`/app/${popoverUserID}`}
           className="hover:no-underline"
+          data-testid={`PopoverUserCard_${popoverTestID}_img`}
         >
           <img
             id="popoverImg"
@@ -114,6 +109,7 @@ function PopoverUserCard({
         </Link>
         {popoverUserID !== curUser.username ? (
           <div
+            role="button"
             className=" h-9 w-28"
             onMouseEnter={() => {
               setPopoverButtonHovered(true);
@@ -122,9 +118,8 @@ function PopoverUserCard({
               setPopoverButtonHovered(false);
             }}
             data-testid={`PopoverUserCard_${popoverTestID}_1`}
-            onClick={() => {
-              handelButtonClick;
-            }}
+            onClick={handelButtonClick}
+            tabIndex={-6}
           >
             <Button
               backGroundColor={
@@ -196,6 +191,7 @@ function PopoverUserCard({
           <Link
             to={`/app/${popoverUserID}`}
             className="hover:no-underline"
+            data-testid={`PopoverUserCard_${popoverTestID}_userInf`}
           >
             <label
               htmlFor="popoverImg"
@@ -228,11 +224,13 @@ function PopoverUserCard({
       </div>
       <div className="mt-3 flex flex-row">
         <div
-          onClick={() =>
+          role="button"
+          tabIndex={-6}
+          onClick={() => {
             navigate(`/app/${popoverUserID}/following`, {
               state: window.location.pathname,
-            })
-          }
+            });
+          }}
           data-testid={`PopoverUserCard_${popoverTestID}_3`}
         >
           <span className="mr-5 cursor-pointer text-pure-black hover:underline dark:text-white">
@@ -241,6 +239,8 @@ function PopoverUserCard({
           </span>
         </div>
         <div
+          role="button"
+          tabIndex={-6}
           onClick={() =>
             navigate(`/app/${popoverUserID}/followers`, {
               state: window.location.pathname,
