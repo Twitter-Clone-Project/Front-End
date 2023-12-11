@@ -7,6 +7,7 @@ import AddEmoji from './AddEmoji';
 import TextField from './TextField';
 import { useAuth } from '../hooks/AuthContext';
 import MediaRemove from './MediaRemove';
+import OwnToaster from '../components/OwnToaster';
 
 function AddPost({ setTweets }) {
   const { user } = useAuth();
@@ -17,6 +18,8 @@ function AddPost({ setTweets }) {
   const [text, setText] = useState('');
   const [postDisabled, setPostDisabled] = useState(true);
   const [isWhitespace, setIsWhitespace] = useState(true);
+  const [addFileDisabled, setAddFileDisabled] = useState(false);
+  const [acceptVideo, setAcceptVideo] = useState(true);
   const resetAll = () => {
     setText('');
     setFilesURLs([]);
@@ -64,18 +67,62 @@ function AddPost({ setTweets }) {
     postData();
   };
 
-  const handleImageChange = (e) => {
-    const fileList = Array.from(e.target.files);
-    setFiles(fileList);
-    const fileType = fileList[0].type.split('/');
-    if (fileList.length > 4) {
+  useEffect(() => {
+    if (files.length > 4) {
       setFiles([]);
       setFilesURLs([]);
-    } else if (fileList.length > 1 && fileType[0] === 'video') {
-      setFiles([fileList[0]]);
-      setFilesURLs([URL.createObjectURL(fileList[0])]);
+      toast('Please choose either 1 video or up to 4 photos');
+    }
+    if (files.length === 0) {
+      setAddFileDisabled(false);
+      setAcceptVideo(true);
+    } else setAddFileDisabled(false);
+    if (files.length === 4) {
+      setAddFileDisabled(true);
+    }
+    if (files[0]) {
+      const fileType = files[0].type.split('/');
+      if (files.length === 1 && fileType[0] === 'video') {
+        setAddFileDisabled(true);
+      }
+    }
+  }, [files]);
+  const handleImageChange = (e) => {
+    const fileList = Array.from(e.target.files);
+    if (files.length > 4) {
+      setFiles([]);
+      setFilesURLs([]);
+      toast('Please choose either 1 video or up to 4 photos');
     } else {
-      setFilesURLs(fileList.map((file) => URL.createObjectURL(file)));
+      let flag = true;
+      // 2,3,4 files if one video-->flag=true
+      if (fileList.length <= 4 && fileList.length > 1) {
+        for (let i = 0; i < fileList.length; i += 1) {
+          const fileType = fileList[i].type.split('/');
+          if (fileType[0] === 'video') {
+            toast('Please choose either 1 video or up to 4 photos');
+            flag = false;
+            break;
+          }
+        }
+      }
+      // 1 video or 1,2,3,4 images
+      if (flag) {
+        const fileType = fileList[0].type.split('/');
+        if (fileList.length === 1 && fileType[0] === 'video') {
+          setAddFileDisabled(true);
+          setFiles([fileList[0]]);
+          setFilesURLs([URL.createObjectURL(fileList[0])]);
+        } else {
+          setFiles((prev) => [...prev, ...fileList]);
+          const urls = fileList.map((file) => URL.createObjectURL(file));
+          setFilesURLs((prev) => [...prev, ...urls]);
+          setAcceptVideo(false);
+        }
+      }
+    }
+    if (files.length > 2) {
+      setAddFileDisabled(true);
     }
     if (fileList.length !== 0) {
       setPostDisabled(false);
@@ -102,12 +149,13 @@ function AddPost({ setTweets }) {
       setHashtagsString(hashtags.join(','));
   }, [files, text]);
   return (
-    <div className="flex items-center justify-center border-y-[0.5px] border-y-border-gray">
-      <div className="tweet mt-[0.5px] flex w-[88%] flex-row   bg-white px-[16px] pt-[12px] dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
+    <div className="flex w-full items-center border-y-[0.5px] border-y-border-gray">
+      <div className="tweet mt-[0.5px] grid w-full grid-cols-[auto_1fr] bg-white px-[16px] pt-[12px] dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
         <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
           <div className="profileImage leftColumn mr-[12px] h-[40px] w-[40px] ">
             <Link to={`/app/${user.username}`}>
               <img
+                data-testid="profileImage"
                 src={user.imageUrl || import.meta.env.VITE_DEFAULT_AVATAR}
                 alt="profileImage"
                 className=" h-[40px] w-[40px] rounded-full object-cover"
@@ -116,8 +164,8 @@ function AddPost({ setTweets }) {
           </div>
         </div>
 
-        <div className="rightColumn h-auto w-full">
-          <div className="peer w-[500px] placeholder:text-light-thin">
+        <div className="rightColumn h-auto">
+          <div className="peer max-w-full placeholder:text-light-thin">
             <TextField
               text={text}
               setText={setText}
@@ -131,26 +179,29 @@ function AddPost({ setTweets }) {
             setFiles={setFiles}
           />
           <div className="mt-2 flex w-full items-center justify-between border-t-border-gray peer-focus-within:border-t-[0.5px]">
-            <div className="media my-4 flex w-[18%] flex-row justify-between">
+            <div className="media my-4 flex w-[18%] flex-row justify-between ">
               <label
                 htmlFor="mediaUpload"
                 className=" cursor-pointer"
               >
                 <svg
                   viewBox="0 0 24 24"
-                  className="h-[18.75px] w-[18.75px] "
+                  className={`h-[18.75px] w-[18.75px]  ${
+                    addFileDisabled ? 'opacity-50' : ''
+                  }`}
                 >
                   <path
                     d="M3 5.5C3 4.119 4.119 3 5.5 3h13C19.881 3 21 4.119 21 5.5v13c0 1.381-1.119 2.5-2.5 2.5h-13C4.119 21 3 19.881 3 18.5v-13zM5.5 5c-.276 0-.5.224-.5.5v9.086l3-3 3 3 5-5 3 3V5.5c0-.276-.224-.5-.5-.5h-13zM19 15.414l-3-3-5 5-3-3-3 3V18.5c0 .276.224.5.5.5h13c.276 0 .5-.224.5-.5v-3.086zM9.75 7C8.784 7 8 7.784 8 8.75s.784 1.75 1.75 1.75 1.75-.784 1.75-1.75S10.716 7 9.75 7z"
-                    className=" fill-blue"
+                    className=" fill-blue "
                   />
                 </svg>
               </label>
               <input
-                type="file"
-                accept="image/*, video/*"
-                id="mediaUpload"
                 className="hidden"
+                disabled={addFileDisabled}
+                type="file"
+                accept={`image/*, ${acceptVideo ? 'video/*' : ''}`}
+                id="mediaUpload"
                 onChange={handleImageChange}
                 multiple
               />
@@ -172,6 +223,7 @@ function AddPost({ setTweets }) {
           </div>
         </div>
       </div>
+      <OwnToaster />
     </div>
   );
 }

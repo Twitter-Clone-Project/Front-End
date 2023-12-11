@@ -27,6 +27,9 @@ function ListNav({ items, pastPath }) {
     </div>
   );
 }
+ListNav.defaultProps = {
+  pastPath: null,
+};
 ListNav.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({
@@ -34,6 +37,6 @@ ListNav.propTypes = {
       path: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  pastPath: PropTypes.string.isRequired,
+  pastPath: PropTypes.string,
 };
 export default ListNav;

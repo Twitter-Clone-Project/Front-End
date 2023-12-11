@@ -172,6 +172,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
               <p className="flex items-center justify-between gap-6 text-xl font-bold">
                 <button
                   type="button"
+                  data-testid="close-update-form"
                   onClick={() =>
                     updated ? setConfirmCancel(true) : setUpdateFormOpen(false)
                   }
@@ -202,6 +203,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
             <div className="profile-cover max-h-[500px]">
               <div className="relative object-fill">
                 <img
+                  data-testid="profile-banner-update"
                   className="m-auto aspect-[3/1] max-h-full w-full cursor-pointer bg-pure-black object-fill opacity-70"
                   src={banner ? URL.createObjectURL(banner) : curBanner}
                   alt="cover"
@@ -255,6 +257,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
                 <div className="relative flex w-full justify-between">
                   <img
                     id="popoverImg"
+                    data-testid="user-image-update"
                     src={
                       pic
                         ? URL.createObjectURL(pic)
@@ -336,6 +339,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
                 Birth Date{' '}
                 <button
                   type="button"
+                  data-testid="edit-dob"
                   className="font-normal"
                   onClick={() => setDOBEdit((prev) => !prev)}
                 >
@@ -346,7 +350,10 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
                 </button>
               </p>
               {!DOBEdit && (
-                <p className="text-xl">
+                <p
+                  data-testid="current-dob"
+                  className="text-xl"
+                >
                   {moment(new Date(user.birthDate)).format('MMMM D, YYYY')}
                 </p>
               )}

@@ -15,17 +15,15 @@ import Media from './Media';
 import OwnToaster from '../components/OwnToaster';
 import ActionsMenu from './ActionsMenu';
 import PopoverUserCard from '../components/userComponents/PopoverUserCard';
-import { useAuth } from '../hooks/AuthContext';
 
 function Tweet({ data, tweets, setTweets }) {
-  const [repost, toggleRepost] = useState(data.isRetweet);
+  const [repost, toggleRepost] = useState(data.isRetweeted);
   const [like, toggleLike] = useState(data.isLiked);
   const [repostsCount, setRepostsCount] = useState();
   const [repliesCount, setRepliesCount] = useState();
   const [likesCount, setLikesCount] = useState();
   const [isLikeLoading, setIsLikeLoading] = useState(false);
   const [isRepostLoading, setIsRepostLoading] = useState(false);
-  const { user: curUser } = useAuth();
   useEffect(() => {
     toggleLike(data.isLiked);
     toggleRepost(data.isRetweeted);
@@ -45,122 +43,136 @@ function Tweet({ data, tweets, setTweets }) {
     });
   };
   const handleLike = () => {
-    if (like === true && !isLikeLoading) {
-      setIsLikeLoading(true);
-      const deleteLike = async () => {
-        try {
-          const response = await fetch(
-            `${import.meta.env.VITE_API_DOMAIN}tweets/${
-              data.id
-            }/deleteLike`,
-            {
-              origin: true,
-              credentials: 'include',
-              withCredentials: true,
-              method: 'DELETE',
-            },
-          );
-          const res = await response.json();
-          if (res.status) {
-            toggleLike(!like);
-            setLikesCount(likesCount - 1);
+    if (like === true) {
+      setLikesCount(likesCount - 1);
+      toggleLike(!like);
+      if (!isLikeLoading) {
+        setIsLikeLoading(true);
+        const deleteLike = async () => {
+          try {
+            const response = await fetch(
+              `${import.meta.env.VITE_API_DOMAIN}tweets/${data.id}/deleteLike`,
+              {
+                origin: true,
+                credentials: 'include',
+                withCredentials: true,
+                method: 'DELETE',
+              },
+            );
+            const res = await response.json();
+            if (!res.status) {
+              toggleLike(!like);
+              setLikesCount(likesCount + 1);
+              throw new Error(res.message);
+            }
+          } catch (err) {
+            toast(err.message);
+          } finally {
+            setIsLikeLoading(false);
           }
-        } catch (err) {
-          toast(err.message);
-        } finally {
-          setIsLikeLoading(false);
-        }
-      };
+        };
 
-      deleteLike();
-    } else if (like === false && !isLikeLoading) {
-      setIsLikeLoading(true);
-      const postLike = async () => {
-        try {
-          const response = await fetch(
-            `${import.meta.env.VITE_API_DOMAIN}tweets/${
-              data.id
-            }/addlike`,
-            {
-              origin: true,
-              credentials: 'include',
-              withCredentials: true,
-              method: 'POST',
-            },
-          );
-          const res = await response.json();
-          if (res.status) {
-            setLikesCount(likesCount + 1);
-            toggleLike(!like);
+        deleteLike();
+      }
+    } else if (like === false) {
+      setLikesCount(likesCount + 1);
+      toggleLike(!like);
+
+      if (!isLikeLoading) {
+        setIsLikeLoading(true);
+        const postLike = async () => {
+          try {
+            const response = await fetch(
+              `${import.meta.env.VITE_API_DOMAIN}tweets/${data.id}/addlike`,
+              {
+                origin: true,
+                credentials: 'include',
+                withCredentials: true,
+                method: 'POST',
+              },
+            );
+            const res = await response.json();
+            if (!res.status) {
+              setLikesCount(likesCount - 1);
+              toggleLike(!like);
+              throw new Error(res.message);
+            }
+          } catch (err) {
+            toast(err.message);
+          } finally {
+            setIsLikeLoading(false);
           }
-        } catch (err) {
-          toast(err.message);
-        } finally {
-          setIsLikeLoading(false);
-        }
-      };
+        };
 
-      postLike();
+        postLike();
+      }
     }
   };
   const handleRepost = () => {
-    if (repost === true && !isRepostLoading) {
-      setIsLikeLoading(true);
-      const deleteRetweet = async () => {
-        try {
-          const response = await fetch(
-            `${import.meta.env.VITE_API_DOMAIN}tweets/${
-              data.id
-            }/deleteRetweet`,
-            {
-              origin: true,
-              credentials: 'include',
-              withCredentials: true,
-              method: 'DELETE',
-            },
-          );
-          const res = await response.json();
-          console.log(res);
-          if (res.status) {
-            toggleRepost(!repost);
-            setRepostsCount(repostsCount - 1);
+    if (repost === true) {
+      toggleRepost(!repost);
+      setRepostsCount(repostsCount - 1);
+      if (!isRepostLoading) {
+        setIsLikeLoading(true);
+        const deleteRetweet = async () => {
+          try {
+            const response = await fetch(
+              `${import.meta.env.VITE_API_DOMAIN}tweets/${
+                data.id
+              }/deleteRetweet`,
+              {
+                origin: true,
+                credentials: 'include',
+                withCredentials: true,
+                method: 'DELETE',
+              },
+            );
+            const res = await response.json();
+            if (!res.status) {
+              toggleRepost(!repost);
+              setRepostsCount(repostsCount + 1);
+              throw new Error(res.message);
+            }
+          } catch (err) {
+            toast(err.message);
+          } finally {
+            setIsRepostLoading(false);
           }
-        } catch (err) {
-          toast(err.message);
-        } finally {
-          setIsRepostLoading(false);
-        }
-      };
+        };
 
-      deleteRetweet();
-    } else if (repost === false && !isRepostLoading) {
-      setIsRepostLoading(true);
-      const retweet = async () => {
-        try {
-          const response = await fetch(
-            `${import.meta.env.VITE_API_DOMAIN}tweets/${
-              data.id
-            }/retweet`,
-            {
-              origin: true,
-              credentials: 'include',
-              withCredentials: true,
-              method: 'POST',
-            },
-          );
-          const res = await response.json();
-          console.log(res);
-          if (res.status) {
-            toggleRepost(!repost);
-            setRepostsCount(repostsCount + 1);
+        deleteRetweet();
+      }
+    } else if (repost === false) {
+      toggleRepost(!repost);
+      setRepostsCount(repostsCount + 1);
+      if (!isRepostLoading) {
+        setIsRepostLoading(true);
+        const retweet = async () => {
+          try {
+            const response = await fetch(
+              `${import.meta.env.VITE_API_DOMAIN}tweets/${data.id}/retweet`,
+              {
+                origin: true,
+                credentials: 'include',
+                withCredentials: true,
+                method: 'POST',
+              },
+            );
+            const res = await response.json();
+            console.log(res);
+            if (!res.status) {
+              toggleRepost(!repost);
+              setRepostsCount(repostsCount - 1);
+              throw new Error(res.message);
+            }
+          } catch (err) {
+            toast(err.message);
+          } finally {
+            setIsRepostLoading(false);
           }
-        } catch (err) {
-          toast(err.message);
-        } finally {
-          setIsRepostLoading(false);
-        }
-      };
-      retweet();
+        };
+        retweet();
+      }
     }
   };
 
@@ -182,7 +194,8 @@ function Tweet({ data, tweets, setTweets }) {
   };
   return (
     <div
-      className="tweet mb-[0.5px] mt-[-0.5px] flex w-[88%] border-collapse  flex-row border-y-[0.5px] border-y-border-gray bg-white px-[16px] pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px] "
+      data-testid={`${data.id}`}
+      className="tweet mb-[0.5px] mt-[-0.5px] grid w-full border-collapse grid-cols-[auto_1fr]  border-y-[0.5px] border-y-border-gray bg-white px-3 pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black sm:px-[16px] lg:w-[598px] "
       onClick={handleClick}
     >
       <div
@@ -207,10 +220,11 @@ function Tweet({ data, tweets, setTweets }) {
           <div
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className="relative right-24 top-[-1] z-10 mt-5 flex h-[250px]  w-[300px] flex-col justify-center "
+            className="relative right-24 top-[-1] z-10 mt-5 flex h-[250px]  flex-col justify-center sm:w-[300px] "
           >
             <PopoverUserCard
               popoverIsFollowed={data.user.isFollowed}
+              popoverIsFollowing={data.user.isFollowing}
               popoverUserPicture={
                 data.user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
               }
@@ -226,59 +240,66 @@ function Tweet({ data, tweets, setTweets }) {
         )}
       </div>
 
-      <div className="rightColumn w-[512px] ">
-        <div
-          className={` retweeted-info flex items-center text-xs font-semibold
-          text-dark-gray ${repost === false ? 'hidden' : ''} `}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        >
-          <svg
-            viewBox="0 0 24 24"
-            className="mr-1 h-[16px] w-[16px] fill-dark-gray  "
-          >
-            <path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z" />
-          </svg>
-          <span>
-            {data.isRetweeted ? 'You' : data.retweetedUser.screenName} reposted
-          </span>
-        </div>
-        <div className="flex justify-between ">
+      <div className="rightColumn max-w-[95%]">
+        {(data.isRetweet || repost) && (
           <div
-            className="userInfo flex flex-row"
+            className={` retweeted-info flex w-full items-center text-xs font-semibold
+          text-dark-gray ${repost === false ? 'hidden' : ''} `}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              className="mr-1 h-[16px] w-[16px] fill-dark-gray  "
+            >
+              <path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z" />
+            </svg>
+            <span>
+              {data.isRetweeted || repost
+                ? 'You'
+                : data.retweetedUser.screenName}{' '}
+              reposted
+            </span>
+          </div>
+        )}
+        <div className="flex w-full justify-between">
+          <div
+            className="userInfo flex flex-wrap"
             onClick={(e) => {
               e.stopPropagation();
             }}
           >
             <Link
               to={`/app/${data.user.username}`}
-              className="text-black"
+              className=" text-black"
             >
               <div
                 data-testid={`username${data.id}`}
-                className="name  text-[15px] font-bold dark:text-white"
+                className="name whitespace-nowrap text-[15px] font-bold dark:text-white"
               >
                 {data.user.screenName}
               </div>
             </Link>
-            <div className="userName overflow-hidden text-[15px] text-dark-gray">
-              {' '}
-              &ensp;@<span>{data.user.username}</span>
-            </div>
+            <div className="flex flex-wrap">
+              <div className="userName overflow-hidden text-[15px] text-dark-gray">
+                {' '}
+                &ensp;@<span>{data.user.username}</span>
+              </div>
 
-            <div className="date overflow-hidden text-[15px] text-dark-gray">
-              {' '}
-              &ensp;.&ensp;
-              <ReactTimeAgo
-                date={new Date(data.createdAt)}
-                locale="en-US"
-                timeStyle="twitter"
-              />
+              <div className="date overflow-hidden break-keep text-[15px] text-dark-gray">
+                {' '}
+                &ensp;.&ensp;
+                <ReactTimeAgo
+                  date={new Date(data.createdAt)}
+                  locale="en-US"
+                  timeStyle="twitter"
+                />
+              </div>
             </div>
           </div>
           <div
-            className=" "
+            className="pl-2"
             onClick={(e) => {
               e.stopPropagation();
             }}
@@ -291,20 +312,25 @@ function Tweet({ data, tweets, setTweets }) {
             />
           </div>
         </div>
-        <div className="caption">
-          {data.text.split(' ').map((word) => {
-            if (word.startsWith('#')) {
-              return (
-                <span
-                  key={uuid4()}
-                  className=" text-blue"
-                >
-                  {word}{' '}
-                </span>
-              );
-            }
-            return `${word} `;
-          })}
+        <div className="caption max-w-[95%]">
+          <p
+            className="break-words"
+            style={{ wordBreak: 'break-word' }}
+          >
+            {data.text.split(' ').map((word) => {
+              if (word.startsWith('#')) {
+                return (
+                  <span
+                    key={uuid4()}
+                    className=" text-blue"
+                  >
+                    {word}{' '}
+                  </span>
+                );
+              }
+              return `${word} `;
+            })}
+          </p>
         </div>
 
         <div>
@@ -312,7 +338,7 @@ function Tweet({ data, tweets, setTweets }) {
         </div>
         <div className="buttons flex h-[32px] flex-row  justify-between">
           <button
-            data-testid="reply"
+            data-testid={`${data.id}reply`}
             type="submit"
             onClick={(e) => {
               e.stopPropagation();
@@ -325,7 +351,7 @@ function Tweet({ data, tweets, setTweets }) {
             />
           </button>
           <button
-            data-testid="repost"
+            data-testid={`${data.id}repost`}
             type="submit"
             disabled={isRepostLoading}
             onClick={(e) => {
@@ -336,11 +362,11 @@ function Tweet({ data, tweets, setTweets }) {
             <ReactButtons
               type="Repost"
               data={repostsCount}
-              clicked={data.isRetweeted}
+              clicked={repost}
             />
           </button>
           <button
-            data-testid="like"
+            data-testid={`${data.id}like`}
             disabled={isLikeLoading}
             type="submit"
             onClick={(e) => {
