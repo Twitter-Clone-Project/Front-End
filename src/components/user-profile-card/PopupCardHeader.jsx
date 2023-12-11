@@ -7,7 +7,7 @@ function PopupCardHeader({ children, footer }) {
       <div
         className={`fixed z-[100] flex h-[54.5px] w-[calc(100%-1rem-1px)] flex-1
         items-center justify-between bg-white bg-opacity-70 px-4 py-2
-        dark:bg-pure-black md:w-[598px] ${
+        dark:bg-pure-black md:w-[calc(615px-1rem-1px)] ${
           footer ? 'md:rounded-bl-2xl' : 'md:rounded-tl-2xl'
         }`}
       >

@@ -108,7 +108,7 @@ function ComposePost() {
   return (
     <ComposeLayout>
       <OwnToaster />
-      <div className="mt-5 flex h-full flex-1 flex-col justify-between px-4 py-2">
+      <div className="mt-5 flex flex-col  justify-between px-4 py-2">
         <div className="flex h-full w-full ">
           <div className="profileImage leftColumn mr-[12px] h-[40px] w-[40px] pt-1">
             <Link to={`/app/${user.username}`}>
@@ -132,52 +132,54 @@ function ComposePost() {
             />
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 flex h-[53px] w-full min-w-[300px] items-center rounded">
-          <PopupCardHeader footer>
-            <div className="flex w-full items-center justify-between border-t-[1px] border-t-light-gray py-2 dark:border-t-border-gray">
-              <div className="media flex w-[18%] flex-row gap-5 px-3">
-                <label
-                  htmlFor="mediaUpload"
-                  className=" cursor-pointer"
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    className={`h-[18.75px] w-[18.75px]  ${
-                      addFileDisabled ? 'opacity-50' : ''
-                    }`}
+        <div className="flex h-[200px] items-start md:h-auto">
+          <div className="absolute left-0 flex h-[53px] w-full min-w-[300px] items-center rounded md:bottom-0">
+            <PopupCardHeader footer>
+              <div className="flex w-full flex-wrap items-center justify-between gap-3 border-t-[1px] border-t-light-gray py-2 dark:border-t-border-gray">
+                <div className="media flex flex-row gap-5 px-3">
+                  <label
+                    htmlFor="mediaUpload"
+                    className=" cursor-pointer"
                   >
-                    <path
-                      d="M3 5.5C3 4.119 4.119 3 5.5 3h13C19.881 3 21 4.119 21 5.5v13c0 1.381-1.119 2.5-2.5 2.5h-13C4.119 21 3 19.881 3 18.5v-13zM5.5 5c-.276 0-.5.224-.5.5v9.086l3-3 3 3 5-5 3 3V5.5c0-.276-.224-.5-.5-.5h-13zM19 15.414l-3-3-5 5-3-3-3 3V18.5c0 .276.224.5.5.5h13c.276 0 .5-.224.5-.5v-3.086zM9.75 7C8.784 7 8 7.784 8 8.75s.784 1.75 1.75 1.75 1.75-.784 1.75-1.75S10.716 7 9.75 7z"
-                      className=" fill-blue"
-                    />
-                  </svg>
-                </label>
-                <input
-                  type="file"
-                  disabled={addFileDisabled}
-                  accept={`image/*, ${acceptVideo ? 'video/*' : ''}`}
-                  id="mediaUpload"
-                  onChange={handleImageChange}
-                  className="hidden"
-                  multiple
-                />
-                <AddEmoji
-                  text={text}
-                  setText={setText}
+                    <svg
+                      viewBox="0 0 24 24"
+                      className={`h-[18.75px] w-[18.75px]  ${
+                        addFileDisabled ? 'opacity-50' : ''
+                      }`}
+                    >
+                      <path
+                        d="M3 5.5C3 4.119 4.119 3 5.5 3h13C19.881 3 21 4.119 21 5.5v13c0 1.381-1.119 2.5-2.5 2.5h-13C4.119 21 3 19.881 3 18.5v-13zM5.5 5c-.276 0-.5.224-.5.5v9.086l3-3 3 3 5-5 3 3V5.5c0-.276-.224-.5-.5-.5h-13zM19 15.414l-3-3-5 5-3-3-3 3V18.5c0 .276.224.5.5.5h13c.276 0 .5-.224.5-.5v-3.086zM9.75 7C8.784 7 8 7.784 8 8.75s.784 1.75 1.75 1.75 1.75-.784 1.75-1.75S10.716 7 9.75 7z"
+                        className=" fill-blue"
+                      />
+                    </svg>
+                  </label>
+                  <input
+                    type="file"
+                    disabled={addFileDisabled}
+                    accept={`image/*, ${acceptVideo ? 'video/*' : ''}`}
+                    id="mediaUpload"
+                    onChange={handleImageChange}
+                    className="hidden"
+                    multiple
+                  />
+                  <AddEmoji
+                    text={text}
+                    setText={setText}
+                  />
+                </div>
+                <Button
+                  label="Post"
+                  disabled={postDisabled}
+                  backGroundColor="blue"
+                  backGroundColorDark="blue"
+                  labelColor="white"
+                  labelColorDark="white"
+                  borderColor="none"
+                  width="w-16"
                 />
               </div>
-              <Button
-                label="Post"
-                disabled={postDisabled}
-                backGroundColor="blue"
-                backGroundColorDark="blue"
-                labelColor="white"
-                labelColorDark="white"
-                borderColor="none"
-                width="w-16"
-              />
-            </div>
-          </PopupCardHeader>
+            </PopupCardHeader>
+          </div>
         </div>
       </div>
     </ComposeLayout>
