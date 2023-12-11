@@ -312,20 +312,25 @@ function Tweet({ data, tweets, setTweets }) {
             />
           </div>
         </div>
-        <div className="caption max-w-[95%] break-words">
-          {data.text.split(' ').map((word) => {
-            if (word.startsWith('#')) {
-              return (
-                <span
-                  key={uuid4()}
-                  className=" text-blue"
-                >
-                  {word}{' '}
-                </span>
-              );
-            }
-            return `${word} `;
-          })}
+        <div className="caption max-w-[95%]">
+          <p
+            className="break-words"
+            style={{ wordBreak: 'break-word' }}
+          >
+            {data.text.split(' ').map((word) => {
+              if (word.startsWith('#')) {
+                return (
+                  <span
+                    key={uuid4()}
+                    className=" text-blue"
+                  >
+                    {word}{' '}
+                  </span>
+                );
+              }
+              return `${word} `;
+            })}
+          </p>
         </div>
 
         <div>
