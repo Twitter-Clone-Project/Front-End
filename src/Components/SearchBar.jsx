@@ -36,18 +36,26 @@ function SearchBar({ value, setValue }) {
     const controller = new AbortController();
 
     const timeId = setTimeout(() => {
+      console.log('fetching');
       const queryCheck = async () => {
         try {
-          const res = await fetch('http://localhost:3000/searchQuery', {
-            signal: controller.signal,
-          });
+          const res = await fetch(
+            `${import.meta.env.VITE_API_DOMAIN}user/search?query="${value}"`,
+            {
+              method: 'GET',
+              origin: true,
+              credentials: 'include',
+              withCredentials: true,
+            },
+          );
           const data = await res.json();
           if (data.status === false) throw new Error(data.message);
           else {
-            if (data.results.length > 10) {
-              data.results = data.results.slice(0, 10);
-            }
-            setResults([data]);
+            // if (data.results.length > 10) {
+            //   data.results = data.results.slice(0, 10);
+            // }
+            // setResults([data]);
+            console.log(data.data);
           }
         } catch (err) {
           if (err.name !== 'AbortError') toast(err.message);
@@ -56,7 +64,7 @@ function SearchBar({ value, setValue }) {
         }
       };
       queryCheck();
-    }, 0);
+    }, 500);
     return () => {
       clearTimeout(timeId);
       controller.abort();
@@ -138,36 +146,37 @@ function SearchBar({ value, setValue }) {
                 Try searching for people, lists, or keywords
               </span>
             ) : (
+              ''
               // eslint-disable-next-line react/jsx-no-useless-fragment
-              <>
-                {results.length === 0 && value !== '' ? (
-                  <div className="spinner flex h-full w-full flex-1 items-center justify-center">
-                    <div className="loader h-5 w-5" />
-                  </div>
-                ) : (
-                  <div className="">
-                    <div className="">
-                      {results[0].suggestions.map((suggestion) => (
-                        <SearchSuggestion value={suggestion} />
-                      ))}
-                    </div>
-                    <div className="mx-[2px] h-[1px] bg-light-gray" />
-                    <div className="">
-                      {results[0].results.map((result) => (
-                        <SearchResult data={result} />
-                      ))}
-                    </div>
-                    <div
-                      // eslint-disable-next-line max-len
-                      // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-                      className="flex h-[50px] items-center pl-4 text-sm text-light-gray hover:bg-black"
-                      onClick
-                    >
-                      <span>Go to@{value}</span>
-                    </div>
-                  </div>
-                )}
-              </>
+              // <>
+              //   {results.length === 0 && value !== '' ? (
+              //     <div className="spinner flex h-full w-full flex-1 items-center justify-center">
+              //       <div className="loader h-5 w-5" />
+              //     </div>
+              //   ) : (
+              //     <div className="">
+              //       <div className="">
+              //         {results[0].suggestions.map((suggestion) => (
+              //           <SearchSuggestion value={suggestion} />
+              //         ))}
+              //       </div>
+              //       <div className="mx-[2px] h-[1px] bg-light-gray" />
+              //       <div className="">
+              //         {results[0].results.map((result) => (
+              //           <SearchResult data={result} />
+              //         ))}
+              //       </div>
+              //       <div
+              //         // eslint-disable-next-line max-len
+              //         // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+              //         className="flex h-[50px] items-center pl-4 text-sm text-light-gray hover:bg-black"
+              //         onClick
+              //       >
+              //         <span>Go to@{value}</span>
+              //       </div>
+              //     </div>
+              //   )}
+              // </>
             )}
           </div>
         ) : (
