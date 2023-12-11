@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import * as router from 'react-router';
 import AuthProvider from '../../contexts/Auth/AuthProvider';
 import { useAuth } from '../../hooks/AuthContext';
+import AddPost from '../../tweetPage/AddPost';
 
 const user = {
   userId: '123',
@@ -24,6 +25,8 @@ useAuth.mockReturnValue({
 });
 vi.mock('../../hooks/AuthContext.js');
 const navigate = vi.fn();
+const setTweets = vi.fn();
+const dispatch = vi.fn();
 beforeEach(() => {
   vi.spyOn(router, 'useNavigate').mockImplementation(() => navigate);
   vi.spyOn(window, 'fetch');
@@ -45,4 +48,39 @@ beforeEach(() => {
 afterEach(() => {
   window.fetch.mockRestore();
 });
-describe('Add Post', () => {});
+describe('Add Post', () => {
+  it('navigates to the profile on click on the profile picture', () => {
+    const { getByTestId } = render(
+      <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
+        <BrowserRouter>
+          <AddPost setTweets={setTweets} />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+
+    const imageElement = getByTestId(`profileImage`);
+    fireEvent.click(imageElement);
+    expect(navigate).toHaveBeenCalledTimes(1);
+    expect(navigate).toHaveBeenCalledWith(
+      `/app/${user.username}`,
+      expect.any(Object),
+    );
+
+    // screen.debug();
+  });
+
+  it('shows the emoji picker on click on emoji icon', () => {
+    const { getByTestId } = render(
+      <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
+        <BrowserRouter>
+          <AddPost setTweets={setTweets} />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+
+    // emojibtn = getByTestId('addEmoji');
+    //fireEvent.click(emojibtn);
+    //expect(getByTestId('emojiPicker')).toBeInTheDocument();
+    // screen.debug();
+  });
+});

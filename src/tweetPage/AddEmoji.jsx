@@ -15,6 +15,7 @@ function AddEmoji({ text, setText }) {
   return (
     <button
       type="submit"
+      data-testid="addEmoji"
       onClick={handelEmojiPicker}
       className="relative flex flex-col justify-start"
     >
@@ -30,10 +31,12 @@ function AddEmoji({ text, setText }) {
 
       <div className="absolute left-0 right-0 top-5 z-[100] flex flex-row justify-center">
         {showEmojiPicker && (
-          <Picker
-            data={data}
-            onEmojiSelect={handleEmojiSelect}
-          />
+          <div data-testid="emojiPicker">
+            <Picker
+              data={data}
+              onEmojiSelect={handleEmojiSelect}
+            />
+          </div>
         )}
       </div>
     </button>

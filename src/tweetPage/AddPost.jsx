@@ -155,6 +155,7 @@ function AddPost({ setTweets }) {
           <div className="profileImage leftColumn mr-[12px] h-[40px] w-[40px] ">
             <Link to={`/app/${user.username}`}>
               <img
+                data-testid="profileImage"
                 src={user.imageUrl || import.meta.env.VITE_DEFAULT_AVATAR}
                 alt="profileImage"
                 className=" h-[40px] w-[40px] rounded-full object-cover"
