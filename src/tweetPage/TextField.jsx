@@ -17,8 +17,9 @@ function TextField({ text, setText }) {
 
   const onChange = (newEditorState) => {
     setEditorState(newEditorState);
-    if (newEditorState.getCurrentContent().getPlainText().length < 60)
+    if (newEditorState.getCurrentContent().getPlainText().length < 60) {
       setText(newEditorState.getCurrentContent().getPlainText());
+    }
   };
 
   useEffect(() => {
@@ -35,7 +36,7 @@ function TextField({ text, setText }) {
   };
 
   return (
-    <div className="">
+    <div className="w-full max-w-full">
       <Editor
         placeholder="What is happening?!"
         onClick={focus}
