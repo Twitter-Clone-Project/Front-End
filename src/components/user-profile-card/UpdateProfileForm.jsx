@@ -313,17 +313,19 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
               error={bioErr}
               setError={setBioErr}
             />
-            <BasicInput
+            <NameInput
               title="Location"
-              value={location}
-              setValue={setLocation}
+              maxLength={30}
+              Name={location}
+              setName={setLocation}
               error={locationErr}
               setError={setLocationErr}
             />
-            <BasicInput
+            <NameInput
               title="Website"
-              value={website}
-              setValue={setWebsite}
+              maxLength={100}
+              Name={website}
+              setName={setWebsite}
               error={websiteErr}
               setError={setWebsiteErr}
             />
