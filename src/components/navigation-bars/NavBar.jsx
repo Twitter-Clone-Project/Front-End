@@ -213,6 +213,7 @@ function NavBar() {
           </div>
           <div className="absolute bottom-24 right-3  mt-3 flex w-[full] items-center justify-center rounded-full bg-blue p-4 hover:cursor-pointer hover:bg-opacity-90 sm:relative sm:bottom-0 sm:right-0 mlg:hidden">
             <button
+              onClick={() => setComposeOpen(true)}
               type="submit"
               className="flex-1"
             >

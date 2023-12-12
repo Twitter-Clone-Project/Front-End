@@ -1,11 +1,9 @@
 import React from 'react';
-import { useNavigate } from 'react-router';
 import PropTypes from 'prop-types';
 import BoxCard from '../BoxCard';
 import PopupCardHeader from '../user-profile-card/PopupCardHeader';
 
-function ComposeLayout({ children }) {
-  const navigate = useNavigate();
+function ComposeLayout({ children, setComposeOpen }) {
   return (
     <div
       data-testid="compose-layout"
@@ -20,7 +18,7 @@ function ComposeLayout({ children }) {
               <button
                 type="button"
                 data-testid="close-compose-form"
-                onClick={() => navigate(-1)}
+                onClick={() => setComposeOpen(false)}
                 className="flex h-8 w-8 items-center justify-center rounded-full align-middle hover:bg-light-hover-layout dark:hover:bg-hover-layout"
               >
                 <span className="text-base">&#10005;</span>
@@ -36,5 +34,6 @@ function ComposeLayout({ children }) {
 }
 ComposeLayout.propTypes = {
   children: PropTypes.node.isRequired,
+  setComposeOpen: PropTypes.func.isRequired,
 };
 export default ComposeLayout;

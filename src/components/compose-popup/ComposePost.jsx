@@ -143,7 +143,7 @@ function ComposePost({ setComposeOpen }) {
   }, [files, text]);
 
   return (
-    <ComposeLayout>
+    <ComposeLayout setComposeOpen={setComposeOpen}>
       <div className="mt-5 flex flex-col  justify-between px-4 py-2">
         <div className="flex h-full w-full ">
           <div className="profileImage leftColumn mr-[12px] h-[40px] w-[40px] pt-1">
