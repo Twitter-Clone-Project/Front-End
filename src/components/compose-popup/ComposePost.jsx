@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import toast from 'react-hot-toast';
 import ComposeLayout from './ComposeLayout';
 import TextField from '../../tweetPage/TextField';
 import { useAuth } from '../../hooks/AuthContext';
@@ -7,21 +9,59 @@ import 'draft-js/dist/Draft.css';
 import Button from '../form-controls/Button';
 import AddEmoji from '../../tweetPage/AddEmoji';
 import MediaRemove from '../../tweetPage/MediaRemove';
-import toast from 'react-hot-toast';
-import OwnToaster from '../OwnToaster';
 import PopupCardHeader from '../user-profile-card/PopupCardHeader';
 
-function ComposePost() {
+function ComposePost({ setComposeOpen }) {
   const [text, setText] = useState('');
   const [files, setFiles] = useState([]);
   const [filesURLs, setFilesURLs] = useState([]);
   const [postDisabled, setPostDisabled] = useState(true);
   const [hashtags, setHashtags] = useState([]);
-  const [hashtagsString, setHashtagsString] = useState('');
-  const [isWhitespace, setIsWhitespace] = useState(true);
   const [addFileDisabled, setAddFileDisabled] = useState(false);
   const [acceptVideo, setAcceptVideo] = useState(true);
+  const navigate = useNavigate();
   const { user } = useAuth();
+
+  const handlePost = () => {
+    const formData = new FormData();
+
+    formData.append('tweetText', text);
+    if (hashtags) {
+      for (let i = 0; i < hashtags.length; i += 1) {
+        formData.append('trends', hashtags[i]);
+      }
+    }
+
+    if (files) {
+      for (let i = 0; i < files.length; i += 1) {
+        formData.append('media', files[i]);
+      }
+    }
+
+    const postData = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_DOMAIN}tweets/add`,
+          {
+            method: 'POST',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+            body: formData,
+          },
+        );
+        const data = await response.json();
+        if (!data.status) throw new Error(data.message);
+        toast('Your Post has been added successfully 😊');
+        navigate(0);
+        setComposeOpen(false);
+      } catch (error) {
+        toast(error.message);
+      }
+    };
+
+    postData();
+  };
 
   useEffect(() => {
     if (files.length > 4) {
@@ -89,11 +129,9 @@ function ComposePost() {
   useEffect(() => {
     const checks = text.split('');
     setPostDisabled(true);
-    setIsWhitespace(true);
     for (let i = 0; i < checks.length; i += 1) {
       if (!(checks[i] === ' ' || checks[i] === '\n')) {
         setPostDisabled(false);
-        setIsWhitespace(false);
         break;
       }
     }
@@ -102,12 +140,10 @@ function ComposePost() {
     }
 
     setHashtags(text.match(/#\w+/g));
-    if (hashtags !== null && hashtags.length !== 0)
-      setHashtagsString(hashtags.join(','));
   }, [files, text]);
+
   return (
     <ComposeLayout>
-      <OwnToaster />
       <div className="mt-5 flex flex-col  justify-between px-4 py-2">
         <div className="flex h-full w-full ">
           <div className="profileImage leftColumn mr-[12px] h-[40px] w-[40px] pt-1">
@@ -169,6 +205,7 @@ function ComposePost() {
                 </div>
                 <Button
                   label="Post"
+                  onClick={handlePost}
                   disabled={postDisabled}
                   backGroundColor="blue"
                   backGroundColorDark="blue"
@@ -185,5 +222,7 @@ function ComposePost() {
     </ComposeLayout>
   );
 }
-
+ComposePost.propTypes = {
+  setComposeOpen: PropTypes.func.isRequired,
+};
 export default ComposePost;

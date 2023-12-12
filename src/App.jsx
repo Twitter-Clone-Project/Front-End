@@ -29,7 +29,6 @@ import { ChatProvider } from './contexts/ChatProvider';
 import ChatPage from './components/Direct-Messages/ChatPage';
 import InfoPage from './components/Direct-Messages/InfoPage';
 import ComposePage from './components/Direct-Messages/ComposePage';
-import ComposePost from './components/compose-popup/ComposePost';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -76,16 +75,15 @@ function App() {
                 <LandingPage />
               </UnprotectedRoute>
             }
-          >
-            <Route
-              path="/login"
-              element={
-                <UnprotectedRoute>
-                  <Login />
-                </UnprotectedRoute>
-              }
-            />
-          </Route>
+          />
+          <Route
+            path="/login"
+            element={
+              <UnprotectedRoute>
+                <Login />
+              </UnprotectedRoute>
+            }
+          />
           <Route
             path="/signup"
             element={
@@ -197,10 +195,6 @@ function App() {
                   Settings
                 </h1>
               }
-            />
-            <Route
-              path="compose"
-              element={<ComposePost />}
             />
             <Route
               path="messages/"

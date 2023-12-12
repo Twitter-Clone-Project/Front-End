@@ -7,9 +7,11 @@ import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
 import FloatingHeader from './FloatingHeader';
 import UserImg from './UserImg';
+import ComposePost from '../compose-popup/ComposePost';
 
 function NavBar() {
   const { user } = useAuth();
+  const [composeOpen, setComposeOpen] = useState(false);
   const mobileItems = [
     {
       path: './home',
@@ -138,6 +140,7 @@ function NavBar() {
       data-testid="nav-bar"
       className="mx-auto flex w-0 items-start justify-center overflow-auto dark:bg-pure-black sm:mt-auto sm:h-full sm:w-[76px] mlg:w-[280px]"
     >
+      {composeOpen && <ComposePost setComposeOpen={setComposeOpen} />}
       <FloatingHeader
         drawerOpen={drawerOpen}
         show={show}
@@ -199,6 +202,7 @@ function NavBar() {
           <div className="absolute mx-auto hidden w-full  items-center justify-center rounded-full sm:relative mlg:flex">
             <Button
               label="Post"
+              onClick={() => setComposeOpen(true)}
               backGroundColor="blue"
               backGroundColorDark="blue"
               labelColor="white"
