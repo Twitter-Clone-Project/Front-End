@@ -76,7 +76,7 @@ function AddReply({ setReplies, tweetId, replyFor }) {
         ''
       )}
       <div
-        className="flex w-[90%] flex-wrap items-center justify-between px-2 md:w-full"
+        className="flex w-full flex-wrap items-center justify-between px-2"
         onClick={() => {
           setFocus(true);
         }}
