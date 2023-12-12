@@ -106,7 +106,10 @@ function AddReply({ setReplies, tweetId, replyFor }) {
             value={replyText}
             onChange={(event) => {
               setReplyText(event.target.value);
+              // console.log(event.target.value.length);
             }}
+            maxLength={60}
+            dir="auto"
           />
           <div
             className="flex w-[10%] justify-center"
