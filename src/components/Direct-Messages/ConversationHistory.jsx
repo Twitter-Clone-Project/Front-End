@@ -95,7 +95,7 @@ function ConversationsHistory({ setOpenedId, openedId }) {
 
   if (conversations.length > 0) {
     return (
-      <div>
+      <div className="w-full">
         {conversations.map((conversation) => (
           <ConversationCard
             key={conversation.conversationId}

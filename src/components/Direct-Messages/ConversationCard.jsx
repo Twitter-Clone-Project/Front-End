@@ -26,12 +26,19 @@ function ConversationCard({ conversationData, setOpenedId }) {
   useEffect(() => {
     conversations.map((conversation) => {
       if (conversationId === conversation.contact.username) {
+        if (chatContext.conversationId !== '') {
+          socket.emit('chat-closed', {
+            userId: user.userId,
+            conversationId: chatContext.conversationId,
+            contactId: chatContext.contact.id,
+          });
+        }
         setChatContext(conversation);
-        setOpenedId(conversationData.conversationId);
+        setOpenedId(conversation.conversationId);
         socket.emit('chat-opened', {
           userId: user.userId,
-          conversationId: conversationData.conversationId,
-          contactId: conversationData.contact.id,
+          conversationId: conversation.conversationId,
+          contactId: conversation.contact.id,
         });
       }
       return conversation;
