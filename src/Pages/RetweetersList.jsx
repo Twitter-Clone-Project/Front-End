@@ -59,7 +59,10 @@ function RetweetersList() {
   }, [tweetId]);
 
   return (
-    <div className="flex h-full min-h-screen w-full justify-center bg-white dark:bg-pure-black">
+    <div
+      className="flex h-full min-h-screen w-full justify-center bg-white dark:bg-pure-black"
+      data-testid="retweeters-list"
+    >
       <div className="w-full overflow-y-clip bg-white dark:bg-pure-black">
         <div className=" flex h-28 flex-col hover:cursor-pointer">
           <div className="flex h-[53px] flex-row px-4 ">
@@ -101,7 +104,7 @@ function RetweetersList() {
           </div>
           <div
             className=" border-b border-border-gray"
-            data-testid="FollowerList_1"
+            data-testid="retweeters-list-1"
           >
             <ListNav
               items={ListNavItems}
@@ -109,7 +112,7 @@ function RetweetersList() {
             />
           </div>
         </div>
-        <div data-testid="RetweetersList_2">
+        <div data-testid="retweeters-list-2">
           {retweetsData
             ? retweetsData.map((userItem, index) => (
                 <UserItem

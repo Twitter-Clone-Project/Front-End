@@ -61,7 +61,10 @@ function LikersList() {
   }, [tweetId]);
 
   return (
-    <div className="flex h-full min-h-screen w-full justify-center bg-white dark:bg-pure-black">
+    <div
+      className="flex h-full min-h-screen w-full justify-center bg-white dark:bg-pure-black"
+      data-testid="likers-list"
+    >
       <div className="w-full overflow-y-clip bg-white dark:bg-pure-black">
         <div className=" flex h-28 flex-col hover:cursor-pointer">
           <div className="flex h-[53px] flex-row px-4 ">
@@ -103,7 +106,7 @@ function LikersList() {
           </div>
           <div
             className=" border-b border-border-gray"
-            data-testid="FollowerList_1"
+            data-testid="likers-List-1"
           >
             <ListNav
               items={ListNavItems}
@@ -111,7 +114,7 @@ function LikersList() {
             />
           </div>
         </div>
-        <div data-testid="LikersList_2">
+        <div data-testid="likers-list-2">
           {likesData
             ? likesData.map((userDetails, index) => (
                 <UserItem

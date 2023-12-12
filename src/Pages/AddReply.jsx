@@ -63,7 +63,10 @@ function AddReply({ setReplies, tweetId, replyFor }) {
     navigate(`/app/${user.username}`);
   };
   return (
-    <div className="flex w-full flex-col gap-1 border-b-[0.5px] border-b-light-gray py-2 dark:border-border-gray">
+    <div
+      className="flex w-full flex-col gap-1 border-b-[0.5px] border-b-light-gray py-2 dark:border-border-gray"
+      data-testid="add-reply"
+    >
       {focus ? (
         <div className="ml-16 flex flex-row gap-1">
           <span className="text-sm text-light-thin">Replying to</span>
@@ -74,7 +77,6 @@ function AddReply({ setReplies, tweetId, replyFor }) {
       )}
       <div
         className="flex w-[90%] flex-wrap items-center justify-between px-2 md:w-full"
-        data-testid="add-reply"
         onClick={() => {
           setFocus(true);
         }}
