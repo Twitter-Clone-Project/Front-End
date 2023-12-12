@@ -82,6 +82,10 @@ function Media({ images }) {
 
 Media.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
-  images: PropTypes.array.isRequired,
+  images: PropTypes.array,
+};
+
+Media.defaultProps = {
+  images: [],
 };
 export default Media;

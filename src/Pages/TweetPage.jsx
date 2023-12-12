@@ -1,24 +1,28 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect, useState, useCallback } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import Spinner from '../components/Spinner';
 import Tweet from '../tweetPage/Tweet';
 import AddReply from './AddReply';
 import RepliesList from './RepliesList';
-import PostEngagements from './PostEngagements';
 
 function TweetPage() {
+  const location = useLocation();
+  const pastPath = location.state?.pastPath;
   const [replies, setReplies] = useState([]);
-  const [engagementsDisabled, setEngagementsDiabled] = useState(true);
-  const [visibility, setVisibility] = useState('invisible');
   const [isDone, setIsDone] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const location = useLocation();
-  const [tweetId] = useState(location.state.tweetID);
-  const [pastPath] = useState(location.state.pastPath);
-  const [tweetData] = useState(location.state.tweetData);
+  const { tweetId } = useParams();
+  const [tweetData, setTweetData] = useState();
+  const [fetchLikes, setFetchLikes] = useState(false);
+  const [fetchRetweets, setFetchRetweets] = useState(false);
+
+  const navigate = useNavigate();
+  const handelBackButton = () => {
+    navigate(pastPath.pathname || -1);
+  };
 
   const fetchReplies = useCallback(async () => {
     if (isLoading || isDone) return;
@@ -69,8 +73,31 @@ function TweetPage() {
         setIsLoading(false);
       }
     };
-    setVisibility(false);
     getInitialReplies();
+  }, []);
+
+  useEffect(() => {
+    const getInitialTweet = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}`,
+          {
+            method: 'GET',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+          },
+        );
+        const data = await response.json();
+        if (data.status) {
+          setTweetData([data.data]);
+          // console.log(data.data);
+        }
+      } catch (error) {
+        toast(error.message);
+      }
+    };
+    getInitialTweet();
   }, []);
 
   useEffect(() => {
@@ -85,79 +112,162 @@ function TweetPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [fetchReplies]);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    // console.log('Like changed');
+    const getInitialTweet = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}`,
+          {
+            method: 'GET',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+          },
+        );
+        const data = await response.json();
+        if (data.status) {
+          setTweetData([data.data]);
+        }
+      } catch (error) {
+        toast(error.message);
+      }
+    };
+    getInitialTweet();
+    setFetchLikes(false);
+  }, [fetchLikes]);
 
-  const handelBackButton = () => {
-    navigate(pastPath);
-  };
-  const handleClick = () => {
-    navigate(`/app/tweet/likers`, {
-      state: { pastPath: location.pathname, tweetId: { tweetId } },
-    });
-  };
+  useEffect(() => {
+    const getInitialTweet = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}`,
+          {
+            method: 'GET',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+          },
+        );
+        const data = await response.json();
+        if (data.status) {
+          setTweetData([data.data]);
+        }
+      } catch (error) {
+        toast(error.message);
+      }
+    };
+    getInitialTweet();
+    setFetchRetweets(false);
+  }, [fetchRetweets]);
+
+  useEffect(() => {
+    const getInitialTweet = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}`,
+          {
+            method: 'GET',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+          },
+        );
+        const data = await response.json();
+        if (data.status) {
+          setTweetData([data.data]);
+        }
+      } catch (error) {
+        toast(error.message);
+      }
+    };
+    getInitialTweet();
+  }, [replies]);
+
   return (
     <div
-      className="flex h-auto justify-center"
+      className="flex h-auto w-fit justify-center border-x-[0.5px] border-x-light-gray pb-20 dark:border-x-border-gray md:w-fit"
       data-testid="tweet-page"
     >
-      {visibility === false ? (
-        <div className="flex flex-col items-start">
-          <div className="flex flex-wrap items-center sm:w-full">
-            <div className="mb-2 mt-[9px] flex h-7 w-7 items-center justify-center rounded-full hover:bg-x-light-gray hover:dark:bg-light-thin">
-              <svg
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-                className=" h-5 w-5 dark:text-x-light-gray"
-                style={{ cursor: 'pointer' }}
-                onClick={handelBackButton}
-              >
-                <g>
-                  <path
-                    d="M7.414 13l5.043 5.04-1.414 1.42L3.586 12l7.457-7.46 1.414 1.42L7.414 11H21v2H7.414z"
-                    fill="currentColor"
-                  />
-                </g>
-              </svg>
-            </div>
-            <span className=" pl-4 text-xl font-semibold dark:text-white">
-              Post
-            </span>
+      <div className="mx-2 flex w-fit flex-col items-start justify-start overflow-x-hidden overflow-x-hidden md:w-fit">
+        <div className="flex flex-wrap items-center md:w-full">
+          <div className="mb-2 mt-[9px] flex h-7 w-7 items-center justify-center rounded-full hover:bg-x-light-gray hover:dark:bg-light-thin">
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              className=" h-5 w-5 cursor-pointer dark:text-x-light-gray"
+              onClick={handelBackButton}
+            >
+              <g>
+                <path
+                  d="M7.414 13l5.043 5.04-1.414 1.42L3.586 12l7.457-7.46 1.414 1.42L7.414 11H21v2H7.414z"
+                  fill="currentColor"
+                />
+              </g>
+            </svg>
           </div>
-          {tweetData.length === 0 ? (
-            <Spinner />
-          ) : (
-            <div className="w-screen sm:w-full">
-              {tweetData.map((tweetItem) => (
-                <Tweet data={tweetItem} />
+          <span className=" pl-4 text-xl font-semibold dark:text-white">
+            Post
+          </span>
+        </div>
+        {!tweetData ? (
+          <Spinner />
+        ) : (
+          <>
+            <div className="w-[90%] md:w-full">
+              {tweetData.map((tweetItem, index) => (
+                <Tweet
+                  data={tweetItem}
+                  // eslint-disable-next-line react/no-array-index-key
+                  setFetchLikes={() => {
+                    setFetchLikes(true);
+                    // console.log('Handling Likes');
+                  }}
+                  setFetchRetweets={() => {
+                    setFetchRetweets(true);
+                    // console.log('Handling Retweets');
+                  }}
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={index}
+                />
               ))}
             </div>
-          )}
-          <div className="flex w-full justify-start py-2">
-            <button
-              type="button"
-              onClick={() => {
-                handleClick();
-              }}
-              className="flex w-full items-center justify-start border-b-[1px] border-b-light-thin py-1 text-sm text-blue hover:bg-opacity-50 hover:underline disabled:cursor-not-allowed   disabled:opacity-50 disabled:hover:bg-opacity-100  dark:border-b-border-gray"
-              disabled={engagementsDisabled}
-            >
-              View Engagements
-            </button>
-          </div>
-          <AddReply
-            setReplies={setReplies}
-            tweetId={tweetId}
-          />
-          <RepliesList repliesData={replies} />
-        </div>
-      ) : (
-        <div className="flex w-20 items-center justify-center">
-          <PostEngagements
-            setVisibility={setVisibility}
-            tweetId={tweetId}
-          />
-        </div>
-      )}
+
+            <div className="flex w-[90%] items-center justify-start gap-3 border-b-[0.5px] border-b-light-gray px-2 py-2 dark:border-b-border-gray md:w-full">
+              <Link
+                to={`/app/tweets/${tweetId}/likes`}
+                relative="path"
+                className="hover:no-underline dark:text-white"
+              >
+                <div className="flex flex-row items-center gap-1">
+                  {tweetData[0].likesCount}
+                  <span className="text-sm text-light-thin">likes</span>
+                </div>
+              </Link>
+              <Link
+                to={`/app/tweets/${tweetId}/retweets`}
+                relative="path"
+                className="hover:no-underline dark:text-white"
+              >
+                <div className="flex flex-row items-center gap-1">
+                  {tweetData[0].retweetsCount}
+                  <span className="text-sm text-light-thin">retweets</span>
+                </div>
+              </Link>
+            </div>
+            <div className="w-[90%] md:w-full">
+              <AddReply
+                setReplies={setReplies}
+                tweetId={tweetId}
+                replyFor={tweetData[0].user.userName}
+              />
+            </div>
+            <div className="w-[90%] md:w-full">
+              <RepliesList repliesData={replies} />
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }

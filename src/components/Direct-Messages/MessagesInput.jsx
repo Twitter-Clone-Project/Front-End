@@ -1,15 +1,55 @@
-import React, { useRef, useState } from 'react';
+/* eslint-disable react/prop-types */
+import React, { useRef, useState, useContext } from 'react';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
-import PropTypes from 'prop-types';
+import dayjs from 'dayjs';
+import { useAuth } from '../../hooks/AuthContext';
+import { ChatContext } from '../../hooks/ContactContext';
 
-function MessagesInput({ messages, setMessages }) {
+function MessagesInput() {
+  const { user } = useAuth();
+  const {
+    chatContext,
+    setTop,
+    socketMessages,
+    setSocketMessages,
+    socket,
+    chatState,
+  } = useContext(ChatContext);
   const [showEmoji, setShowEmoji] = useState(false);
   const [message, setMessage] = useState('');
   const buttonRef = useRef();
 
   const addEmoji = (event) => {
     setMessage(message + event.native);
+  };
+
+  const handleClick = () => {
+    if (socket === null || message === '') return;
+
+    const newMessage = {
+      conversationId: chatContext.conversationId,
+      senderId: user.userId,
+      receiverId: chatContext.contact.id,
+      text: message,
+      isSeen: chatState[chatContext.conversationId].inChat,
+    };
+    setTop({
+      conversationId: chatContext.conversationId,
+      text: message,
+    });
+    socket.emit('msg-send', newMessage);
+    setSocketMessages([
+      ...socketMessages,
+      {
+        text: message,
+        isFromMe: true,
+        // true --Seen   false --Sent
+        isSeen: chatState[chatContext.conversationId].inChat,
+        time: dayjs().format('YYYY-MM-DD HH:mm:ssZ'),
+      },
+    ]);
+    setMessage('');
   };
 
   return (
@@ -85,11 +125,7 @@ function MessagesInput({ messages, setMessages }) {
         <button
           ref={buttonRef}
           type="button"
-          onClick={() => {
-            if (message !== '')
-              setMessages([...messages, { message: message, mode: 'send' }]);
-            setMessage('');
-          }}
+          onClick={handleClick}
         >
           <div
             className={` ${
@@ -114,9 +150,6 @@ function MessagesInput({ messages, setMessages }) {
   );
 }
 
-MessagesInput.propTypes = {
-  messages: PropTypes.array.isRequired,
-  setMessages: PropTypes.func.isRequired,
-};
+MessagesInput.propTypes = {};
 
 export default MessagesInput;
