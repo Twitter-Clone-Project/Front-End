@@ -109,7 +109,10 @@ function Reply({ data, tweetId, replies, setReplies }) {
             />
           </div>
         </div>
-        <div className="caption">
+        <div
+          className="caption"
+          dir="auto"
+        >
           {text.split(' ').map((word) => {
             if (word.startsWith('#')) {
               return (
@@ -117,7 +120,7 @@ function Reply({ data, tweetId, replies, setReplies }) {
                   key={uuid4()}
                   className=" text-blue"
                 >
-                  {word}{' '}
+                  {word}
                 </span>
               );
             }
