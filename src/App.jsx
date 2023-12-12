@@ -75,16 +75,15 @@ function App() {
                 <LandingPage />
               </UnprotectedRoute>
             }
-          >
-            <Route
-              path="/login"
-              element={
-                <UnprotectedRoute>
-                  <Login />
-                </UnprotectedRoute>
-              }
-            />
-          </Route>
+          />
+          <Route
+            path="/login"
+            element={
+              <UnprotectedRoute>
+                <Login />
+              </UnprotectedRoute>
+            }
+          />
           <Route
             path="/signup"
             element={

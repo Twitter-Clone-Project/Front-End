@@ -5,7 +5,7 @@
 @media (prefers-color-scheme: dark) {
   body,
   root {
-    color-scheme: auto;
+    color-scheme: dark;
     background-color: theme(colors.pure-black);
   }
 }
