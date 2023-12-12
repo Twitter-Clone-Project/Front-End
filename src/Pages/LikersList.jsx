@@ -5,50 +5,46 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
+import toast from 'react-hot-toast';
 import { useAuth } from '../hooks/AuthContext';
 import UserItem from '../components/userComponents/UserItem';
 import ListNav from '../components/navigation-bars/ListNav';
 
 function LikersList() {
   // Get the past location for Back Button
-  const location = useLocation();
-  const { pastPath, tweetId } = location.state;
+  const { pathname } = useLocation();
   const { user } = useAuth();
-  //   const { tweetId } = useParams('tweetId');
+  const { tweetId } = useParams('tweetId');
+  const [likesData, setLikesData] = useState();
 
   // Define navigation items for the ListNav component
   const ListNavItems = [
     {
-      label: 'Likers',
-      path: `/app/tweet/likers`,
+      label: 'Likes',
+      path: `/app/tweets/${tweetId}/likes`,
     },
     {
-      label: 'Retweeters',
-      path: `/app/tweet/retweeters`,
+      label: 'Retweets',
+      path: `/app/tweets/${tweetId}/retweets`,
     },
   ];
 
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
   const handelBackButton = () => {
-    navigate(pastPath);
+    navigate(-1);
   };
 
   // Fetch the list of likers
   useEffect(() => {
-    console.log(tweetId.tweetId, user);
-    fetch(
-      `${import.meta.env.VITE_API_DOMAIN}tweets/${
-        tweetId.tweetId
-      }/likers`,
-      {
-        method: 'GET',
-        origin: true,
-        credentials: 'include',
-        withCredentials: true,
-      },
-    )
+    // console.log(tweetId, user);
+    fetch(`${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/likers`, {
+      method: 'GET',
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -56,10 +52,11 @@ function LikersList() {
         return response.json();
       })
       .then((data) => {
-        setUsers(data.data);
+        setLikesData(data.data);
+        // console.log(data.data);
       })
       .catch((error) => {
-        console.error('Error during fetch:', error);
+        toast('Error during fetch:', error);
       });
   }, [tweetId]);
 
@@ -110,28 +107,30 @@ function LikersList() {
           >
             <ListNav
               items={ListNavItems}
-              pastPath={pastPath}
+              pastPath={pathname}
             />
           </div>
         </div>
-        <div data-testid="FollowerList_2">
-          {users.map((userDetails, index) => (
-            <UserItem
-              key={uuid4()}
-              isFollowed={userDetails.isFollowed}
-              isFollowing="false"
-              userPicture={
-                user.profileImageUrl || import.meta.env.VITE_DEFAULT_AVATAR
-              }
-              userName={user.name}
-              userID={user.username}
-              discription=""
-              following="0"
-              followers="0"
-              testID={index}
-              itemID={userDetails.id}
-            />
-          ))}
+        <div data-testid="LikersList_2">
+          {likesData
+            ? likesData.map((userDetails, index) => (
+                <UserItem
+                  key={uuid4()}
+                  isFollowed={userDetails.isFollowed}
+                  isFollowing={userDetails.isFollowing}
+                  userPicture={
+                    user.profileImageUrl || import.meta.env.VITE_DEFAULT_AVATAR
+                  }
+                  userName={user.name}
+                  userID={user.username}
+                  discription=""
+                  following={userDetails.followingsCount}
+                  followers={userDetails.followersCount}
+                  testID={index}
+                  itemID={userDetails.id}
+                />
+              ))
+            : ''}
         </div>
       </div>
     </div>

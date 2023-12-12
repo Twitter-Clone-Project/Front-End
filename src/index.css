@@ -9,6 +9,11 @@
     background-color: theme(colors.pure-black);
   }
 }
+#root {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
 *,
 *:before,
 *:after {
@@ -71,10 +76,12 @@ a.list-nav-active span:after {
   flex-grow: 1;
   display: flex;
   align-items: center;
+  max-width: 100%;
 }
 
 .public-DraftEditor-content {
   width: 100%;
+  overflow-wrap: anywhere !important;
 }
 .DraftEditor-editorContainer {
   width: 100%;
@@ -131,4 +138,10 @@ img:before {
   background-repeat: no-repeat;
   background-size: cover;
   background-image: url('/default_avatar.jpg');
+}
+.hyphens {
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
 }
