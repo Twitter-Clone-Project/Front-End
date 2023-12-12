@@ -70,6 +70,7 @@ function RetweetersList() {
               <div
                 className="mb-2 mt-[9px] flex h-9 w-9 items-center justify-center rounded-full hover:bg-x-light-gray dark:hover:bg-[#181919]"
                 onClick={handelBackButton}
+                data-testid="retweeters-list-backbtn"
               >
                 <svg
                   viewBox="0 0 24 24"

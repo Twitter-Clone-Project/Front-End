@@ -191,7 +191,10 @@ function TweetPage() {
     >
       <div className="mx-2 flex flex-col items-start justify-start">
         <div className="flex flex-wrap items-center">
-          <div className="mb-2 mt-[9px] flex h-7 w-7 items-center justify-center rounded-full hover:bg-x-light-gray hover:dark:bg-light-thin">
+          <div
+            className="mb-2 mt-[9px] flex h-7 w-7 items-center justify-center rounded-full hover:bg-x-light-gray hover:dark:bg-light-thin"
+            data-testid="tweet-page-backbtn"
+          >
             <svg
               viewBox="0 0 24 24"
               aria-hidden="true"
@@ -238,6 +241,7 @@ function TweetPage() {
                 to={`/app/tweets/${tweetId}/likes`}
                 relative="path"
                 className="hover:no-underline dark:text-white"
+                data-testid="likes-list-count"
               >
                 <div className="flex flex-row items-center gap-1">
                   {tweetData[0].likesCount}
@@ -248,6 +252,7 @@ function TweetPage() {
                 to={`/app/tweets/${tweetId}/retweets`}
                 relative="path"
                 className="hover:no-underline dark:text-white"
+                data-testid="retweets-list-count"
               >
                 <div className="flex flex-row items-center gap-1">
                   {tweetData[0].retweetsCount}

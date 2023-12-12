@@ -38,7 +38,10 @@ function Reply({ data, tweetId, replies, setReplies }) {
       className="tweet mb-[0.5px] mt-[-0.5px] grid w-full border-collapse grid-cols-[auto_1fr]  border-y-[0.5px] border-y-border-gray bg-white px-3 pb-2 pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black sm:px-[16px] lg:w-[598px]"
       data-testid={`${data.replyId}`}
     >
-      <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
+      <div
+        className="leftColumn mr-[12px] h-[40px] w-[40px] "
+        data-testid={`${data.replyId}-left-column`}
+      >
         <div className="profileImage leftColumn absolute mr-[12px] h-[40px] w-[40px] ">
           <img
             data-testid={`profileImage${data.id}`}
@@ -72,7 +75,10 @@ function Reply({ data, tweetId, replies, setReplies }) {
         )}
       </div>
 
-      <div className="rightColumn max-w-[95%]">
+      <div
+        className="rightColumn max-w-[95%]"
+        data-testid={`${data.replyId}-right-column`}
+      >
         <div className="flex flex-row justify-between ">
           <div className="userInfo flex flex-row">
             <div className="name  text-[15px] font-bold dark:text-white">
@@ -90,7 +96,10 @@ function Reply({ data, tweetId, replies, setReplies }) {
               />
             </div>
           </div>
-          <div className="pl-2">
+          <div
+            className="pl-2"
+            data-testid={`${data.replyId}-reply-menu`}
+          >
             <ReplyMenu
               userId={data.replyUserId}
               tweetId={tweetId}

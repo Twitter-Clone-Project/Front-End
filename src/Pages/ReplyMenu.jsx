@@ -182,6 +182,7 @@ function ReplyMenu({ userId, tweetId, reply, replies, setReplies }) {
             <button
               type="submit"
               onClick={() => handleDelete()}
+              data-testid={`${reply.replyId}-deletebtn`}
             >
               <div className="me flex h-[70px] flex-row text-warning  hover:bg-xx-light-gray ">
                 <div className="py-5 pl-4">

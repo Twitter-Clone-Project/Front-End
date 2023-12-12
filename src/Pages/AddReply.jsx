@@ -80,11 +80,13 @@ function AddReply({ setReplies, tweetId, replyFor }) {
         onClick={() => {
           setFocus(true);
         }}
+        data-testid="reply-field"
       >
         <div
           onClick={() => {
             handleClick();
           }}
+          data-testid="reply-user-profileImg"
         >
           <img
             className=" h-[40px] w-10 cursor-pointer rounded-full object-cover sm:mr-[12px]"
@@ -93,7 +95,10 @@ function AddReply({ setReplies, tweetId, replyFor }) {
           />
         </div>
 
-        <div className="flex w-[60%] flex-wrap items-center sm:w-[65%] sm:pl-1">
+        <div
+          className="flex w-[60%] flex-wrap items-center sm:w-[65%] sm:pl-1"
+          data-testid="reply-text-field"
+        >
           <input
             className="h-[60px] w-[90%] focus:outline-0
               dark:bg-pure-black dark:text-white"
@@ -103,7 +108,10 @@ function AddReply({ setReplies, tweetId, replyFor }) {
               setReplyText(event.target.value);
             }}
           />
-          <div className="flex w-[10%] justify-center">
+          <div
+            className="flex w-[10%] justify-center"
+            data-testid="reply-emoji"
+          >
             <AddEmoji
               text={replyText}
               setText={setReplyText}
@@ -115,6 +123,7 @@ function AddReply({ setReplies, tweetId, replyFor }) {
           type="submit"
           className="h-[30px] w-[20%] rounded-full bg-blue text-white disabled:opacity-50"
           disabled={replyDisabled}
+          data-testid="reply-submit-button"
         >
           Reply
         </button>
