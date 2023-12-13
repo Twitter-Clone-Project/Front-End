@@ -29,6 +29,8 @@ import { ChatProvider } from './contexts/ChatProvider';
 import ChatPage from './components/Direct-Messages/ChatPage';
 import InfoPage from './components/Direct-Messages/InfoPage';
 import ComposePage from './components/Direct-Messages/ComposePage';
+import RightNavBar from './components/right-navbar/RightNavBar';
+import TrandsPage from './components/right-navbar/TrandsPage';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -127,7 +129,12 @@ function App() {
             />
             <Route
               path="home"
-              element={<Homepage />}
+              element={
+                <div className="flex gap-8">
+                  <Homepage />
+                  <RightNavBar />
+                </div>
+              }
             />
             <Route
               path="tweets/:tweetId"
@@ -152,7 +159,12 @@ function App() {
             <Route
               exact
               path=":username"
-              element={<ProfilePage />}
+              element={
+                <div className="flex gap-8">
+                  <ProfilePage />
+                  <RightNavBar />
+                </div>
+              }
             >
               <Route
                 index
@@ -215,6 +227,10 @@ function App() {
                 element={<ComposePage />}
               />
             </Route>
+            <Route
+              path="/app/explore"
+              element={<TrandsPage />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>
