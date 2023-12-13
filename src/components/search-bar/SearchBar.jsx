@@ -1,17 +1,20 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import OutsideClickHandler from 'react-outside-click-handler';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
-import SearchSuggestion from './SearchSuggestion';
+// import SearchSuggestion from './SearchSuggestion';
 import SearchResult from './SearchResult';
+import NoSearchResults from './ResultsList';
+import ResultsList from './ResultsList';
 
 function SearchBar({ value, setValue }) {
   const [fill, setFill] = useState('#AAB8C2');
   const [focus, setFoucs] = useState(false);
   const [results, setResults] = useState([]);
-  // const [resultsLoading, setResultsLoading] = useState(false);
+  const [resultsLoading, setResultsLoading] = useState(false);
   const [bgDark, setBgDark] = useState('black');
   const handleInputFocus = () => {
     setFill('#1988d2');
@@ -32,7 +35,7 @@ function SearchBar({ value, setValue }) {
   };
   useEffect(() => {
     if (!value) return;
-    // setResultsLoading(true);
+    setResultsLoading(true);
     const controller = new AbortController();
 
     const timeId = setTimeout(() => {
@@ -55,12 +58,12 @@ function SearchBar({ value, setValue }) {
               data.data = data.data.slice(0, 10);
             }
             setResults(data.data);
-            // console.log(data.data.length);
+            console.log(data.data);
           }
         } catch (err) {
           if (err.name !== 'AbortError') toast(err.message);
         } finally {
-          // setResultsLoading(false);
+          setResultsLoading(false);
         }
       };
       queryCheck();
@@ -72,8 +75,9 @@ function SearchBar({ value, setValue }) {
   }, [value]);
   return (
     <div
-      className="flex h-auto flex-col px-2 py-3"
+      className="flex h-auto flex-col px-2 py-2"
       onFocus={handleInputFocus}
+      data-testid="search-bar"
     >
       <OutsideClickHandler
         onOutsideClick={() => {
@@ -82,9 +86,10 @@ function SearchBar({ value, setValue }) {
       >
         <div
           // eslint-disable-next-line max-len
-          className={`flex h-[55px] w-[360px] items-center ${
+          className={`flex h-[42px] w-[340px] items-center ${
             focus === true ? 'border-2 border-blue border-opacity-100' : ''
-          } dark:bg-${bgDark} justify-between rounded-full bg-white px-4 py-2`}
+          } dark:bg-${bgDark} justify-between rounded-full bg-white py-2 pl-4 pr-1`}
+          data-testid="search-bar-field"
         >
           <div className="w-1/12">
             <svg
@@ -103,7 +108,7 @@ function SearchBar({ value, setValue }) {
           <div className="w-10/12">
             <input
               // eslint-disable-next-line max-len
-              className={`w-full dark:bg-${bgDark} border-none bg-white text-white placeholder-light-gray focus:outline-none`}
+              className={`w-full dark:bg-${bgDark} border-none bg-white placeholder-light-gray focus:outline-none dark:text-white`}
               placeholder="Search"
               value={value}
               onChange={(event) => {
@@ -111,10 +116,11 @@ function SearchBar({ value, setValue }) {
                 handleInputChange();
               }}
               type="text"
+              data-testid="search-bar-textfield"
             />
           </div>
           {focus === true && value !== '' ? (
-            <div className="flex w-1/12 justify-end">
+            <div className="w-1/12">
               <svg
                 width="20"
                 height="20"
@@ -123,6 +129,7 @@ function SearchBar({ value, setValue }) {
                 xmlns="http://www.w3.org/2000/svg"
                 onClick={handleClick}
                 style={{ cursor: 'pointer' }}
+                data-testid="search-bar-textfield-erase"
               >
                 <path
                   fillRule="evenodd"
@@ -139,44 +146,29 @@ function SearchBar({ value, setValue }) {
         {focus === true ? (
           <div
             // eslint-disable-next-line max-len
-            className={`flex min-h-[80px] w-[360px] flex-col justify-center rounded-md bg-white dark:bg-${bgDark} ring-blue-500 overflow-x-hidden overscroll-y-auto ring-2`}
+            className={`z-10 flex min-h-[85px] w-[345px] flex-col justify-center rounded-md bg-white dark:bg-${bgDark} ring-blue-500 overflow-x-hidden overscroll-y-auto ring-2 `}
+            data-testid="search-bar-focusfield"
           >
-            {results.length === 0 && value === '' ? (
+            {value === '' ? (
               <span className="text-center text-sm text-light-thin">
                 Try searching for people, lists, or keywords
               </span>
             ) : (
               // eslint-disable-next-line react/jsx-no-useless-fragment
               <>
-                {results && results.length === 0 && value !== '' ? (
-                  <div className="spinner flex h-full w-full flex-1 items-center justify-center">
+                {value !== '' && resultsLoading ? (
+                  <div
+                    className="spinner flex h-full w-full flex-1 items-center justify-center"
+                    data-testid="search-bar-results-loader"
+                  >
                     <div className="loader h-5 w-5" />
                   </div>
                 ) : (
-                  <div className="">
-                    <div
-                      // eslint-disable-next-line max-len
-                      // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-                      className="text-b flex h-[60px] items-center pl-4 text-base hover:bg-black dark:text-white"
-                    >
-                      <span>Search for "{value}"</span>
-                    </div>
-                    <div className="mx-[2px] h-[0.5px] bg-dark-gray" />
-                    <div className="">
-                      {results.map((result, index) => (
-                        <SearchResult
-                          data={result}
-                          key={index}
-                        />
-                      ))}
-                    </div>
-                    <div
-                      // eslint-disable-next-line max-len
-                      // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-                      className="flex h-[50px] items-center pl-4 text-sm hover:bg-black dark:text-white"
-                    >
-                      <span>Go to @{value}</span>
-                    </div>
+                  <div data-testid="search-bar-resultslist">
+                    <ResultsList
+                      value={value}
+                      results={results}
+                    />
                   </div>
                 )}
               </>
