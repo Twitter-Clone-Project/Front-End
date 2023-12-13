@@ -30,7 +30,7 @@ import ChatPage from './components/Direct-Messages/ChatPage';
 import InfoPage from './components/Direct-Messages/InfoPage';
 import ComposePage from './components/Direct-Messages/ComposePage';
 import RightNavBar from './components/right-navbar/RightNavBar';
-import TrandsPage from './components/right-navbar/TrandsPage';
+import TrandsPage from './components/right-navbar/TrendsPage';
 
 TimeAgo.addDefaultLocale(en);
 
