@@ -1,4 +1,4 @@
-FROM node:14
+FROM node
 
 # Set the working directory in the container
 WORKDIR /app
@@ -16,4 +16,4 @@ COPY . .
 EXPOSE 5173
 
 # Start the app using the full path to npm
-CMD ["npm", "run", "dev"]
+CMD npm run dev

@@ -1,0 +1,61 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/no-array-index-key */
+import React, { useContext } from 'react';
+import dayjs from 'dayjs';
+import { ChatContext } from '../../hooks/ContactContext';
+
+function PersonCard({ imgRef }) {
+  const { chatContext } = useContext(ChatContext);
+
+  return (
+    <div className="mb-4 flex h-[271.555px] w-full flex-col  items-center border-b-[1px] border-[#f6f8f9] px-4 py-5 hover:bg-[#f0f3f3] dark:border-[#252829] dark:bg-black dark:hover:bg-[#16171a]">
+      <div className=" h-[68px] w-[68px]">
+        <img
+          ref={imgRef}
+          src={chatContext.contact.imageUrl}
+          alt=""
+          className="h-16 w-16 rounded-full"
+        />
+      </div>
+      <div className="mb-1 flex flex-col">
+        <p className="  text-center text-base font-bold text-black dark:text-white">
+          {chatContext.contact.name}
+        </p>
+        <p className="text-center text-base text-[#71767B]">
+          @{chatContext.contact.username}
+        </p>
+      </div>
+      <div className="my-3 flex flex-row ">
+        <div className="text-center text-sm text-[#71767B]">
+          Joined {dayjs(chatContext.contact.createdAt).format('MMMM YYYY')}
+        </div>
+        <div className="px-1 text-sm text-[#71767B]">.</div>
+        <div className="text-center text-sm text-[#71767B]">
+          {chatContext.contact.followersCount} Followers
+        </div>
+      </div>
+
+      <div className="flex flex-row">
+        {chatContext.contact.commonFollowers.map((follower, index) => (
+          <div key={index}>
+            <img
+              className="h-4 w-4 rounded-full"
+              src={follower.imageUrl}
+              alt=""
+            />
+          </div>
+        ))}
+        {chatContext.contact.commonFollowers.map((follower, index) => (
+          <div
+            key={index}
+            className="ml-3 text-center text-xs text-[#71767B]"
+          >
+            Followed by {follower.name}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default PersonCard;

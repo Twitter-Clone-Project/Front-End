@@ -2,9 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
+@media (prefers-color-scheme: dark) {
+  body,
+  root {
+    color-scheme: dark;
+    background-color: theme(colors.pure-black);
+  }
+}
+#root {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+*,
+*:before,
+*:after {
   margin: 0;
   box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
 }
 a {
   color: theme(colors.blue);
@@ -12,7 +29,6 @@ a {
 a:hover {
   text-decoration: underline;
 }
-
 .spinner .loader {
   background: transparent;
   border-top: 4px solid rgba(29, 161, 242, 0.3);
@@ -29,4 +45,103 @@ a:hover {
   100% {
     transform: rotate(360deg);
   }
+}
+
+a.list-nav-active span:after {
+  content: ' ';
+  height: 4px;
+  background-color: theme(colors.blue);
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  min-width: 64px;
+  width: auto;
+  border-radius: 4px;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.filled .outlined {
+  display: none;
+}
+.outlined .filled {
+  display: none;
+}
+::-ms-reveal {
+  display: none !important;
+}
+.DraftEditor-root {
+  padding: 12px;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+}
+
+.public-DraftEditor-content {
+  width: 100%;
+  overflow-wrap: anywhere !important;
+}
+.DraftEditor-editorContainer {
+  width: 100%;
+}
+.PhotoView-Slider__Counter {
+  display: none;
+}
+.PhotoView-Slider__BannerWrap {
+  justify-content: flex-end;
+}
+.dot-carousel {
+  position: relative;
+  left: -9999px;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: #9880ff;
+  color: #9880ff;
+  box-shadow:
+    9984px 0 0 0 #9880ff,
+    9999px 0 0 0 #9880ff,
+    10014px 0 0 0 #9880ff;
+  animation: dot-carousel 1.5s infinite linear;
+}
+
+@keyframes dot-carousel {
+  0% {
+    box-shadow:
+      9984px 0 0 -1px #9880ff,
+      9999px 0 0 1px #9880ff,
+      10014px 0 0 -1px #9880ff;
+  }
+  50% {
+    box-shadow:
+      10014px 0 0 -1px #9880ff,
+      9984px 0 0 -1px #9880ff,
+      9999px 0 0 1px #9880ff;
+  }
+  100% {
+    box-shadow:
+      9999px 0 0 1px #9880ff,
+      10014px 0 0 -1px #9880ff,
+      9984px 0 0 -1px #9880ff;
+  }
+}
+.nsm7Bb-HzV7m-LgbsSe.jVeSEe.i5vt6e-Ia7Qfc.JGcpL-RbRzK {
+  min-width: 300px !important;
+}
+img:before {
+  content: ' ';
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url('/default_avatar.jpg');
+}
+.hyphens {
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
 }

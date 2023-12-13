@@ -7,7 +7,7 @@ module.exports = {
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
     'airbnb',
-    'prettier'
+    'prettier',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs', '*.config.js'],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
@@ -18,27 +18,34 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
-    "prettier/prettier": ["error", { "endOfLine": "auto", "indent": 'off' }],
-    'linebreak-style': ["error", "windows"],
-    "prefer-destructuring": ["error", { "object": true, "array": false }],
-    "no-console": "warn",
-    "new-cap": "off",
-    "consistent-return": "off",
-    "func-names": "off",
-    "object-shorthand": "off",
-    "max-len": ["error", { "code": 80, "ignoreStrings": true }],
-    'camelcase': ['warn', { "properties": "always" }],
+    'prettier/prettier': ['error', { endOfLine: 'auto', indent: 'off' }],
+    'linebreak-style': ['error', 'windows'],
+    'prefer-destructuring': ['error', { object: true, array: false }],
+    'no-console': 'warn',
+    'new-cap': 'off',
+    'consistent-return': 'off',
+    'func-names': 'off',
+    'object-shorthand': 'off',
+    'max-len': ['error', { code: 80, ignoreStrings: true }],
+    camelcase: ['warn', { properties: 'always' }],
     'react/jsx-closing-bracket-location': [1, 'tag-aligned'],
-    "jsx-a11y/label-has-associated-control": ["error", {
-      "required": {
-        "some": ["nesting", "id"]
-      }
-    }],
-    "jsx-a11y/label-has-for": ["error", {
-      "required": {
-        "some": ["nesting", "id"]
-      }
-    }],
-    "jsx-a11y/control-has-associated-label": "off"
+    'jsx-a11y/label-has-associated-control': [
+      'error',
+      {
+        required: {
+          some: ['nesting', 'id'],
+        },
+      },
+    ],
+    'jsx-a11y/label-has-for': [
+      'error',
+      {
+        required: {
+          some: ['nesting', 'id'],
+        },
+      },
+    ],
+    'jsx-a11y/control-has-associated-label': 'off',
+    'react/jsx-no-constructed-context-values': ['warn'],
   },
-}
+};
