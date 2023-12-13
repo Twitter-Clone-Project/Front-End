@@ -86,7 +86,7 @@ function SearchBar({ value, setValue }) {
       >
         <div
           // eslint-disable-next-line max-len
-          className={`flex h-[42px] w-[340px] items-center ${
+          className={`flex h-[42px] w-full items-center ${
             focus === true ? 'border-2 border-blue border-opacity-100' : ''
           } dark:bg-${bgDark} justify-between rounded-full bg-white py-2 pl-4 pr-1`}
           data-testid="search-bar-field"
@@ -146,7 +146,7 @@ function SearchBar({ value, setValue }) {
         {focus === true ? (
           <div
             // eslint-disable-next-line max-len
-            className={`z-10 flex min-h-[85px] w-[345px] flex-col justify-center rounded-md bg-white dark:bg-${bgDark} ring-blue-500 overflow-x-hidden overscroll-y-auto ring-2 `}
+            className={`z-10 flex min-h-[85px] w-full flex-col justify-center rounded-md bg-white dark:bg-${bgDark} ring-blue-500 overflow-x-hidden overscroll-y-auto ring-2 `}
             data-testid="search-bar-focusfield"
           >
             {value === '' ? (
