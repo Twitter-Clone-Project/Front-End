@@ -1,13 +1,9 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
 import OutsideClickHandler from 'react-outside-click-handler';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
-// import SearchSuggestion from './SearchSuggestion';
-import SearchResult from './SearchResult';
-import NoSearchResults from './ResultsList';
 import ResultsList from './ResultsList';
 
 function SearchBar({ value, setValue }) {
@@ -19,12 +15,10 @@ function SearchBar({ value, setValue }) {
   const handleInputFocus = () => {
     setFill('#1988d2');
     setFoucs(true);
-    setBgDark('pure-black');
   };
   const handleInputBlur = () => {
     setFill('#AAB8C2');
     setFoucs(false);
-    setBgDark('black');
   };
   const handleClick = () => {
     setValue('');
@@ -90,7 +84,7 @@ function SearchBar({ value, setValue }) {
             focus === true
               ? 'border-2 border-blue border-opacity-100 dark:bg-pure-black'
               : 'dark:bg-black'
-          }  justify-between rounded-full bg-white py-2 pl-4 pr-1`}
+          }  justify-between rounded-full bg-[#f7f8f8] py-2 pl-2 pr-2`}
           data-testid="search-bar-field"
         >
           <div className="w-1/12">
@@ -107,10 +101,12 @@ function SearchBar({ value, setValue }) {
               />
             </svg>
           </div>
-          <div className="w-10/12">
+          <div className="w-10/12 pl-2">
             <input
               // eslint-disable-next-line max-len
-              className={`w-full dark:bg-${bgDark} border-none bg-white placeholder-light-gray focus:outline-none dark:text-white`}
+              className={`w-full border-none bg-white placeholder-light-gray focus:outline-none ${
+                focus === true ? 'dark:bg-pure-black' : 'dark:bg-black'
+              } dark:text-white`}
               placeholder="Search"
               value={value}
               onChange={(event) => {
