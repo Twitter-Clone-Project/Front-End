@@ -7,6 +7,7 @@ import Spinner from '../components/Spinner';
 import Tweet from '../tweetPage/Tweet';
 import AddReply from './AddReply';
 import RepliesList from './RepliesList';
+import SearchBar from '../components/search-bar/SearchBar';
 
 function TweetPage() {
   const location = useLocation();
@@ -184,98 +185,108 @@ function TweetPage() {
     getInitialTweet();
   }, [replies]);
 
-  return (
-    <div
-      className="mb-20  min-h-[calc(100%-60px)] w-full max-w-[620px] border-border-gray dark:text-white sm:my-auto sm:min-h-full sm:border-x-[1px]"
-      data-testid="tweet-page"
-    >
-      <div className="mx-2 flex flex-col items-start justify-start">
-        <div className="flex flex-wrap items-center">
-          <div
-            className="mb-2 mt-[9px] flex h-7 w-7 items-center justify-center rounded-full hover:bg-x-light-gray hover:dark:bg-light-thin"
-            data-testid="tweet-page-backbtn"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-              className=" h-5 w-5 cursor-pointer dark:text-x-light-gray"
-              onClick={handelBackButton}
-            >
-              <g>
-                <path
-                  d="M7.414 13l5.043 5.04-1.414 1.42L3.586 12l7.457-7.46 1.414 1.42L7.414 11H21v2H7.414z"
-                  fill="currentColor"
-                />
-              </g>
-            </svg>
-          </div>
-          <span className=" pl-4 text-xl font-semibold dark:text-white">
-            Post
-          </span>
-        </div>
-        {!tweetData ? (
-          <Spinner />
-        ) : (
-          <>
-            <div className="w-full">
-              {tweetData.map((tweetItem, index) => (
-                <Tweet
-                  data={tweetItem}
-                  // eslint-disable-next-line react/no-array-index-key
-                  setFetchLikes={() => {
-                    setFetchLikes(true);
-                    // console.log('Handling Likes');
-                  }}
-                  setFetchRetweets={() => {
-                    setFetchRetweets(true);
-                    // console.log('Handling Retweets');
-                  }}
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={index}
-                />
-              ))}
-            </div>
+  const [value, setValue] = useState('');
 
-            <div className="flex w-full items-center justify-start gap-3 border-b-[0.5px] border-b-light-gray px-2 py-2 dark:border-b-border-gray">
-              <Link
-                to={`/app/tweets/${tweetId}/likes`}
-                relative="path"
-                className="hover:no-underline dark:text-white"
-                data-testid="likes-list-count"
+  return (
+    <div className="flex flex-row gap-10">
+      <div
+        className="mb-20  min-h-[calc(100%-60px)] w-full max-w-[620px] border-border-gray dark:text-white sm:my-auto sm:min-h-full sm:border-x-[1px]"
+        data-testid="tweet-page"
+      >
+        <div className="mx-2 flex flex-col items-start justify-start">
+          <div className="flex flex-wrap items-center">
+            <div
+              className="mb-2 mt-[9px] flex h-7 w-7 items-center justify-center rounded-full hover:bg-x-light-gray hover:dark:bg-light-thin"
+              data-testid="tweet-page-backbtn"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                className=" h-5 w-5 cursor-pointer dark:text-x-light-gray"
+                onClick={handelBackButton}
               >
-                <div className="flex flex-row items-center gap-1">
-                  {tweetData[0].likesCount}
-                  <span className="text-sm text-light-thin">likes</span>
-                </div>
-              </Link>
-              <Link
-                to={`/app/tweets/${tweetId}/retweets`}
-                relative="path"
-                className="hover:no-underline dark:text-white"
-                data-testid="retweets-list-count"
-              >
-                <div className="flex flex-row items-center gap-1">
-                  {tweetData[0].retweetsCount}
-                  <span className="text-sm text-light-thin">retweets</span>
-                </div>
-              </Link>
+                <g>
+                  <path
+                    d="M7.414 13l5.043 5.04-1.414 1.42L3.586 12l7.457-7.46 1.414 1.42L7.414 11H21v2H7.414z"
+                    fill="currentColor"
+                  />
+                </g>
+              </svg>
             </div>
-            <div className="w-full">
-              <AddReply
-                setReplies={setReplies}
-                tweetId={tweetId}
-                replyFor={tweetData[0].user.userName}
-              />
-            </div>
-            <div className="w-full">
-              <RepliesList
-                repliesData={replies}
-                setReplies={setReplies}
-                tweetId={tweetId}
-              />
-            </div>
-          </>
-        )}
+            <span className=" pl-4 text-xl font-semibold dark:text-white">
+              Post
+            </span>
+          </div>
+          {!tweetData ? (
+            <Spinner />
+          ) : (
+            <>
+              <div className="w-full">
+                {tweetData.map((tweetItem, index) => (
+                  <Tweet
+                    data={tweetItem}
+                    // eslint-disable-next-line react/no-array-index-key
+                    setFetchLikes={() => {
+                      setFetchLikes(true);
+                      // console.log('Handling Likes');
+                    }}
+                    setFetchRetweets={() => {
+                      setFetchRetweets(true);
+                      // console.log('Handling Retweets');
+                    }}
+                    // eslint-disable-next-line react/no-array-index-key
+                    key={index}
+                  />
+                ))}
+              </div>
+
+              <div className="flex w-full items-center justify-start gap-3 border-b-[0.5px] border-b-light-gray px-2 py-2 dark:border-b-border-gray">
+                <Link
+                  to={`/app/tweets/${tweetId}/likes`}
+                  relative="path"
+                  className="hover:no-underline dark:text-white"
+                  data-testid="likes-list-count"
+                >
+                  <div className="flex flex-row items-center gap-1">
+                    {tweetData[0].likesCount}
+                    <span className="text-sm text-light-thin">likes</span>
+                  </div>
+                </Link>
+                <Link
+                  to={`/app/tweets/${tweetId}/retweets`}
+                  relative="path"
+                  className="hover:no-underline dark:text-white"
+                  data-testid="retweets-list-count"
+                >
+                  <div className="flex flex-row items-center gap-1">
+                    {tweetData[0].retweetsCount}
+                    <span className="text-sm text-light-thin">retweets</span>
+                  </div>
+                </Link>
+              </div>
+              <div className="w-full">
+                <AddReply
+                  setReplies={setReplies}
+                  tweetId={tweetId}
+                  replyFor={tweetData[0].user.userName}
+                />
+              </div>
+              <div className="w-full">
+                <RepliesList
+                  repliesData={replies}
+                  setReplies={setReplies}
+                  tweetId={tweetId}
+                />
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+      <div>
+        <SearchBar
+          value={value}
+          setValue={setValue}
+        />
       </div>
     </div>
   );
