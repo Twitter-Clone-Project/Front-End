@@ -1,6 +1,6 @@
 import * as React from 'react';
 import LandingPage from './landingPage/LandingPage';
-import SearchBar from './components/SearchBar';
+import SearchBar from './components/search-bar/SearchBar';
 
 function App() {
   const [value, setValue] = React.useState('');

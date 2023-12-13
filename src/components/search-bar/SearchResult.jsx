@@ -6,7 +6,7 @@ function SearchResult({ data }) {
     <div className="flex h-[60px] w-full flex-wrap items-center justify-center px-4 py-2 hover:bg-black">
       <div className="w-1/6">
         <img
-          src={data.displayPicture}
+          src={data.displayPicture || import.meta.env.VITE_DEFAULT_AVATAR}
           alt="dp"
           className="h-[40px] w-[40px] rounded-full"
         />
