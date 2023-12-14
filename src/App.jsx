@@ -29,6 +29,9 @@ import { ChatProvider } from './contexts/ChatProvider';
 import ChatPage from './components/Direct-Messages/ChatPage';
 import InfoPage from './components/Direct-Messages/InfoPage';
 import ComposePage from './components/Direct-Messages/ComposePage';
+import SearchPage from './Pages/search-page/SearchPage';
+import TweetResults from './Pages/search-page/TweetResults';
+import UserResults from './Pages/search-page/UserResults';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -170,6 +173,28 @@ function App() {
               <Route
                 path="likes"
                 element={<Likes />}
+              />
+            </Route>
+            <Route
+              path="search"
+              element={<SearchPage />}
+            >
+              <Route
+                index
+                element={
+                  <Navigate
+                    to="tweets"
+                    replace
+                  />
+                }
+              />
+              <Route
+                path="tweets"
+                element={<TweetResults />}
+              />
+              <Route
+                path="users"
+                element={<UserResults />}
               />
             </Route>
             <Route
