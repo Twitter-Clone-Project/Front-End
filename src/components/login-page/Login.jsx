@@ -22,19 +22,16 @@ function Login() {
   const handleLogin = async () => {
     try {
       setIsLoading(true);
-      const res = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}auth/signin`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          origin: true,
-          credentials: 'include',
-          withCredentials: true,
-          body: JSON.stringify({ email, password }),
+      const res = await fetch(`${import.meta.env.VITE_API_DOMAIN}auth/signin`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        body: JSON.stringify({ email, password }),
+      });
       const data = await res.json();
       if (data.status === false) throw new Error(data.message);
       dispatch({ type: 'LOGIN', payload: data.data.user });

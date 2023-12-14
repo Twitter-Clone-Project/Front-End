@@ -25,7 +25,7 @@ function UserItem({
 
   // Function to handle follow request
   const followReq = () => {
-    fetch(`http://${import.meta.env.VITE_API_DOMAIN}users/${userID}/follow`, {
+    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${userID}/follow`, {
       method: 'POST',
       origin: true,
       credentials: 'include',
@@ -33,16 +33,12 @@ function UserItem({
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        userName: { userID },
-      }),
     })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         setLocalIsFollowed(!localIsFollowed);
-        console.log(localIsFollowed);
         return response.json();
       })
       .then((data) => {
@@ -55,7 +51,7 @@ function UserItem({
 
   // Function to handle unFollow request
   const unFollowReq = () => {
-    fetch(`http://${import.meta.env.VITE_API_DOMAIN}users/${userID}/unfollow`, {
+    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${userID}/unfollow`, {
       method: 'DELETE',
       origin: true,
       credentials: 'include',
@@ -63,9 +59,6 @@ function UserItem({
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        userid: { userID },
-      }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -169,10 +162,14 @@ function UserItem({
 
   let navigate = useNavigate();
   return (
-    <div className="relative h-min w-full cursor-pointer px-4 py-3 hover:bg-[#f7f7f7] dark:hover:bg-[#080808]">
+    <div
+      className="relative h-min w-full cursor-pointer px-4 py-3 hover:bg-[#f7f7f7] dark:hover:bg-[#080808]"
+      data-testid={`UserItem_${testID}_0`}
+    >
       <Link
         to={`/app/${userID}`}
         className="hover:no-underline"
+        data-testid={`UserItem_${testID}_toUserProfile`}
       >
         <div className="flex w-full flex-row">
           <div className="mr-3 h-full w-11">
@@ -182,6 +179,7 @@ function UserItem({
               alt=""
               className=" h-10 w-10 rounded-full"
               data-popover-target={popoverID}
+              data-testid={`UserItem_${testID}_img`}
             />
           </div>
           <div className="flex w-full flex-col">
@@ -191,6 +189,7 @@ function UserItem({
                   htmlFor="img"
                   className=" h-[21.5px] cursor-pointer text-[15px] font-bold text-pure-black hover:underline dark:text-white"
                   data-popover-target={popoverID}
+                  data-testid={`UserItem_${testID}_name`}
                 >
                   {userName}
                 </label>
@@ -198,6 +197,7 @@ function UserItem({
                   <span
                     className=" w-min text-light-thin"
                     data-popover-target={popoverID}
+                    data-testid={`UserItem_${testID}_userName`}
                   >
                     @{userID}
                   </span>

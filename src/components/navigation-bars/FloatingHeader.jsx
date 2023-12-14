@@ -40,7 +40,7 @@ function FloatingHeader({ drawerOpen, show, setDrawerOpen, handleLogout }) {
       transition-all duration-[600ms] dark:bg-pure-black dark:bg-opacity-75 
       dark:text-white sm:hidden`}
     >
-      <div className="hover:bg-light-hover-layout hover:dark:bg-hover-layout absolute left-0 top-1/2 my-auto ml-1  flex -translate-y-1/2 items-center justify-center p-1 hover:cursor-pointer hover:rounded-full">
+      <div className="absolute left-0 top-1/2 my-auto ml-1 flex -translate-y-1/2  items-center justify-center p-1 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout">
         <button
           onClick={() => setDrawerOpen(true)}
           data-testid="drawer-btn"
@@ -66,7 +66,7 @@ function FloatingHeader({ drawerOpen, show, setDrawerOpen, handleLogout }) {
               tabIndex={-6}
               onKeyDown={() => setDrawerOpen(false)}
               onClick={() => setDrawerOpen(false)}
-              className="hover:bg-light-hover-layout hover:dark:bg-hover-layout flex h-10 w-10 items-center justify-center p-2 text-xl text-pure-black hover:cursor-pointer hover:rounded-full dark:text-white"
+              className="flex h-10 w-10 items-center justify-center p-2 text-xl text-pure-black hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout dark:text-white hover:dark:bg-hover-layout"
             >
               <svg
                 viewBox="0 0 1024 1024"
@@ -106,7 +106,7 @@ function FloatingHeader({ drawerOpen, show, setDrawerOpen, handleLogout }) {
           }}
         />{' '}
       </div>
-      <div className="hover:bg-light-hover-layout hover:dark:bg-hover-layout mx-auto p-3 hover:cursor-pointer hover:rounded-full sm:hidden">
+      <div className="mx-auto p-3 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:hidden">
         <Link to="/">
           <svg
             className="inline-block w-[1.6rem] fill-pure-black dark:fill-white"

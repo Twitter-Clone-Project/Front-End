@@ -25,6 +25,7 @@ function ConversationSearchBar({ setValue, active, setActive }) {
           onClick={() => {
             setActive(false);
             setInput('');
+            setValue('');
           }}
         >
           <div className="flex h-[34px] w-[34px] items-center justify-center rounded-full hover:bg-[#e7e7e7] dark:hover:bg-[#181919]">

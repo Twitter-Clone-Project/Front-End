@@ -1,34 +1,52 @@
+/* eslint-disable max-len */
 import React from 'react';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
+import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
 import Button from './Button';
+import { useAuth } from '../../hooks/AuthContext';
+import OwnToaster from '../OwnToaster';
 
 function GoogleSignInBtn({ label }) {
-  const handleGoogleLogin = async () => {
+  const { dispatch } = useAuth();
+  const handleGoogleLogin = async (codeResponse) => {
     try {
       const res = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}auth/signWithGoogle`,
+        `${import.meta.env.VITE_API_DOMAIN}auth/signWithGoogle`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+          body: JSON.stringify({
+            googleAccessToken: codeResponse.access_token,
+          }),
         },
       );
       const data = await res.json();
       if (data.status === false) throw new Error(data.message);
-      window.location.href = data.url;
+      dispatch({ type: 'LOGIN', payload: data.data.user });
     } catch (err) {
       toast(err.message);
     }
   };
+
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => {
+      handleGoogleLogin(codeResponse);
+    },
+    onError: (error) => toast(error.message),
+  });
   return (
-    <div>
+    <div className="mx-auto w-full">
       <Button
         backGroundColor="white"
         borderColor="gray"
         labelColor="black"
-        onClick={handleGoogleLogin}
+        onClick={login}
         path
         label={label}
       >
@@ -49,6 +67,12 @@ function GoogleSignInBtn({ label }) {
           d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
         />
       </Button>
+      {/* // <GoogleLogin
+      //   shape="circle"
+      //   onSuccess={(e) => handleGoogleLogin(e)}
+      //   onError={(e) => toast(e.message)}
+      // /> */}
+      <OwnToaster />
     </div>
   );
 }

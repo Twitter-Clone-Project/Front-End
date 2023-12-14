@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import * as React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -16,7 +17,6 @@ import SignUpForm from './components/sign-up/SignUpForm';
 import FollowersList from './components/userComponents/FollowersList';
 import FollowingList from './components/userComponents/FollowingList';
 import LogoutConfirm from './components/navigation-bars/LogoutConfirm';
-import DirectMessages from './components/Direct-Messages/DirectMessages';
 import Homepage from './tweetPage/Homepage';
 import ProfilePage from './components/user-profile-card/ProfilePage';
 import Posts from './components/user-profile-card/Posts';
@@ -30,6 +30,11 @@ import AccountInfo from './components/Settings-page/AccountInfo';
 import BlockedUsers from './components/Settings-page/BlockedUsers';
 import MutedUsers from './components/Settings-page/MutedUsers';
 import ChangePassword from './components/Settings-page/ChangePassword';
+import { ChatProvider } from './contexts/ChatProvider';
+import ChatPage from './components/Direct-Messages/ChatPage';
+import InfoPage from './components/Direct-Messages/InfoPage';
+import ComposePage from './components/Direct-Messages/ComposePage';
+
 
 TimeAgo.addDefaultLocale(en);
 
@@ -40,18 +45,15 @@ function App() {
     const refresh = async () => {
       try {
         setIsLoading(true);
-        const res = await fetch(
-          `http://${import.meta.env.VITE_API_DOMAIN}auth/me`,
-          {
-            origin: true,
-            credentials: 'include',
-            withCredentials: true,
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
+        const res = await fetch(`${import.meta.env.VITE_API_DOMAIN}auth/me`, {
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        );
+        });
         const data = await res.json();
         if (data.status === false) throw new Error(data.message);
         dispatch({ type: 'LOGIN', payload: data.data.user });
@@ -79,16 +81,15 @@ function App() {
                 <LandingPage />
               </UnprotectedRoute>
             }
-          >
-            <Route
-              path="/login"
-              element={
-                <UnprotectedRoute>
-                  <Login />
-                </UnprotectedRoute>
-              }
-            />
-          </Route>
+          />
+          <Route
+            path="/login"
+            element={
+              <UnprotectedRoute>
+                <Login />
+              </UnprotectedRoute>
+            }
+          />
           <Route
             path="/signup"
             element={
@@ -123,22 +124,27 @@ function App() {
           >
             <Route
               index
-              element={<Navigate to="home" />}
+              element={
+                <Navigate
+                  to="home"
+                  replace
+                />
+              }
             />
             <Route
               path="home"
               element={<Homepage />}
             />
             <Route
-              path="tweet"
+              path="tweets/:tweetId"
               element={<TweetPage />}
             />
             <Route
-              path="tweet/likers"
+              path="tweets/:tweetId/likes"
               element={<LikersList />}
             />
             <Route
-              path="tweet/retweeters"
+              path="tweets/:tweetId/retweets"
               element={<RetweetersList />}
             />
             <Route
@@ -156,7 +162,12 @@ function App() {
             >
               <Route
                 index
-                element={<Navigate to="posts" />}
+                element={
+                  <Navigate
+                    to="posts"
+                    replace
+                  />
+                }
               />
               <Route
                 path="posts"
@@ -209,9 +220,24 @@ function App() {
               />
             </Route>
             <Route
-              path="messages"
-              element={<DirectMessages />}
-            />
+              path="messages/"
+              element={<ChatProvider />}
+            >
+              <Route
+                path="/app/messages/:conversationId"
+                element={<ChatPage />}
+              />
+              <Route
+                path="/app/messages/:conversationId/info"
+                element={<InfoPage />}
+              />
+
+              <Route />
+              <Route
+                path="/app/messages/compose"
+                element={<ComposePage />}
+              />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>

@@ -84,7 +84,7 @@ describe('Login component', () => {
     await waitFor(() => {
       expect(window.fetch).toHaveBeenCalledTimes(1);
       expect(window.fetch).toHaveBeenCalledWith(
-        `http://${import.meta.env.VITE_API_DOMAIN}auth/signin`,
+        `${import.meta.env.VITE_API_DOMAIN}auth/signin`,
         {
           method: 'POST',
           headers: {
@@ -205,7 +205,7 @@ describe('Login component', () => {
     await waitFor(() => {
       expect(window.fetch).toHaveBeenCalledTimes(1);
       expect(window.fetch).toHaveBeenCalledWith(
-        `http://${import.meta.env.VITE_API_DOMAIN}auth/forgetPassword`,
+        `${import.meta.env.VITE_API_DOMAIN}auth/forgetPassword`,
         {
           method: 'POST',
           headers: {
@@ -335,7 +335,7 @@ describe('Login component', () => {
       json: () =>
         Promise.resolve({
           status: true,
-          data:{user:'mahmod'}
+          data: { user: 'mahmod' },
         }),
     });
     const { getByTestId } = render(

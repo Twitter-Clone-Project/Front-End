@@ -12,6 +12,7 @@ import TextArea from '../form-controls/TextArea';
 import ImageButton from './ImageButton';
 import OwnToaster from '../OwnToaster';
 import UpdateCancel from './UpdateCancel';
+import PopupCardHeader from './PopupCardHeader';
 
 function DOBReducer(state, action) {
   switch (action.type) {
@@ -109,7 +110,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
 
     try {
       const res = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}profile/updateProfile`,
+        `${import.meta.env.VITE_API_DOMAIN}profile/updateProfile`,
         {
           method: 'PATCH',
           origin: true,
@@ -167,34 +168,33 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
       )}
       <BoxCard
         header={
-          <div className="flex h-full w-full items-center">
-            <div className="fixed z-[100] flex w-[calc(100%-1rem-1px)] flex-1 items-center justify-between bg-white bg-opacity-70 px-4 py-2 dark:bg-pure-black md:w-[598px] md:rounded-tl-2xl">
-              <p className="flex items-center justify-between gap-6 text-xl font-bold">
-                <button
-                  type="button"
-                  onClick={() =>
-                    updated ? setConfirmCancel(true) : setUpdateFormOpen(false)
-                  }
-                  className="flex h-8 w-8 items-center justify-center rounded-full align-middle hover:bg-light-hover-layout dark:hover:bg-hover-layout"
-                >
-                  <span className="text-base">&#10005;</span>
-                </button>
-                Edit profile
-              </p>
+          <PopupCardHeader>
+            <p className="flex items-center justify-between gap-6 text-xl font-bold">
+              <button
+                type="button"
+                data-testid="close-update-form"
+                onClick={() =>
+                  updated ? setConfirmCancel(true) : setUpdateFormOpen(false)
+                }
+                className="flex h-8 w-8 items-center justify-center rounded-full align-middle hover:bg-light-hover-layout dark:hover:bg-hover-layout"
+              >
+                <span className="text-base">&#10005;</span>
+              </button>
+              Edit profile
+            </p>
 
-              <Button
-                label="Save"
-                width="w-20"
-                disabled={totalError}
-                onClick={handleUpdate}
-                backGroundColorDark="white"
-                labelColorDark="black"
-                borderColor="none"
-                backGroundColor="black"
-                labelColor="white"
-              />
-            </div>
-          </div>
+            <Button
+              label="Save"
+              width="w-20"
+              disabled={totalError}
+              onClick={handleUpdate}
+              backGroundColorDark="white"
+              labelColorDark="black"
+              borderColor="none"
+              backGroundColor="black"
+              labelColor="white"
+            />
+          </PopupCardHeader>
         }
       >
         <div className="mt-6">
@@ -202,6 +202,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
             <div className="profile-cover max-h-[500px]">
               <div className="relative object-fill">
                 <img
+                  data-testid="profile-banner-update"
                   className="m-auto aspect-[3/1] max-h-full w-full cursor-pointer bg-pure-black object-fill opacity-70"
                   src={banner ? URL.createObjectURL(banner) : curBanner}
                   alt="cover"
@@ -215,6 +216,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
                       type="file"
                       accept="image/*"
                       className="hidden"
+                      data-testid="cover-input"
                       onChange={(e) => {
                         setBanner(e.target.files[0]);
                       }}
@@ -254,6 +256,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
                 <div className="relative flex w-full justify-between">
                   <img
                     id="popoverImg"
+                    data-testid="user-image-update"
                     src={
                       pic
                         ? URL.createObjectURL(pic)
@@ -270,6 +273,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
                       <input
                         type="file"
                         accept="image/*"
+                        data-testid="photo-input"
                         className="hidden"
                         onChange={(e) => setPic(e.target.files[0])}
                         ref={picInput}
@@ -308,17 +312,19 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
               error={bioErr}
               setError={setBioErr}
             />
-            <BasicInput
+            <NameInput
               title="Location"
-              value={location}
-              setValue={setLocation}
+              maxLength={30}
+              Name={location}
+              setName={setLocation}
               error={locationErr}
               setError={setLocationErr}
             />
-            <BasicInput
+            <NameInput
               title="Website"
-              value={website}
-              setValue={setWebsite}
+              maxLength={100}
+              Name={website}
+              setName={setWebsite}
               error={websiteErr}
               setError={setWebsiteErr}
             />
@@ -334,6 +340,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
                 Birth Date{' '}
                 <button
                   type="button"
+                  data-testid="edit-dob"
                   className="font-normal"
                   onClick={() => setDOBEdit((prev) => !prev)}
                 >
@@ -344,7 +351,10 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
                 </button>
               </p>
               {!DOBEdit && (
-                <p className="text-xl">
+                <p
+                  data-testid="current-dob"
+                  className="text-xl"
+                >
                   {moment(new Date(user.birthDate)).format('MMMM D, YYYY')}
                 </p>
               )}

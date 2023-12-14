@@ -378,7 +378,7 @@ describe('SignUp component', () => {
     await waitFor(async () => {
       expect(window.fetch).toHaveBeenCalledTimes(1);
       expect(window.fetch).toHaveBeenCalledWith(
-        `http://${import.meta.env.VITE_API_DOMAIN}auth/signWithGoogle`,
+        `${import.meta.env.VITE_API_DOMAIN}auth/signWithGoogle`,
         {
           method: 'POST',
           headers: {
