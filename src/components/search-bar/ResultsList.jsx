@@ -2,14 +2,18 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 import SearchResult from './SearchResult';
 
 function ResultsList({ value, results }) {
+  const location = useLocation();
   const navigate = useNavigate();
   const handleGoClick = () => {
     navigate(`/app/${value}`);
+  };
+  const handleSearchClick = () => {
+    navigate(`/app/search?q=${value}`, { state: { pastPath: location } });
   };
   return (
     <div>
@@ -19,6 +23,9 @@ function ResultsList({ value, results }) {
           // eslint-disable-next-line jsx-a11y/no-static-element-interactions
           className="text-b flex h-[60px] items-center pl-4 text-base  hover:cursor-pointer hover:bg-hover-layout dark:text-white"
           data-testid={`search-bar-serach${value}`}
+          onClick={() => {
+            handleSearchClick();
+          }}
         >
           <span>Search for "{value}"</span>
         </div>

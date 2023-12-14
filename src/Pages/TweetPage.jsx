@@ -185,8 +185,6 @@ function TweetPage() {
     getInitialTweet();
   }, [replies]);
 
-  const [value, setValue] = useState('');
-
   return (
     <div className="flex flex-row gap-10">
       <div
@@ -283,10 +281,7 @@ function TweetPage() {
         </div>
       </div>
       <div>
-        <SearchBar
-          value={value}
-          setValue={setValue}
-        />
+        <SearchBar />
       </div>
     </div>
   );

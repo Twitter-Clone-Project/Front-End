@@ -11,7 +11,6 @@ function SearchBar({ value, setValue }) {
   const [focus, setFoucs] = useState(false);
   const [results, setResults] = useState([]);
   const [resultsLoading, setResultsLoading] = useState(false);
-  const [bgDark, setBgDark] = useState('black');
   const handleInputFocus = () => {
     setFill('#1988d2');
     setFoucs(true);
@@ -69,7 +68,7 @@ function SearchBar({ value, setValue }) {
   }, [value]);
   return (
     <div
-      className="flex h-auto flex-col px-2 py-2"
+      className="flex h-auto w-full flex-col px-2 py-2"
       onFocus={handleInputFocus}
       data-testid="search-bar"
     >
