@@ -56,7 +56,8 @@ function RightNavBar() {
                   className="text-black hover:no-underline dark:text-white "
                 >
                   <div
-                    className={` px-4 py-3 text-[15px] hover:bg-[#edf0f0]  dark:hover:bg-[#1d1e21]`}
+                    className={` px-4 py-3 text-[15px]
+                     hover:bg-[#edf0f0]  dark:hover:bg-[#1d1e21]`}
                   >
                     <div className="font-bold">#{trand.name}</div>
                     <div className="mt-1 text-dark-gray">
