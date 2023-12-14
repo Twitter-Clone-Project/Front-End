@@ -1,10 +1,9 @@
 import React, { useEffect, useContext } from 'react';
 import { Outlet } from 'react-router-dom';
 import io from 'socket.io-client';
-import { useAuth } from '../../hooks/AuthContext';
-import { ChatContext } from '../../hooks/ContactContext';
-
 import NavBar from '../navigation-bars/NavBar';
+import { ChatContext } from '../../hooks/ContactContext';
+import { useAuth } from '../../hooks/AuthContext';
 
 function AppLayout() {
   const { user } = useAuth();

@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
 import toast from 'react-hot-toast';
-
 import NavItem from './NavItem';
 import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
