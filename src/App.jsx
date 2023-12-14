@@ -29,6 +29,7 @@ import { ChatProvider } from './contexts/ChatProvider';
 import ChatPage from './components/Direct-Messages/ChatPage';
 import InfoPage from './components/Direct-Messages/InfoPage';
 import ComposePage from './components/Direct-Messages/ComposePage';
+import DirectMessages from './components/Direct-Messages/DirectMessages';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -198,7 +199,7 @@ function App() {
             />
             <Route
               path="messages/"
-              element={<ChatProvider />}
+              element={<DirectMessages />}
             >
               <Route
                 path="/app/messages/:conversationId"
