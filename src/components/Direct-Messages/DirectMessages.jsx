@@ -107,15 +107,15 @@ function DirectMessages() {
 
   return (
     <div className="h-full w-full text-black">
-      <div className="layout max-h-screenoverflow-auto mx-auto  h-full grid-cols-[auto_1fr]  grid-rows-1 dark:bg-black  md:grid ">
-        {((windowWidth < 1024 && chatContext.conversationId === '') ||
-          windowWidth >= 1024) && <ConversationsPage />}
+      <div className="layout max-h-screenover flow-auto mx-auto  h-full grid-cols-[auto_1fr]  grid-rows-1 dark:bg-black  md:grid ">
+        <ConversationsPage />
+
         {windowWidth >= 1024 && chatContext.conversationId === '' && (
           <div
-            className="lg:w-[600px]md:min-w-[600px]  flex h-screen min-w-[600px] flex-col  justify-center
-                      border-x-[1px] border-[#f6f8f9] dark:border-[#252829]
-                    dark:bg-black dark:text-white
-                      xl:w-[600px] "
+            className="flex h-screen  flex-col justify-center border-x-[1px]  border-[#f6f8f9]
+                      dark:border-[#252829] dark:bg-black dark:text-white
+                      md:w-[600px] lg:w-[600px]
+                      xl:w-[600px]"
           >
             <div className="mx-[100px] flex flex-col">
               <div className="text-[31px] font-bold">Select a message</div>
@@ -141,8 +141,7 @@ function DirectMessages() {
             </div>
           </div>
         )}
-        {((windowWidth < 1024 && chatContext.conversationId !== '') ||
-          windowWidth >= 1024) && <Outlet />}
+        <Outlet />
       </div>
     </div>
   );

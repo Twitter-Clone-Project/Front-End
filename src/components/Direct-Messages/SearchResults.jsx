@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import SearchCard from './SearchCard';
+import { ChatContext } from '../../hooks/ContactContext';
 
-function SearchResults({ conversations, searchValue, setOpenedId }) {
+function SearchResults({ searchValue, setOpenedId }) {
+  const { conversations } = useContext(ChatContext);
+
   const filteredConversations = conversations.filter((conversation) =>
     conversation.contact.name.toLowerCase().includes(searchValue.toLowerCase()),
   );
@@ -31,7 +34,6 @@ function SearchResults({ conversations, searchValue, setOpenedId }) {
 SearchResults.propTypes = {
   searchValue: PropTypes.string.isRequired,
   setOpenedId: PropTypes.func.isRequired,
-  conversations: PropTypes.array.isRequired,
 };
 
 export default SearchResults;

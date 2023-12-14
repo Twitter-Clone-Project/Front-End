@@ -11,6 +11,7 @@ export function ChatProvider() {
   const [socket, setSocket] = useState(null);
   const [socketMessages, setSocketMessages] = useState([]);
   const [chatState, setChatState] = useState({});
+  const [conversations, setConversations] = useState([]);
 
   const [chatContext, setChatContext] = useState({
     conversationId: '',
@@ -59,6 +60,8 @@ export function ChatProvider() {
           setSocketMessages,
           chatState,
           setChatState,
+          conversations,
+          setConversations,
         }),
         [
           chatContext,
@@ -71,6 +74,8 @@ export function ChatProvider() {
           setSocketMessages,
           chatState,
           setChatState,
+          conversations,
+          setConversations,
         ],
       )}
     >
