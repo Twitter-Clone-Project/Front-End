@@ -68,7 +68,7 @@ function SearchBar({ value, setValue }) {
   }, [value]);
   return (
     <div
-      className="flex h-auto w-full flex-col px-2 py-2"
+      className="flex h-auto  flex-col  py-2"
       onFocus={handleInputFocus}
       data-testid="search-bar"
     >
@@ -79,10 +79,10 @@ function SearchBar({ value, setValue }) {
       >
         <div
           // eslint-disable-next-line max-len
-          className={`flex h-[42px] w-full items-center ${
+          className={`flex h-[42px] w-full items-center bg-[#f7f8f8] dark:bg-[#16181c] ${
             focus === true
               ? 'border-2 border-blue border-opacity-100 dark:bg-pure-black'
-              : 'dark:bg-black'
+              : ''
           }  justify-between rounded-full bg-[#f7f8f8] py-2 pl-2 pr-2`}
           data-testid="search-bar-field"
         >
@@ -100,11 +100,11 @@ function SearchBar({ value, setValue }) {
               />
             </svg>
           </div>
-          <div className="w-10/12 pl-2">
+          <div className="w-10/12 pl-2 ">
             <input
               // eslint-disable-next-line max-len
-              className={`w-full border-none bg-white placeholder-light-gray focus:outline-none ${
-                focus === true ? 'dark:bg-pure-black' : 'dark:bg-black'
+              className={`w-full border-none bg-[#f7f8f8]  placeholder-light-gray focus:outline-none dark:bg-[#16181c] ${
+                focus === true ? 'dark:bg-pure-black' : ''
               } dark:text-white`}
               placeholder="Search"
               value={value}
