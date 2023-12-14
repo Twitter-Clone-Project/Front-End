@@ -1,17 +1,76 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
+import toast from 'react-hot-toast';
 import NavItem from './NavItem';
 import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
 import FloatingHeader from './FloatingHeader';
 import UserImg from './UserImg';
 import ComposePost from '../compose-popup/ComposePost';
+import { ChatContext } from '../../hooks/ContactContext';
 
 function NavBar() {
   const { user } = useAuth();
   const [composeOpen, setComposeOpen] = useState(false);
+  const { setMessagesCount, setNotificationsCount } = useContext(ChatContext);
+
+  // Messages
+  useEffect(() => {
+    const fetchCount = async () => {
+      try {
+        const res = await fetch(
+          `${
+            import.meta.env.VITE_API_DOMAIN
+          }conversations/unseenConversationsCnt`,
+          {
+            method: 'GET',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+          },
+        );
+        if (res.status === 404) return;
+        const data = await res.json();
+        if (data.status === false) {
+          throw new Error(data.message);
+        }
+        setMessagesCount(data.data.unseenCnt);
+      } catch (err) {
+        toast(err.message);
+      }
+    };
+    fetchCount();
+  }, []);
+
+  // Notifications
+  useEffect(() => {
+    const fetchCount = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_API_DOMAIN}profile/unseenNotificationsCnt`,
+          {
+            method: 'GET',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+          },
+        );
+        if (res.status === 404) return;
+        const data = await res.json();
+        if (data.status === false) {
+          throw new Error(data.message);
+        }
+        console.log(data.data);
+        setNotificationsCount(data.data.unseenCnt);
+      } catch (err) {
+        toast(err.message);
+      }
+    };
+    fetchCount();
+  }, []);
+
   const mobileItems = [
     {
       path: './home',

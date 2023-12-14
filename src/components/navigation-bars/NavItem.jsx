@@ -1,14 +1,25 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
+import { ChatContext } from '../../hooks/ContactContext';
 
 function NavItem({ label, outlinedIcon, filledIcon, path, hidden = true }) {
   // eslint-disable-next-line no-unused-vars
-  // const [count, setCount] = useState(3);
+  const location = useLocation();
+  const {
+    messagesCount,
+    setMessagesCount,
+    notificationsCount,
+    setNotificationsCount,
+  } = useContext(ChatContext);
+
   return (
     <div className="flex content-start items-start justify-between p-3 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout  hover:dark:bg-hover-layout">
       <NavLink
-        // onClick={() => setCount(0)}
+        onClick={() => {
+          if (label === 'Notifications') setNotificationsCount('0');
+          if (label === 'Messages') setMessagesCount('0');
+        }}
         to={path}
         data-testid={label}
         className={({ isActive }) =>
@@ -37,14 +48,29 @@ function NavItem({ label, outlinedIcon, filledIcon, path, hidden = true }) {
               </path>
             </g>
           </svg>
-          {/* {(label === 'Notifications' || label === 'Messages') &&
-            count !== 0 && (
-              <span className="absolute right-[-5px] top-[-7px] 
+
+          {label === 'Notifications' &&
+            notificationsCount !== '0' &&
+            location.pathname !== '/app/messages' && (
+              <span
+                className="absolute right-[-5px] top-[-7px] 
               flex h-5 w-5 items-center justify-center rounded-full bg-blue 
-              text-center text-xs font-semibold text-white">
-                {count}
+              text-center text-xs font-semibold text-white"
+              >
+                {notificationsCount}
               </span>
-            )} */}
+            )}
+          {label === 'Messages' &&
+            messagesCount !== '0' &&
+            location.pathname !== '/app/messages' && (
+              <span
+                className="absolute right-[-5px] top-[-7px] 
+              flex h-5 w-5 items-center justify-center rounded-full bg-blue 
+              text-center text-xs font-semibold text-white"
+              >
+                {messagesCount}
+              </span>
+            )}
         </div>
         <div data-testid={`${label}-text`}>
           <p
