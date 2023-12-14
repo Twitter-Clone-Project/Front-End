@@ -30,15 +30,10 @@ function DirectMessages() {
     chatContextRef.current = chatContext;
   }, [chatContext]);
 
-  useEffect(() => {
-    const newSocket = io(`${import.meta.env.VITE_SOCKET_DOMAIN}`);
-    newSocket.on('connect', () => {
-      newSocket.emit('add-user', { userId: user.userId });
-    });
-    setSocket(newSocket);
-
-    return () => {
-      if (newSocket.connected) {
+  // close the opened chat when go to another page
+  useEffect(
+    () => () => {
+      if (socket.connected) {
         if (chatContext.conversationId === '') {
           // mark the current chat as closed before closed the website
           if (chatContext.conversationId !== '') {
@@ -49,10 +44,34 @@ function DirectMessages() {
             });
           }
         }
-        newSocket.disconnect();
       }
-    };
-  }, [user.userId]);
+    },
+    [],
+  );
+
+  // useEffect(() => {
+  //   const newSocket = io(`${import.meta.env.VITE_SOCKET_DOMAIN}`);
+  //   newSocket.on('connect', () => {
+  //     newSocket.emit('add-user', { userId: user.userId });
+  //   });
+  //   setSocket(newSocket);
+
+  //   return () => {
+  //     if (newSocket.connected) {
+  //       if (chatContext.conversationId === '') {
+  //         // mark the current chat as closed before closed the website
+  //         if (chatContext.conversationId !== '') {
+  //           socket.emit('chat-closed', {
+  //             userId: user.userId,
+  //             conversationId: chatContext.conversationId,
+  //             contactId: chatContext.contact.id,
+  //           });
+  //         }
+  //       }
+  //       newSocket.disconnect();
+  //     }
+  //   };
+  // }, [user.userId]);
 
   // Get the Socket messages
   useEffect(() => {

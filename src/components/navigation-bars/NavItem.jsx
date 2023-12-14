@@ -51,7 +51,7 @@ function NavItem({ label, outlinedIcon, filledIcon, path, hidden = true }) {
 
           {label === 'Notifications' &&
             notificationsCount !== '0' &&
-            location.pathname !== '/app/messages' && (
+            location.pathname !== '/app/notifications' && (
               <span
                 className="absolute right-[-5px] top-[-7px] 
               flex h-5 w-5 items-center justify-center rounded-full bg-blue 
