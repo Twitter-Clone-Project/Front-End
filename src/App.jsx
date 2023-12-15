@@ -34,6 +34,8 @@ import { ChatProvider } from './contexts/ChatProvider';
 import ChatPage from './components/Direct-Messages/ChatPage';
 import InfoPage from './components/Direct-Messages/InfoPage';
 import ComposePage from './components/Direct-Messages/ComposePage';
+import UpdateEmail from './components/Settings-page/UpdateEmail';
+import UpdateUsername from './components/Settings-page/UpdateUsername';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -197,6 +199,16 @@ function App() {
                 exact
                 path="accountinfo"
                 element={<AccountInfo />}
+              ></Route>
+              <Route
+                exact
+                path="accountinfo/updateemail"
+                element={<UpdateEmail />}
+              />
+              <Route
+                exact
+                path="accountinfo/updateusername"
+                element={<UpdateUsername />}
               />
               <Route
                 exact
