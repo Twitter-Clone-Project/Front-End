@@ -18,7 +18,6 @@ function UserItem({
   discription,
   following,
   followers,
-  testID,
 }) {
   const [localIsFollowed, setLocalIsFollowed] = useState(isFollowed);
   const { user: curUser } = useAuth();
@@ -33,16 +32,12 @@ function UserItem({
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        userName: { userID },
-      }),
     })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         setLocalIsFollowed(!localIsFollowed);
-        console.log(localIsFollowed);
         return response.json();
       })
       .then((data) => {
@@ -63,9 +58,6 @@ function UserItem({
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        userid: { userID },
-      }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -169,10 +161,14 @@ function UserItem({
 
   let navigate = useNavigate();
   return (
-    <div className="relative h-min w-full cursor-pointer px-4 py-3 hover:bg-[#f7f7f7] dark:hover:bg-[#080808]">
+    <div
+      className="relative h-min w-full cursor-pointer px-4 py-3 hover:bg-[#f7f7f7] dark:hover:bg-[#080808]"
+      data-testid={`UserItem_${userID}_0`}
+    >
       <Link
         to={`/app/${userID}`}
         className="hover:no-underline"
+        data-testid={`UserItem_${userID}_toUserProfile`}
       >
         <div className="flex w-full flex-row">
           <div className="mr-3 h-full w-11">
@@ -182,6 +178,7 @@ function UserItem({
               alt=""
               className=" h-10 w-10 rounded-full"
               data-popover-target={popoverID}
+              data-testid={`UserItem_${userID}_img`}
             />
           </div>
           <div className="flex w-full flex-col">
@@ -191,6 +188,7 @@ function UserItem({
                   htmlFor="img"
                   className=" h-[21.5px] cursor-pointer text-[15px] font-bold text-pure-black hover:underline dark:text-white"
                   data-popover-target={popoverID}
+                  data-testid={`UserItem_${userID}_name`}
                 >
                   {userName}
                 </label>
@@ -198,13 +196,14 @@ function UserItem({
                   <span
                     className=" w-min text-light-thin"
                     data-popover-target={popoverID}
+                    data-testid={`UserItem_${userID}_userName`}
                   >
                     @{userID}
                   </span>
                   {isFollowing && (
                     <div
                       className=" ml-1 h-4 items-center rounded bg-x-light-gray px-1 py-0.5 dark:bg-border-gray"
-                      data-testid={`UserItem_${testID}_1`}
+                      data-testid={`UserItem_${userID}_1`}
                     >
                       <p className=" h-3 text-[11px] leading-3 text-light-thin">
                         Follows you
@@ -223,7 +222,7 @@ function UserItem({
                     onMouseLeave={() => {
                       setButtonHovered(false);
                     }}
-                    data-testid={`UserItem_${testID}_2`}
+                    data-testid={`UserItem_${userID}_2`}
                     onClick={handelFollowUnFollowButton}
                   >
                     <Button
@@ -291,7 +290,7 @@ function UserItem({
         data-popover
         id={popoverID}
         className="invisible absolute z-50 mt-2 w-[300px] opacity-100  transition-opacity duration-300"
-        data-testid={`UserItem_${testID}_3`}
+        data-testid={`UserItem_${userID}_3`}
       >
         <PopoverUserCard
           popoverIsFollowed={localIsFollowed}
@@ -302,7 +301,6 @@ function UserItem({
           popoverDiscription={discription}
           popoverFollowing={following}
           popoverFollowers={followers}
-          popoverTestID={testID}
           popoverSetLocalIsFollowed={setLocalIsFollowed}
         />
       </div>
@@ -319,7 +317,6 @@ UserItem.propTypes = {
   discription: PropTypes.string.isRequired,
   following: PropTypes.string.isRequired,
   followers: PropTypes.string.isRequired,
-  testID: PropTypes.number.isRequired,
 };
 
 export default UserItem;

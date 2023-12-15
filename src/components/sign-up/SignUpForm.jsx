@@ -270,7 +270,7 @@ function SignUpForm({ test }) {
                 />
               </div>
             )}
-            <BoxCard classes="py-6 px-12 mx-auto">
+            <BoxCard classes="sm:px-12 mx-auto">
               <div className="mx-auto flex w-full min-w-[300px] flex-1 flex-col justify-between overflow-auto px-5 ">
                 <div className="mx-auto flex pt-2 text-center dark:text-white">
                   <h1 className="mx-auto mt-5 flex-1 text-3xl font-bold">
