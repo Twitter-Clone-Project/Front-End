@@ -279,13 +279,14 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             >
               <div
                 data-testid={`username${data.id}`}
-                className="name whitespace-nowrap text-[15px] font-bold dark:text-white"
+                style={{ wordBreak: 'break-word' }}
+                className="name word max-w-[220px] truncate break-words text-[15px] font-bold dark:text-white"
               >
                 {data.user.screenName}
               </div>
             </Link>
             <div className="flex flex-wrap">
-              <div className="userName overflow-hidden text-[15px] text-dark-gray">
+              <div className="userName max-w-[150px] overflow-hidden truncate break-words  text-[15px] text-dark-gray">
                 {' '}
                 &ensp;@<span>{data.user.username}</span>
               </div>
