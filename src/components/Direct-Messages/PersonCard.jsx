@@ -45,12 +45,15 @@ function PersonCard({ imgRef }) {
             />
           </div>
         ))}
+        <div className="ml-3 text-center text-xs text-[#71767B]">
+          Followed by
+        </div>
         {chatContext.contact.commonFollowers.map((follower, index) => (
           <div
             key={index}
             className="ml-3 text-center text-xs text-[#71767B]"
           >
-            Followed by {follower.name}
+            {follower.name}
           </div>
         ))}
       </div>

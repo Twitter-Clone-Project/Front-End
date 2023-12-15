@@ -12,6 +12,7 @@ import TextArea from '../form-controls/TextArea';
 import ImageButton from './ImageButton';
 import OwnToaster from '../OwnToaster';
 import UpdateCancel from './UpdateCancel';
+import PopupCardHeader from './PopupCardHeader';
 
 function DOBReducer(state, action) {
   switch (action.type) {
@@ -167,35 +168,33 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
       )}
       <BoxCard
         header={
-          <div className="flex h-full w-full items-center">
-            <div className="fixed z-[100] flex w-[calc(100%-1rem-1px)] flex-1 items-center justify-between bg-white bg-opacity-70 px-4 py-2 dark:bg-pure-black md:w-[598px] md:rounded-tl-2xl">
-              <p className="flex items-center justify-between gap-6 text-xl font-bold">
-                <button
-                  type="button"
-                  data-testid="close-update-form"
-                  onClick={() =>
-                    updated ? setConfirmCancel(true) : setUpdateFormOpen(false)
-                  }
-                  className="flex h-8 w-8 items-center justify-center rounded-full align-middle hover:bg-light-hover-layout dark:hover:bg-hover-layout"
-                >
-                  <span className="text-base">&#10005;</span>
-                </button>
-                Edit profile
-              </p>
+          <PopupCardHeader>
+            <p className="flex items-center justify-between gap-6 text-xl font-bold">
+              <button
+                type="button"
+                data-testid="close-update-form"
+                onClick={() =>
+                  updated ? setConfirmCancel(true) : setUpdateFormOpen(false)
+                }
+                className="flex h-8 w-8 items-center justify-center rounded-full align-middle hover:bg-light-hover-layout dark:hover:bg-hover-layout"
+              >
+                <span className="text-base">&#10005;</span>
+              </button>
+              Edit profile
+            </p>
 
-              <Button
-                label="Save"
-                width="w-20"
-                disabled={totalError}
-                onClick={handleUpdate}
-                backGroundColorDark="white"
-                labelColorDark="black"
-                borderColor="none"
-                backGroundColor="black"
-                labelColor="white"
-              />
-            </div>
-          </div>
+            <Button
+              label="Save"
+              width="w-20"
+              disabled={totalError}
+              onClick={handleUpdate}
+              backGroundColorDark="white"
+              labelColorDark="black"
+              borderColor="none"
+              backGroundColor="black"
+              labelColor="white"
+            />
+          </PopupCardHeader>
         }
       >
         <div className="mt-6">
@@ -313,17 +312,19 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
               error={bioErr}
               setError={setBioErr}
             />
-            <BasicInput
+            <NameInput
               title="Location"
-              value={location}
-              setValue={setLocation}
+              maxLength={30}
+              Name={location}
+              setName={setLocation}
               error={locationErr}
               setError={setLocationErr}
             />
-            <BasicInput
+            <NameInput
               title="Website"
-              value={website}
-              setValue={setWebsite}
+              maxLength={100}
+              Name={website}
+              setName={setWebsite}
               error={websiteErr}
               setError={setWebsiteErr}
             />

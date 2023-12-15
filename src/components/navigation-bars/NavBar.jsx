@@ -7,9 +7,11 @@ import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
 import FloatingHeader from './FloatingHeader';
 import UserImg from './UserImg';
+import ComposePost from '../compose-popup/ComposePost';
 
 function NavBar() {
   const { user } = useAuth();
+  const [composeOpen, setComposeOpen] = useState(false);
   const mobileItems = [
     {
       path: './home',
@@ -136,8 +138,9 @@ function NavBar() {
     <div
       ref={screen}
       data-testid="nav-bar"
-      className="mx-auto flex w-0 items-start justify-center overflow-auto dark:bg-pure-black sm:mt-auto sm:h-full sm:w-[76px] mlg:w-[280px]"
+      className="mx-auto flex w-0 items-start justify-center dark:bg-pure-black sm:mt-auto sm:h-full sm:w-[76px] mlg:w-[280px]"
     >
+      {composeOpen && <ComposePost setComposeOpen={setComposeOpen} />}
       <FloatingHeader
         drawerOpen={drawerOpen}
         show={show}
@@ -154,7 +157,7 @@ function NavBar() {
           sm:items-start sm:justify-between sm:gap-1 sm:border-0 sm:px-2 
           ${!show ? 'opacity-30 sm:opacity-100' : ''}`}
         >
-          <div className="mb-4 hidden overflow-auto p-3 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:flex">
+          <div className="mb-4 hidden p-3 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:flex">
             <Link to="/">
               <svg
                 className="inline-block w-[1.9rem] fill-pure-black dark:fill-white"
@@ -173,7 +176,7 @@ function NavBar() {
               </svg>
             </Link>
           </div>
-          <div className="hidden overflow-auto sm:contents">
+          <div className="hidden sm:contents">
             {items.map((item) => (
               <NavItem
                 key={uuid4()}
@@ -184,7 +187,7 @@ function NavBar() {
               />
             ))}
           </div>
-          <div className="contents overflow-auto sm:hidden">
+          <div className="contents sm:hidden">
             {mobileItems.map((item) => (
               <NavItem
                 key={uuid4()}
@@ -199,6 +202,7 @@ function NavBar() {
           <div className="absolute mx-auto hidden w-full  items-center justify-center rounded-full sm:relative mlg:flex">
             <Button
               label="Post"
+              onClick={() => setComposeOpen(true)}
               backGroundColor="blue"
               backGroundColorDark="blue"
               labelColor="white"
@@ -209,6 +213,7 @@ function NavBar() {
           </div>
           <div className="absolute bottom-24 right-3  mt-3 flex w-[full] items-center justify-center rounded-full bg-blue p-4 hover:cursor-pointer hover:bg-opacity-90 sm:relative sm:bottom-0 sm:right-0 mlg:hidden">
             <button
+              onClick={() => setComposeOpen(true)}
               type="submit"
               className="flex-1"
             >

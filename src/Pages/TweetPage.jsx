@@ -186,12 +186,15 @@ function TweetPage() {
 
   return (
     <div
-      className="flex h-auto w-fit justify-center border-x-[0.5px] border-x-light-gray pb-20 dark:border-x-border-gray md:w-fit"
+      className="mb-20  min-h-[calc(100%-60px)] w-full max-w-[620px] border-border-gray dark:text-white sm:my-auto sm:min-h-full sm:border-x-[1px]"
       data-testid="tweet-page"
     >
-      <div className="mx-2 flex w-fit flex-col items-start justify-start overflow-x-hidden overflow-x-hidden md:w-fit">
-        <div className="flex flex-wrap items-center md:w-full">
-          <div className="mb-2 mt-[9px] flex h-7 w-7 items-center justify-center rounded-full hover:bg-x-light-gray hover:dark:bg-light-thin">
+      <div className="mx-2 flex flex-col items-start justify-start">
+        <div className="flex flex-wrap items-center">
+          <div
+            className="mb-2 mt-[9px] flex h-7 w-7 items-center justify-center rounded-full hover:bg-x-light-gray hover:dark:bg-light-thin"
+            data-testid="tweet-page-backbtn"
+          >
             <svg
               viewBox="0 0 24 24"
               aria-hidden="true"
@@ -214,7 +217,7 @@ function TweetPage() {
           <Spinner />
         ) : (
           <>
-            <div className="w-[90%] md:w-full">
+            <div className="w-full">
               {tweetData.map((tweetItem, index) => (
                 <Tweet
                   data={tweetItem}
@@ -233,11 +236,12 @@ function TweetPage() {
               ))}
             </div>
 
-            <div className="flex w-[90%] items-center justify-start gap-3 border-b-[0.5px] border-b-light-gray px-2 py-2 dark:border-b-border-gray md:w-full">
+            <div className="flex w-full items-center justify-start gap-3 border-b-[0.5px] border-b-light-gray px-2 py-2 dark:border-b-border-gray">
               <Link
                 to={`/app/tweets/${tweetId}/likes`}
                 relative="path"
                 className="hover:no-underline dark:text-white"
+                data-testid="likes-list-count"
               >
                 <div className="flex flex-row items-center gap-1">
                   {tweetData[0].likesCount}
@@ -248,6 +252,7 @@ function TweetPage() {
                 to={`/app/tweets/${tweetId}/retweets`}
                 relative="path"
                 className="hover:no-underline dark:text-white"
+                data-testid="retweets-list-count"
               >
                 <div className="flex flex-row items-center gap-1">
                   {tweetData[0].retweetsCount}
@@ -255,15 +260,19 @@ function TweetPage() {
                 </div>
               </Link>
             </div>
-            <div className="w-[90%] md:w-full">
+            <div className="w-full">
               <AddReply
                 setReplies={setReplies}
                 tweetId={tweetId}
                 replyFor={tweetData[0].user.userName}
               />
             </div>
-            <div className="w-[90%] md:w-full">
-              <RepliesList repliesData={replies} />
+            <div className="w-full">
+              <RepliesList
+                repliesData={replies}
+                setReplies={setReplies}
+                tweetId={tweetId}
+              />
             </div>
           </>
         )}
