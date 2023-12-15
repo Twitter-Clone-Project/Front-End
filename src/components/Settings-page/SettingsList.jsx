@@ -48,7 +48,7 @@ function SettingsList({ windowWidth }) {
                   : 'flex-1  hover:no-underline'
               }
             >
-              <div className="flex h-12 w-full justify-between px-4 py-3">
+              <div className="flex h-12 w-full justify-between px-4 py-3 hover:bg-xx-light-gray hover:dark:bg-[#16181c] ">
                 <p className=" text-black dark:text-white">{item.label}</p>
                 <div>
                   <svg
