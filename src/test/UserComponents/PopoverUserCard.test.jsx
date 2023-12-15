@@ -54,17 +54,18 @@ describe('PopoverUserCard', () => {
               popoverDiscription="Some description"
               popoverFollowing="10"
               popoverFollowers="20"
-              popoverTestID={1}
               popoverIsBlocked={false}
             />
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
-    expect(getByTestId('PopoverUserCard_1_0')).toBeInTheDocument();
-    expect(getByTestId('PopoverUserCard_1_1')).toBeInTheDocument();
-    expect(queryByTestId('PopoverUserCard_1_2')).not.toBeInTheDocument();
-    expect(getByTestId('PopoverUserCard_1_1')).toHaveTextContent('Follow');
+    expect(getByTestId('PopoverUserCard_john_doe_0')).toBeInTheDocument();
+    expect(getByTestId('PopoverUserCard_john_doe_1')).toBeInTheDocument();
+    expect(queryByTestId('PopoverUserCard_john_doe_2')).not.toBeInTheDocument();
+    expect(getByTestId('PopoverUserCard_john_doe_1')).toHaveTextContent(
+      'Follow',
+    );
   });
 
   it('should appear Following in the button when the user is Followed', () => {
@@ -86,17 +87,20 @@ describe('PopoverUserCard', () => {
               popoverDiscription="Some description"
               popoverFollowing="10"
               popoverFollowers="20"
-              popoverTestID={1}
               popoverIsBlocked={false}
             />
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
-    expect(getByTestId('PopoverUserCard_1_1')).toHaveTextContent('Following');
-    fireEvent.mouseEnter(getByTestId('PopoverUserCard_1_1'));
-    expect(getByTestId('PopoverUserCard_1_1')).toHaveTextContent('Unfollow');
-    fireEvent.mouseLeave(getByTestId('PopoverUserCard_1_1'));
+    expect(getByTestId('PopoverUserCard_john_doe_1')).toHaveTextContent(
+      'Following',
+    );
+    fireEvent.mouseEnter(getByTestId('PopoverUserCard_john_doe_1'));
+    expect(getByTestId('PopoverUserCard_john_doe_1')).toHaveTextContent(
+      'Unfollow',
+    );
+    fireEvent.mouseLeave(getByTestId('PopoverUserCard_john_doe_1'));
   });
 
   it('should appear Blocked in the button when the user is blocked', () => {
@@ -118,14 +122,15 @@ describe('PopoverUserCard', () => {
               popoverDiscription="Some description"
               popoverFollowing="10"
               popoverFollowers="20"
-              popoverTestID={1}
               popoverIsBlocked={true}
             />
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
-    expect(getByTestId('PopoverUserCard_1_1')).toHaveTextContent('Blocked');
+    expect(getByTestId('PopoverUserCard_john_doe_1')).toHaveTextContent(
+      'Blocked',
+    );
   });
 
   it('should appear Follows Element when the user is Following you', () => {
@@ -147,14 +152,13 @@ describe('PopoverUserCard', () => {
               popoverDiscription="Some description"
               popoverFollowing="10"
               popoverFollowers="20"
-              popoverTestID={1}
               popoverIsBlocked={false}
             />
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
-    expect(queryByTestId('PopoverUserCard_1_2')).toBeInTheDocument();
+    expect(queryByTestId('PopoverUserCard_john_doe_2')).toBeInTheDocument();
   });
 
   it('should not appear Follow Button when the user is the same one', () => {
@@ -176,14 +180,13 @@ describe('PopoverUserCard', () => {
               popoverDiscription="Some description"
               popoverFollowing="10"
               popoverFollowers="20"
-              popoverTestID={1}
               popoverIsBlocked={false}
             />
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
-    expect(queryByTestId('PopoverUserCard_1_1')).not.toBeInTheDocument();
+    expect(queryByTestId('PopoverUserCard_john_doe_1')).not.toBeInTheDocument();
   });
 
   it('handles follow correctly', async () => {
@@ -209,7 +212,6 @@ describe('PopoverUserCard', () => {
               popoverDiscription="Some description"
               popoverFollowing="10"
               popoverFollowers="20"
-              popoverTestID={1}
               opoverSetLocalIsFollowed
               popoverIsBlocked={false}
             />
@@ -217,8 +219,8 @@ describe('PopoverUserCard', () => {
         </BrowserRouter>
       </AuthProvider>,
     );
-    expect(getByTestId('PopoverUserCard_1_1')).not.toBeDisabled();
-    fireEvent.click(getByTestId('PopoverUserCard_1_1'));
+    expect(getByTestId('PopoverUserCard_john_doe_1')).not.toBeDisabled();
+    fireEvent.click(getByTestId('PopoverUserCard_john_doe_1'));
     await waitFor(() => {
       expect(window.fetch).toHaveBeenCalledTimes(1);
       expect(window.fetch).toHaveBeenCalledWith(
@@ -259,7 +261,6 @@ describe('PopoverUserCard', () => {
               popoverDiscription="Some description"
               popoverFollowing="10"
               popoverFollowers="20"
-              popoverTestID={1}
               opoverSetLocalIsFollowed
               popoverIsBlocked={false}
             />
@@ -267,8 +268,8 @@ describe('PopoverUserCard', () => {
         </BrowserRouter>
       </AuthProvider>,
     );
-    expect(getByTestId('PopoverUserCard_1_1')).not.toBeDisabled();
-    fireEvent.click(getByTestId('PopoverUserCard_1_1'));
+    expect(getByTestId('PopoverUserCard_john_doe_1')).not.toBeDisabled();
+    fireEvent.click(getByTestId('PopoverUserCard_john_doe_1'));
     await waitFor(() => {
       expect(window.fetch).toHaveBeenCalledTimes(1);
       expect(window.fetch).toHaveBeenCalledWith(
@@ -304,7 +305,6 @@ describe('PopoverUserCard', () => {
               popoverDiscription="Some description"
               popoverFollowing="10"
               popoverFollowers="20"
-              popoverTestID={1}
               opoverSetLocalIsFollowed
               popoverIsBlocked={false}
             />
@@ -313,14 +313,14 @@ describe('PopoverUserCard', () => {
       </AuthProvider>,
     );
 
-    fireEvent.click(getByTestId('PopoverUserCard_1_3'));
+    fireEvent.click(getByTestId('PopoverUserCard_john_doe_3'));
     await waitFor(() => {
       expect(navigate).toHaveBeenCalledWith(`/app/john_doe/following`, {
         state: '/',
       });
     });
     expect(navigate).toHaveBeenCalled();
-    fireEvent.click(getByTestId('PopoverUserCard_1_4'));
+    fireEvent.click(getByTestId('PopoverUserCard_john_doe_4'));
     expect(navigate).toHaveBeenCalledWith(`/app/john_doe/followers`, {
       state: '/',
     });
@@ -368,7 +368,6 @@ describe('PopoverUserCard', () => {
                 popoverDiscription="Some description"
                 popoverFollowing="10"
                 popoverFollowers="20"
-                popoverTestID={1}
                 opoverSetLocalIsFollowed
                 popoverIsBlocked={false}
               />
@@ -377,7 +376,7 @@ describe('PopoverUserCard', () => {
         </AuthProvider>,
       );
 
-      fireEvent.click(getByTestId('PopoverUserCard_1_img'));
+      fireEvent.click(getByTestId('PopoverUserCard_john_doe_img'));
       expect(navigate2).toHaveBeenCalled();
       expect(navigate2).toHaveBeenCalledWith(`/app/john_doe`, {
         preventScrollReset: undefined,
@@ -386,7 +385,7 @@ describe('PopoverUserCard', () => {
         state: undefined,
         unstable_viewTransition: undefined,
       });
-      fireEvent.click(getByTestId('PopoverUserCard_1_userInf'));
+      fireEvent.click(getByTestId('PopoverUserCard_john_doe_userInf'));
       expect(navigate2).toHaveBeenCalled();
       expect(navigate2).toHaveBeenCalledWith(`/app/john_doe`, {
         preventScrollReset: undefined,
