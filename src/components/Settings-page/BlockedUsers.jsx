@@ -1,23 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { v4 as uuid4 } from 'uuid';
 import UserItem from '../userComponents/UserItem';
-import useFetch from './useFetch';
 import Spinner from '../Spinner';
 import NoResults from '../user-profile-card/NoResults';
 import SettingsHeader from './SettingsHeader';
+import usePost from './usePost';
 
 function BlockedUsers() {
-  const { data, error, isLoading } = useFetch(
-    `${import.meta.env.VITE_API_DOMAIN}users/blockedUsers`,
-    {
+  const { data, error, isLoading, fetchData } = usePost();
+  useEffect(() => {
+    fetchData(`${import.meta.env.VITE_API_DOMAIN}users/blockedUsers`, {
       method: 'GET',
       origin: true,
       credentials: 'include',
       withCredentials: true,
-    },
-  );
-  if (error) toast(error);
+    });
+  }, [fetchData]);
+
+  useEffect(() => {
+    if (error) toast(error);
+  }, [error]);
 
   return (
     <div className="w-full">

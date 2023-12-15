@@ -7,11 +7,11 @@ const usePost = () => {
 
   const fetchData = useCallback(async (url, options) => {
     setIsLoading(true);
+    setError('');
     try {
-      setError('');
       const response = await fetch(url, options);
       const responseData = await response.json();
-      setData(responseData);
+      setData(responseData.data);
       if (!responseData.status) throw new Error(responseData.message);
     } catch (err) {
       setError(err.message);
