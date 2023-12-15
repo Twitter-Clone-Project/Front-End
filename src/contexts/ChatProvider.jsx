@@ -12,8 +12,8 @@ export function ChatProvider({ children }) {
   const [socketMessages, setSocketMessages] = useState([]);
   const [chatState, setChatState] = useState({});
   const [conversations, setConversations] = useState([]);
-  const [messagesCount, setMessagesCount] = useState('0');
-  const [notificationsCount, setNotificationsCount] = useState('0');
+  const [messagesCount, setMessagesCount] = useState(0);
+  const [notificationsCount, setNotificationsCount] = useState(0);
 
   const [chatContext, setChatContext] = useState({
     conversationId: '',

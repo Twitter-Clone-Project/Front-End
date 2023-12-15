@@ -19,6 +19,8 @@ function ConversationCard({ conversationData, setOpenedId }) {
     conversations,
     setConversations,
     socket,
+    setMessagesCount,
+    messagesCount,
   } = useContext(ChatContext);
   const { user } = useAuth();
   const { conversationId } = useParams();
@@ -52,6 +54,8 @@ function ConversationCard({ conversationData, setOpenedId }) {
     >
       <div
         onClick={() => {
+          if (!conversationData.isConversationSeen)
+            setMessagesCount(messagesCount - 1);
           if (chatContext.conversationId === '') {
             // console.log('First open id:', conversationData.conversationId);
             setChatContext({ ...conversationData });

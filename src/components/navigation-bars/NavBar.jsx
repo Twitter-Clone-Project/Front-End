@@ -14,7 +14,13 @@ import { ChatContext } from '../../hooks/ContactContext';
 function NavBar() {
   const { user } = useAuth();
   const [composeOpen, setComposeOpen] = useState(false);
-  const { setMessagesCount, setNotificationsCount } = useContext(ChatContext);
+  const {
+    setMessagesCount,
+    messagesCount,
+    setNotificationsCount,
+    socket,
+    chatContext,
+  } = useContext(ChatContext);
 
   // Messages
   useEffect(() => {
@@ -36,7 +42,7 @@ function NavBar() {
         if (data.status === false) {
           throw new Error(data.message);
         }
-        setMessagesCount(data.data.unseenCnt);
+        setMessagesCount(parseInt(data.data.unseenCnt, 10));
       } catch (err) {
         toast(err.message);
       }
@@ -49,7 +55,9 @@ function NavBar() {
     const fetchCount = async () => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_API_DOMAIN}profile/unseenNotificationsCnt`,
+          `${
+            import.meta.env.VITE_API_DOMAIN
+          }notifications/unseenNotificationsCnt`,
           {
             method: 'GET',
             origin: true,
@@ -62,7 +70,6 @@ function NavBar() {
         if (data.status === false) {
           throw new Error(data.message);
         }
-        console.log(data.data);
         setNotificationsCount(data.data.unseenCnt);
       } catch (err) {
         toast(err.message);
@@ -70,6 +77,15 @@ function NavBar() {
     };
     fetchCount();
   }, []);
+
+  useEffect(() => {
+    if (socket === null) return;
+    socket.on('msg-receive', async (message) => {
+      if (message.conversationId !== chatContext.conversationId) {
+        setMessagesCount(messagesCount + 1);
+      }
+    });
+  }, [socket]);
 
   const mobileItems = [
     {

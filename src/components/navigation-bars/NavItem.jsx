@@ -6,19 +6,14 @@ import { ChatContext } from '../../hooks/ContactContext';
 function NavItem({ label, outlinedIcon, filledIcon, path, hidden = true }) {
   // eslint-disable-next-line no-unused-vars
   const location = useLocation();
-  const {
-    messagesCount,
-    setMessagesCount,
-    notificationsCount,
-    setNotificationsCount,
-  } = useContext(ChatContext);
+  const { messagesCount, notificationsCount, setNotificationsCount } =
+    useContext(ChatContext);
 
   return (
     <div className="flex content-start items-start justify-between p-3 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout  hover:dark:bg-hover-layout">
       <NavLink
         onClick={() => {
-          if (label === 'Notifications') setNotificationsCount('0');
-          if (label === 'Messages') setMessagesCount('0');
+          if (label === 'Notifications') setNotificationsCount(0);
         }}
         to={path}
         data-testid={label}
@@ -49,28 +44,24 @@ function NavItem({ label, outlinedIcon, filledIcon, path, hidden = true }) {
             </g>
           </svg>
 
-          {label === 'Notifications' &&
-            notificationsCount !== '0' &&
-            location.pathname !== '/app/notifications' && (
-              <span
-                className="absolute right-[-5px] top-[-7px] 
+          {label === 'Notifications' && notificationsCount !== 0 && (
+            <span
+              className="absolute right-[-5px] top-[-7px] 
               flex h-5 w-5 items-center justify-center rounded-full bg-blue 
               text-center text-xs font-semibold text-white"
-              >
-                {notificationsCount}
-              </span>
-            )}
-          {label === 'Messages' &&
-            messagesCount !== '0' &&
-            location.pathname !== '/app/messages' && (
-              <span
-                className="absolute right-[-5px] top-[-7px] 
+            >
+              {notificationsCount}
+            </span>
+          )}
+          {label === 'Messages' && messagesCount !== 0 && (
+            <span
+              className="absolute right-[-5px] top-[-7px] 
               flex h-5 w-5 items-center justify-center rounded-full bg-blue 
               text-center text-xs font-semibold text-white"
-              >
-                {messagesCount}
-              </span>
-            )}
+            >
+              {messagesCount}
+            </span>
+          )}
         </div>
         <div data-testid={`${label}-text`}>
           <p
