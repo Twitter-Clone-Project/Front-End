@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import BackBtn from './BackBtn';
 
 function SettingsList({ windowWidth }) {
   const list = [
@@ -22,29 +23,18 @@ function SettingsList({ windowWidth }) {
   ];
   const navigate = useNavigate();
 
-  if (windowWidth > 988 || window.location.pathname == '/app/settings') {
+  if (windowWidth > 988 || window.location.pathname === '/app/settings') {
     return (
       <div className="h-screen w-full  min-w-[318px] max-w-full flex-col border-l  border-light-gray dark:border-border-gray dark:bg-black">
-        <div className=" flex h-[53px] w-full items-center border-b border-light-gray px-4 dark:border-border-gray">
+        <div className="flex h-[57px] w-full items-center border-b border-light-gray p-2 dark:border-border-gray">
           {windowWidth < 640 && (
-            <button
-              className="mr-3"
-              type="button"
+            <BackBtn
               onClick={() => {
                 navigate(-1);
               }}
-            >
-              <div className="flex h-[34px] w-[34px] items-center justify-center rounded-full hover:bg-[#e7e7e7] dark:hover:bg-[#181919]">
-                <svg
-                  className="h-5 w-5 fill-black dark:fill-white"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M7.414 13l5.043 5.04-1.414 1.42L3.586 12l7.457-7.46 1.414 1.42L7.414 11H21v2H7.414z" />
-                </svg>
-              </div>
-            </button>
+            />
           )}
-          <p className=" text-xl font-bold text-black dark:text-white">
+          <p className=" text-xl font-semibold text-black dark:text-white">
             Settings
           </p>
         </div>

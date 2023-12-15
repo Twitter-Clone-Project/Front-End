@@ -35,7 +35,6 @@ import ChatPage from './components/Direct-Messages/ChatPage';
 import InfoPage from './components/Direct-Messages/InfoPage';
 import ComposePage from './components/Direct-Messages/ComposePage';
 
-
 TimeAgo.addDefaultLocale(en);
 
 function App() {
@@ -71,7 +70,7 @@ function App() {
       <Spinner />
     </div>
   ) : (
-    <div className="flex h-full min-h-screen overflow-auto bg-white dark:bg-pure-black">
+    <div className="flex h-full min-h-screen w-full overflow-auto bg-white dark:bg-pure-black">
       <BrowserRouter>
         <Routes>
           <Route
@@ -100,11 +99,7 @@ function App() {
           />
           <Route
             path="/forgot-password"
-            element={
-              <UnprotectedRoute>
-                <ForgotPassword />
-              </UnprotectedRoute>
-            }
+            element={<ForgotPassword />}
           />
           <Route
             path="logout"

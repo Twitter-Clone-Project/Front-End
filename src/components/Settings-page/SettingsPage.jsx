@@ -4,6 +4,7 @@ import { useAuth } from '../../hooks/AuthContext';
 import SettingsList from './SettingsList';
 import { Outlet } from 'react-router';
 import { useNavigate } from 'react-router';
+import OwnToaster from '../OwnToaster';
 
 function SettingPage() {
   const [windowWidth, setWindowWidth] = useState(window.outerWidth);
@@ -45,6 +46,7 @@ function SettingPage() {
             </button>
           )} */}
           <Outlet />
+          <OwnToaster />
         </div>
       </div>
     </div>
