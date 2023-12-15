@@ -44,15 +44,17 @@ function NavItem({ label, outlinedIcon, filledIcon, path, hidden = true }) {
             </g>
           </svg>
 
-          {label === 'Notifications' && notificationsCount !== 0 && (
-            <span
-              className="absolute right-[-5px] top-[-7px] 
+          {label === 'Notifications' &&
+            notificationsCount !== 0 &&
+            location.pathname !== '/app/notifications' && (
+              <span
+                className="absolute right-[-5px] top-[-7px] 
               flex h-5 w-5 items-center justify-center rounded-full bg-blue 
               text-center text-xs font-semibold text-white"
-            >
-              {notificationsCount}
-            </span>
-          )}
+              >
+                {notificationsCount}
+              </span>
+            )}
           {label === 'Messages' && messagesCount !== 0 && (
             <span
               className="absolute right-[-5px] top-[-7px] 

@@ -87,6 +87,15 @@ function NavBar() {
     });
   }, [socket]);
 
+  useEffect(() => {
+    if (socket === null) return;
+    socket.on('notification-receive', async () => {
+      setNotificationsCount(
+        (prevNotificationsCount) => prevNotificationsCount + 1,
+      );
+    });
+  }, [socket]);
+
   const mobileItems = [
     {
       path: './home',

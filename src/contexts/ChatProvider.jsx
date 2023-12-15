@@ -14,6 +14,8 @@ export function ChatProvider({ children }) {
   const [conversations, setConversations] = useState([]);
   const [messagesCount, setMessagesCount] = useState(0);
   const [notificationsCount, setNotificationsCount] = useState(0);
+  const [notifications, setNotifications] = useState([]);
+  const [socketNotifications, setSocketNotifications] = useState([]);
 
   const [chatContext, setChatContext] = useState({
     conversationId: '',
@@ -68,6 +70,10 @@ export function ChatProvider({ children }) {
           setNotificationsCount,
           messagesCount,
           setMessagesCount,
+          notifications,
+          setNotifications,
+          socketNotifications,
+          setSocketNotifications,
         }),
         [
           chatContext,
@@ -86,6 +92,10 @@ export function ChatProvider({ children }) {
           setNotificationsCount,
           messagesCount,
           setMessagesCount,
+          notifications,
+          setNotifications,
+          socketNotifications,
+          setSocketNotifications,
         ],
       )}
     >

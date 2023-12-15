@@ -25,11 +25,13 @@ import UpdateProfileForm from './components/user-profile-card/UpdateProfileForm'
 import TweetPage from './Pages/TweetPage';
 import LikersList from './Pages/LikersList';
 import RetweetersList from './Pages/RetweetersList';
-import { ChatProvider } from './contexts/ChatProvider';
 import ChatPage from './components/Direct-Messages/ChatPage';
 import InfoPage from './components/Direct-Messages/InfoPage';
 import ComposePage from './components/Direct-Messages/ComposePage';
 import DirectMessages from './components/Direct-Messages/DirectMessages';
+import NotificationsPage from './components/notifications/NotificationsPage';
+import All from './components/notifications/All';
+import Mentions from './components/notifications/Mentions';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -144,12 +146,21 @@ function App() {
             />
             <Route
               path="notifications"
-              element={
-                <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
-                  Notifications
-                </h1>
-              }
-            />
+              element={<NotificationsPage />}
+            >
+              <Route
+                index
+                element={<Navigate to="all" />}
+              />
+              <Route
+                path="/app/notifications/all"
+                element={<All />}
+              />
+              <Route
+                path="/app/notifications/mentions"
+                element={<Mentions />}
+              />
+            </Route>
             <Route
               exact
               path=":username"
