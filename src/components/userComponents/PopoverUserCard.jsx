@@ -18,7 +18,6 @@ function PopoverUserCard({
   popoverDiscription,
   popoverFollowing,
   popoverFollowers,
-  popoverTestID,
   popoverSetLocalIsFollowed,
   popoverIsBlocked,
 }) {
@@ -92,13 +91,13 @@ function PopoverUserCard({
   return (
     <div
       className="w-[300px] cursor-auto rounded-2xl bg-white bg-opacity-100 p-4 text-black shadow shadow-light-gray dark:bg-pure-black dark:text-white"
-      data-testid={`PopoverUserCard_${popoverTestID}_0`}
+      data-testid={`PopoverUserCard_${popoverUserID}_0`}
     >
       <div className="flex w-full flex-row justify-between">
         <Link
           to={`/app/${popoverUserID}`}
           className="hover:no-underline"
-          data-testid={`PopoverUserCard_${popoverTestID}_img`}
+          data-testid={`PopoverUserCard_${popoverUserID}_img`}
         >
           <img
             id="popoverImg"
@@ -117,7 +116,7 @@ function PopoverUserCard({
             onMouseLeave={() => {
               setPopoverButtonHovered(false);
             }}
-            data-testid={`PopoverUserCard_${popoverTestID}_1`}
+            data-testid={`PopoverUserCard_${popoverUserID}_1`}
             onClick={handelButtonClick}
             tabIndex={-6}
           >
@@ -191,7 +190,7 @@ function PopoverUserCard({
           <Link
             to={`/app/${popoverUserID}`}
             className="hover:no-underline"
-            data-testid={`PopoverUserCard_${popoverTestID}_userInf`}
+            data-testid={`PopoverUserCard_${popoverUserID}_userInf`}
           >
             <label
               htmlFor="popoverImg"
@@ -206,7 +205,7 @@ function PopoverUserCard({
               {popoverIsFollowing && (
                 <div
                   className=" ml-1 h-4 items-center rounded bg-x-light-gray px-1 py-0.5 dark:bg-border-gray"
-                  data-testid={`PopoverUserCard_${popoverTestID}_2`}
+                  data-testid={`PopoverUserCard_${popoverUserID}_2`}
                 >
                   <p className=" h-3 text-[11px] leading-3 text-light-thin">
                     Follows you
@@ -231,7 +230,7 @@ function PopoverUserCard({
               state: window.location.pathname,
             });
           }}
-          data-testid={`PopoverUserCard_${popoverTestID}_3`}
+          data-testid={`PopoverUserCard_${popoverUserID}_3`}
         >
           <span className="mr-5 cursor-pointer text-pure-black hover:underline dark:text-white">
             {popoverFollowing}
@@ -246,7 +245,7 @@ function PopoverUserCard({
               state: window.location.pathname,
             })
           }
-          data-testid={`PopoverUserCard_${popoverTestID}_4`}
+          data-testid={`PopoverUserCard_${popoverUserID}_4`}
         >
           <span className="mr-5  cursor-pointer text-pure-black hover:underline dark:text-white">
             {popoverFollowers}
@@ -266,7 +265,6 @@ PopoverUserCard.propTypes = {
   popoverDiscription: PropTypes.string.isRequired,
   popoverFollowing: PropTypes.string.isRequired,
   popoverFollowers: PropTypes.string.isRequired,
-  popoverTestID: PropTypes.number.isRequired,
 };
 
 export default PopoverUserCard;
