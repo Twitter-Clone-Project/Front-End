@@ -22,7 +22,7 @@ function TweetResults() {
         );
         const data = await response.json();
         if (data.status) setResults(() => [...data.data]);
-        console.log(data.data);
+        // console.log(data.data);
         setError('');
       } catch (err) {
         console.log(err);

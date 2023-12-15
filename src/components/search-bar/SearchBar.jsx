@@ -68,7 +68,7 @@ function SearchBar({ value, setValue }) {
   }, [value]);
   return (
     <div
-      className="flex h-auto  flex-col  py-2"
+      className="flex h-auto flex-col py-2"
       onFocus={handleInputFocus}
       data-testid="search-bar"
     >
@@ -79,7 +79,7 @@ function SearchBar({ value, setValue }) {
       >
         <div
           // eslint-disable-next-line max-len
-          className={`flex h-[42px] w-full items-center bg-[#f7f8f8] dark:bg-[#16181c] ${
+          className={`flex h-[42px] w-full min-w-[345px] items-center bg-[#f7f8f8] dark:bg-[#16181c] ${
             focus === true
               ? 'border-2 border-blue border-opacity-100 dark:bg-pure-black'
               : ''
@@ -143,7 +143,7 @@ function SearchBar({ value, setValue }) {
         {focus === true ? (
           <div
             // eslint-disable-next-line max-len
-            className={`ring-blue-500 flex min-h-[85px] w-full flex-col justify-center overflow-x-hidden overscroll-y-auto rounded-md bg-white ring-2 dark:bg-pure-black `}
+            className={`ring-blue-500 flex min-h-[85px] w-full flex-col justify-center overflow-x-hidden overscroll-y-auto rounded-md bg-white px-2 ring-2 dark:bg-pure-black`}
             data-testid="search-bar-focusfield"
           >
             {value === '' ? (

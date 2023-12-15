@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function RightNavBar() {
   const [trands, setTrends] = useState([]);
-  const [value, setValue] = useState([]);
+  const [value, setValue] = useState('');
   const [windowWidth, setWindowWidth] = useState(window.outerWidth);
 
   useEffect(() => {

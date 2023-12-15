@@ -24,7 +24,7 @@ function SearchPage() {
   ];
   return (
     <div className="flex w-full max-w-[620px] flex-col border-border-gray sm:border-x-[1px]">
-      <div className="flex w-full flex-row gap-24 border-b-[0.5px] border-b-light-gray px-2 py-2 dark:border-b-border-gray">
+      <div className="flex w-full flex-row gap-16 border-b-[0.5px] border-b-light-gray px-2 py-2 dark:border-b-border-gray md:gap-24">
         <div className="flex h-[58px] items-start pl-2">
           <div className="flex h-full items-center">
             <div
