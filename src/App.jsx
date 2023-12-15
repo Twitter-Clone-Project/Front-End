@@ -150,14 +150,19 @@ function App() {
             >
               <Route
                 index
-                element={<Navigate to="all" />}
+                element={
+                  <Navigate
+                    to="all"
+                    replace
+                  />
+                }
               />
               <Route
-                path="/app/notifications/all"
+                path="all"
                 element={<All />}
               />
               <Route
-                path="/app/notifications/mentions"
+                path="mentions"
                 element={<Mentions />}
               />
             </Route>

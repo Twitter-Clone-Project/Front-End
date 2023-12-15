@@ -9,22 +9,24 @@ export default function Mentions() {
   return (
     <div className="overflow-y-auto no-scrollbar">
       {socketNotifications &&
-        socketNotifications.map((socketNotification) => (
-          <Link
-            key={socketNotification.notificationId}
-            to={`/app/search/${socketNotification.notificationId}`}
-            className="text-black  hover:no-underline  dark:text-white"
-          >
-            <NotificationCard
+        socketNotifications
+          .filter((notification) => notification.type === 'mention')
+          .map((socketNotification) => (
+            <Link
               key={socketNotification.notificationId}
-              notificationId={socketNotification.notificationId}
-              timestamp={socketNotification.timestamp}
-              isSeen={socketNotification.isSeen}
-              content={socketNotification.content}
-              senderImgUrl={socketNotification.senderImgUrl}
-            />
-          </Link>
-        ))}
+              to={`/app/search/${socketNotification.notificationId}`}
+              className="text-black  hover:no-underline  dark:text-white"
+            >
+              <NotificationCard
+                key={socketNotification.notificationId}
+                notificationId={socketNotification.notificationId}
+                timestamp={socketNotification.timestamp}
+                isSeen={socketNotification.isSeen}
+                content={socketNotification.content}
+                senderImgUrl={socketNotification.senderImgUrl}
+              />
+            </Link>
+          ))}
       {notifications &&
         notifications
           .filter((notification) => notification.type === 'mention')

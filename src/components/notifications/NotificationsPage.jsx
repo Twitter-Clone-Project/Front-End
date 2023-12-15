@@ -9,15 +9,15 @@ function NotificationsPage() {
     useContext(ChatContext);
 
   useEffect(() => {
-    console.log(socket);
     if (socket === null) return;
     socket.on('notification-receive', async (notification) => {
+      console.log('Notification Received');
       setSocketNotifications((prevSocketNotifications) => [
         ...prevSocketNotifications,
         notification,
       ]);
     });
-  }, [socket]);
+  }, [setSocketNotifications, socket]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,12 +56,11 @@ function NotificationsPage() {
       <div className="border-b-[1px] border-[#f6f8f9]  dark:border-[#252829]">
         <ListNav
           items={[
-            { label: 'All', path: '/app/notifications' },
+            { label: 'All', path: '/app/notifications/all' },
             { label: 'Mentions', path: '/app/notifications/mentions' },
           ]}
         />
       </div>
-
       <Outlet />
     </div>
   );
