@@ -124,6 +124,9 @@ function SignUpForm({ test }) {
   }, [name]);
   useEffect(() => {
     if (!userName || usernameError) return;
+    if (userName.length < 3)
+      setUsernameError('Username must contain atleast 3 character');
+
     setUsernameLoading(true);
     const controller = new AbortController();
 
@@ -131,7 +134,7 @@ function SignUpForm({ test }) {
       const usernameCheck = async () => {
         try {
           const res = await fetch(
-            `http://${
+            `${
               import.meta.env.VITE_API_DOMAIN
             }users/${userName}/isUsernameFound`,
             {
@@ -169,9 +172,7 @@ function SignUpForm({ test }) {
       const emailCheck = async () => {
         try {
           const res = await fetch(
-            `http://${
-              import.meta.env.VITE_API_DOMAIN
-            }users/${email}/isEmailFound`,
+            `${import.meta.env.VITE_API_DOMAIN}users/${email}/isEmailFound`,
             {
               signal: controller.signal,
             },
@@ -219,19 +220,16 @@ function SignUpForm({ test }) {
         }-${dateDay < 10 ? `0${dateDay}` : `${dateDay}`}`,
         gRecaptchaResponse: cap,
       };
-      const res = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}auth/signup`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          origin: true,
-          credentials: 'include',
-          withCredentials: true,
-          body: JSON.stringify(info),
+      const res = await fetch(`${import.meta.env.VITE_API_DOMAIN}auth/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        body: JSON.stringify(info),
+      });
       const data = await res.json();
       if (data.status === false) {
         throw new Error(data.message);
@@ -272,8 +270,8 @@ function SignUpForm({ test }) {
                 />
               </div>
             )}
-            <BoxCard classes="py-6 px-12 mx-auto">
-              <div className="px-5w-full mx-auto flex min-w-[300px] flex-1 flex-col justify-between overflow-auto ">
+            <BoxCard classes="sm:px-12 mx-auto">
+              <div className="mx-auto flex w-full min-w-[300px] flex-1 flex-col justify-between overflow-auto px-5 ">
                 <div className="mx-auto flex pt-2 text-center dark:text-white">
                   <h1 className="mx-auto mt-5 flex-1 text-3xl font-bold">
                     <span>Create your account</span>

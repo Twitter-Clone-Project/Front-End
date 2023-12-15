@@ -35,7 +35,7 @@ function Button({
               backGroundColor === 'black'
                 ? 'bg-pure-black hover:bg-[#031018]'
                 : ''
-            }  ${backGroundColor === 'red' ? 'bg-[#f7e1e3] ' : ''} ${
+            }  ${backGroundColor === 'red' ? 'bg-[#f4212e] ' : ''} ${
               backGroundColorDark === 'blue'
                 ? 'dark:bg-blue dark:hover:bg-[#1a8cd8]'
                 : ''
@@ -47,9 +47,9 @@ function Button({
               backGroundColorDark === 'black'
                 ? 'dark:bg-pure-black dark:hover:bg-[#031018]'
                 : ''
-            }  ${backGroundColorDark === 'red' ? 'dark:bg-[#200a0c] ' : ''}
+            }  ${backGroundColorDark === 'red' ? 'dark:bg-[#f4212e] ' : ''}
         h-full w-full border ${borderColor === 'blue' ? 'border-blue' : ''}  ${
-          borderColor === 'white' ? 'border-white' : ''
+          borderColor === 'white' ? 'border-white dark:border-border-gray' : ''
         }  ${borderColor === 'black' ? 'border-black' : ''} ${
           borderColor === 'gray' ? 'border-light-gray' : ''
         } ${
@@ -98,7 +98,11 @@ function Button({
               backGroundColor === 'black'
                 ? 'bg-pure-black hover:bg-[#031018]'
                 : ''
-            }  ${backGroundColor === 'red' ? 'bg-[#f7e1e3] ' : ''} ${
+            }  ${backGroundColor === 'red' ? 'bg-[#f7e1e3] ' : ''}   ${
+              backGroundColor === 'warningRed'
+                ? 'bg-warning hover:bg-[#dc1e29] '
+                : ''
+            } ${
               backGroundColorDark === 'blue'
                 ? 'dark:bg-blue dark:hover:bg-[#1a8cd8]'
                 : ''
@@ -112,13 +116,15 @@ function Button({
                 : ''
             }  ${backGroundColorDark === 'red' ? 'dark:bg-[#200a0c] ' : ''}
         h-full w-full border ${borderColor === 'blue' ? 'border-blue' : ''}  ${
-          borderColor === 'white' ? 'border-white' : ''
+          borderColor === 'white' ? 'border-border-gray dark:border-white' : ''
         }  ${borderColor === 'black' ? 'border-black' : ''} ${
           borderColor === 'gray' ? 'border-light-gray' : ''
         } ${
           borderColor === 'red' ? 'border-[#fdc9ce] dark:border-[#67070f]' : ''
         }
-        ${borderColor === 'none' ? 'border-none' : ''}`}
+        ${borderColor === 'none' ? 'border-none' : ''}
+        ${disabled ? 'opacity-50' : ''}
+        `}
           />
           <div className="pointer-events-none absolute left-1/2 top-1/2 flex w-full -translate-x-1/2 -translate-y-1/2 transform justify-center">
             {path && (
@@ -139,7 +145,7 @@ function Button({
               labelColorDark === 'white' ? 'dark:text-white ' : ''
             }  ${labelColorDark === 'black' ? 'dark:text-black' : ''}
             ${labelColorDark === 'red' ? 'text-warning' : ''}
-          items-start`}
+          items-start ${disabled ? 'opacity-50' : ''}`}
             >
               {label}
             </span>

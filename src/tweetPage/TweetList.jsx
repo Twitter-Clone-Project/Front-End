@@ -1,15 +1,18 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuid4 } from 'uuid';
 import Tweet from './Tweet';
 
-function TweetList({ data }) {
+function TweetList({ data, setTweets }) {
   return (
-    <div>
+    <div className="w-full">
       {data.map((tweetItem) => (
         <Tweet
           key={uuid4()}
           data={tweetItem}
+          tweets={data}
+          setTweets={setTweets}
         />
       ))}
     </div>

@@ -1,17 +1,19 @@
 import React from 'react';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/AuthContext';
 
 function UserNavCard() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const location = useLocation();
+  console.log(location);
   const { username, name, pic, followers, following } = {
     username: user.username,
     name: user.name,
-    pic: 'https://a57.foxsports.com/statics.foxsports.com/www.foxsports.com/content/uploads/2023/06/1280/1280/084702d2-messi1.jpg?ve=1&tl=1',
-    followers: 12,
-    following: 10,
+    pic: user.imageUrl || import.meta.env.VITE_DEFAULT_AVATAR,
+    followers: user.followersCount,
+    following: user.followingsCount,
   };
   return (
     <div className="cursor-auto bg-white bg-opacity-100 p-4 text-black dark:bg-pure-black dark:text-white">
@@ -54,8 +56,12 @@ function UserNavCard() {
           role="button"
           tabIndex={-6}
           data-testid="following-btn"
-          onKeyDown={() => navigate(`/app/${username}/following`)}
-          onClick={() => navigate(`/app/${username}/following`)}
+          onKeyDown={() =>
+            navigate(`/app/${username}/following`, { state: location.pathname })
+          }
+          onClick={() =>
+            navigate(`/app/${username}/following`, { state: location.pathname })
+          }
         >
           <span className="mr-2 cursor-pointer text-pure-black hover:underline dark:text-white">
             {following}
@@ -66,8 +72,12 @@ function UserNavCard() {
           role="button"
           data-testid="followers-btn"
           tabIndex={-6}
-          onKeyDown={() => navigate(`/app/${username}/follower`)}
-          onClick={() => navigate(`/app/${username}/follower`)}
+          onKeyDown={() =>
+            navigate(`/app/${username}/followers`, { state: location.pathname })
+          }
+          onClick={() =>
+            navigate(`/app/${username}/followers`, { state: location.pathname })
+          }
         >
           <span className="mr-5  cursor-pointer text-pure-black hover:underline dark:text-white">
             {followers}

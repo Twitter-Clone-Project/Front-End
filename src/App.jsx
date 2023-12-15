@@ -1,7 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import * as React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from 'react';
-import { v4 as uuid4 } from 'uuid';
+// import { v4 as uuid4 } from 'uuid';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import LandingPage from './components/landingPage/LandingPage';
@@ -16,13 +17,23 @@ import SignUpForm from './components/sign-up/SignUpForm';
 import FollowersList from './components/userComponents/FollowersList';
 import FollowingList from './components/userComponents/FollowingList';
 import LogoutConfirm from './components/navigation-bars/LogoutConfirm';
-import DirectMessages from './components/Direct-Messages/DirectMessages';
 import Homepage from './tweetPage/Homepage';
 import ProfilePage from './components/user-profile-card/ProfilePage';
 import Posts from './components/user-profile-card/Posts';
-import Replies from './components/user-profile-card/Replies';
 import Likes from './components/user-profile-card/Likes';
-import Media from './components/user-profile-card/Media';
+import UpdateProfileForm from './components/user-profile-card/UpdateProfileForm';
+import TweetPage from './Pages/TweetPage';
+import LikersList from './Pages/LikersList';
+import RetweetersList from './Pages/RetweetersList';
+import SettingsPage from './components/Settings-page/SettingsPage';
+import AccountInfo from './components/Settings-page/AccountInfo';
+import BlockedUsers from './components/Settings-page/BlockedUsers';
+import MutedUsers from './components/Settings-page/MutedUsers';
+import ChangePassword from './components/Settings-page/ChangePassword';
+import { ChatProvider } from './contexts/ChatProvider';
+import ChatPage from './components/Direct-Messages/ChatPage';
+import InfoPage from './components/Direct-Messages/InfoPage';
+import ComposePage from './components/Direct-Messages/ComposePage';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -33,18 +44,15 @@ function App() {
     const refresh = async () => {
       try {
         setIsLoading(true);
-        const res = await fetch(
-          `http://${import.meta.env.VITE_API_DOMAIN}auth/me`,
-          {
-            origin: true,
-            credentials: 'include',
-            withCredentials: true,
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
+        const res = await fetch(`${import.meta.env.VITE_API_DOMAIN}auth/me`, {
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        );
+        });
         const data = await res.json();
         if (data.status === false) throw new Error(data.message);
         dispatch({ type: 'LOGIN', payload: data.data.user });
@@ -62,7 +70,7 @@ function App() {
       <Spinner />
     </div>
   ) : (
-    <div className="flex h-full min-h-screen overflow-auto bg-white dark:bg-pure-black">
+    <div className="flex h-full min-h-screen w-full overflow-auto bg-white dark:bg-pure-black">
       <BrowserRouter>
         <Routes>
           <Route
@@ -72,16 +80,15 @@ function App() {
                 <LandingPage />
               </UnprotectedRoute>
             }
-          >
-            <Route
-              path="/login"
-              element={
-                <UnprotectedRoute>
-                  <Login />
-                </UnprotectedRoute>
-              }
-            />
-          </Route>
+          />
+          <Route
+            path="/login"
+            element={
+              <UnprotectedRoute>
+                <Login />
+              </UnprotectedRoute>
+            }
+          />
           <Route
             path="/signup"
             element={
@@ -92,11 +99,7 @@ function App() {
           />
           <Route
             path="/forgot-password"
-            element={
-              <UnprotectedRoute>
-                <ForgotPassword />
-              </UnprotectedRoute>
-            }
+            element={<ForgotPassword />}
           />
           <Route
             path="logout"
@@ -116,20 +119,28 @@ function App() {
           >
             <Route
               index
-              element={<Navigate to="home" />}
+              element={
+                <Navigate
+                  to="home"
+                  replace
+                />
+              }
             />
             <Route
               path="home"
-              element={
-                // <h1 className="min-h-full  border-border-gray dark:text-white sm:border-x-[1px]">
-                //   <div className="flex h-full flex-col items-start justify-center">
-                //     {Array.from({ length: 100 }, () => 1).map(() => (
-                //       <span key={uuid4()}>Home</span>
-                //     ))}
-                //   </div>
-                // </h1>
-                <Homepage />
-              }
+              element={<Homepage />}
+            />
+            <Route
+              path="tweets/:tweetId"
+              element={<TweetPage />}
+            />
+            <Route
+              path="tweets/:tweetId/likes"
+              element={<LikersList />}
+            />
+            <Route
+              path="tweets/:tweetId/retweets"
+              element={<RetweetersList />}
             />
             <Route
               path="notifications"
@@ -146,19 +157,16 @@ function App() {
             >
               <Route
                 index
-                element={<Navigate to="posts" />}
+                element={
+                  <Navigate
+                    to="posts"
+                    replace
+                  />
+                }
               />
               <Route
                 path="posts"
                 element={<Posts />}
-              />
-              <Route
-                path="replies"
-                element={<Replies />}
-              />
-              <Route
-                path="media"
-                element={<Media />}
               />
               <Route
                 path="likes"
@@ -172,21 +180,59 @@ function App() {
             />
             <Route
               exact
+              path="dev/update"
+              element={<UpdateProfileForm />}
+            />
+            <Route
+              exact
               path=":username/followers"
               element={<FollowersList />}
             />
             <Route
+              exact
               path="settings"
-              element={
-                <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
-                  Settings
-                </h1>
-              }
-            />
+              element={<SettingsPage />}
+            >
+              <Route
+                exact
+                path="accountinfo"
+                element={<AccountInfo />}
+              />
+              <Route
+                exact
+                path="changepassword"
+                element={<ChangePassword />}
+              />
+              <Route
+                exact
+                path="blockedusers"
+                element={<BlockedUsers />}
+              />
+              <Route
+                exact
+                path="mutedusers"
+                element={<MutedUsers />}
+              />
+            </Route>
             <Route
-              path="messages"
-              element={<DirectMessages />}
-            />
+              path="messages/"
+              element={<ChatProvider />}
+            >
+              <Route
+                path="/app/messages/:conversationId"
+                element={<ChatPage />}
+              />
+              <Route
+                path="/app/messages/:conversationId/info"
+                element={<InfoPage />}
+              />
+
+              <Route />
+              <Route
+                path="/app/messages/compose"
+                element={<ComposePage />}
+              />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>

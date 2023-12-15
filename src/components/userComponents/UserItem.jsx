@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../form-controls/Button';
 import PopoverUserCard from './PopoverUserCard';
+import { useAuth } from '../../hooks/AuthContext';
 
 function UserItem({
   isFollowed,
@@ -17,13 +18,13 @@ function UserItem({
   discription,
   following,
   followers,
-  testID,
 }) {
   const [localIsFollowed, setLocalIsFollowed] = useState(isFollowed);
+  const { user: curUser } = useAuth();
 
   // Function to handle follow request
   const followReq = () => {
-    fetch(`http://${import.meta.env.VITE_API_DOMAIN}users/${userID}/follow`, {
+    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${userID}/follow`, {
       method: 'POST',
       origin: true,
       credentials: 'include',
@@ -31,16 +32,12 @@ function UserItem({
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        userName: { userID },
-      }),
     })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         setLocalIsFollowed(!localIsFollowed);
-        console.log(localIsFollowed);
         return response.json();
       })
       .then((data) => {
@@ -53,7 +50,7 @@ function UserItem({
 
   // Function to handle unFollow request
   const unFollowReq = () => {
-    fetch(`http://${import.meta.env.VITE_API_DOMAIN}users/${userID}/unfollow`, {
+    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${userID}/unfollow`, {
       method: 'DELETE',
       origin: true,
       credentials: 'include',
@@ -61,9 +58,6 @@ function UserItem({
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        userid: { userID },
-      }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -167,19 +161,24 @@ function UserItem({
 
   let navigate = useNavigate();
   return (
-    <div className="relative h-min w-full cursor-pointer px-4 py-3 hover:bg-[#f7f7f7] dark:hover:bg-[#080808]">
+    <div
+      className="relative h-min w-full cursor-pointer px-4 py-3 hover:bg-[#f7f7f7] dark:hover:bg-[#080808]"
+      data-testid={`UserItem_${userID}_0`}
+    >
       <Link
         to={`/app/${userID}`}
         className="hover:no-underline"
+        data-testid={`UserItem_${userID}_toUserProfile`}
       >
         <div className="flex w-full flex-row">
           <div className="mr-3 h-full w-11">
             <img
               id="img"
-              src={userPicture}
+              src={userPicture || import.meta.env.VITE_DEFAULT_AVATAR}
               alt=""
               className=" h-10 w-10 rounded-full"
               data-popover-target={popoverID}
+              data-testid={`UserItem_${userID}_img`}
             />
           </div>
           <div className="flex w-full flex-col">
@@ -189,6 +188,7 @@ function UserItem({
                   htmlFor="img"
                   className=" h-[21.5px] cursor-pointer text-[15px] font-bold text-pure-black hover:underline dark:text-white"
                   data-popover-target={popoverID}
+                  data-testid={`UserItem_${userID}_name`}
                 >
                   {userName}
                 </label>
@@ -196,13 +196,14 @@ function UserItem({
                   <span
                     className=" w-min text-light-thin"
                     data-popover-target={popoverID}
+                    data-testid={`UserItem_${userID}_userName`}
                   >
                     @{userID}
                   </span>
                   {isFollowing && (
                     <div
                       className=" ml-1 h-4 items-center rounded bg-x-light-gray px-1 py-0.5 dark:bg-border-gray"
-                      data-testid={`UserItem_${testID}_1`}
+                      data-testid={`UserItem_${userID}_1`}
                     >
                       <p className=" h-3 text-[11px] leading-3 text-light-thin">
                         Follows you
@@ -212,64 +213,68 @@ function UserItem({
                 </div>
               </div>
               <div>
-                <div
-                  className=" h-8 w-[98px] items-center"
-                  onMouseEnter={() => {
-                    setButtonHovered(true);
-                  }}
-                  onMouseLeave={() => {
-                    setButtonHovered(false);
-                  }}
-                  data-testid={`UserItem_${testID}_2`}
-                  onClick={handelFollowUnFollowButton}
-                >
-                  <Button
-                    backGroundColor={
-                      localIsFollowed
-                        ? isButtonHovered
-                          ? 'red'
+                {userID !== curUser.username ? (
+                  <div
+                    className=" h-8 w-[98px] items-center"
+                    onMouseEnter={() => {
+                      setButtonHovered(true);
+                    }}
+                    onMouseLeave={() => {
+                      setButtonHovered(false);
+                    }}
+                    data-testid={`UserItem_${userID}_2`}
+                    onClick={handelFollowUnFollowButton}
+                  >
+                    <Button
+                      backGroundColor={
+                        localIsFollowed
+                          ? isButtonHovered
+                            ? 'red'
+                            : 'white'
                           : 'white'
-                        : 'white'
-                    }
-                    backGroundColorDark={
-                      localIsFollowed
-                        ? isButtonHovered
-                          ? 'red'
+                      }
+                      backGroundColorDark={
+                        localIsFollowed
+                          ? isButtonHovered
+                            ? 'red'
+                            : 'black'
                           : 'black'
-                        : 'black'
-                    }
-                    borderColor={
-                      localIsFollowed
-                        ? isButtonHovered
-                          ? 'red'
+                      }
+                      borderColor={
+                        localIsFollowed
+                          ? isButtonHovered
+                            ? 'red'
+                            : 'gray'
                           : 'gray'
-                        : 'gray'
-                    }
-                    label={
-                      localIsFollowed
-                        ? isButtonHovered
-                          ? 'Unfollow'
-                          : 'Following'
-                        : 'Follow'
-                    }
-                    labelColor={
-                      localIsFollowed
-                        ? isButtonHovered
-                          ? 'red'
+                      }
+                      label={
+                        localIsFollowed
+                          ? isButtonHovered
+                            ? 'Unfollow'
+                            : 'Following'
+                          : 'Follow'
+                      }
+                      labelColor={
+                        localIsFollowed
+                          ? isButtonHovered
+                            ? 'red'
+                            : 'black'
                           : 'black'
-                        : 'black'
-                    }
-                    labelColorDark={
-                      localIsFollowed
-                        ? isButtonHovered
-                          ? 'red'
+                      }
+                      labelColorDark={
+                        localIsFollowed
+                          ? isButtonHovered
+                            ? 'red'
+                            : 'white'
                           : 'white'
-                        : 'white'
-                    }
-                    hight="h-8"
-                    textSize="text-sm"
-                  />
-                </div>
+                      }
+                      hight="h-8"
+                      textSize="text-sm"
+                    />
+                  </div>
+                ) : (
+                  ''
+                )}
               </div>
             </div>
             <div className=" pt-1">
@@ -285,17 +290,17 @@ function UserItem({
         data-popover
         id={popoverID}
         className="invisible absolute z-50 mt-2 w-[300px] opacity-100  transition-opacity duration-300"
-        data-testid={`UserItem_${testID}_3`}
+        data-testid={`UserItem_${userID}_3`}
       >
         <PopoverUserCard
           popoverIsFollowed={localIsFollowed}
+          popoverIsFollowing={isFollowing}
           popoverUserPicture={userPicture}
           popoverUserName={userName}
           popoverUserID={userID}
           popoverDiscription={discription}
           popoverFollowing={following}
           popoverFollowers={followers}
-          popoverTestID={testID}
           popoverSetLocalIsFollowed={setLocalIsFollowed}
         />
       </div>
@@ -312,7 +317,6 @@ UserItem.propTypes = {
   discription: PropTypes.string.isRequired,
   following: PropTypes.string.isRequired,
   followers: PropTypes.string.isRequired,
-  testID: PropTypes.number.isRequired,
 };
 
 export default UserItem;

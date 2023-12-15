@@ -51,10 +51,10 @@ function FloatingHeader({ drawerOpen, show, setDrawerOpen, handleLogout }) {
         </button>
       </div>
       <div
-        className={`fixed bottom-0 left-0 right-0 top-0 z-[30000] 
-          grid h-screen w-full -translate-x-[200vw] 
-          grid-cols-[1fr]
-          duration-300 xs:grid-cols-[5fr_2fr] ${
+        className={`xs:grid-cols-[5fr_2fr] fixed bottom-0 left-0 right-0 top-0 
+          z-[30000] grid h-screen w-full 
+          -translate-x-[200vw]
+          grid-cols-[1fr] duration-300 ${
             drawerOpen ? 'translate-x-[0px]' : ''
           }`}
       >
@@ -99,7 +99,7 @@ function FloatingHeader({ drawerOpen, show, setDrawerOpen, handleLogout }) {
         {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, 
           jsx-a11y/no-static-element-interactions */}
         <div
-          className="hidden bg-dark-layout bg-opacity-60 transition-colors duration-300 xs:flex"
+          className="bg-dark-layout xs:flex hidden bg-opacity-60 transition-colors duration-300"
           data-testid="drawer-overlay"
           onClick={() => {
             setDrawerOpen(false);

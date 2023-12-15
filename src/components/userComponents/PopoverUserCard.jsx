@@ -7,34 +7,34 @@ import PropTypes from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../form-controls/Button';
 
+import { useAuth } from '../../hooks/AuthContext';
+
 function PopoverUserCard({
   popoverIsFollowed,
+  popoverIsFollowing,
   popoverUserPicture,
   popoverUserName,
   popoverUserID,
   popoverDiscription,
   popoverFollowing,
   popoverFollowers,
-  popoverTestID,
   popoverSetLocalIsFollowed,
+  popoverIsBlocked,
 }) {
+  const { user: curUser } = useAuth();
+
   // Function to handle follow request
+
   const followReq = () => {
-    fetch(
-      `http://${import.meta.env.VITE_API_DOMAIN}users/${popoverUserID}/follow`,
-      {
-        method: 'POST',
-        origin: true,
-        credentials: 'include',
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userid: { popoverUserID },
-        }),
+    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${popoverUserID}/follow`, {
+      method: 'POST',
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
       },
-    )
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -52,23 +52,15 @@ function PopoverUserCard({
 
   // Function to handle unFollow request
   const unFollowReq = () => {
-    fetch(
-      `http://${
-        import.meta.env.VITE_API_DOMAIN
-      }users/${popoverUserID}/unfollow`,
-      {
-        method: 'DELETE',
-        origin: true,
-        credentials: 'include',
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userid: { popoverUserID },
-        }),
+    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${popoverUserID}/unfollow`, {
+      method: 'DELETE',
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
       },
-    )
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -84,87 +76,121 @@ function PopoverUserCard({
       });
   };
 
+  const handelButtonClick = () => {
+    if (!popoverIsBlocked) {
+      if (popoverIsFollowed) {
+        unFollowReq();
+      } else {
+        followReq();
+      }
+    }
+  };
+
   const [isPopoverButtonHovered, setPopoverButtonHovered] = useState(false);
   const navigate = useNavigate();
   return (
-    <div className="w-[300px] cursor-auto rounded-2xl bg-white bg-opacity-100 p-4 text-black shadow shadow-light-gray dark:bg-pure-black dark:text-white">
+    <div
+      className="w-[300px] cursor-auto rounded-2xl bg-white bg-opacity-100 p-4 text-black shadow shadow-light-gray dark:bg-pure-black dark:text-white"
+      data-testid={`PopoverUserCard_${popoverUserID}_0`}
+    >
       <div className="flex w-full flex-row justify-between">
         <Link
           to={`/app/${popoverUserID}`}
           className="hover:no-underline"
+          data-testid={`PopoverUserCard_${popoverUserID}_img`}
         >
           <img
             id="popoverImg"
-            src={popoverUserPicture}
+            src={popoverUserPicture || import.meta.env.VITE_DEFAULT_AVATAR}
             alt=""
             className=" h-16 w-16 rounded-full"
           />
         </Link>
-        <div
-          className=" h-9 w-28"
-          onMouseEnter={() => {
-            setPopoverButtonHovered(true);
-          }}
-          onMouseLeave={() => {
-            setPopoverButtonHovered(false);
-          }}
-          data-testid={`PopoverUserCard_${popoverTestID}_1`}
-          onClick={() => {
-            popoverIsFollowed ? unFollowReq() : followReq();
-          }}
-        >
-          <Button
-            backGroundColor={
-              popoverIsFollowed
-                ? isPopoverButtonHovered
-                  ? 'red'
+        {popoverUserID !== curUser.username ? (
+          <div
+            role="button"
+            className=" h-9 w-28"
+            onMouseEnter={() => {
+              setPopoverButtonHovered(true);
+            }}
+            onMouseLeave={() => {
+              setPopoverButtonHovered(false);
+            }}
+            data-testid={`PopoverUserCard_${popoverUserID}_1`}
+            onClick={handelButtonClick}
+            tabIndex={-6}
+          >
+            <Button
+              backGroundColor={
+                popoverIsBlocked
+                  ? 'warningRed'
+                  : popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'red'
+                    : 'white'
                   : 'white'
-                : 'white'
-            }
-            backGroundColorDark={
-              popoverIsFollowed
-                ? isPopoverButtonHovered
-                  ? 'red'
+              }
+              backGroundColorDark={
+                popoverIsBlocked
+                  ? 'warningRed'
+                  : popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'red'
+                    : 'black'
                   : 'black'
-                : 'black'
-            }
-            borderColor={
-              popoverIsFollowed
-                ? isPopoverButtonHovered
-                  ? 'red'
+              }
+              borderColor={
+                popoverIsBlocked
+                  ? 'none'
+                  : popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'red'
+                    : 'gray'
                   : 'gray'
-                : 'gray'
-            }
-            label={
-              popoverIsFollowed
-                ? isPopoverButtonHovered
-                  ? 'Unfollow'
-                  : 'Following'
-                : 'Follow'
-            }
-            labelColor={
-              popoverIsFollowed
-                ? isPopoverButtonHovered
-                  ? 'red'
+              }
+              label={
+                popoverIsBlocked
+                  ? isPopoverButtonHovered
+                    ? 'Blocked'
+                    : 'Blocked'
+                  : popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'Unfollow'
+                    : 'Following'
+                  : 'Follow'
+              }
+              labelColor={
+                popoverIsBlocked
+                  ? 'white'
+                  : popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'red'
+                    : 'black'
                   : 'black'
-                : 'black'
-            }
-            labelColorDark={
-              popoverIsFollowed
-                ? isPopoverButtonHovered
-                  ? 'red'
+              }
+              labelColorDark={
+                popoverIsBlocked
+                  ? 'white'
+                  : popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'red'
+                    : 'white'
                   : 'white'
-                : 'white'
-            }
-            hight="h-9"
-          />
-        </div>
+              }
+              hight="h-9"
+              textSize="text-sm"
+            />
+          </div>
+        ) : (
+          ''
+        )}
       </div>
       <div className=" mt-2">
         <div className="flex h-[41.5px] flex-col">
           <Link
             to={`/app/${popoverUserID}`}
             className="hover:no-underline"
+            data-testid={`PopoverUserCard_${popoverUserID}_userInf`}
           >
             <label
               htmlFor="popoverImg"
@@ -176,10 +202,10 @@ function PopoverUserCard({
               <span className=" w-min cursor-pointer text-light-thin">
                 @{popoverUserID}
               </span>
-              {popoverIsFollowed && (
+              {popoverIsFollowing && (
                 <div
                   className=" ml-1 h-4 items-center rounded bg-x-light-gray px-1 py-0.5 dark:bg-border-gray"
-                  data-testid={`PopoverUserCard_${popoverTestID}_2`}
+                  data-testid={`PopoverUserCard_${popoverUserID}_2`}
                 >
                   <p className=" h-3 text-[11px] leading-3 text-light-thin">
                     Follows you
@@ -197,8 +223,14 @@ function PopoverUserCard({
       </div>
       <div className="mt-3 flex flex-row">
         <div
-          onClick={() => navigate(`/app/${popoverUserID}/following`)}
-          data-testid={`PopoverUserCard_${popoverTestID}_3`}
+          role="button"
+          tabIndex={-6}
+          onClick={() => {
+            navigate(`/app/${popoverUserID}/following`, {
+              state: window.location.pathname,
+            });
+          }}
+          data-testid={`PopoverUserCard_${popoverUserID}_3`}
         >
           <span className="mr-5 cursor-pointer text-pure-black hover:underline dark:text-white">
             {popoverFollowing}
@@ -206,8 +238,14 @@ function PopoverUserCard({
           </span>
         </div>
         <div
-          onClick={() => navigate(`/app/${popoverUserID}/follower`)}
-          data-testid={`PopoverUserCard_${popoverTestID}_4`}
+          role="button"
+          tabIndex={-6}
+          onClick={() =>
+            navigate(`/app/${popoverUserID}/followers`, {
+              state: window.location.pathname,
+            })
+          }
+          data-testid={`PopoverUserCard_${popoverUserID}_4`}
         >
           <span className="mr-5  cursor-pointer text-pure-black hover:underline dark:text-white">
             {popoverFollowers}
@@ -227,7 +265,6 @@ PopoverUserCard.propTypes = {
   popoverDiscription: PropTypes.string.isRequired,
   popoverFollowing: PropTypes.string.isRequired,
   popoverFollowers: PropTypes.string.isRequired,
-  popoverTestID: PropTypes.number.isRequired,
 };
 
 export default PopoverUserCard;

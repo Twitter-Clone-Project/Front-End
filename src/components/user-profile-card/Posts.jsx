@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import toast from 'react-hot-toast';
+import { useParams } from 'react-router';
 import NoResults from './NoResults';
-import { useAuth } from '../../hooks/AuthContext';
 import TweetList from '../../tweetPage/TweetList';
 import DotLoader from './DotLoader';
 import OwnToaster from '../OwnToaster';
+import { useAuth } from '../../hooks/AuthContext';
 
 function Posts() {
   const [page, setPage] = useState(2);
@@ -13,16 +14,42 @@ function Posts() {
   const [isLoading, setIsLoading] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const [initialDone, setInitialDone] = useState(false);
+  const { username } = useParams('username');
+  const { user: curUser, dispatch } = useAuth();
+  const [user, setUser] = useState({});
 
-  const { user } = useAuth();
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_API_DOMAIN}profile/${username}`,
+          {
+            method: 'GET',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+          },
+        );
+        const data = await res.json();
+        if (data.status === false) throw new Error(data.message);
+        setUser(data.data.user);
+        if (username === curUser.username)
+          dispatch({ type: 'LOGIN', payload: data.data.user });
+      } catch (err) {
+        toast(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchUser();
+  }, [dispatch, username]);
+
   const fetchTweets = useCallback(async () => {
     if (isLoading || isDone) return;
     try {
       setIsLoading(true);
       const response = await fetch(
-        `http://${import.meta.env.VITE_API_DOMAIN}users/${
-          user.userId
-        }/tweets/${page}`,
+        `${import.meta.env.VITE_API_DOMAIN}users/${username}/tweets/${page}`,
         {
           method: 'GET',
           origin: true,
@@ -31,8 +58,9 @@ function Posts() {
         },
       );
       const data = await response.json();
+      if (!data.status) throw new Error(data.message);
       if (data.data.length === 0) setIsDone(true);
-      setPosts((prevTweets) => [...prevTweets, ...data.data]);
+      else setPosts((prevTweets) => [...prevTweets, ...data.data]);
       setError('');
       setPage((pn) => pn + 1);
     } catch (err) {
@@ -40,16 +68,14 @@ function Posts() {
     } finally {
       setIsLoading(false);
     }
-  }, [isLoading, page, isDone, user]);
+  }, [isLoading, page, isDone, username]);
 
   useEffect(() => {
     const getInitialTweets = async () => {
       try {
         setIsLoading(true);
         const response = await fetch(
-          `http://${import.meta.env.VITE_API_DOMAIN}users/${
-            user.userId
-          }/tweets/1`,
+          `${import.meta.env.VITE_API_DOMAIN}users/${username}/tweets/1`,
           {
             method: 'GET',
             origin: true,
@@ -69,7 +95,7 @@ function Posts() {
       }
     };
     getInitialTweets();
-  }, [user]);
+  }, [username]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -88,17 +114,26 @@ function Posts() {
   }, [error]);
 
   return (
-    <>
-      {initialDone && posts.length === 0 ? (
-        <NoResults title=" There are No posts yet" />
-      ) : (
-        <div className="flex w-full flex-col items-center gap-5">
-          <TweetList data={posts} />
-          {isLoading && <DotLoader />}
+    <div data-testid={`${username}-Posts`}>
+      {!user.isBlockingMe ? (
+        <div>
+          {initialDone && posts.length === 0 ? (
+            <NoResults title=" There are No posts yet" />
+          ) : (
+            <div
+              data-testid="posts-list"
+              className="flex w-full flex-col items-center gap-5"
+            >
+              <TweetList data={posts} />
+              {isLoading && <DotLoader />}
+            </div>
+          )}
+          <OwnToaster />
         </div>
+      ) : (
+        <NoResults title="You’re blocked" />
       )}
-      <OwnToaster />
-    </>
+    </div>
   );
 }
 
