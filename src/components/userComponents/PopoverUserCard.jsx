@@ -185,26 +185,29 @@ function PopoverUserCard({
           ''
         )}
       </div>
-      <div className=" mt-2">
-        <div className="flex h-[41.5px] flex-col">
+      <div className="mt-2 w-full">
+        <div className="flex h-[41.5px] flex-col overflow-ellipsis">
           <Link
             to={`/app/${popoverUserID}`}
-            className="hover:no-underline"
+            className="max-w-full hover:no-underline"
             data-testid={`PopoverUserCard_${popoverUserID}_userInf`}
           >
-            <label
-              htmlFor="popoverImg"
-              className="cursor-pointer text-[15px] font-bold text-pure-black hover:underline dark:text-white"
-            >
-              {popoverUserName}
-            </label>
-            <div className="flex h-5 flex-row items-center">
-              <span className=" w-min cursor-pointer text-light-thin">
+            <div className="flex max-w-full">
+              <span
+                htmlFor="popoverImg"
+                className="w-min max-w-full cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-[15px] font-bold text-pure-black hover:underline dark:text-white"
+              >
+                {popoverUserName}
+              </span>
+            </div>
+
+            <div className="flex h-5 max-w-full flex-row items-center">
+              <span className=" w-min max-w-[196px] cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-light-thin">
                 @{popoverUserID}
               </span>
               {popoverIsFollowing && (
                 <div
-                  className=" ml-1 h-4 items-center rounded bg-x-light-gray px-1 py-0.5 dark:bg-border-gray"
+                  className="ml-1 h-4 min-w-[66.08px] items-center rounded bg-x-light-gray px-1 py-0.5 dark:bg-border-gray"
                   data-testid={`PopoverUserCard_${popoverUserID}_2`}
                 >
                   <p className=" h-3 text-[11px] leading-3 text-light-thin">
