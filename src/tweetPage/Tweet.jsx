@@ -288,7 +288,7 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             <div className="flex flex-wrap">
               <div className="userName max-w-[150px] overflow-hidden truncate break-words  text-[15px] text-dark-gray">
                 {' '}
-                &ensp;@<span>{data.user.username}</span>
+                &ensp;@<span>{data.user.username || data.user.userName}</span>
               </div>
 
               <div className="date overflow-hidden break-keep text-[15px] text-dark-gray">
