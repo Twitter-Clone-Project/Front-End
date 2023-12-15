@@ -158,9 +158,6 @@ function UserActions({ user }) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        userid: user.username,
-      }),
     })
       .then((response) => {
         if (!response.ok) {
