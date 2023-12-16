@@ -10,6 +10,7 @@ import FloatingHeader from './FloatingHeader';
 import UserImg from './UserImg';
 import ComposePost from '../compose-popup/ComposePost';
 import { ChatContext } from '../../hooks/ContactContext';
+import { useLocation } from 'react-router-dom';
 
 function NavBar() {
   const { user } = useAuth();
@@ -21,6 +22,7 @@ function NavBar() {
     socket,
     chatContext,
   } = useContext(ChatContext);
+  const location = useLocation();
 
   // Messages
   useEffect(() => {
@@ -88,8 +90,19 @@ function NavBar() {
   }, [socket]);
 
   useEffect(() => {
-    if (socket === null) return;
-    socket.on('notification-receive', async () => {
+    console.log('in NavBar');
+    if (
+      socket === null ||
+      location.pathname === '/app/notifications/all' ||
+      location.pathname === '/app/notifications/mentions'
+    ) {
+      setNotificationsCount(0);
+      return;
+    }
+
+    socket.on('notification-receive', async (notification) => {
+      console.log('navbar', location.pathname);
+      console.log('navbar increase count');
       setNotificationsCount(
         (prevNotificationsCount) => prevNotificationsCount + 1,
       );

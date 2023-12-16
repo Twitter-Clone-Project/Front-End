@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
+
 import toast from 'react-hot-toast';
 import { ChatContext } from '../../hooks/ContactContext';
 import ListNav from '../navigation-bars/ListNav';
@@ -7,17 +8,24 @@ import ListNav from '../navigation-bars/ListNav';
 function NotificationsPage() {
   const { socket, setNotifications, setSocketNotifications } =
     useContext(ChatContext);
+  const location = useLocation();
 
   useEffect(() => {
-    if (socket === null) return;
+    console.log('in Notification page');
+    if (
+      socket === null ||
+      (location.pathname !== '/app/notifications/all' &&
+        location.pathname !== '/app/notifications/mentions')
+    )
+      return;
     socket.on('notification-receive', async (notification) => {
-      console.log('Notification Received');
+      console.log('Add Notification to the socket list');
       setSocketNotifications((prevSocketNotifications) => [
         ...prevSocketNotifications,
         notification,
       ]);
     });
-  }, [setSocketNotifications, socket]);
+  }, [socket, location.pathname]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,6 +51,13 @@ function NotificationsPage() {
     };
     fetchData();
   }, []);
+
+  useEffect(
+    () => () => {
+      setSocketNotifications([]);
+    },
+    [],
+  );
 
   return (
     <div className="flex h-screen w-full flex-col border-x-[1px] border-[#f6f8f9] dark:border-[#252829]">
