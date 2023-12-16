@@ -2,6 +2,7 @@ import React, { useReducer, useRef, useState, useEffect, useMemo } from 'react';
 import moment from 'moment/moment';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
+import validator from 'validator';
 import BoxCard from '../BoxCard';
 import Button from '../form-controls/Button';
 import NameInput from '../form-controls/nameInput';
@@ -157,6 +158,12 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
     DOBInitialState,
     curBanner,
   ]);
+  useEffect(() => {
+    if (validator.isAlpha(name, 'en-US', { ignore: ' ' }))
+      if (name.length < 2) setNameErr('Name must contain atleast 2 character');
+      else setNameErr('');
+    else if (name) setNameErr('Name can only contain letters.');
+  }, [name]);
   return (
     <div
       data-testid="update-profile-form"
