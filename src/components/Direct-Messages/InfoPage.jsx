@@ -84,8 +84,8 @@ export default function InfoPage() {
         <div className="flex h-[53px] items-center gap-7  px-4">
           <div>
             <Link
-              style={{ textDecoration: 'inherit' }}
-              to={`/app/messages/${chatContext.contact.name}`}
+              className=" hover:no-underline"
+              to={`/app/messages/${chatContext.contact.username}`}
             >
               <div className="flex h-[34px] w-[34px] items-center justify-center rounded-full hover:bg-[#e7e7e7] dark:hover:bg-[#181919]">
                 <svg

@@ -31,9 +31,6 @@ function UserActions({ user }) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        userName: user.username,
-      }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -60,9 +57,6 @@ function UserActions({ user }) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        userName: user.username,
-      }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -88,9 +82,6 @@ function UserActions({ user }) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        userName: user.username,
-      }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -116,9 +107,6 @@ function UserActions({ user }) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        userName: user.username,
-      }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -144,9 +132,6 @@ function UserActions({ user }) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        userName: user.username,
-      }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -173,9 +158,6 @@ function UserActions({ user }) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        userid: user.username,
-      }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -205,14 +187,14 @@ function UserActions({ user }) {
 
   return (
     <div
-      className="flex w-full flex-row justify-between gap-4"
-      data-testid={`${user.userName}-UserActios-1`}
+      className="flex w-full flex-row justify-between"
+      data-testid={`${user.username}-UserActions-1`}
     >
       <div className="relative mr-2 min-w-[1rem]">
         <div
           className="absolute mr-2 flex h-9 w-9 items-center justify-center rounded-full border border-[#cfd9de] hover:bg-x-light-gray dark:border-border-gray dark:hover:bg-[#181919]"
           onClick={() => setDropDownVisible(true)}
-          data-testid={`${user.userName}-UserActios-2`}
+          data-testid={`${user.username}-UserActions-2`}
         >
           <svg
             viewBox="0 0 24 24"
@@ -230,18 +212,18 @@ function UserActions({ user }) {
         {dropDownVisible && (
           <div
             ref={dropDownRef}
-            className="absolute -right-9 top-0 w-max rounded-lg bg-white shadow shadow-light-gray dark:bg-pure-black"
-            data-testid={`${user.userName}-UserActios-3`}
+            className="absolute -right-3 top-2 w-max rounded-lg bg-white shadow shadow-light-gray dark:bg-pure-black"
+            data-testid={`${user.username}-UserActions-3`}
           >
             {!localIsBlocked && (
               <div
                 className="flex h-11 flex-row px-4 py-3 hover:bg-[#f7f9f9] dark:hover:bg-[#16181c]"
                 onClick={localIsMuted ? unMuteReq : muteReq}
-                data-testid={`${user.userName}-UserActios-4`}
+                data-testid={`${user.username}-UserActions-4`}
               >
                 <div
                   className="pr-3"
-                  data-testid={`${user.userName}-UserActios-5`}
+                  data-testid={`${user.username}-UserActions-5`}
                 >
                   <svg
                     viewBox="0 0 24 24"
@@ -266,11 +248,11 @@ function UserActions({ user }) {
             <div
               className="flex h-11 flex-row px-4 py-3 hover:bg-[#f7f9f9] dark:hover:bg-[#16181c]"
               onClick={localIsBlocked ? unBlockReq : blockReq}
-              data-testid={`${user.userName}-UserActios-6`}
+              data-testid={`${user.username}-UserActions-6`}
             >
               <div
                 className="pr-3"
-                data-testid={`${user.userName}-UserActios-7`}
+                data-testid={`${user.username}-UserActions-7`}
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -296,7 +278,7 @@ function UserActions({ user }) {
       </div>
       {!user.isBlockingMe && (
         <div
-          className="flex h-9 w-[8rem] items-center"
+          className="flex h-9 w-[103px] items-center"
           onMouseEnter={() => {
             setButtonHovered(true);
           }}
@@ -304,7 +286,7 @@ function UserActions({ user }) {
             setButtonHovered(false);
           }}
           onClick={handelActionButton}
-          data-testid={`${user.userName}-UserActios-8`}
+          data-testid={`${user.username}-UserActions-8`}
         >
           <Button
             backGroundColor={

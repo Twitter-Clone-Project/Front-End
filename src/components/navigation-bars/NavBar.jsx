@@ -7,9 +7,11 @@ import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
 import FloatingHeader from './FloatingHeader';
 import UserImg from './UserImg';
+import ComposePost from '../compose-popup/ComposePost';
 
 function NavBar() {
   const { user } = useAuth();
+  const [composeOpen, setComposeOpen] = useState(false);
   const mobileItems = [
     {
       path: './home',
@@ -136,8 +138,9 @@ function NavBar() {
     <div
       ref={screen}
       data-testid="nav-bar"
-      className="mx-auto flex w-0 items-start justify-center overflow-auto dark:bg-pure-black sm:mt-auto sm:h-full sm:w-[76px] mlg:w-[280px]"
+      className="mx-auto flex w-0 items-start justify-center dark:bg-pure-black sm:mt-auto sm:h-full sm:w-[76px] mlg:w-[280px]"
     >
+      {composeOpen && <ComposePost setComposeOpen={setComposeOpen} />}
       <FloatingHeader
         drawerOpen={drawerOpen}
         show={show}
@@ -154,7 +157,7 @@ function NavBar() {
           sm:items-start sm:justify-between sm:gap-1 sm:border-0 sm:px-2 
           ${!show ? 'opacity-30 sm:opacity-100' : ''}`}
         >
-          <div className="mb-4 hidden overflow-auto p-3 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:flex">
+          <div className="mb-4 hidden max-w-[230px] p-3 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:flex">
             <Link to="/">
               <svg
                 className="inline-block w-[1.9rem] fill-pure-black dark:fill-white"
@@ -173,7 +176,7 @@ function NavBar() {
               </svg>
             </Link>
           </div>
-          <div className="hidden overflow-auto sm:contents">
+          <div className="hidden max-w-[230px] sm:contents">
             {items.map((item) => (
               <NavItem
                 key={uuid4()}
@@ -184,7 +187,7 @@ function NavBar() {
               />
             ))}
           </div>
-          <div className="contents overflow-auto sm:hidden">
+          <div className="contents max-w-[230px] sm:hidden">
             {mobileItems.map((item) => (
               <NavItem
                 key={uuid4()}
@@ -199,6 +202,7 @@ function NavBar() {
           <div className="absolute mx-auto hidden w-full  items-center justify-center rounded-full sm:relative mlg:flex">
             <Button
               label="Post"
+              onClick={() => setComposeOpen(true)}
               backGroundColor="blue"
               backGroundColorDark="blue"
               labelColor="white"
@@ -209,6 +213,7 @@ function NavBar() {
           </div>
           <div className="absolute bottom-24 right-3  mt-3 flex w-[full] items-center justify-center rounded-full bg-blue p-4 hover:cursor-pointer hover:bg-opacity-90 sm:relative sm:bottom-0 sm:right-0 mlg:hidden">
             <button
+              onClick={() => setComposeOpen(true)}
               type="submit"
               className="flex-1"
             >
@@ -225,7 +230,7 @@ function NavBar() {
               </svg>
             </button>
           </div>
-          <div className="absolute bottom-24 right-0 mx-auto my-6 hidden w-full items-center justify-between justify-self-end p-2 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:relative sm:bottom-0 sm:right-0 sm:flex sm:items-start">
+          <div className="absolute bottom-24 right-0 mx-auto my-6 hidden w-full max-w-[230px] items-center justify-between justify-self-end p-2 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:relative sm:bottom-0 sm:right-0 sm:flex sm:items-start">
             <button
               type="submit"
               data-testid="user-btn"
@@ -234,7 +239,7 @@ function NavBar() {
               <UserImg user={user} />
               <p
                 className="
-                hidden max-w-[250px] truncate px-2
+                hidden max-w-[150px] truncate px-2
               text-sm font-semibold tracking-wide dark:text-white lg:flex-1 lg:flex-col lg:items-start mlg:flex"
               >
                 <span className="name">{user.name}</span>
@@ -245,7 +250,7 @@ function NavBar() {
               <span className="hidden items-center justify-center px-2 text-xs font-medium tracking-wider dark:text-white mlg:flex">
                 &bull;&bull;&bull;
               </span>
-              <div className="absolute bottom-0 left-0 top-0 z-50 hidden h-full w-full group-focus-within:flex dark:text-white  ">
+              <div className="absolute bottom-0  left-0 top-0 z-50 hidden h-full w-full group-focus-within:flex dark:text-white  ">
                 <div className="absolute bottom-14 left-0 flex w-64 items-center justify-start rounded-2xl bg-white py-4 shadow-[rgba(100,100,100,0.5)_0px_0.5px_4px] dark:bg-pure-black dark:shadow-[rgba(100,100,100,0.7)_0px_0.5px_4px]">
                   <div className="flex flex-1 justify-start px-3 hover:bg-light-hover-layout  hover:dark:bg-hover-layout">
                     <div
@@ -254,7 +259,7 @@ function NavBar() {
                       tabIndex={-6}
                       onClick={handleLogout}
                       onKeyDown={handleLogout}
-                      className="z-50 flex-1 p-3 text-start"
+                      className="z-50 max-w-[230px] flex-1 truncate p-3 text-start"
                     >
                       Log Out @{user.username}
                     </div>

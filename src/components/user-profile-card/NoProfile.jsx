@@ -36,7 +36,7 @@ function NoProfile() {
               <div className="flex h-[41.5px] flex-col">
                 <span
                   data-testid={name}
-                  className="text-xl font-bold text-pure-black dark:text-white"
+                  className="max-w-[250px] truncate break-words text-xl font-bold text-pure-black dark:text-white"
                 >
                   @{name}
                 </span>

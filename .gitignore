@@ -26,5 +26,6 @@ dist-ssr
 *.env
 coverage
 .vite
+.env
 app.crt
 app.key

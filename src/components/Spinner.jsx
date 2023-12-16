@@ -9,7 +9,7 @@ function Spinner() {
       sm:h-[650px] sm:w-[600px] sm:rounded-2xl"
     >
       <div className="flex h-full w-full flex-1 items-center justify-center">
-        <div className="loader h-10 w-10" />
+        <div className="loader h-6 w-6" />
       </div>
     </div>
   );
