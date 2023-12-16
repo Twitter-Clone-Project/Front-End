@@ -40,7 +40,7 @@ import UpdateUsername from './components/Settings-page/UpdateUsername';
 TimeAgo.addDefaultLocale(en);
 
 function App() {
-  const { dispatch } = useAuth();
+  const { dispatch, user } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   React.useEffect(() => {
     const refresh = async () => {
@@ -199,7 +199,7 @@ function App() {
                 exact
                 path="accountinfo"
                 element={<AccountInfo />}
-              ></Route>
+              />
               <Route
                 exact
                 path="accountinfo/updateemail"
