@@ -87,7 +87,7 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
               <div className="bio mb-2 max-w-[95%]">
                 <p
                   data-testid="user-bio"
-                  className=""
+                  className="whitespace-break-spaces break-words"
                 >
                   {user.bio}
                 </p>
