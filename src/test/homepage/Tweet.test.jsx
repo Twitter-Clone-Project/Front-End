@@ -191,7 +191,11 @@ describe('Tweet', () => {
 
     const replybtn = getByTestId(`${data[0].id}reply`);
     fireEvent.click(replybtn);
-    expect(navigate).toHaveBeenCalledWith(`/app/tweet`, expect.any(Object));
+    expect(navigate).toHaveBeenCalledTimes(1);
+    expect(navigate).toHaveBeenCalledWith(
+      `/app/tweet/${data[0].id}`,
+      expect.any(Object),
+    );
 
     // screen.debug();
   });

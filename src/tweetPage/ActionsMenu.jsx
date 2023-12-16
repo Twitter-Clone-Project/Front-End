@@ -239,17 +239,17 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
   return (
     <div
       ref={dropdownRef}
-      className="dropdown flex scale-75"
+      className="dropdown relative flex "
     >
       <button
         type="submit"
         data-testid={`${tweet.id}menubtn`}
         onClick={() => showMenu()}
-        className="dropbtn group  rounded-full hover:bg-[#e1eef6] dark:hover:bg-[#0a171f]"
+        className="dropbtn group relative  rounded-full hover:bg-[#e1eef6] dark:hover:bg-[#0a171f]"
       >
         <svg
           viewBox="0 0 25 25"
-          className="h-[24px] w-[24px]  "
+          className="relative h-[24px] w-[24px] "
         >
           <path
             className="fill-dark-gray group-hover:fill-blue "
@@ -261,10 +261,10 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
         <div
           id="myDropdown"
           data-testid={`${tweet.id}menu`}
-          className="dropdown-content absolute right-[-10px] z-10 flex w-[480px] flex-col rounded-2xl bg-white py-3 shadow dark:bg-pure-black dark:text-white dark:shadow-white"
+          className="dropdown-content absolute right-0  z-10 flex w-[200px] flex-col rounded-2xl bg-white py-3 shadow dark:bg-pure-black dark:text-white dark:shadow-white sm:w-[250px] md:w-[280px]"
         >
           {userId !== user.userId && (
-            <div className="anotheruser  h-[220px] py-3">
+            <div className="anotheruser  h-[200px] py-3">
               <button
                 type="submit"
                 onClick={() => handleFollow()}
@@ -274,7 +274,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
                   <div className="py-5 pl-4">
                     <svg
                       viewBox="0 0 25 25"
-                      className="h-[25px] w-[25px]  "
+                      className="h-[20px] w-[20px]  "
                     >
                       {!tweet.user.isFollowed && (
                         <path
@@ -291,12 +291,12 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
                     </svg>
                   </div>
                   {!tweet.user.isFollowed && (
-                    <div className="h-[60px]  px-[14px] py-[16px] text-[20px] font-semibold">
+                    <div className="h-[50px]  px-[14px] py-[16px] text-[15px] font-semibold">
                       Follow @{tweet.user.username}
                     </div>
                   )}
                   {tweet.user.isFollowed && (
-                    <div className="h-[60px]  px-[14px] py-[16px] text-[20px] font-semibold">
+                    <div className="h-[50px]  px-[14px] py-[16px] text-[15px] font-semibold">
                       Unfollow @{tweet.user.username}
                     </div>
                   )}
@@ -311,7 +311,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
                   <div className="py-5 pl-4">
                     <svg
                       viewBox="0 0 25 25"
-                      className="h-[25px] w-[25px]  "
+                      className="h-[20px] w-[20px]  "
                     >
                       <path
                         className="dark:fill-white"
@@ -319,7 +319,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
                       />
                     </svg>
                   </div>
-                  <div className="h-[60px]  px-[14px] py-[16px] text-[20px] font-semibold">
+                  <div className="h-[50px]  px-[14px] py-[16px] text-[15px] font-semibold">
                     Mute @{tweet.user.username}
                   </div>
                 </div>
@@ -333,7 +333,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
                   <div className="py-5 pl-4">
                     <svg
                       viewBox="0 0 25 25"
-                      className="h-[25px] w-[25px]  "
+                      className="h-[20px] w-[20px]  "
                     >
                       <path
                         className="dark:fill-white"
@@ -341,7 +341,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
                       />
                     </svg>
                   </div>
-                  <div className="h-[60px]  px-[14px] py-[16px] text-[20px] font-semibold">
+                  <div className="h-[50px]  px-[14px] py-[16px] text-[15px] font-semibold">
                     Block @{tweet.user.username}
                   </div>
                 </div>
@@ -353,11 +353,11 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
               type="submit"
               onClick={() => handleDelete()}
             >
-              <div className="me flex h-[70px] flex-row text-warning  hover:bg-xx-light-gray dark:hover:bg-[#080808] ">
-                <div className="py-5 pl-4">
+              <div className="me flex h-[60px] flex-row text-warning  hover:bg-xx-light-gray dark:hover:bg-[#080808] ">
+                <div className="py-4 pl-4">
                   <svg
                     viewBox="0 0 25 25"
-                    className="h-[25px] w-[25px] "
+                    className="h-[20px] w-[20px] "
                   >
                     <path
                       className=" fill-warning "
@@ -365,7 +365,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
                     />
                   </svg>
                 </div>
-                <div className="h-[60px]  px-[14px] py-[16px] text-[20px] font-semibold">
+                <div className="h-[50px]  px-[14px] py-[16px] text-[15px] font-semibold">
                   Delete
                 </div>
               </div>

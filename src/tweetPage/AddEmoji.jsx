@@ -25,6 +25,7 @@ function AddEmoji({ text, setText }) {
       >
         <button
           type="submit"
+          data-testid="emojiBtn"
           onClick={handelEmojiPicker}
         >
           <svg
@@ -37,12 +38,17 @@ function AddEmoji({ text, setText }) {
             />
           </svg>
         </button>
-        <div className="absolute left-0 right-0 top-5 z-[100] flex flex-row justify-center">
+        <div className="absolute  top-5  z-[100] flex scale-75 flex-row justify-center sm:scale-90 md:scale-100">
           {showEmojiPicker && (
-            <Picker
-              data={data}
-              onEmojiSelect={handleEmojiSelect}
-            />
+            <div
+              data-testid="emojiPicker"
+              className="absolute left-[-140px] right-[0px] "
+            >
+              <Picker
+                data={data}
+                onEmojiSelect={handleEmojiSelect}
+              />
+            </div>
           )}
         </div>
       </button>

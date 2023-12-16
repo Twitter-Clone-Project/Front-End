@@ -119,7 +119,7 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
       toggleRepost(!repost);
       setRepostsCount(repostsCount - 1);
       if (!isRepostLoading) {
-        setIsLikeLoading(true);
+        setIsRepostLoading(true);
         const deleteRetweet = async () => {
           try {
             const response = await fetch(
