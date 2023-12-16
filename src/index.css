@@ -5,7 +5,7 @@
 @media (prefers-color-scheme: dark) {
   body,
   root {
-    color-scheme: auto;
+    color-scheme: dark;
     background-color: theme(colors.pure-black);
   }
 }
@@ -140,8 +140,42 @@ img:before {
   background-image: url('/default_avatar.jpg');
 }
 .hyphens {
-    -webkit-hyphens: auto;
-    -moz-hyphens: auto;
-    -ms-hyphens: auto;
-    hyphens: auto;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+}
+[data-radix-popper-content-wrapper] {
+  position: absolute !important;
+  z-index: 9999 !important;
+}
+.HoverCardContent {
+  transform-origin: var(--radix-hover-card-content-transform-origin);
+  animation: scaleIn 0.5s ease-in;
+}
+.HoverCardContent[data-side='top'] {
+  animation-name: slideUp;
+  animation-duration: 300ms;
+}
+.HoverCardContent[data-side='bottom'] {
+  animation-name: slideDown;
+  animation-duration: 300ms;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

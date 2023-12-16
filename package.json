@@ -18,6 +18,8 @@
     "@draft-js-plugins/hashtag": "^4.2.2",
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",
+    "@radix-ui/react-hover-card": "^1.0.7",
+    "@radix-ui/react-popover": "1.0.7",
     "@react-oauth/google": "^0.12.1",
     "@testing-library/jest-dom": "^6.1.4",
     "css-mediaquery": "^0.1.2",

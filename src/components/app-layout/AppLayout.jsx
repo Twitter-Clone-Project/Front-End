@@ -5,7 +5,7 @@ import NavBar from '../navigation-bars/NavBar';
 function AppLayout() {
   return (
     <div className="min-h-full w-full">
-      <div className="layout flex h-full w-full min-w-[250px] flex-1 gap-3">
+      <div className="layout flex h-full w-full min-w-[250px] flex-1">
         <div className="relative ml-auto">
           <NavBar />
         </div>

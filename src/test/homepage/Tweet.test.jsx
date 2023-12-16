@@ -119,7 +119,9 @@ describe('Tweet', () => {
 
     const imageElement = getByTestId('profileImage123456');
     fireEvent.mouseEnter(imageElement);
-    const userPopup = getByTestId(`${data[0].user.username}-popover`);
+    const userPopup = getByTestId(
+      `PopoverUserCard_${data[0].user.username}-popover_0`,
+    );
     expect(userPopup).toBeInTheDocument();
     // screen.debug();
   });

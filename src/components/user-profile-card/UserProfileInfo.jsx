@@ -55,7 +55,7 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
           <div
             className={`${
               user.isBlockingMe ? 'w-min' : 'w-[50%]'
-            } min-w-[11rem]  max-w-[125px]`}
+            } min-w-[48px]  max-w-[147px]`}
             data-testid={`${user.username}-UserProfile-UserActions`}
           >
             <UserActions user={user} />
@@ -63,8 +63,11 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
         )}
       </div>
       <div className="mb-5 mt-2">
-        <div className="flex h-[41.5px] flex-col">
-          <span className="text-xl font-bold text-pure-black dark:text-white">
+        <div className="flex  flex-col">
+          <span
+            style={{ wordBreak: 'break-word', whiteSpace: 'break-spaces' }}
+            className="max-w-[350px] truncate break-words text-xl font-bold text-pure-black dark:text-white"
+          >
             {name}
           </span>
           <div className="flex h-5 flex-row items-center">
@@ -84,7 +87,7 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
               <div className="bio mb-2 max-w-[95%]">
                 <p
                   data-testid="user-bio"
-                  className=""
+                  className="whitespace-break-spaces break-words"
                 >
                   {user.bio}
                 </p>

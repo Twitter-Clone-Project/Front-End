@@ -8,19 +8,21 @@ import { v4 as uuid4 } from 'uuid';
 import OwnToaster from '../components/OwnToaster';
 import PopoverUserCard from '../components/userComponents/PopoverUserCard';
 import { useAuth } from '../hooks/AuthContext';
+import ReplyMenu from './ReplyMenu';
 
-function Reply({ data }) {
+function Reply({ data, tweetId, replies, setReplies }) {
   const [text, setText] = useState('');
   const { user } = useAuth();
 
   useEffect(() => {
-    let reply;
-    if (typeof data.replyText === 'string') {
-      reply = data.replyText.slice(14, data.replyText.length - 2);
-    } else if (typeof data.replyText === 'object') {
-      reply = data.replyText.replyText;
-    }
-    setText(reply);
+    // console.log(data);
+    // let reply;
+    // if (typeof data.replyText === 'string') {
+    //   reply = data.replyText.slice(14, data.replyText.length - 2);
+    // } else if (typeof data.replyText === 'object') {
+    //   reply = data.replyText.replyText;
+    // }
+    setText(data.replyText);
   }, [data]);
   const [isHovered, setIsHovered] = useState(false);
   const handleMouseEnter = () => {
@@ -33,10 +35,13 @@ function Reply({ data }) {
 
   return (
     <div
-      className="tweet mb-[0.5px] mt-[-0.5px] flex w-[88%] border-collapse flex-row border-b-[0.5px] border-b-light-gray bg-white px-[16px] pb-4 pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:border-b-border-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]"
-      data-testid={data.replyId}
+      className="tweet mb-[0.5px] mt-[-0.5px] grid w-full border-collapse grid-cols-[auto_1fr]  border-y-[0.5px] border-y-border-gray bg-white px-3 pb-2 pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black sm:px-[16px] lg:w-[598px]"
+      data-testid={`${data.replyId}`}
     >
-      <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
+      <div
+        className="leftColumn mr-[12px] h-[40px] w-[40px] "
+        data-testid={`${data.replyId}-left-column`}
+      >
         <div className="profileImage leftColumn absolute mr-[12px] h-[40px] w-[40px] ">
           <img
             data-testid={`profileImage${data.id}`}
@@ -51,7 +56,7 @@ function Reply({ data }) {
           <div
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className="relative left-0 right-24 top-[-1] z-10 mt-5 flex h-[250px]  w-[300px] flex-col justify-center "
+            className="relative left-0 right-24 top-[-1] z-10 mt-5 flex h-[250px]  flex-col justify-center sm:w-[300px]"
           >
             <PopoverUserCard
               popoverIsFollowed={data.isFollowed}
@@ -70,7 +75,10 @@ function Reply({ data }) {
         )}
       </div>
 
-      <div className="rightColumn w-[512px] pl-2">
+      <div
+        className="rightColumn max-w-[95%]"
+        data-testid={`${data.replyId}-right-column`}
+      >
         <div className="flex flex-row justify-between ">
           <div className="userInfo flex flex-row">
             <div className="name  text-[15px] font-bold dark:text-white">
@@ -88,22 +96,57 @@ function Reply({ data }) {
               />
             </div>
           </div>
+          <div
+            className="pl-2"
+            data-testid={`${data.replyId}-reply-menu`}
+          >
+            <ReplyMenu
+              userId={data.replyUserId}
+              tweetId={tweetId}
+              reply={data}
+              replies={replies}
+              setReplies={setReplies}
+            />
+          </div>
         </div>
-        <div className="caption">
+        <div
+          className="caption"
+          dir="auto"
+        >
           {text.split(' ').map((word) => {
+            if (word.length && word.startsWith('#')) {
+              return (
+                <span
+                  key={uuid4()}
+                  className=" text-blue"
+                >
+                  {word.slice(0, 34)}
+                  <br />
+                  {word.slice(35, word.length - 1)}
+                </span>
+              );
+            }
+            if (word.length > 35) {
+              return (
+                <span key={uuid4()}>
+                  {word.slice(0, 34)}
+                  <br />
+                  {word.slice(35, word.length - 1)}
+                </span>
+              );
+            }
             if (word.startsWith('#')) {
               return (
                 <span
                   key={uuid4()}
                   className=" text-blue"
                 >
-                  {word}{' '}
+                  {word}
                 </span>
               );
             }
             return `${word} `;
           })}
-          {/* {text} */}
         </div>
       </div>
       <OwnToaster />
@@ -113,6 +156,9 @@ function Reply({ data }) {
 
 Reply.propTypes = {
   data: PropTypes.object.isRequired,
+  tweetId: PropTypes.string.isRequired,
+  replies: PropTypes.string.isRequired,
+  setReplies: PropTypes.func.isRequired,
 };
 
 export default Reply;
