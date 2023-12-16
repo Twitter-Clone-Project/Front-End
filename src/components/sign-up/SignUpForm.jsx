@@ -120,7 +120,7 @@ function SignUpForm({ test }) {
       if (name.length < 2)
         setNameError('Name must contain atleast 2 character');
       else setNameError('');
-    else setNameError('Name can only contain letters.');
+    else if (name) setNameError('Name can only contain letters.');
   }, [name]);
   useEffect(() => {
     if (!userName || usernameError) return;
