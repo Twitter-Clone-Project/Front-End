@@ -4,7 +4,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import Time from './Time';
@@ -13,13 +13,42 @@ import { ChatContext } from '../../hooks/ContactContext';
 import { useAuth } from '../../hooks/AuthContext';
 
 function ConversationCard({ conversationData, setOpenedId }) {
-  const { chatContext, setChatContext, socket } = useContext(ChatContext);
+  const {
+    chatContext,
+    setChatContext,
+    conversations,
+    setConversations,
+    socket,
+  } = useContext(ChatContext);
   const { user } = useAuth();
+  const { conversationId } = useParams();
+
+  useEffect(() => {
+    conversations.map((conversation) => {
+      if (conversationId === conversation.contact.username) {
+        if (chatContext.conversationId !== '') {
+          socket.emit('chat-closed', {
+            userId: user.userId,
+            conversationId: chatContext.conversationId,
+            contactId: chatContext.contact.id,
+          });
+        }
+        setChatContext(conversation);
+        setOpenedId(conversation.conversationId);
+        socket.emit('chat-opened', {
+          userId: user.userId,
+          conversationId: conversation.conversationId,
+          contactId: conversation.contact.id,
+        });
+      }
+      return conversation;
+    });
+  }, [conversationId]);
 
   return (
     <Link
-      style={{ textDecoration: 'inherit' }}
-      to={`${conversationData.contact.name}`}
+      className=" hover:no-underline"
+      to={`${conversationData.contact.username}`}
     >
       <div
         onClick={() => {

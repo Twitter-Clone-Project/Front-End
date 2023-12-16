@@ -14,7 +14,7 @@ export default function ComposePage() {
   const [deletePerson, setDeletePerson] = useState(null);
   const [ids, setIds] = useState([]);
   const { chatContext } = useContext(ChatContext);
-  const [windowWidth, setWindowWidth] = useState(window.outerWidth);
+
   const [input, setInput] = useState('');
   const [timeoutId, setTimeoutId] = useState(null);
 
@@ -80,16 +80,6 @@ export default function ComposePage() {
     window.location.reload();
   };
 
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.outerWidth);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  });
-
   return (
     <div className="absolute bottom-0 left-0 top-0 z-20 flex max-h-screen w-full items-center justify-center  md:bg-dark-gray md:bg-opacity-50">
       <BoxCard
@@ -99,7 +89,7 @@ export default function ComposePage() {
               type="submit"
               data-testid="close-btn"
               onClick={() =>
-                navigate(`/app/messages/${chatContext.contact.name}`)
+                navigate(`/app/messages/${chatContext.contact.username}`)
               }
               className="absolute left-3 top-5 h-[20px] w-[20px]  text-sm "
             >

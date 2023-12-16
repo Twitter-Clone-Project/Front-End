@@ -187,14 +187,6 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
     handleClick();
   };
 
-  const [isHovered, setIsHovered] = useState(false);
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
   return (
     <div
       data-testid={`${data.id}`}
@@ -207,40 +199,31 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
           e.stopPropagation();
         }}
       >
-        <div className="profileImage leftColumn absolute mr-[12px] h-[40px] w-[40px] ">
-          <img
-            data-testid={`profileImage${data.id}`}
-            src={
-              data.user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
-            }
-            alt="profileImage"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            className="  h-[40px] w-[40px] rounded-full object-cover transition-opacity"
-          />
-        </div>
-        {isHovered && (
-          <div
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            className="relative left-0 right-24 top-[-1] z-10 mt-5 flex h-[250px]  flex-col justify-center sm:w-[300px] "
-          >
-            <PopoverUserCard
-              popoverIsFollowed={data.user.isFollowed}
-              popoverIsFollowing={data.user.isFollowing}
-              popoverUserPicture={
+        <PopoverUserCard
+          popoverIsFollowed={data.user.isFollowed}
+          popoverIsFollowing={data.user.isFollowing}
+          popoverUserPicture={
+            data.user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
+          }
+          popoverUserName={data.user.screenName}
+          popoverUserID={data.user.username}
+          popoverDiscription={data.user.bio}
+          popoverFollowing={data.user.followingCount}
+          popoverFollowers={data.user.followersCount}
+          popoverTestID={`${data.user.username}-popover`}
+          popoverSetLocalIsFollowed
+        >
+          <div className="profileImage leftColumn absolute mr-[12px] h-[40px] w-[40px] ">
+            <img
+              data-testid={`profileImage${data.id}`}
+              src={
                 data.user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
               }
-              popoverUserName={data.user.screenName}
-              popoverUserID={data.user.username}
-              popoverDiscription=""
-              popoverFollowing={data.user.followingCount}
-              popoverFollowers={data.user.followersCount}
-              popoverTestID={`${data.user.username}-popover`}
-              popoverSetLocalIsFollowed
+              alt="profileImage"
+              className="  h-[40px] w-[40px] rounded-full object-cover transition-opacity"
             />
           </div>
-        )}
+        </PopoverUserCard>
       </div>
 
       <div className="rightColumn max-w-[95%]">
@@ -279,15 +262,16 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             >
               <div
                 data-testid={`username${data.id}`}
-                className="name whitespace-nowrap text-[15px] font-bold dark:text-white"
+                style={{ wordBreak: 'break-word' }}
+                className="name word max-w-[220px] truncate break-words text-[15px] font-bold dark:text-white"
               >
                 {data.user.screenName}
               </div>
             </Link>
             <div className="flex flex-wrap">
-              <div className="userName overflow-hidden text-[15px] text-dark-gray">
+              <div className="userName max-w-[150px] overflow-hidden truncate break-words  text-[15px] text-dark-gray">
                 {' '}
-                &ensp;@<span>{data.user.username}</span>
+                &ensp;@<span>{data.user.username || data.user.userName}</span>
               </div>
 
               <div className="date overflow-hidden break-keep text-[15px] text-dark-gray">

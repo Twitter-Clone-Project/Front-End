@@ -63,8 +63,11 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
         )}
       </div>
       <div className="mb-5 mt-2">
-        <div className="flex h-[41.5px] flex-col">
-          <span className="text-xl font-bold text-pure-black dark:text-white">
+        <div className="flex  flex-col">
+          <span
+            style={{ wordBreak: 'break-word', whiteSpace: 'break-spaces' }}
+            className="max-w-[350px] truncate break-words text-xl font-bold text-pure-black dark:text-white"
+          >
             {name}
           </span>
           <div className="flex h-5 flex-row items-center">

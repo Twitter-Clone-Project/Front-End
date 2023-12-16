@@ -10,27 +10,27 @@ import AddEmoji from '../tweetPage/AddEmoji';
 function AddReply({ setReplies, tweetId, replyFor }) {
   const { user } = useAuth();
   const [focus, setFocus] = useState(false);
-  const [replyText, setReplyText] = useState('');
+  const [text, setText] = useState('');
   const [replyDisabled, setReplyDisabled] = useState(true);
   // const [hashtags, setHashtags] = useState([]);
   // const [hashtagsString, setHashtagsString] = useState('');
   useEffect(() => {
-    if (replyText.trim() === '') setReplyDisabled(true);
+    if (text.trim() === '') setReplyDisabled(true);
     else {
-      // setHashtags(replyText.match(/#\w+/g));
+      // setHashtags(text.match(/#\w+/g));
       // if (hashtags !== null && hashtags.length !== 0)
       //   setHashtagsString(hashtags.join(','));
       setReplyDisabled(false);
     }
-  }, [replyText]);
+  }, [text]);
   const resetAll = () => {
-    setReplyText('');
+    setText('');
     // setHashtags([]);
     // setHashtagsString('');
     setReplyDisabled(true);
   };
   const handleReply = () => {
-    const body = { text: { replyText } };
+    const body = { text };
     resetAll();
     const postReply = async () => {
       try {
@@ -103,9 +103,9 @@ function AddReply({ setReplies, tweetId, replyFor }) {
             className="h-[60px] w-[90%] focus:outline-0
               dark:bg-pure-black dark:text-white"
             placeholder="Post your reply"
-            value={replyText}
+            value={text}
             onChange={(event) => {
-              setReplyText(event.target.value);
+              setText(event.target.value);
               // console.log(event.target.value.length);
             }}
             maxLength={60}
@@ -116,8 +116,8 @@ function AddReply({ setReplies, tweetId, replyFor }) {
             data-testid="reply-emoji"
           >
             <AddEmoji
-              text={replyText}
-              setText={setReplyText}
+              text={text}
+              setText={setText}
             />
           </div>
         </div>

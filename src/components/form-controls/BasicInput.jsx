@@ -1,7 +1,7 @@
 import React from 'react';
 
 // eslint-disable-next-line react/prop-types
-function BasicInput({ title, value, setValue, error, setError }) {
+function BasicInput({ title, value, setValue, error, setError, maxLength }) {
   return (
     <div className="relative h-[56.44px] w-full items-center justify-center  bg-white dark:bg-black">
       <input
@@ -9,6 +9,7 @@ function BasicInput({ title, value, setValue, error, setError }) {
         placeholder=""
         id={title}
         value={value}
+        maxLength={maxLength}
         onChange={(event) => {
           setValue(event.target.value);
           setError('');
@@ -34,6 +35,9 @@ function BasicInput({ title, value, setValue, error, setError }) {
       >
         {title}
       </label>
+      <span className=" invisible absolute right-2 top-2 text-xs text-dark-gray peer-focus:visible">
+        {value.length} / {maxLength}
+      </span>
       {error !== '' && (
         <span
           data-testid="basic-err"
