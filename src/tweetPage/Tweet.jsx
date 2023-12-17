@@ -49,8 +49,8 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
   };
   const handleLike = () => {
     if (like === true) {
-      setLikesCount(likesCount - 1);
-      toggleLike(!like);
+      toggleLike((prev) => !prev);
+      setLikesCount((prev) => prev - 1);
       if (!isLikeLoading) {
         setIsLikeLoading(true);
         const deleteLike = async () => {
@@ -66,8 +66,8 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             );
             const res = await response.json();
             if (!res.status) {
-              toggleLike(!like);
-              setLikesCount(likesCount + 1);
+              toggleLike((prev) => !prev);
+              setLikesCount((prev) => prev + 1);
               throw new Error(res.message);
             }
           } catch (err) {
@@ -80,8 +80,8 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
         deleteLike();
       }
     } else if (like === false) {
-      setLikesCount(likesCount + 1);
-      toggleLike(!like);
+      toggleLike((prev) => !prev);
+      setLikesCount((prev) => prev + 1);
 
       if (!isLikeLoading) {
         setIsLikeLoading(true);
@@ -98,8 +98,8 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             );
             const res = await response.json();
             if (!res.status) {
-              setLikesCount(likesCount - 1);
-              toggleLike(!like);
+              toggleLike((prev) => !prev);
+              setLikesCount((prev) => prev - 1);
               throw new Error(res.message);
             }
           } catch (err) {
@@ -116,8 +116,8 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
   };
   const handleRepost = () => {
     if (repost === true) {
-      toggleRepost(!repost);
-      setRepostsCount(repostsCount - 1);
+      toggleRepost((prev) => !prev);
+      setRepostsCount((prev) => prev - 1);
       if (!isRepostLoading) {
         setIsRepostLoading(true);
         const deleteRetweet = async () => {
@@ -135,8 +135,8 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             );
             const res = await response.json();
             if (!res.status) {
-              toggleRepost(!repost);
-              setRepostsCount(repostsCount + 1);
+              toggleRepost((prev) => !prev);
+              setRepostsCount((prev) => prev + 1);
               throw new Error(res.message);
             }
           } catch (err) {
@@ -149,8 +149,8 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
         deleteRetweet();
       }
     } else if (repost === false) {
-      toggleRepost(!repost);
-      setRepostsCount(repostsCount + 1);
+      toggleRepost((prev) => !prev);
+      setRepostsCount((prev) => prev + 1);
       if (!isRepostLoading) {
         setIsRepostLoading(true);
         const retweet = async () => {
@@ -167,8 +167,8 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             const res = await response.json();
             console.log(res);
             if (!res.status) {
-              toggleRepost(!repost);
-              setRepostsCount(repostsCount - 1);
+              toggleRepost((prev) => !prev);
+              setRepostsCount((prev) => prev - 1);
               throw new Error(res.message);
             }
           } catch (err) {
