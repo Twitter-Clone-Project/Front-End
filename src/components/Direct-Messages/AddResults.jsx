@@ -29,12 +29,13 @@ function AddResults({ value, setPerson, deletePerson }) {
   if (results)
     return (
       <div
+        data-testid="addresults"
         className="
     flex flex-grow flex-col overflow-y-auto px-4 scrollbar-thin scrollbar-track-[#f9f9f9]
     scrollbar-thumb-[#c0c0c0]
     scrollbar-thumb-rounded-full hover:scrollbar-thumb-[#7b7b7b] dark:scrollbar-track-[#272727] dark:scrollbar-thumb-[#4a4a4a] dark:hover:scrollbar-thumb-[#888888]"
       >
-        <div>
+        <div data-testid="addresults-map">
           {results.map((result) => (
             <AddResultCard
               key={result.id}

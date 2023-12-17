@@ -54,7 +54,10 @@ function MessagesInput() {
 
   return (
     <div className="flex h-14 w-full flex-col items-center border-t-[1px] border-[#f6f8f9] bg-white px-3 dark:border-[#252829] dark:bg-black">
-      <div className="relative my-1 flex h-11 w-full flex-row items-center rounded-2xl bg-[#f0f3f3] p-1 dark:bg-[#1e2023] ">
+      <div
+        data-test="messages-input"
+        className="relative my-1 flex h-11 w-full flex-row items-center rounded-2xl bg-[#f0f3f3] p-1 dark:bg-[#1e2023] "
+      >
         {showEmoji && (
           <div className="absolute bottom-[100%] left-2">
             <Picker
@@ -87,6 +90,7 @@ function MessagesInput() {
             </svg>
           </div>
           <button
+            data-testid="input-messages-button"
             onClick={() => {
               setShowEmoji(!showEmoji);
             }}
@@ -105,6 +109,7 @@ function MessagesInput() {
 
         <div className="flex w-full px-3 py-1">
           <input
+            data-testid="input-messages-input-field"
             placeholder="Start a new message"
             value={message}
             onClick={() => {
@@ -123,11 +128,13 @@ function MessagesInput() {
         </div>
 
         <button
+          data-testid="input-messages-input-field-second"
           ref={buttonRef}
           type="button"
           onClick={handleClick}
         >
           <div
+            data-testid="input-messages-div-inside-2"
             className={` ${
               message === ''
                 ? 'cursor-default'

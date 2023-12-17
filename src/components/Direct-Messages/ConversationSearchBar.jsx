@@ -17,7 +17,10 @@ function ConversationSearchBar({ setValue, active, setActive }) {
   };
 
   return (
-    <div className="flex h-[68px] w-full items-center p-3 dark:bg-black">
+    <div
+      data-testid="conversation-search-bar"
+      className="flex h-[68px] w-full items-center p-3 dark:bg-black"
+    >
       {active && (
         <button
           className=""
@@ -40,6 +43,7 @@ function ConversationSearchBar({ setValue, active, setActive }) {
       )}
 
       <div
+        data-testid="conversation-search-bar-color-change"
         className={` ${
           isInputFocused
             ? 'border-2 border-blue'
@@ -56,6 +60,7 @@ function ConversationSearchBar({ setValue, active, setActive }) {
           </svg>
         </div>
         <input
+          data-testid="conversation-search-bar-input-field"
           value={input}
           onFocus={() => {
             setInputFocused(true);
