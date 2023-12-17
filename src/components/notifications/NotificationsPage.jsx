@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-
 import toast from 'react-hot-toast';
+import { useAuth } from '../../hooks/AuthContext';
 import { ChatContext } from '../../hooks/ContactContext';
 import ListNav from '../navigation-bars/ListNav';
 
@@ -9,6 +9,7 @@ function NotificationsPage() {
   const { socket, setNotifications, setSocketNotifications } =
     useContext(ChatContext);
   const location = useLocation();
+  const { user } = useAuth();
 
   useEffect(() => {
     console.log('in Notification page');
@@ -19,6 +20,7 @@ function NotificationsPage() {
     )
       return;
     socket.on('notification-receive', async (notification) => {
+      socket.emit('mark-notifications-as-seen', { userId: user.userId });
       console.log('Add Notification to the socket list');
       setSocketNotifications((prevSocketNotifications) => [
         ...prevSocketNotifications,
@@ -44,12 +46,21 @@ function NotificationsPage() {
         if (data.status === false) {
           throw new Error(data.message);
         }
+
+        console.log(data.data);
         setNotifications(data.data.notifications);
+        setSocketNotifications([]);
       } catch (err) {
         toast(err.message);
       }
     };
     fetchData();
+
+    return () => {
+      console.log('leaving the page');
+      if (socket === null) return;
+      socket.emit('mark-notifications-as-seen', { userId: user.userId });
+    };
   }, []);
 
   useEffect(

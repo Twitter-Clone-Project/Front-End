@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useEffect, useRef, useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
 import toast from 'react-hot-toast';
 import NavItem from './NavItem';
@@ -10,7 +10,6 @@ import FloatingHeader from './FloatingHeader';
 import UserImg from './UserImg';
 import ComposePost from '../compose-popup/ComposePost';
 import { ChatContext } from '../../hooks/ContactContext';
-import { useLocation } from 'react-router-dom';
 
 function NavBar() {
   const { user } = useAuth();
@@ -99,7 +98,6 @@ function NavBar() {
       setNotificationsCount(0);
       return;
     }
-
     socket.on('notification-receive', async (notification) => {
       console.log('navbar', location.pathname);
       console.log('navbar increase count');

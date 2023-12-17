@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { ChatContext } from '../../hooks/ContactContext';
@@ -18,7 +19,14 @@ export default function Mentions() {
             <Link
               data-testid={`${socketNotification.notificationId}-socketN`}
               key={socketNotification.notificationId}
-              to={`/app/search/${socketNotification.notificationId}`}
+              to={
+                socketNotification.type === 'FOLLOW' ||
+                socketNotification.type === 'UNFOLLOW'
+                  ? `/app/${socketNotification.senderUsername}/posts`
+                  : socketNotification.type === 'MENTION'
+                  ? `/app/tweets/${socketNotification.tweetId}`
+                  : '/app/home'
+              }
               className="text-black  hover:no-underline  dark:text-white"
             >
               <NotificationCard
@@ -38,7 +46,14 @@ export default function Mentions() {
             <Link
               data-testid={`${notification.notificationId}-N`}
               key={notification.notificationId}
-              to={`/app/search/${notification.notificationId}`}
+              to={
+                notification.type === 'FOLLOW' ||
+                notification.type === 'UNFOLLOW'
+                  ? `/app/${notification.senderUsername}/posts`
+                  : notification.type === 'MENTION'
+                  ? `/app/tweets/${notification.tweetId}`
+                  : '/app/home'
+              }
               className="text-black  hover:no-underline  dark:text-white"
             >
               <NotificationCard
