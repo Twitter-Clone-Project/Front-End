@@ -11,6 +11,7 @@ function NotificationCard({
 }) {
   return (
     <div
+      data-testid={`${notificationId}-notificationId`}
       className={`flex h-[88px] px-4 py-3 hover:bg-[#f7f7f7]
        dark:hover:bg-[#070707] ${
          !isSeen ? 'bg-[#eaf4fd] dark:bg-[#07101f]' : ''

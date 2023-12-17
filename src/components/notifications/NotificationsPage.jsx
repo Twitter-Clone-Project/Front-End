@@ -60,7 +60,10 @@ function NotificationsPage() {
   );
 
   return (
-    <div className="flex h-screen w-full flex-col border-x-[1px] border-[#f6f8f9] dark:border-[#252829]">
+    <div
+      data-testid="notifications-page"
+      className="flex h-screen w-full flex-col border-x-[1px] border-[#f6f8f9] dark:border-[#252829]"
+    >
       <div>
         <div className="flex h-[53px] items-center px-4 ">
           <div className="py-[2px] text-[20px] font-bold text-black dark:text-white">
@@ -70,6 +73,7 @@ function NotificationsPage() {
       </div>
       <div className="border-b-[1px] border-[#f6f8f9]  dark:border-[#252829]">
         <ListNav
+          data-testid="notifications-page-list-nav"
           items={[
             { label: 'All', path: '/app/notifications/all' },
             { label: 'Mentions', path: '/app/notifications/mentions' },

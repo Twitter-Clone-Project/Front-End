@@ -7,10 +7,14 @@ export default function All() {
   const { notifications, socketNotifications } = useContext(ChatContext);
 
   return (
-    <div className="overflow-y-auto no-scrollbar">
+    <div
+      data-testid="all-page"
+      className="overflow-y-auto no-scrollbar"
+    >
       {socketNotifications &&
         socketNotifications.map((socketNotification) => (
           <Link
+            data-testid={`${socketNotification.notificationId}-socketNoti`}
             key={socketNotification.notificationId}
             to={`/app/search/${socketNotification.notificationId}`}
             className="text-black  hover:no-underline  dark:text-white"
@@ -28,6 +32,7 @@ export default function All() {
       {notifications &&
         notifications.map((notification) => (
           <Link
+            data-testid={`${notification.notificationId}-Noti`}
             key={notification.notificationId}
             to={`/app/search/${notification.notificationId}`}
             className="text-black  hover:no-underline  dark:text-white"

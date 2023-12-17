@@ -7,12 +7,16 @@ export default function Mentions() {
   const { notifications, socketNotifications } = useContext(ChatContext);
 
   return (
-    <div className="overflow-y-auto no-scrollbar">
+    <div
+      data-testid="metions"
+      className="overflow-y-auto no-scrollbar"
+    >
       {socketNotifications &&
         socketNotifications
           .filter((notification) => notification.type === 'mention')
           .map((socketNotification) => (
             <Link
+              data-testid={`${socketNotification.notificationId}-socketN`}
               key={socketNotification.notificationId}
               to={`/app/search/${socketNotification.notificationId}`}
               className="text-black  hover:no-underline  dark:text-white"
@@ -32,6 +36,7 @@ export default function Mentions() {
           .filter((notification) => notification.type === 'mention')
           .map((notification) => (
             <Link
+              data-testid={`${notification.notificationId}-N`}
               key={notification.notificationId}
               to={`/app/search/${notification.notificationId}`}
               className="text-black  hover:no-underline  dark:text-white"
