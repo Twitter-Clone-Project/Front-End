@@ -321,10 +321,11 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
         <div>
           <Media images={images} />
         </div>
-        <div className="buttons flex h-[32px] flex-row  justify-between">
+        <div className="buttons ml-5 flex h-[32px] w-[100%]  flex-row justify-between">
           <button
             data-testid={`${data.id}reply`}
             type="submit"
+            className="flex w-[20%] flex-row "
             onClick={(e) => {
               e.stopPropagation();
               handleReply();
@@ -338,6 +339,7 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
           <button
             data-testid={`${data.id}repost`}
             type="submit"
+            className="flex w-[20%] flex-row"
             disabled={isRepostLoading}
             onClick={(e) => {
               e.stopPropagation();
@@ -354,6 +356,7 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             data-testid={`${data.id}like`}
             disabled={isLikeLoading}
             type="submit"
+            className="flex w-[20%] flex-row "
             onClick={(e) => {
               e.stopPropagation();
               handleLike();

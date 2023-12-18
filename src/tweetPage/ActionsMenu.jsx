@@ -264,13 +264,13 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
           className="dropdown-content absolute right-0  z-10 flex w-[200px] flex-col rounded-2xl bg-white py-3 shadow dark:bg-pure-black dark:text-white dark:shadow-white sm:w-[250px] md:w-[280px]"
         >
           {userId !== user.userId && (
-            <div className="anotheruser  h-[200px] py-3">
+            <div className="anotheruser  h-[175px] py-1 ">
               <button
                 type="submit"
                 onClick={() => handleFollow()}
                 className="w-[100%]"
               >
-                <div className="flex flex-row hover:bg-xx-light-gray dark:hover:bg-[#080808]">
+                <div className="flex h-[50px]  flex-row hover:bg-xx-light-gray dark:hover:bg-[#080808]">
                   <div className="py-5 pl-4">
                     <svg
                       viewBox="0 0 25 25"
@@ -291,12 +291,12 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
                     </svg>
                   </div>
                   {!tweet.user.isFollowed && (
-                    <div className="h-[50px]  px-[14px] py-[16px] text-[15px] font-semibold">
+                    <div className="  px-[14px] py-[16px] text-[15px] font-semibold">
                       Follow @{tweet.user.username}
                     </div>
                   )}
                   {tweet.user.isFollowed && (
-                    <div className="h-[50px]  px-[14px] py-[16px] text-[15px] font-semibold">
+                    <div className="  px-[14px] py-[16px] text-[15px] font-semibold">
                       Unfollow @{tweet.user.username}
                     </div>
                   )}
@@ -307,7 +307,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
                 onClick={() => handleMute()}
                 className="w-[100%]"
               >
-                <div className="flex flex-row hover:bg-xx-light-gray dark:hover:bg-[#080808]">
+                <div className="flex h-[50px] flex-row  hover:bg-xx-light-gray dark:hover:bg-[#080808]">
                   <div className="py-5 pl-4">
                     <svg
                       viewBox="0 0 25 25"
@@ -319,7 +319,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
                       />
                     </svg>
                   </div>
-                  <div className="h-[50px]  px-[14px] py-[16px] text-[15px] font-semibold">
+                  <div className=" px-[14px] py-[16px] text-[15px] font-semibold">
                     Mute @{tweet.user.username}
                   </div>
                 </div>
@@ -329,7 +329,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
                 onClick={() => handleBlock()}
                 className="w-[100%]"
               >
-                <div className="flex flex-row hover:bg-xx-light-gray dark:hover:bg-[#080808]">
+                <div className="flex h-[50px] flex-row  hover:bg-xx-light-gray dark:hover:bg-[#080808]">
                   <div className="py-5 pl-4">
                     <svg
                       viewBox="0 0 25 25"
@@ -341,7 +341,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
                       />
                     </svg>
                   </div>
-                  <div className="h-[50px]  px-[14px] py-[16px] text-[15px] font-semibold">
+                  <div className="  px-[14px] pt-[16px] text-[15px] font-semibold">
                     Block @{tweet.user.username}
                   </div>
                 </div>
@@ -353,7 +353,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
               type="submit"
               onClick={() => handleDelete()}
             >
-              <div className="me flex h-[60px] flex-row text-warning  hover:bg-xx-light-gray dark:hover:bg-[#080808] ">
+              <div className="me flex h-[50px] flex-row text-warning  hover:bg-xx-light-gray dark:hover:bg-[#080808] ">
                 <div className="py-4 pl-4">
                   <svg
                     viewBox="0 0 25 25"
@@ -365,7 +365,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
                     />
                   </svg>
                 </div>
-                <div className="h-[50px]  px-[14px] py-[16px] text-[15px] font-semibold">
+                <div className=" px-[14px] py-[16px] text-[15px] font-semibold">
                   Delete
                 </div>
               </div>

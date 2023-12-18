@@ -99,7 +99,11 @@ describe('Add Post', () => {
 
     const textField = getByTestId('textField');
     const text = textField.querySelector('.DraftEditor-root');
-    fireEvent.change(text, { target: { textContent: 'hhh' } });
+    const span1 = text.querySelector('[data-offset-key="3albp-0-0"]');
+    console.log(span1.outerHTML);
+    const span2 = span1.childNodes();
+
+    fireEvent.change(text, { target: { value: 'hhh' } });
     console.log(textField.outerHTML);
     console.log(postBtn.outerHTML);
     expect(textField).toBeInTheDocument();
