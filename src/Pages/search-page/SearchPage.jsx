@@ -1,30 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, Outlet } from 'react-router';
 import OwnToaster from '../../components/OwnToaster';
 import SearchBar from '../../components/search-bar/SearchBar';
 import ListNav from '../../components/navigation-bars/ListNav';
 
 function SearchPage() {
-  const [value, setValue] = useState('');
   const location = useLocation();
   const pastPath = location.state?.pastPath;
+  const [prevLoc] = useState(pastPath);
+  const [value, setValue] = useState(
+    location.search.slice(3, location.search.length),
+  );
   const navigate = useNavigate();
   const handelBackButton = () => {
-    navigate(pastPath.pathname || -1);
+    navigate(prevLoc || -1);
   };
   const ListNavItems = [
     {
       label: 'Tweets',
-      path: `/app/search/tweets`,
+      path: `/app/search/tweets?q=${value}`,
     },
     {
       label: 'People',
-      path: `/app/search/users`,
+      path: `/app/search/users?q=${value}&f=user`,
     },
   ];
+  useEffect(() => {
+    console.log(pastPath);
+  }, [pastPath]);
   return (
-    <div className="flex w-full max-w-[620px] flex-col border-border-gray sm:border-x-[1px]">
-      <div className="flex w-full flex-row gap-16 border-b-[0.5px] border-b-light-gray px-2 py-2 dark:border-b-border-gray md:gap-24">
+    <div
+      className="flex h-auto w-full max-w-[620px] flex-col border-border-gray sm:border-x-[1px]"
+      data-testid={`${value}-search-page`}
+    >
+      <div className="flex w-full flex-row justify-around border-b-[0.5px] border-b-light-gray px-2 py-2 dark:border-b-border-gray">
         <div className="flex h-[58px] items-start pl-2">
           <div className="flex h-full items-center">
             <div
@@ -47,7 +56,7 @@ function SearchPage() {
             </div>
           </div>
         </div>
-        <div className="flex w-[60%] justify-center">
+        <div className="flex w-[80%] justify-center">
           <SearchBar
             value={value}
             setValue={setValue}
@@ -56,7 +65,7 @@ function SearchPage() {
       </div>
       <div
         // data-testid={`${username}-profile`}
-        className="border-x-0 border-light-gray dark:border-border-gray dark:text-white sm:border-x-[1px]"
+        className="h-full border-x-0 border-light-gray dark:border-border-gray dark:text-white"
       >
         <div
           className={`

@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router';
 import toast from 'react-hot-toast';
+import Tweet from '../../tweetPage/Tweet';
+import Spinner from '../../components/Spinner';
+import NoSearchResults from './NoSearchResults';
 
 function TweetResults() {
-  const [value] = useState('nour');
+  const location = useLocation();
+  const [value, setValue] = useState(
+    location.search.slice(3, location.search.length),
+  );
   const [error, setError] = useState('');
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setValue(location.search.slice(3, location.search.length));
+    setResults([]);
+  }, [value, location]);
 
   useEffect(() => {
     const getTweetResults = async () => {
@@ -21,8 +33,11 @@ function TweetResults() {
           },
         );
         const data = await response.json();
-        if (data.status) setResults(() => [...data.data]);
-        // console.log(data.data);
+        if (data.status) {
+          if (data.message) console.log(data.message);
+          else setResults(() => [...data.data]);
+        }
+        // console.log(data);
         setError('');
       } catch (err) {
         console.log(err);
@@ -39,21 +54,29 @@ function TweetResults() {
   }, [error]);
 
   return (
-    <div data-testid={`${value}-results`}>
-      <div>
-        {isLoading && results.length === 0 ? (
-          ''
-        ) : (
-          <div
-            data-testid="results-list"
-            className="flex w-full flex-col items-center gap-5"
-          >
-            {/* {results.map((result) => (
-              <Reply data={result} />
-            ))} */}
-          </div>
-        )}
-      </div>
+    <div data-testid={`${value}-tweet-results`}>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        // eslint-disable-next-line react/jsx-no-useless-fragment
+        <>
+          {results.length === 0 ? (
+            <NoSearchResults
+              value={value}
+              testId={`${value}-notweet-results`}
+            />
+          ) : (
+            <div
+              data-testid={`${value}-tweet-results-list`}
+              className="flex w-full flex-col items-center"
+            >
+              {results.map((result) => (
+                <Tweet data={result} />
+              ))}
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }
