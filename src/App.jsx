@@ -35,7 +35,7 @@ import ChatPage from './components/Direct-Messages/ChatPage';
 import InfoPage from './components/Direct-Messages/InfoPage';
 import ComposePage from './components/Direct-Messages/ComposePage';
 import UpdateEmail from './components/Settings-page/UpdateEmail';
-import UpdateUsername from './components/Settings-page/UpdateUsername';
+import UpdateUserName from './components/Settings-page/UpdateUserName';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -208,7 +208,7 @@ function App() {
               <Route
                 exact
                 path="accountinfo/updateusername"
-                element={<UpdateUsername />}
+                element={<UpdateUserName />}
               />
               <Route
                 exact
