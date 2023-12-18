@@ -110,34 +110,95 @@ function PopoverUserCard({
             className="w-[300px] cursor-auto rounded-2xl bg-white bg-opacity-100 p-4 text-black shadow shadow-light-gray dark:bg-pure-black dark:text-white"
             data-testid={`PopoverUserCard_${popoverUserID}_0`}
           >
-            <div className="flex w-full flex-row justify-between">
-              <Link
-                to={`/app/${popoverUserID}`}
-                className="hover:no-underline"
-                data-testid={`PopoverUserCard_${popoverUserID}_img`}
+            <Button
+              backGroundColor={
+                popoverIsBlocked
+                  ? 'warningRed'
+                  : popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'red'
+                    : 'white'
+                  : 'white'
+              }
+              backGroundColorDark={
+                popoverIsBlocked
+                  ? 'warningRed'
+                  : popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'red'
+                    : 'black'
+                  : 'black'
+              }
+              borderColor={
+                popoverIsBlocked
+                  ? 'none'
+                  : popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'red'
+                    : 'gray'
+                  : 'gray'
+              }
+              label={
+                popoverIsBlocked
+                  ? isPopoverButtonHovered
+                    ? 'Blocked'
+                    : 'Blocked'
+                  : popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'Unfollow'
+                    : 'Following'
+                  : 'Follow'
+              }
+              labelColor={
+                popoverIsBlocked
+                  ? 'white'
+                  : popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'red'
+                    : 'black'
+                  : 'black'
+              }
+              labelColorDark={
+                popoverIsBlocked
+                  ? 'white'
+                  : popoverIsFollowed
+                  ? isPopoverButtonHovered
+                    ? 'red'
+                    : 'white'
+                  : 'white'
+              }
+              hight="h-9"
+              textSize="text-sm"
+            />
+          </div>
+        ) : (
+          ''
+        )}
+      </div>
+      <div className="mt-2 w-full">
+        <div className="flex h-[41.5px] flex-col overflow-ellipsis">
+          <Link
+            to={`/app/${popoverUserID}`}
+            className="max-w-full hover:no-underline"
+            data-testid={`PopoverUserCard_${popoverUserID}_userInf`}
+          >
+            <div className="flex max-w-full">
+              <span
+                htmlFor="popoverImg"
+                className="w-min max-w-full cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-[15px] font-bold text-pure-black hover:underline dark:text-white"
               >
-                <img
-                  id="popoverImg"
-                  src={
-                    popoverUserPicture || import.meta.env.VITE_DEFAULT_AVATAR
-                  }
-                  alt=""
-                  className=" h-16 w-16 rounded-full"
-                />
-              </Link>
-              {popoverUserID !== curUser.username ? (
+                {popoverUserName}
+              </span>
+            </div>
+
+            <div className="flex h-5 max-w-full flex-row items-center">
+              <span className=" w-min max-w-[196px] cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-light-thin">
+                @{popoverUserID}
+              </span>
+              {popoverIsFollowing && (
                 <div
-                  role="button"
-                  className=" h-9 w-28"
-                  onMouseEnter={() => {
-                    setPopoverButtonHovered(true);
-                  }}
-                  onMouseLeave={() => {
-                    setPopoverButtonHovered(false);
-                  }}
-                  data-testid={`PopoverUserCard_${popoverUserID}_1`}
-                  onClick={handelButtonClick}
-                  tabIndex={-6}
+                  className="ml-1 h-4 min-w-[66.08px] items-center rounded bg-x-light-gray px-1 py-0.5 dark:bg-border-gray"
+                  data-testid={`PopoverUserCard_${popoverUserID}_2`}
                 >
                   <Button
                     backGroundColor={
