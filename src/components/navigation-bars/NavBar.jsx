@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useEffect, useRef, useState, useContext } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
 import toast from 'react-hot-toast';
 import NavItem from './NavItem';
@@ -21,7 +21,6 @@ function NavBar() {
     socket,
     chatContext,
   } = useContext(ChatContext);
-  const location = useLocation();
 
   // Messages
   useEffect(() => {
@@ -90,16 +89,9 @@ function NavBar() {
 
   useEffect(() => {
     console.log('in NavBar');
-    if (
-      socket === null ||
-      location.pathname === '/app/notifications/all' ||
-      location.pathname === '/app/notifications/mentions'
-    ) {
-      setNotificationsCount(0);
-      return;
-    }
-    socket.on('notification-receive', async (notification) => {
-      console.log('navbar', location.pathname);
+    if (socket === null) return;
+
+    socket.on('notification-receive', async () => {
       console.log('navbar increase count');
       setNotificationsCount(
         (prevNotificationsCount) => prevNotificationsCount + 1,

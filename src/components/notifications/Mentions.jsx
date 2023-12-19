@@ -41,7 +41,7 @@ export default function Mentions() {
           ))}
       {notifications &&
         notifications
-          .filter((notification) => notification.type === 'mention')
+          .filter((notification) => notification.type === 'MENTION')
           .map((notification) => (
             <Link
               data-testid={`${notification.notificationId}-N`}
