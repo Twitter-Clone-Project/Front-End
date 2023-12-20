@@ -126,7 +126,7 @@ function NewPassword({ email, user }) {
                 title="Confirm your password"
               />
 
-              <div className="mb-4 flex w-full flex-col">
+              <div className="my-4 mt-5 flex w-full flex-col">
                 <Button
                   label="Change password"
                   backGroundColor="black"

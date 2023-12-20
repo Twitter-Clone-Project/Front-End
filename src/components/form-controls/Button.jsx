@@ -122,7 +122,9 @@ function Button({
         } ${
           borderColor === 'red' ? 'border-[#fdc9ce] dark:border-[#67070f]' : ''
         }
-        ${borderColor === 'none' ? 'border-none' : ''}`}
+        ${borderColor === 'none' ? 'border-none' : ''}
+        ${disabled ? 'opacity-50' : ''}
+        `}
           />
           <div className="pointer-events-none absolute left-1/2 top-1/2 flex w-full -translate-x-1/2 -translate-y-1/2 transform justify-center">
             {path && (
@@ -143,7 +145,7 @@ function Button({
               labelColorDark === 'white' ? 'dark:text-white ' : ''
             }  ${labelColorDark === 'black' ? 'dark:text-black' : ''}
             ${labelColorDark === 'red' ? 'text-warning' : ''}
-          items-start`}
+          items-start ${disabled ? 'opacity-50' : ''}`}
             >
               {label}
             </span>

@@ -15,16 +15,27 @@ import Media from './Media';
 import OwnToaster from '../components/OwnToaster';
 import ActionsMenu from './ActionsMenu';
 import PopoverUserCard from '../components/userComponents/PopoverUserCard';
+// import { useAuth } from '../hooks/AuthContext';
 
-function Tweet({ data, tweets, setTweets }) {
-  const [repost, toggleRepost] = useState(data.isRetweeted);
+function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
+  const [repost, toggleRepost] = useState(data.isRetweet);
   const [like, toggleLike] = useState(data.isLiked);
   const [repostsCount, setRepostsCount] = useState();
   const [repliesCount, setRepliesCount] = useState();
   const [likesCount, setLikesCount] = useState();
   const [isLikeLoading, setIsLikeLoading] = useState(false);
   const [isRepostLoading, setIsRepostLoading] = useState(false);
+  // const { user: curUser } = useAuth();
+  const location = useLocation();
+  const [images, setImages] = useState();
   useEffect(() => {
+    if (data.attachmentsUrl) {
+      setImages(data.attachmentsUrl);
+      // console.log(data.attachmentsUrl, 'Url');
+    } else {
+      setImages(data.attachmentsURL);
+      // console.log(data.attachmentsURL, 'URL');
+    }
     toggleLike(data.isLiked);
     toggleRepost(data.isRetweeted);
     setLikesCount(data.likesCount);
@@ -32,20 +43,14 @@ function Tweet({ data, tweets, setTweets }) {
     setRepostsCount(data.retweetsCount);
   }, [data]);
   const navigate = useNavigate();
-  const location = useLocation();
+
   const handleClick = () => {
-    navigate(`/app/tweet`, {
-      state: {
-        pastPath: location.pathname,
-        tweetID: `${data.id}`,
-        tweetData: [data],
-      },
-    });
+    navigate(`/app/tweets/${data.id}`, { state: { pastPath: location } });
   };
   const handleLike = () => {
     if (like === true) {
-      setLikesCount(likesCount - 1);
-      toggleLike(!like);
+      toggleLike((prev) => !prev);
+      setLikesCount((prev) => prev - 1);
       if (!isLikeLoading) {
         setIsLikeLoading(true);
         const deleteLike = async () => {
@@ -61,8 +66,8 @@ function Tweet({ data, tweets, setTweets }) {
             );
             const res = await response.json();
             if (!res.status) {
-              toggleLike(!like);
-              setLikesCount(likesCount + 1);
+              toggleLike((prev) => !prev);
+              setLikesCount((prev) => prev + 1);
               throw new Error(res.message);
             }
           } catch (err) {
@@ -75,8 +80,8 @@ function Tweet({ data, tweets, setTweets }) {
         deleteLike();
       }
     } else if (like === false) {
-      setLikesCount(likesCount + 1);
-      toggleLike(!like);
+      toggleLike((prev) => !prev);
+      setLikesCount((prev) => prev + 1);
 
       if (!isLikeLoading) {
         setIsLikeLoading(true);
@@ -93,8 +98,8 @@ function Tweet({ data, tweets, setTweets }) {
             );
             const res = await response.json();
             if (!res.status) {
-              setLikesCount(likesCount - 1);
-              toggleLike(!like);
+              toggleLike((prev) => !prev);
+              setLikesCount((prev) => prev - 1);
               throw new Error(res.message);
             }
           } catch (err) {
@@ -107,13 +112,14 @@ function Tweet({ data, tweets, setTweets }) {
         postLike();
       }
     }
+    setFetchLikes();
   };
   const handleRepost = () => {
     if (repost === true) {
-      toggleRepost(!repost);
-      setRepostsCount(repostsCount - 1);
+      toggleRepost((prev) => !prev);
+      setRepostsCount((prev) => prev - 1);
       if (!isRepostLoading) {
-        setIsLikeLoading(true);
+        setIsRepostLoading(true);
         const deleteRetweet = async () => {
           try {
             const response = await fetch(
@@ -129,8 +135,8 @@ function Tweet({ data, tweets, setTweets }) {
             );
             const res = await response.json();
             if (!res.status) {
-              toggleRepost(!repost);
-              setRepostsCount(repostsCount + 1);
+              toggleRepost((prev) => !prev);
+              setRepostsCount((prev) => prev + 1);
               throw new Error(res.message);
             }
           } catch (err) {
@@ -143,8 +149,8 @@ function Tweet({ data, tweets, setTweets }) {
         deleteRetweet();
       }
     } else if (repost === false) {
-      toggleRepost(!repost);
-      setRepostsCount(repostsCount + 1);
+      toggleRepost((prev) => !prev);
+      setRepostsCount((prev) => prev + 1);
       if (!isRepostLoading) {
         setIsRepostLoading(true);
         const retweet = async () => {
@@ -161,8 +167,8 @@ function Tweet({ data, tweets, setTweets }) {
             const res = await response.json();
             console.log(res);
             if (!res.status) {
-              toggleRepost(!repost);
-              setRepostsCount(repostsCount - 1);
+              toggleRepost((prev) => !prev);
+              setRepostsCount((prev) => prev - 1);
               throw new Error(res.message);
             }
           } catch (err) {
@@ -174,24 +180,13 @@ function Tweet({ data, tweets, setTweets }) {
         retweet();
       }
     }
+    setFetchRetweets();
   };
 
   const handleReply = () => {
-    // if (reply === true) setRepliesCount(repliesCount - 1);
-    // else setRepliesCount(repliesCount + 1);
-    // toggleReply(!reply);
-    // console.log(tweetID);
     handleClick();
   };
 
-  const [isHovered, setIsHovered] = useState(false);
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
   return (
     <div
       data-testid={`${data.id}`}
@@ -204,47 +199,38 @@ function Tweet({ data, tweets, setTweets }) {
           e.stopPropagation();
         }}
       >
-        <div className="profileImage leftColumn absolute mr-[12px] h-[40px] w-[40px] ">
-          <img
-            data-testid={`profileImage${data.id}`}
-            src={
-              data.user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
-            }
-            alt="profileImage"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            className="  h-[40px] w-[40px] rounded-full object-cover transition-opacity"
-          />
-        </div>
-        {isHovered && (
-          <div
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            className="relative right-24 top-[-1] z-10 mt-5 flex h-[250px]  flex-col justify-center sm:w-[300px] "
-          >
-            <PopoverUserCard
-              popoverIsFollowed={data.user.isFollowed}
-              popoverIsFollowing={data.user.isFollowing}
-              popoverUserPicture={
+        <PopoverUserCard
+          popoverIsFollowed={data.user.isFollowed}
+          popoverIsFollowing={data.user.isFollowing}
+          popoverUserPicture={
+            data.user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
+          }
+          popoverUserName={data.user.screenName}
+          popoverUserID={data.user.username}
+          popoverDiscription={data.user.bio}
+          popoverFollowing={data.user.followingCount}
+          popoverFollowers={data.user.followersCount}
+          popoverTestID={`${data.user.username}-popover`}
+          popoverSetLocalIsFollowed
+        >
+          <div className="profileImage leftColumn absolute mr-[12px] h-[40px] w-[40px] ">
+            <img
+              data-testid={`profileImage${data.id}`}
+              src={
                 data.user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
               }
-              popoverUserName={data.user.screenName}
-              popoverUserID={data.user.username}
-              popoverDiscription=""
-              popoverFollowing={data.user.followingCount}
-              popoverFollowers={data.user.followersCount}
-              popoverTestID={`${data.user.username}-popover`}
-              popoverSetLocalIsFollowed
+              alt="profileImage"
+              className="  h-[40px] w-[40px] rounded-full object-cover transition-opacity"
             />
           </div>
-        )}
+        </PopoverUserCard>
       </div>
 
       <div className="rightColumn max-w-[95%]">
-        {(data.isRetweet || repost) && (
+        {data.isRetweet && (
           <div
             className={` retweeted-info flex w-full items-center text-xs font-semibold
-          text-dark-gray ${repost === false ? 'hidden' : ''} `}
+          text-dark-gray `}
             onClick={(e) => {
               e.stopPropagation();
             }}
@@ -256,9 +242,7 @@ function Tweet({ data, tweets, setTweets }) {
               <path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z" />
             </svg>
             <span>
-              {data.isRetweeted || repost
-                ? 'You'
-                : data.retweetedUser.screenName}{' '}
+              {data.isRetweeted ? 'You' : data.retweetedUser.screenName}{' '}
               reposted
             </span>
           </div>
@@ -276,15 +260,16 @@ function Tweet({ data, tweets, setTweets }) {
             >
               <div
                 data-testid={`username${data.id}`}
-                className="name whitespace-nowrap text-[15px] font-bold dark:text-white"
+                style={{ wordBreak: 'break-word' }}
+                className="name word max-w-[220px] truncate break-words text-[15px] font-bold dark:text-white"
               >
                 {data.user.screenName}
               </div>
             </Link>
             <div className="flex flex-wrap">
-              <div className="userName overflow-hidden text-[15px] text-dark-gray">
+              <div className="userName max-w-[150px] overflow-hidden truncate break-words  text-[15px] text-dark-gray">
                 {' '}
-                &ensp;@<span>{data.user.username}</span>
+                &ensp;@<span>{data.user.username || data.user.userName}</span>
               </div>
 
               <div className="date overflow-hidden break-keep text-[15px] text-dark-gray">
@@ -334,7 +319,7 @@ function Tweet({ data, tweets, setTweets }) {
         </div>
 
         <div>
-          <Media images={data.attachmentsUrl} />
+          <Media images={images} />
         </div>
         <div className="buttons flex h-[32px] flex-row  justify-between">
           <button
@@ -390,6 +375,17 @@ function Tweet({ data, tweets, setTweets }) {
 Tweet.propTypes = {
   // eslint-disable-next-line no-undef
   data: PropTypes.object.isRequired,
+  setFetchLikes: PropTypes.func,
+  setFetchRetweets: PropTypes.func,
+};
+
+Tweet.defaultProps = {
+  setFetchLikes: () => {
+    // console.log('Hi');
+  },
+  setFetchRetweets: () => {
+    // console.log('Hi');
+  },
 };
 
 export default Tweet;

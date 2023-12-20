@@ -119,7 +119,9 @@ describe('Tweet', () => {
 
     const imageElement = getByTestId('profileImage123456');
     fireEvent.mouseEnter(imageElement);
-    const userPopup = getByTestId(`${data[0].user.username}-popover`);
+    const userPopup = getByTestId(
+      `PopoverUserCard_${data[0].user.username}-popover_0`,
+    );
     expect(userPopup).toBeInTheDocument();
     // screen.debug();
   });
@@ -191,7 +193,11 @@ describe('Tweet', () => {
 
     const replybtn = getByTestId(`${data[0].id}reply`);
     fireEvent.click(replybtn);
-    expect(navigate).toHaveBeenCalledWith(`/app/tweet`, expect.any(Object));
+    expect(navigate).toHaveBeenCalledTimes(1);
+    expect(navigate).toHaveBeenCalledWith(
+      `/app/tweet/${data[0].id}`,
+      expect.any(Object),
+    );
 
     // screen.debug();
   });

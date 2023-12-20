@@ -51,8 +51,8 @@ function NavItem({ label, outlinedIcon, filledIcon, path, hidden = true }) {
             // eslint-disable-next-line no-nested-ternary
             className={`${label ? (hidden ? 'px-4' : 'px-8') : ''} ${
               hidden ? 'hidden' : 'flex'
-            } text-xl capitalize tracking-wide text-pure-black
-          dark:text-white mlg:flex`}
+            } max-w-[150px] truncate text-xl capitalize
+          tracking-wide text-pure-black dark:text-white mlg:flex`}
           >
             {label}
           </p>

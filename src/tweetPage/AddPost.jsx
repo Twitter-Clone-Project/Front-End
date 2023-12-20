@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 // import Media from './Media';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import AddEmoji from './AddEmoji';
 import TextField from './TextField';
 import { useAuth } from '../hooks/AuthContext';
@@ -58,6 +58,7 @@ function AddPost({ setTweets }) {
           },
         );
         const data = await response.json();
+        console.log(data.data);
         if (data.status) setTweets((prev) => [data.data, ...prev]);
       } catch (error) {
         toast(error.message);
@@ -215,6 +216,7 @@ function AddPost({ setTweets }) {
               onClick={handlePost}
               type="submit"
               id="post"
+              data-testid={`post${user.userId}`}
               disabled={postDisabled}
               className="flex h-[36px] w-[66px] items-center justify-center rounded-3xl border-blue bg-blue font-bold  text-white disabled:opacity-50"
             >
