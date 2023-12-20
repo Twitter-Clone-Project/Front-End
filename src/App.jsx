@@ -25,7 +25,6 @@ import UpdateProfileForm from './components/user-profile-card/UpdateProfileForm'
 import TweetPage from './Pages/TweetPage';
 import LikersList from './Pages/LikersList';
 import RetweetersList from './Pages/RetweetersList';
-import { ChatProvider } from './contexts/ChatProvider';
 import ChatPage from './components/Direct-Messages/ChatPage';
 import InfoPage from './components/Direct-Messages/InfoPage';
 import ComposePage from './components/Direct-Messages/ComposePage';
@@ -34,11 +33,21 @@ import TweetResults from './Pages/search-page/TweetResults';
 import UserResults from './Pages/search-page/UserResults';
 import RightNavBar from './components/right-navbar/RightNavBar';
 import TrandsPage from './components/right-navbar/TrendsPage';
+import DirectMessages from './components/Direct-Messages/DirectMessages';
+import NotificationsPage from './components/notifications/NotificationsPage';
+import All from './components/notifications/All';
+import Mentions from './components/notifications/Mentions';
+import SettingsPage from './components/Settings-page/SettingsPage';
+import AccountInfo from './components/Settings-page/AccountInfo';
+import BlockedUsers from './components/Settings-page/BlockedUsers';
+import MutedUsers from './components/Settings-page/MutedUsers';
+import ChangePassword from './components/Settings-page/ChangePassword';
+import UpdateEmail from './components/Settings-page/UpdateEmail';
 
 TimeAgo.addDefaultLocale(en);
 
 function App() {
-  const { dispatch } = useAuth();
+  const { dispatch, user } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   React.useEffect(() => {
     const refresh = async () => {
@@ -70,7 +79,7 @@ function App() {
       <Spinner />
     </div>
   ) : (
-    <div className="flex h-full min-h-screen overflow-auto bg-white dark:bg-pure-black">
+    <div className="flex h-full min-h-screen w-full overflow-auto bg-white dark:bg-pure-black">
       <BrowserRouter>
         <Routes>
           <Route
@@ -99,11 +108,7 @@ function App() {
           />
           <Route
             path="/forgot-password"
-            element={
-              <UnprotectedRoute>
-                <ForgotPassword />
-              </UnprotectedRoute>
-            }
+            element={<ForgotPassword />}
           />
           <Route
             path="logout"
@@ -153,12 +158,26 @@ function App() {
             />
             <Route
               path="notifications"
-              element={
-                <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
-                  Notifications
-                </h1>
-              }
-            />
+              element={<NotificationsPage />}
+            >
+              <Route
+                index
+                element={
+                  <Navigate
+                    to="all"
+                    replace
+                  />
+                }
+              />
+              <Route
+                path="all"
+                element={<All />}
+              />
+              <Route
+                path="mentions"
+                element={<Mentions />}
+              />
+            </Route>
             <Route
               exact
               path=":username"
@@ -227,15 +246,42 @@ function App() {
             <Route
               exact
               path="settings"
-              element={
-                <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
-                  Settings
-                </h1>
-              }
-            />
+              element={<SettingsPage />}
+            >
+              <Route
+                exact
+                path="accountinfo"
+                element={<AccountInfo />}
+              />
+              <Route
+                exact
+                path="accountinfo/updateemail"
+                element={<UpdateEmail />}
+              />
+              <Route
+                exact
+                path="accountinfo/updateusername"
+                element={<h1>Update username</h1>}
+              />
+              <Route
+                exact
+                path="changepassword"
+                element={<ChangePassword />}
+              />
+              <Route
+                exact
+                path="blockedusers"
+                element={<BlockedUsers />}
+              />
+              <Route
+                exact
+                path="mutedusers"
+                element={<MutedUsers />}
+              />
+            </Route>
             <Route
               path="messages/"
-              element={<ChatProvider />}
+              element={<DirectMessages />}
             >
               <Route
                 path="/app/messages/:conversationId"

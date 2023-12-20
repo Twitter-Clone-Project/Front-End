@@ -26,7 +26,10 @@ function PersonCard({ imgRef }) {
         </p>
       </div>
       <div className="my-3 flex flex-row ">
-        <div className="text-center text-sm text-[#71767B]">
+        <div
+          data-testid="person-card-date"
+          className="text-center text-sm text-[#71767B]"
+        >
           Joined {dayjs(chatContext.contact.createdAt).format('MMMM YYYY')}
         </div>
         <div className="px-1 text-sm text-[#71767B]">.</div>
@@ -35,9 +38,15 @@ function PersonCard({ imgRef }) {
         </div>
       </div>
 
-      <div className="flex flex-row">
+      <div
+        data-testid="person-card-common-followers"
+        className="flex flex-row"
+      >
         {chatContext.contact.commonFollowers.map((follower, index) => (
-          <div key={index}>
+          <div
+            data-testid={`${index}-follower-image`}
+            key={index}
+          >
             <img
               className="h-4 w-4 rounded-full"
               src={follower.imageUrl}
@@ -45,12 +54,16 @@ function PersonCard({ imgRef }) {
             />
           </div>
         ))}
+        <div className="ml-3 text-center text-xs text-[#71767B]">
+          Followed by
+        </div>
         {chatContext.contact.commonFollowers.map((follower, index) => (
           <div
+            data-testid={`${index}-follower-name`}
             key={index}
             className="ml-3 text-center text-xs text-[#71767B]"
           >
-            Followed by {follower.name}
+            {follower.name}
           </div>
         ))}
       </div>

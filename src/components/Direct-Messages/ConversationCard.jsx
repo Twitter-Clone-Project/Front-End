@@ -4,7 +4,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import Time from './Time';
@@ -13,16 +13,51 @@ import { ChatContext } from '../../hooks/ContactContext';
 import { useAuth } from '../../hooks/AuthContext';
 
 function ConversationCard({ conversationData, setOpenedId }) {
-  const { chatContext, setChatContext, socket } = useContext(ChatContext);
+  const {
+    chatContext,
+    setChatContext,
+    conversations,
+    setConversations,
+    socket,
+    setMessagesCount,
+    messagesCount,
+  } = useContext(ChatContext);
   const { user } = useAuth();
+  const { conversationId } = useParams();
+
+  useEffect(() => {
+    conversations.map((conversation) => {
+      if (conversationId === conversation.contact.username) {
+        if (chatContext.conversationId !== '') {
+          socket.emit('chat-closed', {
+            userId: user.userId,
+            conversationId: chatContext.conversationId,
+            contactId: chatContext.contact.id,
+          });
+        }
+        setChatContext(conversation);
+        setOpenedId(conversation.conversationId);
+        socket.emit('chat-opened', {
+          userId: user.userId,
+          conversationId: conversation.conversationId,
+          contactId: conversation.contact.id,
+        });
+      }
+      return conversation;
+    });
+  }, [conversationId]);
 
   return (
     <Link
-      style={{ textDecoration: 'inherit' }}
-      to={`${conversationData.contact.name}`}
+      data-testid={conversationData.conversationId}
+      className=" hover:no-underline"
+      to={`${conversationData.contact.username}`}
     >
       <div
+        data-testid={`${conversationData.conversationId}-main`}
         onClick={() => {
+          if (!conversationData.isConversationSeen)
+            setMessagesCount(messagesCount - 1);
           if (chatContext.conversationId === '') {
             // console.log('First open id:', conversationData.conversationId);
             setChatContext({ ...conversationData });
@@ -86,7 +121,10 @@ function ConversationCard({ conversationData, setOpenedId }) {
               <div className="h-[2px] w-[2px] rounded-full bg-[#71767B]" />
             </div>
 
-            <div className="text-base text-[#71767B]">
+            <div
+              data-testid={`${conversationData.conversationId}-lastMessage`}
+              className="text-base text-[#71767B]"
+            >
               {conversationData.lastMessage !== null && (
                 <Time sendedTime={conversationData.lastMessage.timestamp} />
               )}
@@ -94,6 +132,7 @@ function ConversationCard({ conversationData, setOpenedId }) {
           </div>
 
           <div
+            data-testid={`${conversationData.conversationId}-lastMessage`}
             className={` ${
               conversationData.conversationId === chatContext.conversationId ||
               !conversationData.isConversationSeen
@@ -109,7 +148,10 @@ function ConversationCard({ conversationData, setOpenedId }) {
         </div>
 
         {!conversationData.isConversationSeen && (
-          <div className="h-3 w-3 rounded-full bg-blue" />
+          <div
+            data-testid={`${conversationData.conversationId}-point`}
+            className="h-3 w-3 rounded-full bg-blue"
+          />
         )}
       </div>
     </Link>

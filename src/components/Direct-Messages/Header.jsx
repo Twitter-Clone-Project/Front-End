@@ -20,15 +20,21 @@ function Header({ title, path, type, image, imgVisible }) {
   });
   return (
     <div>
-      <div className="flex h-[53px] items-center justify-between px-4">
-        <div className=" flex gap-5 ">
+      <div
+        data-testid={`${type}`}
+        className="flex h-[53px] w-full items-center justify-between px-4"
+      >
+        <div
+          data-testid={`${type}-div`}
+          className="relative flex"
+        >
           {type === '-' &&
             windowWidth < 1024 &&
             chatContext.conversationId !== '' && (
               <Link
-                style={{ textDecoration: 'inherit' }}
+                data-testid={`${type}-link`}
                 to="/app/messages"
-                className=" absolute left-2 top-2 w-fit"
+                className="  left-2 top-2 w-fit hover:no-underline"
                 onClick={() => {
                   // console.log('closing id', chatContext.conversationId);
                   socket.emit('chat-closed', {
@@ -69,15 +75,12 @@ function Header({ title, path, type, image, imgVisible }) {
                 }}
               >
                 <div
-                  className={` ${
-                    windowWidth < 1024 && windowWidth > 638 ? 'ml-24' : ''
-                  } 
-                     flex h-[34px] w-[34px] items-center justify-center
-                     rounded-full pt-1 
+                  className={`  
+                      left-0 flex h-[34px]  w-[34px] items-center  justify-start
                     hover:bg-[#e7e7e7] dark:hover:bg-[#181919]`}
                 >
                   <svg
-                    className="h-5 w-5  fill-black dark:fill-white"
+                    className="h-5 w-5  fill-black   dark:fill-white"
                     viewBox="0 0 24 24"
                   >
                     <path d="M7.414 13l5.043 5.04-1.414 1.42L3.586 12l7.457-7.46 1.414 1.42L7.414 11H21v2H7.414z" />
@@ -86,15 +89,20 @@ function Header({ title, path, type, image, imgVisible }) {
               </Link>
             )}
 
-          <div className={`${windowWidth < 1024 ? 'ml-6' : ''} flex gap-2 `}>
+          <div
+            data-testid={`${type}-div2`}
+            className={`flex gap-2 `}
+          >
             {!imgVisible && (
               <img
+                data-testid={`${type}-image`}
                 src={image}
                 alt=""
                 className="h-8 w-8 rounded-full"
               />
             )}
             <div
+              data-testid={`${type}-lable-logic`}
               className={`${
                 type !== 'Messages' ? 'text-[17px] ' : 'text-[20px] '
               }

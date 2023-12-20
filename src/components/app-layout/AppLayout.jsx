@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Outlet } from 'react-router-dom';
+import io from 'socket.io-client';
 import NavBar from '../navigation-bars/NavBar';
+import { ChatContext } from '../../hooks/ContactContext';
+import { useAuth } from '../../hooks/AuthContext';
 
 function AppLayout() {
+  const { user } = useAuth();
+  const { setSocket } = useContext(ChatContext);
+
+  useEffect(() => {
+    const newSocket = io(`${import.meta.env.VITE_SOCKET_DOMAIN}`);
+    newSocket.on('connect', () => {
+      newSocket.emit('add-user', { userId: user.userId });
+    });
+    setSocket(newSocket);
+    return () => {
+      if (newSocket.connected) {
+        newSocket.disconnect();
+      }
+    };
+  }, [user.userId]);
+
   return (
     <div className="min-h-full w-full">
-      <div className="layout flex h-full w-full min-w-[250px] flex-1 gap-3">
+      <div className="layout flex h-full w-full min-w-[250px] flex-1">
         <div className="relative ml-auto">
           <NavBar />
         </div>

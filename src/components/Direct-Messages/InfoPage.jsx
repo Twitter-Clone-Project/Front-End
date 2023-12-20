@@ -80,12 +80,16 @@ export default function InfoPage() {
 
   if (user)
     return (
-      <div className="flex  h-screen w-full max-w-full  flex-col  border-r-[1px]  border-[#f6f8f9] dark:border-[#252829] dark:bg-black md:w-[600px]   lg:w-[600px] xl:w-[600px]">
+      <div
+        data-testid="info-page"
+        className="flex  h-screen w-full max-w-full  flex-col  border-r-[1px]  border-[#f6f8f9] dark:border-[#252829] dark:bg-black md:w-[600px]   lg:w-[600px] xl:w-[600px]"
+      >
         <div className="flex h-[53px] items-center gap-7  px-4">
           <div>
             <Link
-              style={{ textDecoration: 'inherit' }}
-              to={`/app/messages/${chatContext.contact.name}`}
+              data-testid="info-page-link"
+              className=" hover:no-underline"
+              to={`/app/messages/${chatContext.contact.username}`}
             >
               <div className="flex h-[34px] w-[34px] items-center justify-center rounded-full hover:bg-[#e7e7e7] dark:hover:bg-[#181919]">
                 <svg
@@ -116,6 +120,7 @@ export default function InfoPage() {
           />
         </div>
         <button
+          data-testid="info-page-button"
           onClick={() => {
             isBlock(1);
           }}
@@ -125,6 +130,7 @@ export default function InfoPage() {
           Block @{chatContext.contact.username}
         </button>
         <button
+          data-testid="info-page-button-2"
           onClick={() => {
             isleave(1);
           }}
@@ -133,7 +139,10 @@ export default function InfoPage() {
         >
           Leave Converstaion
         </button>
-        <div className="text-white dark:text-black">
+        <div
+          data-testid="info-page-div"
+          className="text-white dark:text-black"
+        >
           {block && (
             <ConfirmPopUp>
               <div className="flex h-full w-full flex-col justify-between gap-5 px-8 py-3">
@@ -156,6 +165,7 @@ export default function InfoPage() {
                     borderColor="none"
                   />
                   <Button
+                    data-testid="info-page-bnt"
                     onClick={() => {
                       isBlock(0);
                     }}
@@ -171,7 +181,10 @@ export default function InfoPage() {
             </ConfirmPopUp>
           )}
         </div>
-        <div className="text-white dark:text-black">
+        <div
+          data-testid="info-page-leave"
+          className="text-white dark:text-black"
+        >
           {leave && (
             <ConfirmPopUp>
               <div className="flex h-full w-full flex-col justify-between gap-5 px-8 py-3">
@@ -195,6 +208,7 @@ export default function InfoPage() {
                     borderColor="none"
                   />
                   <Button
+                    data-testid="info-page-leave-btn"
                     onClick={() => {
                       isleave(0);
                     }}

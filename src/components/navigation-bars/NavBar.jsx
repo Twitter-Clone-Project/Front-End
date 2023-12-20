@@ -1,17 +1,104 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
+import toast from 'react-hot-toast';
 import NavItem from './NavItem';
 import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
 import FloatingHeader from './FloatingHeader';
 import UserImg from './UserImg';
 import ComposePost from '../compose-popup/ComposePost';
+import { ChatContext } from '../../hooks/ContactContext';
 
 function NavBar() {
   const { user } = useAuth();
   const [composeOpen, setComposeOpen] = useState(false);
+  const {
+    setMessagesCount,
+    messagesCount,
+    setNotificationsCount,
+    socket,
+    chatContext,
+  } = useContext(ChatContext);
+
+  // Messages
+  useEffect(() => {
+    const fetchCount = async () => {
+      try {
+        const res = await fetch(
+          `${
+            import.meta.env.VITE_API_DOMAIN
+          }conversations/unseenConversationsCnt`,
+          {
+            method: 'GET',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+          },
+        );
+        if (res.status === 404) return;
+        const data = await res.json();
+        if (data.status === false) {
+          throw new Error(data.message);
+        }
+        setMessagesCount(parseInt(data.data.unseenCnt, 10));
+      } catch (err) {
+        toast(err.message);
+      }
+    };
+    fetchCount();
+  }, []);
+
+  // Notifications
+  useEffect(() => {
+    const fetchCount = async () => {
+      try {
+        const res = await fetch(
+          `${
+            import.meta.env.VITE_API_DOMAIN
+          }notifications/unseenNotificationsCnt`,
+          {
+            method: 'GET',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+          },
+        );
+        if (res.status === 404) return;
+        const data = await res.json();
+        if (data.status === false) {
+          throw new Error(data.message);
+        }
+        setNotificationsCount(data.data.unseenCnt);
+      } catch (err) {
+        toast(err.message);
+      }
+    };
+    fetchCount();
+  }, []);
+
+  useEffect(() => {
+    if (socket === null) return;
+    socket.on('msg-receive', async (message) => {
+      if (message.conversationId !== chatContext.conversationId) {
+        setMessagesCount(messagesCount + 1);
+      }
+    });
+  }, [socket]);
+
+  useEffect(() => {
+    console.log('in NavBar');
+    if (socket === null) return;
+
+    socket.on('notification-receive', async () => {
+      console.log('navbar increase count');
+      setNotificationsCount(
+        (prevNotificationsCount) => prevNotificationsCount + 1,
+      );
+    });
+  }, [socket]);
+
   const mobileItems = [
     {
       path: './home',
@@ -157,7 +244,7 @@ function NavBar() {
           sm:items-start sm:justify-between sm:gap-1 sm:border-0 sm:px-2 
           ${!show ? 'opacity-30 sm:opacity-100' : ''}`}
         >
-          <div className="mb-4 hidden p-3 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:flex">
+          <div className="mb-4 hidden max-w-[230px] p-3 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:flex">
             <Link to="/">
               <svg
                 className="inline-block w-[1.9rem] fill-pure-black dark:fill-white"
@@ -176,7 +263,7 @@ function NavBar() {
               </svg>
             </Link>
           </div>
-          <div className="hidden sm:contents">
+          <div className="hidden max-w-[230px] sm:contents">
             {items.map((item) => (
               <NavItem
                 key={uuid4()}
@@ -187,7 +274,7 @@ function NavBar() {
               />
             ))}
           </div>
-          <div className="contents sm:hidden">
+          <div className="contents max-w-[230px] sm:hidden">
             {mobileItems.map((item) => (
               <NavItem
                 key={uuid4()}
@@ -230,7 +317,7 @@ function NavBar() {
               </svg>
             </button>
           </div>
-          <div className="absolute bottom-24 right-0 mx-auto my-6 hidden w-full items-center justify-between justify-self-end p-2 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:relative sm:bottom-0 sm:right-0 sm:flex sm:items-start">
+          <div className="absolute bottom-24 right-0 mx-auto my-6 hidden w-full max-w-[230px] items-center justify-between justify-self-end p-2 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:relative sm:bottom-0 sm:right-0 sm:flex sm:items-start">
             <button
               type="submit"
               data-testid="user-btn"
@@ -239,7 +326,7 @@ function NavBar() {
               <UserImg user={user} />
               <p
                 className="
-                hidden max-w-[250px] truncate px-2
+                hidden max-w-[150px] truncate px-2
               text-sm font-semibold tracking-wide dark:text-white lg:flex-1 lg:flex-col lg:items-start mlg:flex"
               >
                 <span className="name">{user.name}</span>
@@ -250,7 +337,7 @@ function NavBar() {
               <span className="hidden items-center justify-center px-2 text-xs font-medium tracking-wider dark:text-white mlg:flex">
                 &bull;&bull;&bull;
               </span>
-              <div className="absolute bottom-0 left-0 top-0 z-50 hidden h-full w-full group-focus-within:flex dark:text-white  ">
+              <div className="absolute bottom-0  left-0 top-0 z-50 hidden h-full w-full group-focus-within:flex dark:text-white  ">
                 <div className="absolute bottom-14 left-0 flex w-64 items-center justify-start rounded-2xl bg-white py-4 shadow-[rgba(100,100,100,0.5)_0px_0.5px_4px] dark:bg-pure-black dark:shadow-[rgba(100,100,100,0.7)_0px_0.5px_4px]">
                   <div className="flex flex-1 justify-start px-3 hover:bg-light-hover-layout  hover:dark:bg-hover-layout">
                     <div
@@ -259,7 +346,7 @@ function NavBar() {
                       tabIndex={-6}
                       onClick={handleLogout}
                       onKeyDown={handleLogout}
-                      className="z-50 flex-1 p-3 text-start"
+                      className="z-50 max-w-[230px] flex-1 truncate p-3 text-start"
                     >
                       Log Out @{user.username}
                     </div>
