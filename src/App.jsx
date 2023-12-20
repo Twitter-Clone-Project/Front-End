@@ -38,7 +38,6 @@ import BlockedUsers from './components/Settings-page/BlockedUsers';
 import MutedUsers from './components/Settings-page/MutedUsers';
 import ChangePassword from './components/Settings-page/ChangePassword';
 import UpdateEmail from './components/Settings-page/UpdateEmail';
-import UpdateUsername from './components/Settings-page/UpdateUsername';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -225,7 +224,7 @@ function App() {
               <Route
                 exact
                 path="accountinfo/updateusername"
-                element={<UpdateUsername />}
+                element={<h1>Update username</h1>}
               />
               <Route
                 exact
