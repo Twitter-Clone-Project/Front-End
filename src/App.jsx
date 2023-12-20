@@ -32,11 +32,18 @@ import DirectMessages from './components/Direct-Messages/DirectMessages';
 import NotificationsPage from './components/notifications/NotificationsPage';
 import All from './components/notifications/All';
 import Mentions from './components/notifications/Mentions';
+import SettingsPage from './components/Settings-page/SettingsPage';
+import AccountInfo from './components/Settings-page/AccountInfo';
+import BlockedUsers from './components/Settings-page/BlockedUsers';
+import MutedUsers from './components/Settings-page/MutedUsers';
+import ChangePassword from './components/Settings-page/ChangePassword';
+import UpdateEmail from './components/Settings-page/UpdateEmail';
+import UpdateUsername from './components/Settings-page/UpdateUsername';
 
 TimeAgo.addDefaultLocale(en);
 
 function App() {
-  const { dispatch } = useAuth();
+  const { dispatch, user } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   React.useEffect(() => {
     const refresh = async () => {
@@ -68,7 +75,7 @@ function App() {
       <Spinner />
     </div>
   ) : (
-    <div className="flex h-full min-h-screen overflow-auto bg-white dark:bg-pure-black">
+    <div className="flex h-full min-h-screen w-full overflow-auto bg-white dark:bg-pure-black">
       <BrowserRouter>
         <Routes>
           <Route
@@ -97,11 +104,7 @@ function App() {
           />
           <Route
             path="/forgot-password"
-            element={
-              <UnprotectedRoute>
-                <ForgotPassword />
-              </UnprotectedRoute>
-            }
+            element={<ForgotPassword />}
           />
           <Route
             path="logout"
@@ -207,12 +210,39 @@ function App() {
             <Route
               exact
               path="settings"
-              element={
-                <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
-                  Settings
-                </h1>
-              }
-            />
+              element={<SettingsPage />}
+            >
+              <Route
+                exact
+                path="accountinfo"
+                element={<AccountInfo />}
+              />
+              <Route
+                exact
+                path="accountinfo/updateemail"
+                element={<UpdateEmail />}
+              />
+              <Route
+                exact
+                path="accountinfo/updateusername"
+                element={<UpdateUsername />}
+              />
+              <Route
+                exact
+                path="changepassword"
+                element={<ChangePassword />}
+              />
+              <Route
+                exact
+                path="blockedusers"
+                element={<BlockedUsers />}
+              />
+              <Route
+                exact
+                path="mutedusers"
+                element={<MutedUsers />}
+              />
+            </Route>
             <Route
               path="messages/"
               element={<DirectMessages />}

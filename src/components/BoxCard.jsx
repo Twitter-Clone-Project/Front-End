@@ -15,7 +15,10 @@ function BoxCard({ children, classes, minHeight, onClose, header, compose }) {
         minHeight || 'md:min-h-[650px]'
       } md:w-[615px] md:rounded-2xl ${classes}`}
     >
-      <div className={`overflow-auto  pt-8 ${compose ? 'pb-0' : 'pb-4'}`}>
+      <div
+        className={`flex h-full w-full flex-1 flex-col justify-between 
+        overflow-auto pt-8 ${compose ? 'pb-0' : 'pb-4'}`}
+      >
         <div className="absolute left-0 top-0 flex h-[53px] w-full min-w-[300px] items-center ">
           {header ? (
             // eslint-disable-next-line react/jsx-no-useless-fragment

@@ -59,16 +59,15 @@ describe('UserItem', () => {
               discription="Some description"
               following="10"
               followers="20"
-              testID={1}
             />
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
-    expect(getByTestId('UserItem_1_0')).toBeInTheDocument();
-    expect(queryByTestId('UserItem_1_1')).not.toBeInTheDocument();
-    expect(getByTestId('UserItem_1_2')).toBeInTheDocument();
-    expect(getByTestId('UserItem_1_2')).toHaveTextContent('Follow');
+    expect(getByTestId('UserItem_john_doe_0')).toBeInTheDocument();
+    expect(queryByTestId('UserItem_john_doe_1')).not.toBeInTheDocument();
+    expect(getByTestId('UserItem_john_doe_2')).toBeInTheDocument();
+    expect(getByTestId('UserItem_john_doe_2')).toHaveTextContent('Follow');
   });
 
   it('test hover to show popOver', async () => {
@@ -90,18 +89,17 @@ describe('UserItem', () => {
               discription="Some description"
               following="10"
               followers="20"
-              testID={1}
             />
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
 
-    fireEvent.mouseOver(getByTestId('UserItem_1_img'));
+    fireEvent.mouseOver(getByTestId('UserItem_john_doe_img'));
     await new Promise((resolve) => setTimeout(resolve, 700));
-    fireEvent.mouseOver(getByTestId('UserItem_1_3'));
-    fireEvent.mouseOut(getByTestId('UserItem_1_3'));
-    fireEvent.mouseOut(getByTestId('UserItem_1_img'));
+    fireEvent.mouseOver(getByTestId('UserItem_john_doe_3'));
+    fireEvent.mouseOut(getByTestId('UserItem_john_doe_3'));
+    fireEvent.mouseOut(getByTestId('UserItem_john_doe_img'));
     await new Promise((resolve) => setTimeout(resolve, 600));
   });
 
@@ -124,16 +122,15 @@ describe('UserItem', () => {
               discription="Some description"
               following="10"
               followers="20"
-              testID={1}
             />
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
-    expect(getByTestId('UserItem_1_2')).toHaveTextContent('Following');
-    fireEvent.mouseEnter(getByTestId('UserItem_1_2'));
-    expect(getByTestId('UserItem_1_2')).toHaveTextContent('Unfollow');
-    fireEvent.mouseLeave(getByTestId('UserItem_1_2'));
+    expect(getByTestId('UserItem_john_doe_2')).toHaveTextContent('Following');
+    fireEvent.mouseEnter(getByTestId('UserItem_john_doe_2'));
+    expect(getByTestId('UserItem_john_doe_2')).toHaveTextContent('Unfollow');
+    fireEvent.mouseLeave(getByTestId('UserItem_john_doe_2'));
   });
 
   it('should appear Follows Element when the user is Following you', () => {
@@ -155,13 +152,12 @@ describe('UserItem', () => {
               discription="Some description"
               following="10"
               followers="20"
-              testID={1}
             />
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
-    expect(queryByTestId('UserItem_1_1')).toBeInTheDocument();
+    expect(queryByTestId('UserItem_john_doe_1')).toBeInTheDocument();
   });
 
   it('should not appear Follow Button when the user is the same one', () => {
@@ -183,13 +179,12 @@ describe('UserItem', () => {
               discription="Some description"
               following="10"
               followers="20"
-              testID={1}
             />
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
-    expect(queryByTestId('UserItem_1_2')).not.toBeInTheDocument();
+    expect(queryByTestId('UserItem_john_doe_2')).not.toBeInTheDocument();
   });
 
   it('handles follow correctly', async () => {
@@ -216,14 +211,13 @@ describe('UserItem', () => {
               discription="Some description"
               following="10"
               followers="20"
-              testID={1}
             />
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
-    expect(getByTestId('UserItem_1_2')).not.toBeDisabled();
-    fireEvent.click(getByTestId('UserItem_1_2'));
+    expect(getByTestId('UserItem_john_doe_2')).not.toBeDisabled();
+    fireEvent.click(getByTestId('UserItem_john_doe_2'));
     await waitFor(() => {
       expect(window.fetch).toHaveBeenCalledTimes(1);
       expect(window.fetch).toHaveBeenCalledWith(
@@ -265,14 +259,13 @@ describe('UserItem', () => {
               discription="Some description"
               following="10"
               followers="20"
-              testID={1}
             />
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
-    expect(getByTestId('UserItem_1_2')).not.toBeDisabled();
-    fireEvent.click(getByTestId('UserItem_1_2'));
+    expect(getByTestId('UserItem_john_doe_2')).not.toBeDisabled();
+    fireEvent.click(getByTestId('UserItem_john_doe_2'));
     await waitFor(() => {
       expect(window.fetch).toHaveBeenCalledTimes(1);
       expect(window.fetch).toHaveBeenCalledWith(
@@ -309,14 +302,13 @@ describe('UserItem', () => {
               discription="Some description"
               following="10"
               followers="20"
-              testID={1}
             />
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
 
-    fireEvent.click(getByTestId('UserItem_1_toUserProfile'));
+    fireEvent.click(getByTestId('UserItem_john_doe_toUserProfile'));
     expect(navigate).toHaveBeenCalled();
     expect(navigate).toHaveBeenCalledWith(`/app/john_doe`, {
       preventScrollReset: undefined,

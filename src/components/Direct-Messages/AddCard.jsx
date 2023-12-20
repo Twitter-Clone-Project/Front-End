@@ -3,7 +3,10 @@ import React from 'react';
 
 function AddCard({ person, setDeletePerson }) {
   return (
-    <div className="flex w-fit items-center gap-2 rounded-3xl border border-dark-gray p-1 dark:border-[#252829] dark:bg-black">
+    <div
+      data-testid={`${person.id}-addCard-person`}
+      className="flex w-fit items-center gap-2 rounded-3xl border border-dark-gray p-1 dark:border-[#252829] dark:bg-black"
+    >
       <img
         src={person.profileImageURL}
         alt=""
@@ -13,6 +16,7 @@ function AddCard({ person, setDeletePerson }) {
         {person.name}
       </div>
       <button
+        data-testid={`${person.id}-addCard-person-button`}
         type="submit"
         onClick={() => setDeletePerson(person)}
       >

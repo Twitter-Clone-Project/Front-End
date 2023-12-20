@@ -49,10 +49,12 @@ function ConversationCard({ conversationData, setOpenedId }) {
 
   return (
     <Link
+      data-testid={conversationData.conversationId}
       className=" hover:no-underline"
       to={`${conversationData.contact.username}`}
     >
       <div
+        data-testid={`${conversationData.conversationId}-main`}
         onClick={() => {
           if (!conversationData.isConversationSeen)
             setMessagesCount(messagesCount - 1);
@@ -119,7 +121,10 @@ function ConversationCard({ conversationData, setOpenedId }) {
               <div className="h-[2px] w-[2px] rounded-full bg-[#71767B]" />
             </div>
 
-            <div className="text-base text-[#71767B]">
+            <div
+              data-testid={`${conversationData.conversationId}-lastMessage`}
+              className="text-base text-[#71767B]"
+            >
               {conversationData.lastMessage !== null && (
                 <Time sendedTime={conversationData.lastMessage.timestamp} />
               )}
@@ -127,6 +132,7 @@ function ConversationCard({ conversationData, setOpenedId }) {
           </div>
 
           <div
+            data-testid={`${conversationData.conversationId}-lastMessage`}
             className={` ${
               conversationData.conversationId === chatContext.conversationId ||
               !conversationData.isConversationSeen
@@ -142,7 +148,10 @@ function ConversationCard({ conversationData, setOpenedId }) {
         </div>
 
         {!conversationData.isConversationSeen && (
-          <div className="h-3 w-3 rounded-full bg-blue" />
+          <div
+            data-testid={`${conversationData.conversationId}-point`}
+            className="h-3 w-3 rounded-full bg-blue"
+          />
         )}
       </div>
     </Link>

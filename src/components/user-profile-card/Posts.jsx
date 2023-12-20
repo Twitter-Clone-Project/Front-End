@@ -124,7 +124,10 @@ function Posts() {
               data-testid="posts-list"
               className="flex w-full flex-col items-center gap-5"
             >
-              <TweetList data={posts} />
+              <TweetList
+                data={posts}
+                setTweets={setPosts}
+              />
               {isLoading && <DotLoader />}
             </div>
           )}

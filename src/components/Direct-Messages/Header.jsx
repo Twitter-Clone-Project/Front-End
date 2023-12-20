@@ -20,12 +20,19 @@ function Header({ title, path, type, image, imgVisible }) {
   });
   return (
     <div>
-      <div className="flex h-[53px] w-full items-center justify-between px-4">
-        <div className="relative flex">
+      <div
+        data-testid={`${type}`}
+        className="flex h-[53px] w-full items-center justify-between px-4"
+      >
+        <div
+          data-testid={`${type}-div`}
+          className="relative flex"
+        >
           {type === '-' &&
             windowWidth < 1024 &&
             chatContext.conversationId !== '' && (
               <Link
+                data-testid={`${type}-link`}
                 to="/app/messages"
                 className="  left-2 top-2 w-fit hover:no-underline"
                 onClick={() => {
@@ -82,15 +89,20 @@ function Header({ title, path, type, image, imgVisible }) {
               </Link>
             )}
 
-          <div className={`flex gap-2 `}>
+          <div
+            data-testid={`${type}-div2`}
+            className={`flex gap-2 `}
+          >
             {!imgVisible && (
               <img
+                data-testid={`${type}-image`}
                 src={image}
                 alt=""
                 className="h-8 w-8 rounded-full"
               />
             )}
             <div
+              data-testid={`${type}-lable-logic`}
               className={`${
                 type !== 'Messages' ? 'text-[17px] ' : 'text-[20px] '
               }

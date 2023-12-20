@@ -74,7 +74,7 @@ function FollowersList() {
                 <svg
                   viewBox="0 0 24 24"
                   aria-hidden="true"
-                  className=" h-5 w-5 text-black dark:text-x-light-gray"
+                  className=" h-5 w-5 fill-black dark:fill-x-light-gray"
                 >
                   <g>
                     <path
@@ -97,7 +97,7 @@ function FollowersList() {
             </div>
           </div>
           <div
-            className=" border-b border-border-gray"
+            className=" border-b border-light-gray dark:border-border-gray"
             data-testid="FollowerList_1"
           >
             <ListNav

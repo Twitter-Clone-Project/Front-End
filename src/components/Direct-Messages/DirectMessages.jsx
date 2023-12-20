@@ -155,12 +155,16 @@ function DirectMessages() {
   });
 
   return (
-    <div className="h-full w-full text-black">
+    <div
+      data-testid="direct-messages"
+      className="h-full w-full text-black"
+    >
       <div className="layout max-h-screenover flow-auto mx-auto  h-full grid-cols-[auto_1fr]  grid-rows-1 dark:bg-black  md:grid ">
         <ConversationsPage />
 
         {windowWidth >= 1024 && chatContext.conversationId === '' && (
           <div
+            data-testid="welcome-page"
             className="flex h-screen  flex-col justify-center border-x-[1px]  border-[#f6f8f9]
                       dark:border-[#252829] dark:bg-black dark:text-white
                       md:w-[600px] lg:w-[600px]

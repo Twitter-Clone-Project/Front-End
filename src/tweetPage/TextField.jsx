@@ -36,7 +36,10 @@ function TextField({ text, setText }) {
   };
 
   return (
-    <div className="w-full max-w-full">
+    <div
+      data-testid="textField"
+      className="w-full max-w-full"
+    >
       <Editor
         placeholder="What is happening?!"
         onClick={focus}
