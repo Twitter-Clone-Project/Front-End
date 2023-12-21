@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
-
-import io from 'socket.io-client';
 import dayjs from 'dayjs';
 import { Outlet } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -14,10 +12,10 @@ function DirectMessages() {
   const {
     chatContext,
     socket,
-    setSocket,
     setSocketMessages,
     setChatState,
     setTop,
+    setChatContext,
   } = useContext(ChatContext);
   const [windowWidth, setWindowWidth] = useState(window.outerWidth);
 
@@ -30,29 +28,80 @@ function DirectMessages() {
     chatContextRef.current = chatContext;
   }, [chatContext]);
 
-  useEffect(() => {
-    const newSocket = io(`${import.meta.env.VITE_SOCKET_DOMAIN}`);
-    newSocket.on('connect', () => {
-      newSocket.emit('add-user', { userId: user.userId });
-    });
-    setSocket(newSocket);
+  // close the opened chat when go to another page
 
-    return () => {
-      if (newSocket.connected) {
-        if (chatContext.conversationId === '') {
-          // mark the current chat as closed before closed the website
-          if (chatContext.conversationId !== '') {
-            socket.emit('chat-closed', {
-              userId: user.userId,
-              conversationId: chatContext.conversationId,
-              contactId: chatContext.contact.id,
-            });
-          }
-        }
-        newSocket.disconnect();
+  useEffect(
+    () => () => {
+      if (
+        chatContextRef.current &&
+        chatContextRef.current.conversationId !== ''
+      ) {
+        // mark the current chat as closed before closing the website
+        socket.emit('chat-closed', {
+          userId: user.userId,
+          conversationId: chatContextRef.current.conversationId,
+          contactId: chatContextRef.current.contact.id,
+        });
       }
-    };
-  }, [user.userId]);
+      setChatContext({
+        conversationId: '',
+        isConversationSeen: false,
+        contact: {
+          id: '',
+          email: '',
+          name: '',
+          username: '',
+          imageUrl: '',
+          followersCount: '',
+          createdAt: '',
+          commonFollowers: [
+            {
+              name: '',
+              username: '',
+              imageUrl: '',
+            },
+            {
+              name: '',
+              username: '',
+              imageUrl: null,
+            },
+          ],
+          commonFollowersCnt: 0,
+        },
+        lastMessage: {
+          id: '',
+          text: '',
+          timestamp: '',
+          isSeen: '',
+        },
+      });
+    },
+    [],
+  );
+
+  // useEffect(() => {
+  //   const newSocket = io(`${import.meta.env.VITE_SOCKET_DOMAIN}`);
+  //   newSocket.on('connect', () => {
+  //     newSocket.emit('add-user', { userId: user.userId });
+  //   });
+  //   setSocket(newSocket);
+
+  //   return () => {
+  //     if (newSocket.connected) {
+  //       if (chatContext.conversationId === '') {
+  //         // mark the current chat as closed before closed the website
+  //         if (chatContext.conversationId !== '') {
+  //           socket.emit('chat-closed', {
+  //             userId: user.userId,
+  //             conversationId: chatContext.conversationId,
+  //             contactId: chatContext.contact.id,
+  //           });
+  //         }
+  //       }
+  //       newSocket.disconnect();
+  //     }
+  //   };
+  // }, [user.userId]);
 
   // Get the Socket messages
   useEffect(() => {
