@@ -199,6 +199,7 @@ function AddPost({ setTweets }) {
               </label>
               <input
                 className="hidden"
+                data-testid={`mediaInput${user.userId}`}
                 disabled={addFileDisabled}
                 type="file"
                 accept={`image/*, ${acceptVideo ? 'video/*' : ''}`}

@@ -194,6 +194,7 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
       onClick={handleClick}
     >
       <div
+      data-testid={`popover${data.id}`}
         className="leftColumn mr-[12px] h-[40px] w-[40px] "
         onClick={(e) => {
           e.stopPropagation();
