@@ -6,8 +6,6 @@ import { ChatContext } from '../../hooks/ContactContext';
 
 function PersonCard({ imgRef }) {
   const { chatContext } = useContext(ChatContext);
-  console.log(chatContext.contact.commonFollowers.length);
-
   return (
     <div className="mb-4 flex h-[271.555px] w-full flex-col  items-center border-b-[1px] border-[#f6f8f9] px-4 py-5 hover:bg-[#f0f3f3] dark:border-[#252829] dark:bg-black dark:hover:bg-[#16171a]">
       <div className=" h-[68px] w-[68px]">
