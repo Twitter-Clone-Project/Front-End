@@ -11,12 +11,12 @@ import PropTypes from 'prop-types';
 import { v4 as uuid4 } from 'uuid';
 import OwnToaster from '../components/OwnToaster';
 import PopoverUserCard from '../components/userComponents/PopoverUserCard';
-// import { useAuth } from '../hooks/AuthContext';
+import { useAuth } from '../hooks/AuthContext';
 import ReplyMenu from './ReplyMenu';
 
 function Reply({ data, tweetId, replies, setReplies }) {
   const [text, setText] = useState('');
-  // const { user } = useAuth();
+  const { user } = useAuth();
 
   useEffect(() => {
     setText(data.replyText);
@@ -104,18 +104,22 @@ function Reply({ data, tweetId, replies, setReplies }) {
               />
             </div>
           </div>
-          <div
-            className="pl-2"
-            data-testid={`${data.replyId}-reply-menu`}
-          >
-            <ReplyMenu
-              userId={data.replyUserId}
-              tweetId={tweetId}
-              reply={data}
-              replies={replies}
-              setReplies={setReplies}
-            />
-          </div>
+          {user.userId === data.replyUserId ? (
+            <div
+              className="pl-2"
+              data-testid={`${data.replyId}-reply-menu`}
+            >
+              <ReplyMenu
+                userId={data.replyUserId}
+                tweetId={tweetId}
+                reply={data}
+                replies={replies}
+                setReplies={setReplies}
+              />
+            </div>
+          ) : (
+            ''
+          )}
         </div>
         <div
           className="caption"

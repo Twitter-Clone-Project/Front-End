@@ -97,9 +97,9 @@ function ReplyMenu({ userId, tweetId, reply, replies, setReplies }) {
           data-testid={`${reply.replyId}menu`}
           className="dropdown-content absolute right-[-10px] z-10 flex w-[480px] flex-col rounded-2xl bg-white py-3 shadow shadow-pure-black dark:bg-pure-black dark:text-white dark:shadow-white"
         >
-          {/* {userId !== user.userId && (
+          {userId !== user.userId && (
             <div className="anotheruser  h-[220px] py-3">
-              <button
+              {/* <button
                 type="submit"
                 onClick={() => handleFollow()}
                 className="w-[100%]"
@@ -132,8 +132,8 @@ function ReplyMenu({ userId, tweetId, reply, replies, setReplies }) {
                     </div>
                   )}
                 </div>
-              </button>
-              <button
+              </button> */}
+              {/* <button
                 type="submit"
                 onClick={() => handleMute()}
                 className="w-[100%]"
@@ -173,9 +173,9 @@ function ReplyMenu({ userId, tweetId, reply, replies, setReplies }) {
                     Block @{reply.user.username}
                   </div>
                 </div>
-              </button>
+              </button> */}
             </div>
-          )} */}
+          )}
           {userId === user.userId && (
             <button
               type="submit"
