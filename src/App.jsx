@@ -162,19 +162,39 @@ function App() {
             />
             <Route
               path="tweets/:tweetId"
-              element={<TweetPage />}
+              element={
+                <div className="flex gap-8">
+                  <TweetPage />
+                  <RightNavBar />
+                </div>
+              }
             />
             <Route
               path="tweets/:tweetId/likes"
-              element={<LikersList />}
+              element={
+                <div className="flex gap-8">
+                  <LikersList />
+                  <RightNavBar />
+                </div>
+              }
             />
             <Route
               path="tweets/:tweetId/retweets"
-              element={<RetweetersList />}
+              element={
+                <div className="flex gap-8">
+                  <RetweetersList />
+                  <RightNavBar />
+                </div>
+              }
             />
             <Route
               path="notifications"
-              element={<NotificationsPage />}
+              element={
+                <div className="flex gap-8">
+                  <NotificationsPage />
+                  <RightNavBar />
+                </div>
+              }
             >
               <Route
                 index
@@ -224,7 +244,12 @@ function App() {
             </Route>
             <Route
               path="search"
-              element={<SearchPage />}
+              element={
+                <div className="flex gap-8">
+                  <SearchPage />
+                  <RightNavBar />
+                </div>
+              }
             >
               <Route
                 index
@@ -247,7 +272,12 @@ function App() {
             <Route
               exact
               path=":username/following"
-              element={<FollowingList />}
+              element={
+                <div className="flex gap-8">
+                  <FollowingList />
+                  <RightNavBar />
+                </div>
+              }
             />
             <Route
               exact
@@ -257,7 +287,12 @@ function App() {
             <Route
               exact
               path=":username/followers"
-              element={<FollowersList />}
+              element={
+                <div className="flex gap-8">
+                  <FollowersList />
+                  <RightNavBar />
+                </div>
+              }
             />
             <Route
               exact
