@@ -12,11 +12,11 @@ function AddResultCard({ setPerson, result, deletePerson }) {
 
   return (
     <div
+      data-testid={`${result.id}-card`}
       onClick={() => {
         setPerson(result);
         setIsClicked(!isclicked);
       }}
-      key={result.id}
       className="dark:hover:bg-[#16171a flex h-[73px] w-full bg-white p-4 
     hover:bg-xx-light-gray   dark:bg-black 
     dark:hover:bg-[#16171a]"
@@ -30,7 +30,7 @@ function AddResultCard({ setPerson, result, deletePerson }) {
       </div>
       <div className="flex w-full flex-col overflow-clip">
         <div className="w-[90%] max-w-fit overflow-clip whitespace-nowrap text-base font-bold text-black dark:text-white">
-          {result.name}
+          {result.screenName}
         </div>
         <div className="w-[90%]  max-w-fit overflow-clip whitespace-nowrap text-base text-[#71767B]">
           @{result.username}
@@ -39,6 +39,7 @@ function AddResultCard({ setPerson, result, deletePerson }) {
 
       {isclicked && (
         <svg
+          data-testid={`${result.id}-svg`}
           viewBox="0 0 24 24"
           className="h-[20px] w-[20px] fill-blue"
         >

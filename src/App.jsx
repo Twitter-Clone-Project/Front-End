@@ -1,6 +1,12 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import * as React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+} from 'react-router-dom';
 import { useState } from 'react';
 // import { v4 as uuid4 } from 'uuid';
 import TimeAgo from 'javascript-time-ago';
@@ -25,17 +31,24 @@ import UpdateProfileForm from './components/user-profile-card/UpdateProfileForm'
 import TweetPage from './Pages/TweetPage';
 import LikersList from './Pages/LikersList';
 import RetweetersList from './Pages/RetweetersList';
+import ChatPage from './components/Direct-Messages/ChatPage';
+import InfoPage from './components/Direct-Messages/InfoPage';
+import ComposePage from './components/Direct-Messages/ComposePage';
+import SearchPage from './Pages/search-page/SearchPage';
+import TweetResults from './Pages/search-page/TweetResults';
+import UserResults from './Pages/search-page/UserResults';
+import RightNavBar from './components/right-navbar/RightNavBar';
+import TrandsPage from './components/right-navbar/TrendsPage';
+import DirectMessages from './components/Direct-Messages/DirectMessages';
+import NotificationsPage from './components/notifications/NotificationsPage';
+import All from './components/notifications/All';
+import Mentions from './components/notifications/Mentions';
 import SettingsPage from './components/Settings-page/SettingsPage';
 import AccountInfo from './components/Settings-page/AccountInfo';
 import BlockedUsers from './components/Settings-page/BlockedUsers';
 import MutedUsers from './components/Settings-page/MutedUsers';
 import ChangePassword from './components/Settings-page/ChangePassword';
-import { ChatProvider } from './contexts/ChatProvider';
-import ChatPage from './components/Direct-Messages/ChatPage';
-import InfoPage from './components/Direct-Messages/InfoPage';
-import ComposePage from './components/Direct-Messages/ComposePage';
 import UpdateEmail from './components/Settings-page/UpdateEmail';
-import UpdateUsername from './components/Settings-page/UpdateUsername';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -66,6 +79,16 @@ function App() {
     };
     refresh();
   }, [dispatch]);
+  React.useEffect(() => {
+    const refresh = () => {
+      console.log('aaaa');
+      window.location.href = '/';
+    };
+    window.addEventListener('storage', refresh);
+    return () => {
+      window.removeEventListener('storage', refresh);
+    };
+  }, []);
 
   return isLoading ? (
     <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex h-screen w-full items-center justify-center dark:bg-pure-black md:bg-border-gray">
@@ -130,7 +153,12 @@ function App() {
             />
             <Route
               path="home"
-              element={<Homepage />}
+              element={
+                <div className="flex gap-8">
+                  <Homepage />
+                  <RightNavBar />
+                </div>
+              }
             />
             <Route
               path="tweets/:tweetId"
@@ -146,16 +174,35 @@ function App() {
             />
             <Route
               path="notifications"
-              element={
-                <h1 className="flex items-center justify-center border-x-[1px] border-border-gray dark:text-white">
-                  Notifications
-                </h1>
-              }
-            />
+              element={<NotificationsPage />}
+            >
+              <Route
+                index
+                element={
+                  <Navigate
+                    to="all"
+                    replace
+                  />
+                }
+              />
+              <Route
+                path="all"
+                element={<All />}
+              />
+              <Route
+                path="mentions"
+                element={<Mentions />}
+              />
+            </Route>
             <Route
               exact
               path=":username"
-              element={<ProfilePage />}
+              element={
+                <div className="flex gap-8">
+                  <ProfilePage />
+                  <RightNavBar />
+                </div>
+              }
             >
               <Route
                 index
@@ -173,6 +220,28 @@ function App() {
               <Route
                 path="likes"
                 element={<Likes />}
+              />
+            </Route>
+            <Route
+              path="search"
+              element={<SearchPage />}
+            >
+              <Route
+                index
+                element={
+                  <Navigate
+                    to="tweets"
+                    replace
+                  />
+                }
+              />
+              <Route
+                path="tweets"
+                element={<TweetResults />}
+              />
+              <Route
+                path="users"
+                element={<UserResults />}
               />
             </Route>
             <Route
@@ -208,7 +277,7 @@ function App() {
               <Route
                 exact
                 path="accountinfo/updateusername"
-                element={<UpdateUsername />}
+                element={<h1>Update username</h1>}
               />
               <Route
                 exact
@@ -228,7 +297,7 @@ function App() {
             </Route>
             <Route
               path="messages/"
-              element={<ChatProvider />}
+              element={<DirectMessages />}
             >
               <Route
                 path="/app/messages/:conversationId"
@@ -245,6 +314,10 @@ function App() {
                 element={<ComposePage />}
               />
             </Route>
+            <Route
+              path="/app/explore"
+              element={<TrandsPage />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>

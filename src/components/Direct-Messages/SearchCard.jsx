@@ -13,10 +13,12 @@ function SearchCard({ conversationData, setOpenedId }) {
   const { user } = useAuth();
   return (
     <Link
+      data-testid={`${conversationData.conversationId}-search-card`}
       className=" hover:no-underline"
       to={`${conversationData.contact.username}`}
     >
       <div
+        data-testid={`${conversationData.conversationId}-search-card-main`}
         onClick={() => {
           if (chatContext.conversationId === '') {
             // console.log('First open id:', conversationData.conversationId);
