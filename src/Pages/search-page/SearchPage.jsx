@@ -22,12 +22,9 @@ function SearchPage() {
     },
     {
       label: 'People',
-      path: `/app/search/users?q=${value}&f=user`,
+      path: `/app/search/users?q=${value}`,
     },
   ];
-  useEffect(() => {
-    console.log(pastPath);
-  }, [pastPath]);
   return (
     <div
       className="flex h-auto w-full max-w-[620px] flex-col border-border-gray sm:border-x-[1px]"
