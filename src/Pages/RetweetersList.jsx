@@ -60,7 +60,12 @@ function RetweetersList() {
 
   return (
     <div
-      className="flex h-full min-h-screen w-full justify-center bg-white dark:bg-pure-black"
+      className="small:w-screen flex h-full min-h-screen w-full justify-center bg-white
+      dark:bg-pure-black 
+      sm:w-[560px]
+      md:w-[600px]
+      xl:w-[600px]
+      "
       data-testid="retweeters-list"
     >
       <div className="w-full overflow-y-clip bg-white dark:bg-pure-black">
