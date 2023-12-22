@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import NoResults from './NoResults';
 import TweetList from '../../tweetPage/TweetList';
 import DotLoader from './DotLoader';
@@ -10,6 +11,7 @@ function Likes() {
   const [page, setPage] = useState(2);
   const [error, setError] = useState('');
   const [posts, setPosts] = useState([]);
+  const [total, setTotal] = useState(10);
   const [isLoading, setIsLoading] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const [initialDone, setInitialDone] = useState(false);
@@ -59,6 +61,7 @@ function Likes() {
         const data = await response.json();
         if (data.data.length === 0) setIsDone(true);
         setInitialDone(true);
+        setTotal(data.total);
         setPosts(() => [...data.data]);
         setError('');
       } catch (err) {
@@ -69,18 +72,6 @@ function Likes() {
     };
     getInitialTweets();
   }, [username]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const { scrollTop, clientHeight, scrollHeight } =
-        document.documentElement;
-      if (scrollTop + clientHeight >= scrollHeight - 20) {
-        fetchTweets();
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [fetchTweets]);
 
   useEffect(() => {
     if (error !== '') toast(error);
@@ -95,8 +86,23 @@ function Likes() {
           data-testid="likes-list"
           className="flex w-full flex-col items-center gap-5"
         >
-          <TweetList data={posts} />
-          {isLoading && <DotLoader />}
+          <InfiniteScroll
+            dataLength={total}
+            next={fetchTweets}
+            hasMore={posts.length !== total}
+            loader={
+              <div className="flex items-center justify-center p-3">
+                <DotLoader />
+              </div>
+            }
+            endMessage={
+              <p className="flex items-center justify-center p-3">
+                <b>Yay! You have seen it all</b>
+              </p>
+            }
+          >
+            <TweetList data={posts} />
+          </InfiniteScroll>
         </div>
       )}
       <OwnToaster />
