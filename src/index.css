@@ -149,7 +149,7 @@ img:before {
   hyphens: auto;
 }
 [data-radix-popper-content-wrapper] {
-  position: absolute !important;
+  /* position: absolute !important; */
   z-index: 9999 !important;
 }
 .HoverCardContent {
