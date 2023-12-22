@@ -1,17 +1,104 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
+import toast from 'react-hot-toast';
 import NavItem from './NavItem';
 import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
 import FloatingHeader from './FloatingHeader';
 import UserImg from './UserImg';
 import ComposePost from '../compose-popup/ComposePost';
+import { ChatContext } from '../../hooks/ContactContext';
 
 function NavBar() {
   const { user } = useAuth();
   const [composeOpen, setComposeOpen] = useState(false);
+  const {
+    setMessagesCount,
+    messagesCount,
+    setNotificationsCount,
+    socket,
+    chatContext,
+  } = useContext(ChatContext);
+
+  // Messages
+  useEffect(() => {
+    const fetchCount = async () => {
+      try {
+        const res = await fetch(
+          `${
+            import.meta.env.VITE_API_DOMAIN
+          }conversations/unseenConversationsCnt`,
+          {
+            method: 'GET',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+          },
+        );
+        if (res.status === 404) return;
+        const data = await res.json();
+        if (data.status === false) {
+          throw new Error(data.message);
+        }
+        setMessagesCount(parseInt(data.data.unseenCnt, 10));
+      } catch (err) {
+        toast(err.message);
+      }
+    };
+    fetchCount();
+  }, []);
+
+  // Notifications
+  useEffect(() => {
+    const fetchCount = async () => {
+      try {
+        const res = await fetch(
+          `${
+            import.meta.env.VITE_API_DOMAIN
+          }notifications/unseenNotificationsCnt`,
+          {
+            method: 'GET',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+          },
+        );
+        if (res.status === 404) return;
+        const data = await res.json();
+        if (data.status === false) {
+          throw new Error(data.message);
+        }
+        setNotificationsCount(data.data.unseenCnt);
+      } catch (err) {
+        toast(err.message);
+      }
+    };
+    fetchCount();
+  }, []);
+
+  useEffect(() => {
+    if (socket === null) return;
+    socket.on('msg-receive', async (message) => {
+      if (message.conversationId !== chatContext.conversationId) {
+        setMessagesCount(messagesCount + 1);
+      }
+    });
+  }, [socket]);
+
+  useEffect(() => {
+    console.log('in NavBar');
+    if (socket === null) return;
+
+    socket.on('notification-receive', async () => {
+      console.log('navbar increase count');
+      setNotificationsCount(
+        (prevNotificationsCount) => prevNotificationsCount + 1,
+      );
+    });
+  }, [socket]);
+
   const mobileItems = [
     {
       path: './home',

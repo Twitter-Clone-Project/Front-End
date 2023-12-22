@@ -7,7 +7,7 @@ function UserNavCard() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const location = useLocation();
-  console.log(location);
+  // console.log(location);
   const { username, name, pic, followers, following } = {
     username: user.username,
     name: user.name,

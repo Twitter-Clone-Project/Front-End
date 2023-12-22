@@ -1,9 +1,9 @@
 /* eslint-disable import/prefer-default-export */
 import React, { useMemo, useState } from 'react';
+import PropTypes from 'prop-types';
 import { ChatContext } from '../hooks/ContactContext';
-import DirectMessages from '../components/Direct-Messages/DirectMessages';
 
-export function ChatProvider() {
+export function ChatProvider({ children }) {
   const [top, setTop] = useState({
     conversationId: '',
     text: '',
@@ -12,6 +12,10 @@ export function ChatProvider() {
   const [socketMessages, setSocketMessages] = useState([]);
   const [chatState, setChatState] = useState({});
   const [conversations, setConversations] = useState([]);
+  const [messagesCount, setMessagesCount] = useState(0);
+  const [notificationsCount, setNotificationsCount] = useState(0);
+  const [notifications, setNotifications] = useState([]);
+  const [socketNotifications, setSocketNotifications] = useState([]);
 
   const [chatContext, setChatContext] = useState({
     conversationId: '',
@@ -62,6 +66,14 @@ export function ChatProvider() {
           setChatState,
           conversations,
           setConversations,
+          notificationsCount,
+          setNotificationsCount,
+          messagesCount,
+          setMessagesCount,
+          notifications,
+          setNotifications,
+          socketNotifications,
+          setSocketNotifications,
         }),
         [
           chatContext,
@@ -76,10 +88,24 @@ export function ChatProvider() {
           setChatState,
           conversations,
           setConversations,
+          notificationsCount,
+          setNotificationsCount,
+          messagesCount,
+          setMessagesCount,
+          notifications,
+          setNotifications,
+          socketNotifications,
+          setSocketNotifications,
         ],
       )}
     >
-      <DirectMessages />
+      {children}
     </ChatContext.Provider>
   );
 }
+ChatProvider.defaultProps = {
+  children: null,
+};
+ChatProvider.propTypes = {
+  children: PropTypes.node,
+};

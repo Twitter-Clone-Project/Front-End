@@ -30,6 +30,7 @@ function ConversationsPage() {
   )
     return (
       <div
+        data-testid="conversations-page"
         className={`flex h-screen  flex-col border-x-[1px]
          border-[#f6f8f9] dark:border-[#252829]
          dark:bg-black dark:text-white  
@@ -54,7 +55,10 @@ function ConversationsPage() {
             setActive={setMode}
           />
         </div>
-        <div className="overflow-y-auto no-scrollbar">
+        <div
+          data-testid="conversations-page-select"
+          className="overflow-y-auto no-scrollbar"
+        >
           {!mode && (
             <ConversationsHistory
               setOpenedId={setOpenedId}

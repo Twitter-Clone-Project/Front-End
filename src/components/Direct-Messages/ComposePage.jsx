@@ -81,13 +81,16 @@ export default function ComposePage() {
   };
 
   return (
-    <div className="absolute bottom-0 left-0 top-0 z-20 flex max-h-screen w-full items-center justify-center  md:bg-dark-gray md:bg-opacity-50">
+    <div
+      data-testid="compose-page"
+      className="absolute bottom-0 left-0 top-0 z-20 flex max-h-screen w-full items-center justify-center  md:bg-dark-gray md:bg-opacity-50"
+    >
       <BoxCard
         header={
           <div className="absolute left-0 top-0 flex  h-[53px] w-full min-w-[300px] items-center">
             <button
+              data-testid="compose-page-button"
               type="submit"
-              data-testid="close-btn"
               onClick={() =>
                 navigate(`/app/messages/${chatContext.contact.username}`)
               }
@@ -103,7 +106,10 @@ export default function ComposePage() {
             <div className="absolute left-20 top-4  text-[20px] font-bold">
               New message
             </div>
-            <div className=" absolute right-4 top-3 w-[70px]">
+            <div
+              data-testid="compose-page-button-2"
+              className=" absolute right-4 top-3 w-[70px]"
+            >
               <Button
                 onClick={handleAdd}
                 backGroundColor={persons.length > 0 ? 'black' : 'white'}
@@ -136,6 +142,7 @@ export default function ComposePage() {
               />
             </div>
             <div
+              data-testid="compose-page-addcard"
               className="
             mb-3  flex  max-h-[100px] flex-col gap-2 overflow-y-auto px-2 scrollbar-thin
             scrollbar-track-[#f9f9f9] scrollbar-thumb-[#c0c0c0]
@@ -154,6 +161,7 @@ export default function ComposePage() {
           </div>
 
           <div
+            data-testid="compose-page-addresults"
             className="
             mt-3 flex max-h-[400px] flex-col overflow-y-auto scrollbar-thin
             scrollbar-track-[#f9f9f9] scrollbar-thumb-[#c0c0c0]
