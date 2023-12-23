@@ -161,7 +161,9 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
   const handleBlock = () => {
     blockReq();
     if (tweets) {
-      const newTweets = tweets.filter((atweet) => atweet.id !== tweet.id);
+      const newTweets = tweets.filter(
+        (atweet) => atweet.user.username !== tweet.user.username,
+      );
       setTweets(newTweets);
     }
     toggleShow(false);
@@ -169,7 +171,9 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
   const handleMute = () => {
     muteReq();
     if (tweets) {
-      const newTweets = tweets.filter((atweet) => atweet.id !== tweet.id);
+      const newTweets = tweets.filter(
+        (atweet) => atweet.user.username !== tweet.user.username,
+      );
       setTweets(newTweets);
     }
     toggleShow(false);
