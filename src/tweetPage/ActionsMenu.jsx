@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { useAuth } from '../hooks/AuthContext';
 import OwnToaster from '../components/OwnToaster';
 
-function ActionsMenu({ userId, tweet, tweets }) {
+function ActionsMenu({ userId, tweet, tweets, setTweets }) {
   const { user } = useAuth();
   const [show, toggleShow] = useState(false);
   const dropdownRef = useRef(null);
