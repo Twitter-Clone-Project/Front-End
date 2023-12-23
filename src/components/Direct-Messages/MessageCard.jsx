@@ -31,7 +31,8 @@ function MessageCard({
       <div
         data-testid={`${id}-message-card-inside`}
         className={`
-        min-h-11 flex w-fit 
+        min-h-11 
+        flex w-fit break-all 
         px-4
         py-3 text-base
          dark:text-white

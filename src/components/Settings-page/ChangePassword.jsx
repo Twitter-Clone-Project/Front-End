@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import PasswordInput from '../form-controls/passwordInput';
 import SettingsHeader from './SettingsHeader';
-import Button from '../form-controls/Button';
 import usePost from './usePost';
 import Spinner from '../Spinner';
+import SaveBtn from './SaveBtn';
 
 function ChangePassword() {
   const [curPassword, setCurPassword] = useState('');
@@ -36,7 +36,7 @@ function ChangePassword() {
 
   useEffect(() => {
     if (error) toast(error);
-    if (data && data.status) {
+    else if (data) {
       toast('Your password has been updated successfully!');
       setCurPassword('');
       setNewPassword('');
@@ -98,19 +98,10 @@ function ChangePassword() {
                 />
               </div>
             </div>
-            <div className="flex w-full items-center justify-end p-3">
-              <div className="flex w-20">
-                <Button
-                  label="save"
-                  labelColor="white"
-                  backGroundColor="blue"
-                  backGroundColorDark="blue"
-                  borderColor="none"
-                  onClick={handleChange}
-                  disabled={totalError}
-                />
-              </div>
-            </div>
+            <SaveBtn
+              handleChange={handleChange}
+              totalError={totalError}
+            />
           </div>
         </>
       )}

@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useEffect, useRef, useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
 import toast from 'react-hot-toast';
 import NavItem from './NavItem';
@@ -13,6 +13,7 @@ import { ChatContext } from '../../hooks/ContactContext';
 
 function NavBar() {
   const { user } = useAuth();
+  const location = useLocation();
   const [composeOpen, setComposeOpen] = useState(false);
   const {
     setMessagesCount,
@@ -88,11 +89,11 @@ function NavBar() {
   }, [socket]);
 
   useEffect(() => {
-    console.log('in NavBar');
+    // console.log('in NavBar');
     if (socket === null) return;
 
     socket.on('notification-receive', async () => {
-      console.log('navbar increase count');
+      // console.log('navbar increase count');
       setNotificationsCount(
         (prevNotificationsCount) => prevNotificationsCount + 1,
       );
@@ -220,12 +221,17 @@ function NavBar() {
       screen.current.addEventListener('keydown', handler);
     } else screen.current.removeEventListener('keydown', handler);
   }, [drawerOpen]);
+  const regex = /messages\/[^\/]+/;
 
+  const hidden = location.pathname.match(regex);
   return (
     <div
       ref={screen}
       data-testid="nav-bar"
-      className="mx-auto flex w-0 items-start justify-center dark:bg-pure-black sm:mt-auto sm:h-full sm:w-[76px] mlg:w-[280px]"
+      className={`mx-auto ${
+        hidden ? 'hidden' : 'flex'
+      } w-0 items-start justify-center dark:bg-pure-black
+      sm:mt-auto sm:flex sm:h-full sm:w-[76px] mlg:w-[280px]`}
     >
       {composeOpen && <ComposePost setComposeOpen={setComposeOpen} />}
       <FloatingHeader

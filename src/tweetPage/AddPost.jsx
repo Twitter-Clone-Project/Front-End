@@ -14,7 +14,6 @@ function AddPost({ setTweets }) {
   const [files, setFiles] = useState([]);
   const [filesURLs, setFilesURLs] = useState([]);
   const [hashtags, setHashtags] = useState([]);
-  const [hashtagsString, setHashtagsString] = useState('');
   const [text, setText] = useState('');
   const [postDisabled, setPostDisabled] = useState(true);
   const [isWhitespace, setIsWhitespace] = useState(true);
@@ -25,7 +24,6 @@ function AddPost({ setTweets }) {
     setFilesURLs([]);
     setHashtags([]);
     setFiles([]);
-    setHashtagsString('');
     setPostDisabled(true);
   };
   const handlePost = () => {
@@ -58,7 +56,6 @@ function AddPost({ setTweets }) {
           },
         );
         const data = await response.json();
-        console.log(data.data);
         if (data.status) setTweets((prev) => [data.data, ...prev]);
       } catch (error) {
         toast(error.message);
@@ -146,8 +143,6 @@ function AddPost({ setTweets }) {
     }
 
     setHashtags(text.match(/#\w+/g));
-    if (hashtags !== null && hashtags.length !== 0)
-      setHashtagsString(hashtags.join(','));
   }, [files, text]);
   return (
     <div className="flex w-full items-center border-y-[0.5px] border-y-border-gray">
@@ -199,6 +194,7 @@ function AddPost({ setTweets }) {
               </label>
               <input
                 className="hidden"
+                data-testid={`mediaInput${user.userId}`}
                 disabled={addFileDisabled}
                 type="file"
                 accept={`image/*, ${acceptVideo ? 'video/*' : ''}`}

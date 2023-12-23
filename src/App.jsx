@@ -43,11 +43,13 @@ import BlockedUsers from './components/Settings-page/BlockedUsers';
 import MutedUsers from './components/Settings-page/MutedUsers';
 import ChangePassword from './components/Settings-page/ChangePassword';
 import UpdateEmail from './components/Settings-page/UpdateEmail';
+import UpdateUsername from './components/Settings-page/UpdateUsername';
+import EmailFlow from './components/Settings-page/EmailFlow';
 
 TimeAgo.addDefaultLocale(en);
 
 function App() {
-  const { dispatch, user } = useAuth();
+  const { dispatch } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   React.useEffect(() => {
     const refresh = async () => {
@@ -73,13 +75,22 @@ function App() {
     };
     refresh();
   }, [dispatch]);
+  React.useEffect(() => {
+    const refresh = () => {
+      window.location.href = '/';
+    };
+    window.addEventListener('storage', refresh);
+    return () => {
+      window.removeEventListener('storage', refresh);
+    };
+  }, []);
 
   return isLoading ? (
     <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex h-screen w-full items-center justify-center dark:bg-pure-black md:bg-border-gray">
       <Spinner />
     </div>
   ) : (
-    <div className="flex h-full min-h-screen w-full overflow-auto bg-white dark:bg-pure-black">
+    <div className="flex h-full min-h-screen w-full  bg-white dark:bg-pure-black">
       <BrowserRouter>
         <Routes>
           <Route
@@ -146,19 +157,39 @@ function App() {
             />
             <Route
               path="tweets/:tweetId"
-              element={<TweetPage />}
+              element={
+                <div className="flex gap-8">
+                  <TweetPage />
+                  <RightNavBar />
+                </div>
+              }
             />
             <Route
               path="tweets/:tweetId/likes"
-              element={<LikersList />}
+              element={
+                <div className="flex gap-8">
+                  <LikersList />
+                  <RightNavBar />
+                </div>
+              }
             />
             <Route
               path="tweets/:tweetId/retweets"
-              element={<RetweetersList />}
+              element={
+                <div className="flex gap-8">
+                  <RetweetersList />
+                  <RightNavBar />
+                </div>
+              }
             />
             <Route
               path="notifications"
-              element={<NotificationsPage />}
+              element={
+                <div className="flex gap-8">
+                  <NotificationsPage />
+                  <RightNavBar />
+                </div>
+              }
             >
               <Route
                 index
@@ -208,7 +239,12 @@ function App() {
             </Route>
             <Route
               path="search"
-              element={<SearchPage />}
+              element={
+                <div className="flex gap-8">
+                  <SearchPage />
+                  <RightNavBar />
+                </div>
+              }
             >
               <Route
                 index
@@ -231,7 +267,12 @@ function App() {
             <Route
               exact
               path=":username/following"
-              element={<FollowingList />}
+              element={
+                <div className="flex gap-8">
+                  <FollowingList />
+                  <RightNavBar />
+                </div>
+              }
             />
             <Route
               exact
@@ -241,7 +282,12 @@ function App() {
             <Route
               exact
               path=":username/followers"
-              element={<FollowersList />}
+              element={
+                <div className="flex gap-8">
+                  <FollowersList />
+                  <RightNavBar />
+                </div>
+              }
             />
             <Route
               exact
@@ -255,13 +301,18 @@ function App() {
               />
               <Route
                 exact
-                path="accountinfo/updateemail"
+                path="accountinfo/email"
                 element={<UpdateEmail />}
-              />
+              >
+                <Route
+                  path="change-email"
+                  element={<EmailFlow />}
+                />
+              </Route>
               <Route
                 exact
                 path="accountinfo/updateusername"
-                element={<h1>Update username</h1>}
+                element={<UpdateUsername />}
               />
               <Route
                 exact

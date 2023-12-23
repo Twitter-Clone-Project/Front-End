@@ -1,22 +1,22 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { v4 as uuid4 } from 'uuid';
 import Tweet from './Tweet';
 
 function TweetList({ data, setTweets }) {
-  return (
-    <div className="w-full">
-      {data.map((tweetItem) => (
+  const renderTweet = useMemo(
+    () =>
+      data.map((tweetItem) => (
         <Tweet
-          key={uuid4()}
+          key={tweetItem.id}
           data={tweetItem}
           tweets={data}
           setTweets={setTweets}
         />
-      ))}
-    </div>
+      )),
+    [data],
   );
+  return <div className="w-full">{renderTweet}</div>;
 }
 
 TweetList.propTypes = {

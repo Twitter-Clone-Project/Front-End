@@ -14,6 +14,15 @@
   width: 100%;
   justify-content: center;
 }
+body,
+root,
+html {
+  scrollbar-gutter: stable;
+}
+.ptr,
+.ptr__children,.ptr__pull-down {
+  overflow: unset !important;
+}
 *,
 *:before,
 *:after {
@@ -98,33 +107,33 @@ a.list-nav-active span:after {
   width: 10px;
   height: 10px;
   border-radius: 5px;
-  background-color: #9880ff;
-  color: #9880ff;
+  background-color: theme(colors.blue);
+  color: theme(colors.blue);
   box-shadow:
-    9984px 0 0 0 #9880ff,
-    9999px 0 0 0 #9880ff,
-    10014px 0 0 0 #9880ff;
+    9984px 0 0 0 theme(colors.blue),
+    9999px 0 0 0 theme(colors.blue),
+    10014px 0 0 0 theme(colors.blue);
   animation: dot-carousel 1.5s infinite linear;
 }
 
 @keyframes dot-carousel {
   0% {
     box-shadow:
-      9984px 0 0 -1px #9880ff,
-      9999px 0 0 1px #9880ff,
-      10014px 0 0 -1px #9880ff;
+      9984px 0 0 -1px theme(colors.blue),
+      9999px 0 0 1px theme(colors.blue),
+      10014px 0 0 -1px theme(colors.blue);
   }
   50% {
     box-shadow:
-      10014px 0 0 -1px #9880ff,
-      9984px 0 0 -1px #9880ff,
-      9999px 0 0 1px #9880ff;
+      10014px 0 0 -1px theme(colors.blue),
+      9984px 0 0 -1px theme(colors.blue),
+      9999px 0 0 1px theme(colors.blue);
   }
   100% {
     box-shadow:
-      9999px 0 0 1px #9880ff,
-      10014px 0 0 -1px #9880ff,
-      9984px 0 0 -1px #9880ff;
+      9999px 0 0 1px theme(colors.blue),
+      10014px 0 0 -1px theme(colors.blue),
+      9984px 0 0 -1px theme(colors.blue);
   }
 }
 .nsm7Bb-HzV7m-LgbsSe.jVeSEe.i5vt6e-Ia7Qfc.JGcpL-RbRzK {
@@ -146,7 +155,7 @@ img:before {
   hyphens: auto;
 }
 [data-radix-popper-content-wrapper] {
-  position: absolute !important;
+  /* position: absolute !important; */
   z-index: 9999 !important;
 }
 .HoverCardContent {

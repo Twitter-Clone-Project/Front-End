@@ -9,7 +9,7 @@ function AddResults({ value, setPerson, deletePerson }) {
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
-        `${import.meta.env.VITE_API_DOMAIN}users/search?query=${value}`,
+        `${import.meta.env.VITE_API_DOMAIN}users/search/1?query=${value}`,
         {
           method: 'GET',
           origin: true,
@@ -19,7 +19,7 @@ function AddResults({ value, setPerson, deletePerson }) {
       );
       const Json = await response.json();
       const { data } = Json;
-      console.log(data);
+      // console.log(data);
       setResults(data);
     };
     if (value && value !== '') fetchData();
@@ -36,14 +36,16 @@ function AddResults({ value, setPerson, deletePerson }) {
     scrollbar-thumb-rounded-full hover:scrollbar-thumb-[#7b7b7b] dark:scrollbar-track-[#272727] dark:scrollbar-thumb-[#4a4a4a] dark:hover:scrollbar-thumb-[#888888]"
       >
         <div data-testid="addresults-map">
-          {results.map((result) => (
-            <AddResultCard
-              key={result.id}
-              setPerson={setPerson}
-              result={result}
-              deletePerson={deletePerson}
-            />
-          ))}
+          {results
+            .filter((result) => result !== null && result !== undefined)
+            .map((result) => (
+              <AddResultCard
+                key={result.id}
+                setPerson={setPerson}
+                result={result}
+                deletePerson={deletePerson}
+              />
+            ))}
         </div>
       </div>
     );
