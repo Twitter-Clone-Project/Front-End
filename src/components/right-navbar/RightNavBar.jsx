@@ -32,7 +32,7 @@ function RightNavBar() {
     };
   });
 
-  if (windowWidth >= 1003)
+  if (windowWidth > 1023)
     return (
       <div
         className={`${

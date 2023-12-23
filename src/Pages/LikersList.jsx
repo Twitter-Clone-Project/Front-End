@@ -62,7 +62,11 @@ function LikersList() {
 
   return (
     <div
-      className="flex h-full min-h-screen w-full  max-w-[620px] justify-center border-border-gray bg-white dark:bg-pure-black sm:border-x-[1px]"
+      className="small:w-screen flex h-full min-h-screen w-full justify-center bg-white 
+      dark:bg-pure-black 
+      sm:w-[560px] 
+      md:w-[600px]
+      xl:w-[600px]"
       data-testid="likers-list"
     >
       <div className="w-full overflow-y-clip bg-white dark:bg-pure-black">

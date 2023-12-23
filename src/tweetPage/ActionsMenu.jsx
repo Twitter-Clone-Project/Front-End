@@ -2,12 +2,157 @@
 import React, { useState, useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
 import { useAuth } from '../hooks/AuthContext';
+import OwnToaster from '../components/OwnToaster';
 
 function ActionsMenu({ userId, tweet, tweets }) {
   const { user } = useAuth();
   const [show, toggleShow] = useState(false);
   const dropdownRef = useRef(null);
   const [followed, toggleFollowed] = useState(tweet.user.isFollowed);
+
+  const blockReq = () => {
+    fetch(
+      `${import.meta.env.VITE_API_DOMAIN}users/${tweet.user.username}/block`,
+      {
+        method: 'POST',
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userName: user.username,
+        }),
+      },
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        } else {
+          if (tweets) {
+            const newTweets = tweets.filter(
+              (atweet) => atweet.user.username !== tweet.user.username,
+            );
+            setTweets(newTweets);
+          }
+          toast(`Successfully blocked`);
+          toggleShow(false);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Response data:', data);
+      })
+      .catch((error) => {
+        console.error('Error during fetch:', error);
+      });
+  };
+
+  const muteReq = () => {
+    fetch(
+      `${import.meta.env.VITE_API_DOMAIN}users/${tweet.user.username}/mute`,
+      {
+        method: 'POST',
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userName: user.username,
+        }),
+      },
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        } else {
+          if (tweets) {
+            const newTweets = tweets.filter(
+              (atweet) => atweet.user.username !== tweet.user.username,
+            );
+            setTweets(newTweets);
+          }
+          toast(`@${tweet.user.username} has been muted`);
+          toggleShow(false);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Response data:', data);
+      })
+      .catch((error) => {
+        console.error('Error during fetch:', error);
+      });
+  };
+
+  const followReq = () => {
+    fetch(
+      `${import.meta.env.VITE_API_DOMAIN}users/${tweet.user.username}/follow`,
+      {
+        method: 'POST',
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userName: user.username,
+        }),
+      },
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        } else {
+          toggleFollowed((prev) => !prev);
+          toast(`You followed @${tweet.user.username}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Response data:', data);
+      })
+      .catch((error) => {
+        console.error('Error during fetch:', error);
+      });
+  };
+  const unFollowReq = () => {
+    fetch(
+      `${import.meta.env.VITE_API_DOMAIN}users/${tweet.user.username}/unfollow`,
+      {
+        method: 'DELETE',
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userid: user.username,
+        }),
+      },
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        } else {
+          toggleFollowed((prev) => !prev);
+          toast(`You unfollowed @${tweet.user.username}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Response data:', data);
+      })
+      .catch((error) => {
+        console.error('Error during fetch:', error);
+      });
+  };
+
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       toggleShow(false);
@@ -23,19 +168,20 @@ function ActionsMenu({ userId, tweet, tweets }) {
     toggleShow(!show);
   };
   const handleFollow = () => {
-    //
-    toggleFollowed(!tweet.user.isFollowed);
+    if (!followed) {
+      followReq();
+      console.log('follow');
+    } else {
+      unFollowReq();
+      console.log('unfollow');
+    }
     toggleShow(false);
   };
   const handleBlock = () => {
-    //
-
-    toggleShow(false);
+    blockReq();
   };
   const handleMute = () => {
-    //
-
-    toggleShow(false);
+    muteReq();
   };
   const handleDelete = () => {
     const deleteTweet = async () => {
@@ -50,7 +196,6 @@ function ActionsMenu({ userId, tweet, tweets }) {
           },
         );
         const res = await response.json();
-        console.log(res.message);
         if (res.status) {
           if (tweets) {
             const delEvent = new CustomEvent(`${tweet.id}`, { detail: 'del' });
@@ -64,176 +209,6 @@ function ActionsMenu({ userId, tweet, tweets }) {
 
     deleteTweet();
     toggleShow(false);
-  };
-
-  const blockReq = () => {
-    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${user.username}/block`, {
-      method: 'POST',
-      origin: true,
-      credentials: 'include',
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userName: user.username,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        setLocalIsBlocked(!localIsBlocked);
-        setLocalIsFollowed(false);
-        return response.json();
-      })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
-      .catch((error) => {
-        console.error('Error during fetch:', error);
-      });
-  };
-
-  const unBlockReq = () => {
-    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${user.username}/unblock`, {
-      method: 'DELETE',
-      origin: true,
-      credentials: 'include',
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userName: user.username,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        setLocalIsBlocked(!localIsBlocked);
-        return response.json();
-      })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
-      .catch((error) => {
-        console.error('Error during fetch:', error);
-      });
-  };
-
-  const muteReq = () => {
-    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${user.username}/mute`, {
-      method: 'POST',
-      origin: true,
-      credentials: 'include',
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userName: user.username,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        setLocalIsMuted(!localIsMuted);
-        return response.json();
-      })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
-      .catch((error) => {
-        console.error('Error during fetch:', error);
-      });
-  };
-
-  const unMuteReq = () => {
-    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${user.username}/unmute`, {
-      method: 'DELETE',
-      origin: true,
-      credentials: 'include',
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userName: user.username,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        setLocalIsMuted(!localIsMuted);
-        return response.json();
-      })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
-      .catch((error) => {
-        console.error('Error during fetch:', error);
-      });
-  };
-
-  const followReq = () => {
-    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${user.username}/follow`, {
-      method: 'POST',
-      origin: true,
-      credentials: 'include',
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userName: user.username,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        setLocalIsFollowed(!localIsFollowed);
-        return response.json();
-      })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
-      .catch((error) => {
-        console.error('Error during fetch:', error);
-      });
-  };
-
-  // Function to handle unFollow request
-  const unFollowReq = () => {
-    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${user.username}/unfollow`, {
-      method: 'DELETE',
-      origin: true,
-      credentials: 'include',
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userid: user.username,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        setLocalIsFollowed(!localIsFollowed);
-        return response.json();
-      })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
-      .catch((error) => {
-        console.error('Error during fetch:', error);
-      });
   };
 
   return (
@@ -264,25 +239,25 @@ function ActionsMenu({ userId, tweet, tweets }) {
           className="dropdown-content absolute right-0  z-10 flex w-[200px] flex-col rounded-2xl bg-white py-3 shadow dark:bg-pure-black dark:text-white dark:shadow-white sm:w-[250px] md:w-[280px]"
         >
           {userId !== user.userId && (
-            <div className="anotheruser  h-[200px] py-3">
+            <div className="anotheruser  h-[175px] py-1 ">
               <button
                 type="submit"
                 onClick={() => handleFollow()}
                 className="w-[100%]"
               >
-                <div className="flex flex-row hover:bg-xx-light-gray dark:hover:bg-[#080808]">
+                <div className="flex h-[50px]  flex-row hover:bg-xx-light-gray dark:hover:bg-[#080808]">
                   <div className="py-5 pl-4">
                     <svg
                       viewBox="0 0 25 25"
                       className="h-[20px] w-[20px]  "
                     >
-                      {!tweet.user.isFollowed && (
+                      {!followed && (
                         <path
                           className="dark:fill-white"
                           d="M10 4c-1.105 0-2 .9-2 2s.895 2 2 2 2-.9 2-2-.895-2-2-2zM6 6c0-2.21 1.791-4 4-4s4 1.79 4 4-1.791 4-4 4-4-1.79-4-4zm13 4v3h2v-3h3V8h-3V5h-2v3h-3v2h3zM3.651 19h12.698c-.337-1.8-1.023-3.21-1.945-4.19C13.318 13.65 11.838 13 10 13s-3.317.65-4.404 1.81c-.922.98-1.608 2.39-1.945 4.19zm.486-5.56C5.627 11.85 7.648 11 10 11s4.373.85 5.863 2.44c1.477 1.58 2.366 3.8 2.632 6.46l.11 1.1H1.395l.11-1.1c.266-2.66 1.155-4.88 2.632-6.46z"
                         />
                       )}
-                      {tweet.user.isFollowed && (
+                      {followed && (
                         <path
                           className="dark:fill-white"
                           d="M10 4c-1.105 0-2 .9-2 2s.895 2 2 2 2-.9 2-2-.895-2-2-2zM6 6c0-2.21 1.791-4 4-4s4 1.79 4 4-1.791 4-4 4-4-1.79-4-4zm12.586 3l-2.043-2.04 1.414-1.42L20 7.59l2.043-2.05 1.414 1.42L21.414 9l2.043 2.04-1.414 1.42L20 10.41l-2.043 2.05-1.414-1.42L18.586 9zM3.651 19h12.698c-.337-1.8-1.023-3.21-1.945-4.19C13.318 13.65 11.838 13 10 13s-3.317.65-4.404 1.81c-.922.98-1.608 2.39-1.945 4.19zm.486-5.56C5.627 11.85 7.648 11 10 11s4.373.85 5.863 2.44c1.477 1.58 2.366 3.8 2.632 6.46l.11 1.1H1.395l.11-1.1c.266-2.66 1.155-4.88 2.632-6.46z"
@@ -290,13 +265,13 @@ function ActionsMenu({ userId, tweet, tweets }) {
                       )}
                     </svg>
                   </div>
-                  {!tweet.user.isFollowed && (
-                    <div className="h-[50px]  px-[14px] py-[16px] text-[15px] font-semibold">
+                  {!followed && (
+                    <div className="  px-[14px] py-[16px] text-[15px] font-semibold">
                       Follow @{tweet.user.username}
                     </div>
                   )}
-                  {tweet.user.isFollowed && (
-                    <div className="h-[50px]  px-[14px] py-[16px] text-[15px] font-semibold">
+                  {followed && (
+                    <div className="  px-[14px] py-[16px] text-[15px] font-semibold">
                       Unfollow @{tweet.user.username}
                     </div>
                   )}
@@ -307,7 +282,7 @@ function ActionsMenu({ userId, tweet, tweets }) {
                 onClick={() => handleMute()}
                 className="w-[100%]"
               >
-                <div className="flex flex-row hover:bg-xx-light-gray dark:hover:bg-[#080808]">
+                <div className="flex h-[50px] flex-row  hover:bg-xx-light-gray dark:hover:bg-[#080808]">
                   <div className="py-5 pl-4">
                     <svg
                       viewBox="0 0 25 25"
@@ -319,7 +294,7 @@ function ActionsMenu({ userId, tweet, tweets }) {
                       />
                     </svg>
                   </div>
-                  <div className="h-[50px]  px-[14px] py-[16px] text-[15px] font-semibold">
+                  <div className=" px-[14px] py-[16px] text-[15px] font-semibold">
                     Mute @{tweet.user.username}
                   </div>
                 </div>
@@ -329,7 +304,7 @@ function ActionsMenu({ userId, tweet, tweets }) {
                 onClick={() => handleBlock()}
                 className="w-[100%]"
               >
-                <div className="flex flex-row hover:bg-xx-light-gray dark:hover:bg-[#080808]">
+                <div className="flex h-[50px] flex-row  hover:bg-xx-light-gray dark:hover:bg-[#080808]">
                   <div className="py-5 pl-4">
                     <svg
                       viewBox="0 0 25 25"
@@ -341,7 +316,7 @@ function ActionsMenu({ userId, tweet, tweets }) {
                       />
                     </svg>
                   </div>
-                  <div className="h-[50px]  px-[14px] py-[16px] text-[15px] font-semibold">
+                  <div className="  px-[14px] pt-[16px] text-[15px] font-semibold">
                     Block @{tweet.user.username}
                   </div>
                 </div>
@@ -353,7 +328,7 @@ function ActionsMenu({ userId, tweet, tweets }) {
               type="submit"
               onClick={() => handleDelete()}
             >
-              <div className="me flex h-[60px] flex-row text-warning  hover:bg-xx-light-gray dark:hover:bg-[#080808] ">
+              <div className="me flex h-[50px] flex-row text-warning  hover:bg-xx-light-gray dark:hover:bg-[#080808] ">
                 <div className="py-4 pl-4">
                   <svg
                     viewBox="0 0 25 25"
@@ -365,7 +340,7 @@ function ActionsMenu({ userId, tweet, tweets }) {
                     />
                   </svg>
                 </div>
-                <div className="h-[50px]  px-[14px] py-[16px] text-[15px] font-semibold">
+                <div className=" px-[14px] py-[16px] text-[15px] font-semibold">
                   Delete
                 </div>
               </div>
@@ -373,6 +348,7 @@ function ActionsMenu({ userId, tweet, tweets }) {
           )}
         </div>
       )}
+      <OwnToaster />
     </div>
   );
 }

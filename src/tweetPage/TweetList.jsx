@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { v4 as uuid4 } from 'uuid';
 import Tweet from './Tweet';
 
 function TweetList({ data, setTweets }) {
@@ -9,7 +8,7 @@ function TweetList({ data, setTweets }) {
     () =>
       data.map((tweetItem) => (
         <Tweet
-          key={uuid4()}
+          key={tweetItem.id}
           data={tweetItem}
           tweets={data}
           setTweets={setTweets}
