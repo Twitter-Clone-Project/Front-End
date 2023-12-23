@@ -48,7 +48,7 @@ function NotificationsPage() {
         if (data.status === false) {
           throw new Error(data.message);
         }
-        console.log(data.data);
+        // console.log(data.data);
         setNotifications(data.data.notifications);
         setSocketNotifications([]);
         socket.emit('mark-notifications-as-seen', { userId: user.userId });
