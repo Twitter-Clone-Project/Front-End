@@ -6,7 +6,7 @@ import ChangeEmail from './ChangeEmail';
 import EmailConfirm from '../sign-up/EmailConfirm';
 
 function EmailFlow() {
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(0);
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
   const [emailError, setEmailError] = useState('');
