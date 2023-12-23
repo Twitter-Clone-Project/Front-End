@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import SearchBar from '../search-bar/SearchBar';
 import { Link } from 'react-router-dom';
+import SearchBar from '../search-bar/SearchBar';
 
 function RightNavBar() {
   const [trands, setTrends] = useState([]);
@@ -32,7 +32,7 @@ function RightNavBar() {
     };
   });
 
-  if (windowWidth >= 1003)
+  if (windowWidth > 1023)
     return (
       <div
         className={`${
@@ -71,7 +71,7 @@ function RightNavBar() {
               ))}
           </div>
           <Link
-            to={`/app/explore`}
+            to="/app/explore"
             className="text-black hover:no-underline dark:text-white "
           >
             <div className=" w-full px-4  py-3 text-[15px] text-blue hover:bg-[#edf0f0]  dark:hover:bg-[#1d1e21]  ">

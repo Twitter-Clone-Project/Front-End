@@ -17,10 +17,17 @@ import ActionsMenu from './ActionsMenu';
 import PopoverUserCard from '../components/userComponents/PopoverUserCard';
 // import { useAuth } from '../hooks/AuthContext';
 
-function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
+function UnMemoTweet({
+  data,
+  tweets,
+  setTweets,
+  setFetchLikes,
+  setFetchRetweets,
+}) {
   const [repost, toggleRepost] = useState(data.isRetweet);
   const [like, toggleLike] = useState(data.isLiked);
   const [repostsCount, setRepostsCount] = useState();
+  const [del, setDel] = useState(false);
   const [repliesCount, setRepliesCount] = useState();
   const [likesCount, setLikesCount] = useState();
   const [isLikeLoading, setIsLikeLoading] = useState(false);
@@ -28,6 +35,40 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
   // const { user: curUser } = useAuth();
   const location = useLocation();
   const [images, setImages] = useState();
+  useEffect(() => {
+    const handleActions = (e) => {
+      switch (e.detail) {
+        case 'del': {
+          setDel(true);
+          break;
+        }
+        case 'like': {
+          setLikesCount((prev) => prev + 1);
+          toggleLike((prev) => !prev);
+          break;
+        }
+        case 'unlike': {
+          setLikesCount((prev) => prev - 1);
+          toggleLike((prev) => !prev);
+          break;
+        }
+        case 'retweet': {
+          setRepostsCount((prev) => prev + 1);
+          toggleRepost((prev) => !prev);
+          break;
+        }
+        case 'unRetweet': {
+          setRepostsCount((prev) => prev - 1);
+          toggleRepost((prev) => !prev);
+          break;
+        }
+        default:
+          console.log('Unknown Event');
+      }
+    };
+    document.addEventListener(`${data.id}`, handleActions);
+    return () => document.removeEventListener(`${data.id}`, handleActions);
+  }, [data.id]);
   useEffect(() => {
     if (data.attachmentsUrl) {
       setImages(data.attachmentsUrl);
@@ -49,8 +90,9 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
   };
   const handleLike = () => {
     if (like === true) {
-      toggleLike((prev) => !prev);
-      setLikesCount((prev) => prev - 1);
+      document.dispatchEvent(
+        new CustomEvent(`${data.id}`, { detail: 'unlike' }),
+      );
       if (!isLikeLoading) {
         setIsLikeLoading(true);
         const deleteLike = async () => {
@@ -66,8 +108,9 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             );
             const res = await response.json();
             if (!res.status) {
-              toggleLike((prev) => !prev);
-              setLikesCount((prev) => prev + 1);
+              document.dispatchEvent(
+                new CustomEvent(`${data.id}`, { detail: 'like' }),
+              );
               throw new Error(res.message);
             }
           } catch (err) {
@@ -80,8 +123,7 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
         deleteLike();
       }
     } else if (like === false) {
-      toggleLike((prev) => !prev);
-      setLikesCount((prev) => prev + 1);
+      document.dispatchEvent(new CustomEvent(`${data.id}`, { detail: 'like' }));
 
       if (!isLikeLoading) {
         setIsLikeLoading(true);
@@ -98,8 +140,9 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             );
             const res = await response.json();
             if (!res.status) {
-              toggleLike((prev) => !prev);
-              setLikesCount((prev) => prev - 1);
+              document.dispatchEvent(
+                new CustomEvent(`${data.id}`, { detail: 'unlike' }),
+              );
               throw new Error(res.message);
             }
           } catch (err) {
@@ -116,10 +159,11 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
   };
   const handleRepost = () => {
     if (repost === true) {
-      toggleRepost((prev) => !prev);
-      setRepostsCount((prev) => prev - 1);
       if (!isRepostLoading) {
         setIsRepostLoading(true);
+        document.dispatchEvent(
+          new CustomEvent(`${data.id}`, { detail: 'unRetweet' }),
+        );
         const deleteRetweet = async () => {
           try {
             const response = await fetch(
@@ -135,8 +179,9 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             );
             const res = await response.json();
             if (!res.status) {
-              toggleRepost((prev) => !prev);
-              setRepostsCount((prev) => prev + 1);
+              document.dispatchEvent(
+                new CustomEvent(`${data.id}`, { detail: 'retweet' }),
+              );
               throw new Error(res.message);
             }
           } catch (err) {
@@ -149,8 +194,9 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
         deleteRetweet();
       }
     } else if (repost === false) {
-      toggleRepost((prev) => !prev);
-      setRepostsCount((prev) => prev + 1);
+      document.dispatchEvent(
+        new CustomEvent(`${data.id}`, { detail: 'retweet' }),
+      );
       if (!isRepostLoading) {
         setIsRepostLoading(true);
         const retweet = async () => {
@@ -167,8 +213,9 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             const res = await response.json();
             console.log(res);
             if (!res.status) {
-              toggleRepost((prev) => !prev);
-              setRepostsCount((prev) => prev - 1);
+              document.dispatchEvent(
+                new CustomEvent(`${data.id}`, { detail: 'unRetweet' }),
+              );
               throw new Error(res.message);
             }
           } catch (err) {
@@ -186,7 +233,7 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
   const handleReply = () => {
     handleClick();
   };
-
+  if (del) return;
   return (
     <div
       data-testid={`${data.id}`}
@@ -293,8 +340,8 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             <ActionsMenu
               userId={data.user.userId}
               tweet={data}
-              tweets={tweets}
               setTweets={setTweets}
+              tweets={tweets}
             />
           </div>
         </div>
@@ -376,6 +423,7 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
   );
 }
 
+const Tweet = React.memo(UnMemoTweet);
 Tweet.propTypes = {
   // eslint-disable-next-line no-undef
   data: PropTypes.object.isRequired,
@@ -391,5 +439,4 @@ Tweet.defaultProps = {
     // console.log('Hi');
   },
 };
-
 export default Tweet;

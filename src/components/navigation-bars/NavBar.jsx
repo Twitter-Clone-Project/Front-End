@@ -89,11 +89,11 @@ function NavBar() {
   }, [socket]);
 
   useEffect(() => {
-    console.log('in NavBar');
+    // console.log('in NavBar');
     if (socket === null) return;
 
     socket.on('notification-receive', async () => {
-      console.log('navbar increase count');
+      // console.log('navbar increase count');
       setNotificationsCount(
         (prevNotificationsCount) => prevNotificationsCount + 1,
       );
@@ -224,7 +224,6 @@ function NavBar() {
   const regex = /messages\/[^\/]+/;
 
   const hidden = location.pathname.match(regex);
-  console.log(hidden);
   return (
     <div
       ref={screen}
