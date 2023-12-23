@@ -62,13 +62,13 @@ function LikersList() {
 
   return (
     <div
-      className="flex h-full min-h-screen w-full justify-center bg-white dark:bg-pure-black"
+      className="flex h-full min-h-screen w-full  max-w-[620px] justify-center border-border-gray bg-white dark:bg-pure-black sm:border-x-[1px]"
       data-testid="likers-list"
     >
       <div className="w-full overflow-y-clip bg-white dark:bg-pure-black">
-        <div className=" flex h-28 flex-col hover:cursor-pointer">
-          <div className="flex h-[53px] flex-row px-4 ">
-            <div className=" w-14">
+        <div className=" flex flex-row justify-between border-b border-border-gray pt-4 hover:cursor-pointer">
+          <div className="flex h-[53px] px-4 ">
+            <div className="flex items-center">
               <div
                 className="mb-2 mt-[9px] flex h-9 w-9 items-center justify-center rounded-full hover:bg-x-light-gray dark:hover:bg-[#181919]"
                 onClick={handelBackButton}
@@ -88,25 +88,9 @@ function LikersList() {
                 </svg>
               </div>
             </div>
-            <div className="mb-[3px] mt-[6px] flex flex-col">
-              <div className=" h-7 py-0.5">
-                <span
-                  className=" cursor-pointer text-[20px] font-bold leading-6 text-pure-black hover:underline dark:text-white"
-                  data-popover-target="popover-user-profile"
-                >
-                  {user.name}
-                </span>
-              </div>
-              <span
-                className=" w-min text-sm leading-4 text-light-thin"
-                data-popover-target="popover-user-profile"
-              >
-                @{user.username}
-              </span>
-            </div>
           </div>
           <div
-            className=" border-b border-border-gray"
+            className=" w-full"
             data-testid="likers-List-1"
           >
             <ListNav
@@ -125,8 +109,8 @@ function LikersList() {
                   userPicture={
                     user.profileImageUrl || import.meta.env.VITE_DEFAULT_AVATAR
                   }
-                  userName={user.name}
-                  userID={user.username}
+                  userName={userDetails.name}
+                  userID={userDetails.screenName}
                   discription=""
                   following={userDetails.followingsCount}
                   followers={userDetails.followersCount}

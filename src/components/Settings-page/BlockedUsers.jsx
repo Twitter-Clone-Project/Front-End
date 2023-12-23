@@ -9,6 +9,7 @@ import usePost from './usePost';
 
 function BlockedUsers() {
   const { data, error, isLoading, fetchData } = usePost();
+  console.log(data);
   useEffect(() => {
     fetchData(`${import.meta.env.VITE_API_DOMAIN}users/blockedUsers`, {
       method: 'GET',
@@ -36,8 +37,8 @@ function BlockedUsers() {
                 isFollowed={user.isFollowed}
                 isFollowing={user.isFollowing}
                 userPicture={user.imageUrl}
-                userName={user.username}
-                userID={user.userID}
+                userName={user.name}
+                userID={user.username}
                 discription={user.bio}
                 following={user.followingsCount}
                 followers={user.followersCount}

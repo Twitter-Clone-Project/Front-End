@@ -79,7 +79,7 @@ function ReplyMenu({ userId, tweetId, reply, replies, setReplies }) {
         type="submit"
         data-testid={`${reply.replyId}menubtn`}
         onClick={() => showMenu()}
-        className="dropbtn group rounded-full hover:bg-blue-light"
+        className="dropbtn group rounded-full hover:bg-[#e1eef6] dark:hover:bg-[#0a171f]"
       >
         <svg
           viewBox="0 0 25 25"
@@ -95,13 +95,11 @@ function ReplyMenu({ userId, tweetId, reply, replies, setReplies }) {
         <div
           id="myDropdown"
           data-testid={`${reply.replyId}menu`}
-          className={`dropdown-content absolute  
-          right-[-10px]  flex w-[480px]
-           flex-col rounded-2xl bg-white py-3 drop-shadow-xl`}
+          className="dropdown-content absolute right-[-10px] z-10 flex w-[480px] flex-col rounded-2xl bg-white py-3 shadow shadow-pure-black dark:bg-pure-black dark:text-white dark:shadow-white"
         >
-          {/* {userId !== user.userId && (
+          {userId !== user.userId && (
             <div className="anotheruser  h-[220px] py-3">
-              <button
+              {/* <button
                 type="submit"
                 onClick={() => handleFollow()}
                 className="w-[100%]"
@@ -134,8 +132,8 @@ function ReplyMenu({ userId, tweetId, reply, replies, setReplies }) {
                     </div>
                   )}
                 </div>
-              </button>
-              <button
+              </button> */}
+              {/* <button
                 type="submit"
                 onClick={() => handleMute()}
                 className="w-[100%]"
@@ -175,16 +173,16 @@ function ReplyMenu({ userId, tweetId, reply, replies, setReplies }) {
                     Block @{reply.user.username}
                   </div>
                 </div>
-              </button>
+              </button> */}
             </div>
-          )} */}
+          )}
           {userId === user.userId && (
             <button
               type="submit"
               onClick={() => handleDelete()}
               data-testid={`${reply.replyId}-deletebtn`}
             >
-              <div className="me flex h-[70px] flex-row text-warning  hover:bg-xx-light-gray ">
+              <div className="me flex h-[70px] flex-row text-warning hover:bg-xx-light-gray dark:hover:bg-[#080808]">
                 <div className="py-5 pl-4">
                   <svg
                     viewBox="0 0 25 25"

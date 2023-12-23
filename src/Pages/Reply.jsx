@@ -1,6 +1,10 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable max-len */
 /* eslint-disable react/forbid-prop-types */
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ReactTimeAgo from 'react-time-ago';
 import PropTypes from 'prop-types';
@@ -15,13 +19,6 @@ function Reply({ data, tweetId, replies, setReplies }) {
   const { user } = useAuth();
 
   useEffect(() => {
-    // console.log(data);
-    // let reply;
-    // if (typeof data.replyText === 'string') {
-    //   reply = data.replyText.slice(14, data.replyText.length - 2);
-    // } else if (typeof data.replyText === 'object') {
-    //   reply = data.replyText.replyText;
-    // }
     setText(data.replyText);
   }, [data]);
   const [isHovered, setIsHovered] = useState(false);
@@ -32,15 +29,21 @@ function Reply({ data, tweetId, replies, setReplies }) {
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
-
+  const navigate = useNavigate();
+  const handleUserInfoClick = () => {
+    navigate(`/app/${data.username}`);
+  };
   return (
     <div
-      className="tweet mb-[0.5px] mt-[-0.5px] grid w-full border-collapse grid-cols-[auto_1fr]  border-y-[0.5px] border-y-border-gray bg-white px-3 pb-2 pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black sm:px-[16px] lg:w-[598px]"
+      className="tweet mb-[0.5px] mt-[-0.5px] grid w-full border-collapse grid-cols-[auto_1fr] border-y-[0.5px]  border-y-border-gray bg-white px-3 pb-2 pt-[12px] hover:cursor-default hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black sm:px-[16px] lg:w-[598px]"
       data-testid={`${data.replyId}`}
     >
       <div
-        className="leftColumn mr-[12px] h-[40px] w-[40px] "
+        className="leftColumn mr-[12px] h-[40px] w-[40px] hover:cursor-pointer"
         data-testid={`${data.replyId}-left-column`}
+        onClick={() => {
+          handleUserInfoClick();
+        }}
       >
         <div className="profileImage leftColumn absolute mr-[12px] h-[40px] w-[40px] ">
           <img
@@ -80,9 +83,14 @@ function Reply({ data, tweetId, replies, setReplies }) {
         data-testid={`${data.replyId}-right-column`}
       >
         <div className="flex flex-row justify-between ">
-          <div className="userInfo flex flex-row">
+          <div
+            className="userInfo flex flex-row hover:cursor-pointer"
+            onClick={() => {
+              handleUserInfoClick();
+            }}
+          >
             <div className="name  text-[15px] font-bold dark:text-white">
-              {data.screenName || user.name}
+              {data.screenName}
             </div>
             <div className="userName   overflow-hidden text-[15px] text-dark-gray">
               &ensp;@<span>{data.username}</span>
@@ -96,18 +104,22 @@ function Reply({ data, tweetId, replies, setReplies }) {
               />
             </div>
           </div>
-          <div
-            className="pl-2"
-            data-testid={`${data.replyId}-reply-menu`}
-          >
-            <ReplyMenu
-              userId={data.replyUserId}
-              tweetId={tweetId}
-              reply={data}
-              replies={replies}
-              setReplies={setReplies}
-            />
-          </div>
+          {user.userId === data.replyUserId ? (
+            <div
+              className="pl-2"
+              data-testid={`${data.replyId}-reply-menu`}
+            >
+              <ReplyMenu
+                userId={data.replyUserId}
+                tweetId={tweetId}
+                reply={data}
+                replies={replies}
+                setReplies={setReplies}
+              />
+            </div>
+          ) : (
+            ''
+          )}
         </div>
         <div
           className="caption"

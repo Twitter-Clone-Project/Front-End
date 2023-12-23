@@ -15,7 +15,7 @@ function UpdateEmail() {
       <Outlet />
       <SettingsHeader
         backBtn
-        title="Change Username"
+        title="Change Email"
       />
       <div className="b-2 flex w-full border-b border-b-light-gray p-4 dark:border-b-border-gray">
         <EmailInput

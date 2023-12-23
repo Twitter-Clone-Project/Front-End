@@ -1,6 +1,12 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import * as React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+} from 'react-router-dom';
 import { useState } from 'react';
 // import { v4 as uuid4 } from 'uuid';
 import TimeAgo from 'javascript-time-ago';
@@ -75,6 +81,16 @@ function App() {
     };
     refresh();
   }, [dispatch]);
+  React.useEffect(() => {
+    const refresh = () => {
+      console.log('aaaa');
+      window.location.href = '/';
+    };
+    window.addEventListener('storage', refresh);
+    return () => {
+      window.removeEventListener('storage', refresh);
+    };
+  }, []);
 
   return isLoading ? (
     <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex h-screen w-full items-center justify-center dark:bg-pure-black md:bg-border-gray">
