@@ -25,9 +25,7 @@ function TweetPage() {
   };
 
   const fetchReplies = useCallback(async () => {
-    if (isLoading || isDone) return;
     try {
-      setIsLoading(true);
       const response = await fetch(
         `${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/replies`,
         {
@@ -38,21 +36,17 @@ function TweetPage() {
         },
       );
       const data = await response.json();
-      if (data.data.length === 0) {
-        setIsDone(true);
+      if (data.status) {
+        setReplies(() => [...data.data]);
       }
-      setReplies(() => [...data.data]);
     } catch (error) {
       toast(error.message);
-    } finally {
-      setIsLoading(false);
     }
-  }, [isLoading, isDone, tweetId]);
+  }, [tweetId]);
 
   useEffect(() => {
     const getInitialReplies = async () => {
       try {
-        setIsLoading(true);
         const response = await fetch(
           `${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/replies`,
           {
@@ -63,14 +57,12 @@ function TweetPage() {
           },
         );
         const data = await response.json();
-        if (data.data.length === 0) {
-          setIsDone(true);
+        if (data.status) {
+          if (typeof data.data[Symbol.iterator] === 'function')
+            setReplies(() => [...data.data]);
         }
-        setReplies(() => [...data.data]);
       } catch (error) {
         toast(error.message);
-      } finally {
-        setIsLoading(false);
       }
     };
     getInitialReplies();
@@ -191,14 +183,12 @@ function TweetPage() {
     >
       <div className="mx-2 flex flex-col items-start justify-start">
         <div className="flex flex-wrap items-center">
-          <div
-            className="mb-2 mt-[9px] flex h-7 w-7 items-center justify-center rounded-full hover:bg-x-light-gray hover:dark:bg-light-thin"
-            data-testid="tweet-page-backbtn"
-          >
+          <div className="mb-2 mt-[9px] flex h-7 w-7 items-center justify-center rounded-full hover:bg-x-light-gray hover:dark:bg-light-thin">
             <svg
               viewBox="0 0 24 24"
               aria-hidden="true"
               className=" h-5 w-5 cursor-pointer dark:text-x-light-gray"
+              data-testid="tweet-page-backbtn"
               onClick={handelBackButton}
             >
               <g>
@@ -209,30 +199,40 @@ function TweetPage() {
               </g>
             </svg>
           </div>
-          <span className=" pl-4 text-xl font-semibold dark:text-white">
+          <span
+            className=" pl-4 text-xl font-semibold dark:text-white"
+            data-testid="tweet-post-header"
+          >
             Post
           </span>
         </div>
         {!tweetData ? (
-          <Spinner />
+          <div data-testid="spinner-component">
+            <Spinner />
+          </div>
         ) : (
           <>
-            <div className="w-full">
+            <div
+              className="w-full"
+              data-testid="tweet-component"
+            >
               {tweetData.map((tweetItem, index) => (
-                <Tweet
-                  data={tweetItem}
-                  // eslint-disable-next-line react/no-array-index-key
-                  setFetchLikes={() => {
-                    setFetchLikes(true);
-                    // console.log('Handling Likes');
-                  }}
-                  setFetchRetweets={() => {
-                    setFetchRetweets(true);
-                    // console.log('Handling Retweets');
-                  }}
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={index}
-                />
+                <div data-testid={`tweet-${tweetItem.id}`}>
+                  <Tweet
+                    data={tweetItem}
+                    // eslint-disable-next-line react/no-array-index-key
+                    setFetchLikes={() => {
+                      setFetchLikes(true);
+                      // console.log('Handling Likes');
+                    }}
+                    setFetchRetweets={() => {
+                      setFetchRetweets(true);
+                      // console.log('Handling Retweets');
+                    }}
+                    // eslint-disable-next-line react/no-array-index-key
+                    key={index}
+                  />
+                </div>
               ))}
             </div>
 
