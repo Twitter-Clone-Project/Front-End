@@ -9,7 +9,15 @@ import OwnToaster from '../OwnToaster';
 import NewPassword from '../login-page/NewPassword';
 import { useAuth } from '../../hooks/AuthContext';
 
-function EmailConfirm({ email, type = 'reset', onClose, onSuccess }) {
+function EmailConfirm({
+  email,
+  type = 'reset',
+  onClose,
+  onSuccess,
+  verifyUrl,
+  newEmail,
+  resendUrl,
+}) {
   const [code, setCode] = useState('');
   const [err, setError] = useState('');
   const [resetUser, setResetUser] = useState(null);
@@ -19,21 +27,32 @@ function EmailConfirm({ email, type = 'reset', onClose, onSuccess }) {
   const handleResendCode = async () => {
     try {
       setIsLoading(true);
+      const obj = {};
+      if (newEmail) obj.newEmail = newEmail;
+      else obj.email = email;
       const res = await fetch(
-        `${import.meta.env.VITE_API_DOMAIN}auth/resendConfirmEmail`,
+        resendUrl ||
+          `${import.meta.env.VITE_API_DOMAIN}auth/resendConfirmEmail`,
         {
-          method: 'POST',
+          method: type === 'update' ? 'PATCH' : 'POST',
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ email }),
+          body: JSON.stringify(obj),
         },
       );
       const data = await res.json();
       if (data.status === false) throw new Error(data.message);
-      toast('Email sent successfully');
+      toast('Email sent successfully', {
+        id: 'toast',
+      });
     } catch (error) {
-      toast(error.message);
+      toast(error.message, {
+        id: 'toast',
+      });
     } finally {
       setIsLoading(false);
     }
@@ -42,8 +61,10 @@ function EmailConfirm({ email, type = 'reset', onClose, onSuccess }) {
   const handleSendCode = async () => {
     try {
       setIsLoading(true);
+      const obj = { email, otp: code };
+      if (newEmail) obj.newEmail = newEmail;
       const res = await fetch(
-        `${import.meta.env.VITE_API_DOMAIN}auth/verifyEmail`,
+        verifyUrl || `${import.meta.env.VITE_API_DOMAIN}auth/verifyEmail`,
         {
           method: 'POST',
           headers: {
@@ -52,7 +73,7 @@ function EmailConfirm({ email, type = 'reset', onClose, onSuccess }) {
           origin: true,
           credentials: 'include',
           withCredentials: true,
-          body: JSON.stringify({ email, otp: code }),
+          body: JSON.stringify(obj),
         },
       );
 
@@ -66,7 +87,9 @@ function EmailConfirm({ email, type = 'reset', onClose, onSuccess }) {
         dispatch({ type: 'LOGIN', payload: data.data.user });
       }
     } catch (error) {
-      toast(error.message);
+      toast(error.message, {
+        id: 'toast',
+      });
     } finally {
       setIsLoading(false);
     }
@@ -92,7 +115,9 @@ function EmailConfirm({ email, type = 'reset', onClose, onSuccess }) {
             </p>
             <span className="mb-5 py-2 text-start text-sm text-dark-gray">
               Enter it below to confirm{' '}
-              <em className="font-semibold">{email || null}</em>
+              <em className="font-semibold">
+                {type === 'update' ? newEmail : email}
+              </em>
             </span>
             <div className=" flex flex-col">
               <BasicInput
@@ -137,6 +162,9 @@ EmailConfirm.defaultProps = {
   type: 'reset',
   onClose: null,
   onSuccess: null,
+  verifyUrl: null,
+  newEmail: null,
+  resendUrl: null,
 };
 
 EmailConfirm.propTypes = {
@@ -144,5 +172,8 @@ EmailConfirm.propTypes = {
   type: PropTypes.string,
   onClose: PropTypes.func,
   onSuccess: PropTypes.func,
+  verifyUrl: PropTypes.string,
+  newEmail: PropTypes.string,
+  resendUrl: PropTypes.string,
 };
 export default EmailConfirm;
