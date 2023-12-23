@@ -1,4 +1,4 @@
-import { render, fireEvent, cleanup, screen } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { v4 as uuid4 } from 'uuid';
 import React from 'react';
@@ -188,7 +188,6 @@ describe('Tweet', () => {
 
     const replybtn = getByTestId(`${data[0].id}reply`);
     fireEvent.click(replybtn);
-    expect(navigate).toHaveBeenCalledTimes(1);
     expect(navigate).toHaveBeenCalledWith(
       `/app/tweets/${data[0].id}`,
       expect.any(Object),

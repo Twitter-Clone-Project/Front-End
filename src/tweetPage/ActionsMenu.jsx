@@ -8,6 +8,132 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
   const [show, toggleShow] = useState(false);
   const dropdownRef = useRef(null);
   const [followed, toggleFollowed] = useState(tweet.user.isFollowed);
+
+  const blockReq = () => {
+    fetch(
+      `${import.meta.env.VITE_API_DOMAIN}users/${tweet.user.username}/block`,
+      {
+        method: 'POST',
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userName: user.username,
+        }),
+      },
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Response data:', data);
+      })
+      .catch((error) => {
+        console.error('Error during fetch:', error);
+      });
+  };
+
+  const muteReq = () => {
+    fetch(
+      `${import.meta.env.VITE_API_DOMAIN}users/${tweet.user.username}/mute`,
+      {
+        method: 'POST',
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userName: user.username,
+        }),
+      },
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Response data:', data);
+      })
+      .catch((error) => {
+        console.error('Error during fetch:', error);
+      });
+  };
+
+  const followReq = () => {
+    fetch(
+      `${import.meta.env.VITE_API_DOMAIN}users/${tweet.user.username}/follow`,
+      {
+        method: 'POST',
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userName: user.username,
+        }),
+      },
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        } else {
+          toggleFollowed(!tweet.user.isFollowed);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Response data:', data);
+      })
+      .catch((error) => {
+        console.error('Error during fetch:', error);
+      });
+  };
+
+  // Function to handle unFollow request
+  const unFollowReq = () => {
+    fetch(
+      `${import.meta.env.VITE_API_DOMAIN}users/${tweet.user.username}/unfollow`,
+      {
+        method: 'DELETE',
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userid: user.username,
+        }),
+      },
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        } else {
+          toggleFollowed(!tweet.user.isFollowed);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Response data:', data);
+      })
+      .catch((error) => {
+        console.error('Error during fetch:', error);
+      });
+  };
+
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       toggleShow(false);
@@ -23,18 +149,29 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
     toggleShow(!show);
   };
   const handleFollow = () => {
-    //
-    toggleFollowed(!tweet.user.isFollowed);
+    if (!followed) {
+      followReq();
+      console.log('follow');
+    } else {
+      unFollowReq();
+      console.log('unfollow');
+    }
     toggleShow(false);
   };
   const handleBlock = () => {
-    //
-
+    blockReq();
+    if (tweets) {
+      const newTweets = tweets.filter((atweet) => atweet.id !== tweet.id);
+      setTweets(newTweets);
+    }
     toggleShow(false);
   };
   const handleMute = () => {
-    //
-
+    muteReq();
+    if (tweets) {
+      const newTweets = tweets.filter((atweet) => atweet.id !== tweet.id);
+      setTweets(newTweets);
+    }
     toggleShow(false);
   };
   const handleDelete = () => {
@@ -64,176 +201,6 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
 
     deleteTweet();
     toggleShow(false);
-  };
-
-  const blockReq = () => {
-    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${user.username}/block`, {
-      method: 'POST',
-      origin: true,
-      credentials: 'include',
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userName: user.username,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        setLocalIsBlocked(!localIsBlocked);
-        setLocalIsFollowed(false);
-        return response.json();
-      })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
-      .catch((error) => {
-        console.error('Error during fetch:', error);
-      });
-  };
-
-  const unBlockReq = () => {
-    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${user.username}/unblock`, {
-      method: 'DELETE',
-      origin: true,
-      credentials: 'include',
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userName: user.username,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        setLocalIsBlocked(!localIsBlocked);
-        return response.json();
-      })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
-      .catch((error) => {
-        console.error('Error during fetch:', error);
-      });
-  };
-
-  const muteReq = () => {
-    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${user.username}/mute`, {
-      method: 'POST',
-      origin: true,
-      credentials: 'include',
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userName: user.username,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        setLocalIsMuted(!localIsMuted);
-        return response.json();
-      })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
-      .catch((error) => {
-        console.error('Error during fetch:', error);
-      });
-  };
-
-  const unMuteReq = () => {
-    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${user.username}/unmute`, {
-      method: 'DELETE',
-      origin: true,
-      credentials: 'include',
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userName: user.username,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        setLocalIsMuted(!localIsMuted);
-        return response.json();
-      })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
-      .catch((error) => {
-        console.error('Error during fetch:', error);
-      });
-  };
-
-  const followReq = () => {
-    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${user.username}/follow`, {
-      method: 'POST',
-      origin: true,
-      credentials: 'include',
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userName: user.username,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        setLocalIsFollowed(!localIsFollowed);
-        return response.json();
-      })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
-      .catch((error) => {
-        console.error('Error during fetch:', error);
-      });
-  };
-
-  // Function to handle unFollow request
-  const unFollowReq = () => {
-    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${user.username}/unfollow`, {
-      method: 'DELETE',
-      origin: true,
-      credentials: 'include',
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userid: user.username,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        setLocalIsFollowed(!localIsFollowed);
-        return response.json();
-      })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
-      .catch((error) => {
-        console.error('Error during fetch:', error);
-      });
   };
 
   return (
