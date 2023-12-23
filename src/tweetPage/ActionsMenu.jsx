@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
 import { useAuth } from '../hooks/AuthContext';
+import OwnToaster from '../components/OwnToaster';
 
 function ActionsMenu({ userId, tweet, tweets, setTweets }) {
   const { user } = useAuth();
@@ -28,6 +29,15 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
+        } else {
+          if (tweets) {
+            const newTweets = tweets.filter(
+              (atweet) => atweet.user.username !== tweet.user.username,
+            );
+            setTweets(newTweets);
+          }
+          toast(`Successfully blocked`);
+          toggleShow(false);
         }
         return response.json();
       })
@@ -58,6 +68,15 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
+        } else {
+          if (tweets) {
+            const newTweets = tweets.filter(
+              (atweet) => atweet.user.username !== tweet.user.username,
+            );
+            setTweets(newTweets);
+          }
+          toast(`@${tweet.user.username} has been muted`);
+          toggleShow(false);
         }
         return response.json();
       })
@@ -90,6 +109,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         } else {
           toggleFollowed((prev) => !prev);
+          toast(`You followed @${tweet.user.username}`);
         }
         return response.json();
       })
@@ -100,8 +120,6 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
         console.error('Error during fetch:', error);
       });
   };
-
-  // Function to handle unFollow request
   const unFollowReq = () => {
     fetch(
       `${import.meta.env.VITE_API_DOMAIN}users/${tweet.user.username}/unfollow`,
@@ -123,6 +141,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         } else {
           toggleFollowed((prev) => !prev);
+          toast(`You unfollowed @${tweet.user.username}`);
         }
         return response.json();
       })
@@ -160,23 +179,9 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
   };
   const handleBlock = () => {
     blockReq();
-    if (tweets) {
-      const newTweets = tweets.filter(
-        (atweet) => atweet.user.username !== tweet.user.username,
-      );
-      setTweets(newTweets);
-    }
-    toggleShow(false);
   };
   const handleMute = () => {
     muteReq();
-    if (tweets) {
-      const newTweets = tweets.filter(
-        (atweet) => atweet.user.username !== tweet.user.username,
-      );
-      setTweets(newTweets);
-    }
-    toggleShow(false);
   };
   const handleDelete = () => {
     const deleteTweet = async () => {
@@ -191,7 +196,6 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
           },
         );
         const res = await response.json();
-        console.log(res.message);
         if (res.status) {
           if (tweets) {
             const newTweets = tweets.filter((atweet) => atweet.id !== tweet.id);
@@ -344,6 +348,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
           )}
         </div>
       )}
+      <OwnToaster />
     </div>
   );
 }
