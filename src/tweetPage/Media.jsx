@@ -27,12 +27,24 @@ function Media({ images }) {
         grid-rows-${images.length / 2} gap-[2px] overflow-hidden rounded-xl`}
         >
           {images.map((image) => (
-            <img
-              key={uuid4()}
-              src={image}
-              alt="media"
-              className="h-full w-full object-cover"
-            />
+            <>
+              {isLoading && (
+                <Skeleton
+                  sx={{ bgcolor: 'grey.900' }}
+                  animation="wave"
+                  variant="rectangular"
+                  width={500}
+                  height={500}
+                />
+              )}
+              <img
+                key={uuid4()}
+                src={image}
+                onLoad={() => setIsLoading(false)}
+                alt="media"
+                className="h-full w-full object-cover"
+              />
+            </>
           ))}
         </div>
       );
