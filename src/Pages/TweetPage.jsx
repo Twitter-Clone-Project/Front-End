@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import Spinner from '../components/Spinner';
@@ -12,8 +12,8 @@ function TweetPage() {
   const location = useLocation();
   const pastPath = location.state?.pastPath;
   const [replies, setReplies] = useState([]);
-  const [isDone, setIsDone] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isDone, setIsDone] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const { tweetId } = useParams();
   const [tweetData, setTweetData] = useState();
   const [fetchLikes, setFetchLikes] = useState(false);
@@ -24,25 +24,25 @@ function TweetPage() {
     navigate(pastPath.pathname || -1);
   };
 
-  const fetchReplies = useCallback(async () => {
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/replies`,
-        {
-          method: 'GET',
-          origin: true,
-          credentials: 'include',
-          withCredentials: true,
-        },
-      );
-      const data = await response.json();
-      if (data.status) {
-        setReplies(() => [...data.data]);
-      }
-    } catch (error) {
-      toast(error.message);
-    }
-  }, [tweetId]);
+  // const fetchReplies = useCallback(async () => {
+  //   try {
+  //     const response = await fetch(
+  //       `${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/replies`,
+  //       {
+  //         method: 'GET',
+  //         origin: true,
+  //         credentials: 'include',
+  //         withCredentials: true,
+  //       },
+  //     );
+  //     const data = await response.json();
+  //     if (data.status) {
+  //       setReplies(() => [...data.data]);
+  //     }
+  //   } catch (error) {
+  //     toast(error.message);
+  //   }
+  // }, [tweetId]);
 
   useEffect(() => {
     const getInitialReplies = async () => {
@@ -66,7 +66,7 @@ function TweetPage() {
       }
     };
     getInitialReplies();
-  }, []);
+  }, [tweetId]);
 
   useEffect(() => {
     const getInitialTweet = async () => {
@@ -90,19 +90,19 @@ function TweetPage() {
       }
     };
     getInitialTweet();
-  }, []);
+  }, [tweetId]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const { scrollTop, clientHeight, scrollHeight } =
-        document.documentElement;
-      if (scrollTop + clientHeight >= scrollHeight - 20) {
-        fetchReplies();
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [fetchReplies]);
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const { scrollTop, clientHeight, scrollHeight } =
+  //       document.documentElement;
+  //     if (scrollTop + clientHeight >= scrollHeight - 20) {
+  //       fetchReplies();
+  //     }
+  //   };
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, [fetchReplies]);
 
   useEffect(() => {
     // console.log('Like changed');
@@ -127,7 +127,7 @@ function TweetPage() {
     };
     getInitialTweet();
     setFetchLikes(false);
-  }, [fetchLikes]);
+  }, [fetchLikes, tweetId]);
 
   useEffect(() => {
     const getInitialTweet = async () => {
@@ -151,7 +151,7 @@ function TweetPage() {
     };
     getInitialTweet();
     setFetchRetweets(false);
-  }, [fetchRetweets]);
+  }, [fetchRetweets, tweetId]);
 
   useEffect(() => {
     const getInitialTweet = async () => {
@@ -174,7 +174,7 @@ function TweetPage() {
       }
     };
     getInitialTweet();
-  }, [replies]);
+  }, [replies, tweetId]);
 
   return (
     <div
@@ -281,10 +281,4 @@ function TweetPage() {
   );
 }
 
-// TweetPage.propTypes = {
-//   pastPath: PropTypes.string.isRequired,
-//   tweetId: PropTypes.string.isRequired,
-//   // eslint-disable-next-line react/forbid-prop-types
-//   tweetData: PropTypes.array.isRequired,
-// };
 export default TweetPage;

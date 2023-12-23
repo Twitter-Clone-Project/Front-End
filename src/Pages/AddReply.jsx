@@ -49,7 +49,7 @@ function AddReply({ setReplies, tweetId, replyFor }) {
         );
         const data = await response.json();
         if (data.status) {
-          console.log(data.data);
+          // console.log(data.data);
           setReplies((prev) => [data.data, ...prev]);
         }
       } catch (error) {
