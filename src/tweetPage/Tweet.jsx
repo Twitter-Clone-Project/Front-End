@@ -339,6 +339,7 @@ function UnMemoTweet({
             <ActionsMenu
               userId={data.user.userId}
               tweet={data}
+              setTweets={setTweets}
               tweets={tweets}
             />
           </div>

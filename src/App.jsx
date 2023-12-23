@@ -90,7 +90,7 @@ function App() {
       <Spinner />
     </div>
   ) : (
-    <div className="flex h-full min-h-screen w-full overflow-auto bg-white dark:bg-pure-black">
+    <div className="flex h-full min-h-screen w-full  bg-white dark:bg-pure-black">
       <BrowserRouter>
         <Routes>
           <Route
