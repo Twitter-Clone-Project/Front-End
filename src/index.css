@@ -14,7 +14,9 @@
   width: 100%;
   justify-content: center;
 }
-* {
+body,
+root,
+html {
   scrollbar-gutter: stable;
 }
 *,
