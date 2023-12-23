@@ -9,7 +9,6 @@ import usePost from './usePost';
 
 function BlockedUsers() {
   const { data, error, isLoading, fetchData } = usePost();
-  console.log(data);
   useEffect(() => {
     fetchData(`${import.meta.env.VITE_API_DOMAIN}users/blockedUsers`, {
       method: 'GET',

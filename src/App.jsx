@@ -1,12 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import * as React from 'react';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  useNavigate,
-} from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 // import { v4 as uuid4 } from 'uuid';
 import TimeAgo from 'javascript-time-ago';
@@ -55,7 +49,7 @@ import EmailFlow from './components/Settings-page/EmailFlow';
 TimeAgo.addDefaultLocale(en);
 
 function App() {
-  const { dispatch, user } = useAuth();
+  const { dispatch } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   React.useEffect(() => {
     const refresh = async () => {
@@ -83,7 +77,6 @@ function App() {
   }, [dispatch]);
   React.useEffect(() => {
     const refresh = () => {
-      console.log('aaaa');
       window.location.href = '/';
     };
     window.addEventListener('storage', refresh);
