@@ -97,7 +97,14 @@ function Likes() {
             }
             endMessage={
               <p className="flex items-center justify-center p-3">
-                <b>Yay! You have seen it all</b>
+                {posts.length > 0 ? (
+                  <b>Yay! You have seen it all</b>
+                ) : (
+                  <b>
+                    You haven&#39;t liken anything yet
+                    <br /> Go ahead and like posts 🤩
+                  </b>
+                )}
               </p>
             }
           >

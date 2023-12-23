@@ -45,7 +45,30 @@ function Posts() {
     };
     fetchUser();
   }, [dispatch, username]);
-
+  const getInitialTweets = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        `${import.meta.env.VITE_API_DOMAIN}users/${username}/tweets/1`,
+        {
+          method: 'GET',
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+        },
+      );
+      const data = await response.json();
+      if (data.data.length === 0) setIsDone(true);
+      setTotal(data.total);
+      setInitialDone(true);
+      setError('');
+      setPosts(() => [...data.data]);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [username]);
   const fetchTweets = useCallback(async () => {
     if (isLoading || isDone) return;
     try {
@@ -73,32 +96,8 @@ function Posts() {
   }, [isLoading, page, isDone, username]);
 
   useEffect(() => {
-    const getInitialTweets = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(
-          `${import.meta.env.VITE_API_DOMAIN}users/${username}/tweets/1`,
-          {
-            method: 'GET',
-            origin: true,
-            credentials: 'include',
-            withCredentials: true,
-          },
-        );
-        const data = await response.json();
-        if (data.data.length === 0) setIsDone(true);
-        setTotal(data.total);
-        setInitialDone(true);
-        setError('');
-        setPosts(() => [...data.data]);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     getInitialTweets();
-  }, [username]);
+  }, [getInitialTweets]);
 
   useEffect(() => {
     if (error !== '') toast(error);
@@ -126,7 +125,14 @@ function Posts() {
                 }
                 endMessage={
                   <p className="flex items-center justify-center p-3">
-                    <b>Yay! You have seen it all</b>
+                    {posts.length > 0 ? (
+                      <b>Yay! You have seen it all</b>
+                    ) : (
+                      <b>
+                        You haven&#39;t posted anything yet
+                        <br /> Go ahead and post 🤩
+                      </b>
+                    )}
                   </p>
                 }
               >

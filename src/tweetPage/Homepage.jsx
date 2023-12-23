@@ -77,8 +77,15 @@ function Homepage() {
             </div>
           }
           endMessage={
-            <p className="flex items-center justify-center p-3">
-              <b>Yay! You have seen it all</b>
+            <p className="flex items-center justify-center p-3 text-center">
+              {tweets.length > 0 ? (
+                <b>Yay! You have seen it all</b>
+              ) : (
+                <b className="mt-12 flex items-center text-lg font-semibold">
+                  There are no current tweets to show! 🥹
+                  <br /> Follow People to see their tweets.{' '}
+                </b>
+              )}
             </p>
           }
         >
