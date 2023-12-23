@@ -12,7 +12,7 @@ import Time from './Time';
 import { ChatContext } from '../../hooks/ContactContext';
 import { useAuth } from '../../hooks/AuthContext';
 
-function ConversationCard({ conversationData, setOpenedId }) {
+function ConversationCard({ conversationData }) {
   const {
     chatContext,
     setChatContext,
@@ -21,13 +21,15 @@ function ConversationCard({ conversationData, setOpenedId }) {
     socket,
     setMessagesCount,
     messagesCount,
+    setOpenedId,
+    openedId,
   } = useContext(ChatContext);
   const { user } = useAuth();
-  const { conversationId } = useParams();
+  const x = useParams();
 
   useEffect(() => {
     conversations.map((conversation) => {
-      if (conversationId === conversation.contact.username) {
+      if (x.conversationId === conversation.contact.username) {
         if (chatContext.conversationId !== '') {
           socket.emit('chat-closed', {
             userId: user.userId,
@@ -36,6 +38,7 @@ function ConversationCard({ conversationData, setOpenedId }) {
           });
         }
         setChatContext(conversation);
+        // console.log('here', conversation.conversationId);
         setOpenedId(conversation.conversationId);
         socket.emit('chat-opened', {
           userId: user.userId,
@@ -45,7 +48,7 @@ function ConversationCard({ conversationData, setOpenedId }) {
       }
       return conversation;
     });
-  }, [conversationId]);
+  }, [x.conversationId]);
 
   return (
     <Link
@@ -61,7 +64,16 @@ function ConversationCard({ conversationData, setOpenedId }) {
           if (chatContext.conversationId === '') {
             // console.log('First open id:', conversationData.conversationId);
             setChatContext({ ...conversationData });
-            setOpenedId(conversationData.conversationId);
+            // setOpenedId(conversationData.conversationId);
+            const conversationIndex = conversations.findIndex(
+              (conv) => conv.conversationId === conversationData.conversationId,
+            );
+            if (conversationIndex !== -1) {
+              const updatedConversations = [...conversations];
+              updatedConversations[conversationIndex].isConversationSeen = true;
+              setConversations(updatedConversations);
+            }
+
             socket.emit('chat-opened', {
               userId: user.userId,
               conversationId: conversationData.conversationId,

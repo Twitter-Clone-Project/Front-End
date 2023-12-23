@@ -81,11 +81,15 @@ function NavBar() {
 
   useEffect(() => {
     if (socket === null) return;
-    socket.on('msg-receive', async (message) => {
+    const navBarListener = (message) => {
       if (message.conversationId !== chatContext.conversationId) {
         setMessagesCount(messagesCount + 1);
       }
-    });
+    };
+    socket.on('msg-receive', navBarListener);
+    return () => {
+      socket.off('msg-receive', navBarListener);
+    };
   }, [socket]);
 
   useEffect(() => {

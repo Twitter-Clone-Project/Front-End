@@ -20,7 +20,7 @@ function AppLayout() {
         newSocket.disconnect();
       }
     };
-  }, [user.userId]);
+  }, []);
 
   return (
     <div className="min-h-full w-full">

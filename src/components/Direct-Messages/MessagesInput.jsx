@@ -38,6 +38,7 @@ function MessagesInput() {
       conversationId: chatContext.conversationId,
       text: message,
     });
+    // console.log('send', socket);
     socket.emit('msg-send', newMessage);
     setSocketMessages([
       ...socketMessages,

@@ -10,7 +10,7 @@ import { ChatContext } from '../../hooks/ContactContext';
 function ConversationsPage() {
   const [searchValue, setSearchValue] = useState('');
   const [mode, setMode] = useState(false);
-  const [openedId, setOpenedId] = useState('');
+  // const [openedId, setOpenedId] = useState('');
   const [windowWidth, setWindowWidth] = useState(window.outerWidth);
   const { chatContext } = useContext(ChatContext);
 
@@ -59,18 +59,8 @@ function ConversationsPage() {
           data-testid="conversations-page-select"
           className="overflow-y-auto no-scrollbar"
         >
-          {!mode && (
-            <ConversationsHistory
-              setOpenedId={setOpenedId}
-              openedId={openedId}
-            />
-          )}
-          {mode && (
-            <SearchResults
-              setOpenedId={setOpenedId}
-              searchValue={searchValue}
-            />
-          )}
+          {!mode && <ConversationsHistory />}
+          {mode && <SearchResults searchValue={searchValue} />}
         </div>
       </div>
     );

@@ -9,7 +9,7 @@ import timezone from 'dayjs/plugin/timezone';
 import ConversationCard from './ConversationCard';
 import { ChatContext } from '../../hooks/ContactContext';
 
-function ConversationsHistory({ setOpenedId, openedId }) {
+function ConversationsHistory() {
   const {
     chatContext,
     top,
@@ -17,6 +17,7 @@ function ConversationsHistory({ setOpenedId, openedId }) {
     setChatState,
     conversations,
     setConversations,
+    openedId,
   } = useContext(ChatContext);
   dayjs.extend(utc);
   dayjs.extend(timezone);
@@ -104,7 +105,6 @@ function ConversationsHistory({ setOpenedId, openedId }) {
             key={conversation.conversationId}
             conversationData={conversation}
             socket={socket}
-            setOpenedId={setOpenedId}
           />
         ))}
       </div>
