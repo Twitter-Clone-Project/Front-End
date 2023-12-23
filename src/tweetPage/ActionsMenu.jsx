@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
 import { useAuth } from '../hooks/AuthContext';
 
-function ActionsMenu({ userId, tweet, tweets, setTweets }) {
+function ActionsMenu({ userId, tweet, tweets }) {
   const { user } = useAuth();
   const [show, toggleShow] = useState(false);
   const dropdownRef = useRef(null);
@@ -53,8 +53,8 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
         console.log(res.message);
         if (res.status) {
           if (tweets) {
-            const newTweets = tweets.filter((atweet) => atweet.id !== tweet.id);
-            setTweets(newTweets);
+            const delEvent = new CustomEvent(`${tweet.id}`, { detail: 'del' });
+            document.dispatchEvent(delEvent);
           }
         }
       } catch (err) {

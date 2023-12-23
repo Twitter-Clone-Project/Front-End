@@ -70,7 +70,7 @@ function Homepage() {
         <InfiniteScroll
           dataLength={total}
           next={fetchTweets}
-          hasMore={tweets.length !== total}
+          hasMore={tweets.length < total}
           loader={
             <div className="flex items-center justify-center p-3">
               <DotLoader />
