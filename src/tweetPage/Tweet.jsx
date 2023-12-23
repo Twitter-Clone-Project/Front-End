@@ -18,7 +18,7 @@ import PopoverUserCard from '../components/userComponents/PopoverUserCard';
 // import { useAuth } from '../hooks/AuthContext';
 
 function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
-  const [repost, toggleRepost] = useState(data.isRetweeted);
+  const [repost, toggleRepost] = useState(data.isRetweet);
   const [like, toggleLike] = useState(data.isLiked);
   const [repostsCount, setRepostsCount] = useState();
   const [repliesCount, setRepliesCount] = useState();
@@ -49,8 +49,8 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
   };
   const handleLike = () => {
     if (like === true) {
-      setLikesCount(likesCount - 1);
-      toggleLike(!like);
+      toggleLike((prev) => !prev);
+      setLikesCount((prev) => prev - 1);
       if (!isLikeLoading) {
         setIsLikeLoading(true);
         const deleteLike = async () => {
@@ -66,8 +66,8 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             );
             const res = await response.json();
             if (!res.status) {
-              toggleLike(!like);
-              setLikesCount(likesCount + 1);
+              toggleLike((prev) => !prev);
+              setLikesCount((prev) => prev + 1);
               throw new Error(res.message);
             }
           } catch (err) {
@@ -80,8 +80,8 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
         deleteLike();
       }
     } else if (like === false) {
-      setLikesCount(likesCount + 1);
-      toggleLike(!like);
+      toggleLike((prev) => !prev);
+      setLikesCount((prev) => prev + 1);
 
       if (!isLikeLoading) {
         setIsLikeLoading(true);
@@ -98,8 +98,8 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             );
             const res = await response.json();
             if (!res.status) {
-              setLikesCount(likesCount - 1);
-              toggleLike(!like);
+              toggleLike((prev) => !prev);
+              setLikesCount((prev) => prev - 1);
               throw new Error(res.message);
             }
           } catch (err) {
@@ -116,10 +116,10 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
   };
   const handleRepost = () => {
     if (repost === true) {
-      toggleRepost(!repost);
-      setRepostsCount(repostsCount - 1);
+      toggleRepost((prev) => !prev);
+      setRepostsCount((prev) => prev - 1);
       if (!isRepostLoading) {
-        setIsLikeLoading(true);
+        setIsRepostLoading(true);
         const deleteRetweet = async () => {
           try {
             const response = await fetch(
@@ -135,8 +135,8 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             );
             const res = await response.json();
             if (!res.status) {
-              toggleRepost(!repost);
-              setRepostsCount(repostsCount + 1);
+              toggleRepost((prev) => !prev);
+              setRepostsCount((prev) => prev + 1);
               throw new Error(res.message);
             }
           } catch (err) {
@@ -149,8 +149,8 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
         deleteRetweet();
       }
     } else if (repost === false) {
-      toggleRepost(!repost);
-      setRepostsCount(repostsCount + 1);
+      toggleRepost((prev) => !prev);
+      setRepostsCount((prev) => prev + 1);
       if (!isRepostLoading) {
         setIsRepostLoading(true);
         const retweet = async () => {
@@ -167,8 +167,8 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             const res = await response.json();
             console.log(res);
             if (!res.status) {
-              toggleRepost(!repost);
-              setRepostsCount(repostsCount - 1);
+              toggleRepost((prev) => !prev);
+              setRepostsCount((prev) => prev - 1);
               throw new Error(res.message);
             }
           } catch (err) {
@@ -227,10 +227,10 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
       </div>
 
       <div className="rightColumn max-w-[95%]">
-        {(data.isRetweet || repost) && (
+        {data.isRetweet && (
           <div
             className={` retweeted-info flex w-full items-center text-xs font-semibold
-          text-dark-gray ${repost === false ? 'hidden' : ''} `}
+          text-dark-gray `}
             onClick={(e) => {
               e.stopPropagation();
             }}
@@ -242,9 +242,7 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
               <path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z" />
             </svg>
             <span>
-              {data.isRetweeted || repost
-                ? 'You'
-                : data.retweetedUser.screenName}{' '}
+              {data.isRetweeted ? 'You' : data.retweetedUser.screenName}{' '}
               reposted
             </span>
           </div>

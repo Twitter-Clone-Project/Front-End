@@ -18,6 +18,7 @@ function MessageCard({
   const Date = dayjs(time);
   return (
     <div
+      data-testid={`${id}-message-card`}
       onClick={() => {
         if (id === clicked) setClicked('-1');
         else setClicked(id);
@@ -28,8 +29,10 @@ function MessageCard({
       `}
     >
       <div
+        data-testid={`${id}-message-card-inside`}
         className={`
-        min-h-11 flex w-fit 
+        min-h-11 
+        flex w-fit break-all 
         px-4
         py-3 text-base
          dark:text-white
@@ -52,7 +55,10 @@ function MessageCard({
       </div>
       <div className="h-fit">
         {id === clicked && (
-          <div className=" w-fit cursor-pointer text-sm text-[#536571] hover:underline">
+          <div
+            data-testid={`${id}-message-card-state`}
+            className=" w-fit cursor-pointer text-sm text-[#536571] hover:underline"
+          >
             {Date.format('YYYY-MM-DD h:mm A')}{' '}
             {!isFromMe ? '' : isSeen ? 'Seen' : 'Sent'}
           </div>
