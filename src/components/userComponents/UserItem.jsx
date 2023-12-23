@@ -18,8 +18,12 @@ function UserItem({
   discription,
   following,
   followers,
+  isBlocked,
+  isMuted,
 }) {
   const [localIsFollowed, setLocalIsFollowed] = useState(isFollowed);
+  const [localIsBlocked, setLocalIsBlocked] = useState(isBlocked);
+  const [localIsMuted, setLocalIsMuted] = useState(isMuted);
   const { user: curUser } = useAuth();
   const [isButtonHovered, setButtonHovered] = useState(false);
 
@@ -76,10 +80,128 @@ function UserItem({
       });
   };
 
+  const blockReq = () => {
+    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${userID}/block`, {
+      method: 'POST',
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        setLocalIsBlocked(!localIsBlocked);
+        setLocalIsFollowed(false);
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Response data:', data);
+      })
+      .catch((error) => {
+        console.error('Error during fetch:', error);
+      });
+  };
+
+  const unBlockReq = () => {
+    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${userID}/unblock`, {
+      method: 'DELETE',
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        setLocalIsBlocked(!localIsBlocked);
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Response data:', data);
+      })
+      .catch((error) => {
+        console.error('Error during fetch:', error);
+      });
+  };
+
+  const muteReq = () => {
+    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${userID}/mute`, {
+      method: 'POST',
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        setLocalIsMuted(!localIsMuted);
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Response data:', data);
+      })
+      .catch((error) => {
+        console.error('Error during fetch:', error);
+      });
+  };
+
+  const unMuteReq = () => {
+    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${userID}/unmute`, {
+      method: 'DELETE',
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        setLocalIsMuted(!localIsMuted);
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Response data:', data);
+      })
+      .catch((error) => {
+        console.error('Error during fetch:', error);
+      });
+  };
+
   const handelFollowUnFollowButton = (event) => {
     event.preventDefault();
     event.stopPropagation(); // to ignore any other functions in the same component
-    localIsFollowed ? unFollowReq() : followReq();
+    console.log(isBlocked, isMuted);
+    if (isBlocked) {
+      if (localIsBlocked) {
+        unBlockReq();
+      } else {
+        blockReq();
+      }
+      // localIsFollowed ? unFollowReq() : followReq();
+    } else if (isMuted) {
+      if (localIsMuted) {
+        unMuteReq();
+        console.log('unmute');
+      } else {
+        muteReq();
+      }
+    } else {
+      localIsFollowed ? unFollowReq() : followReq();
+    }
   };
 
   return (
@@ -182,42 +304,74 @@ function UserItem({
                   >
                     <Button
                       backGroundColor={
-                        localIsFollowed
+                        isBlocked || isMuted
+                          ? localIsBlocked || localIsMuted
+                            ? 'warningRed'
+                            : 'white'
+                          : localIsFollowed
                           ? isButtonHovered
                             ? 'red'
                             : 'white'
                           : 'white'
                       }
                       backGroundColorDark={
-                        localIsFollowed
+                        isBlocked || isMuted
+                          ? localIsBlocked || localIsMuted
+                            ? 'warningRed'
+                            : 'black'
+                          : localIsFollowed
                           ? isButtonHovered
                             ? 'red'
                             : 'black'
                           : 'black'
                       }
                       borderColor={
-                        localIsFollowed
+                        isBlocked || isMuted
+                          ? localIsBlocked || localIsMuted
+                            ? 'none'
+                            : 'red'
+                          : localIsFollowed
                           ? isButtonHovered
                             ? 'red'
                             : 'gray'
                           : 'gray'
                       }
                       label={
-                        localIsFollowed
+                        isBlocked
+                          ? localIsBlocked
+                            ? isButtonHovered
+                              ? 'Unblock'
+                              : 'Blocked'
+                            : 'Block'
+                          : isMuted
+                          ? localIsMuted
+                            ? isButtonHovered
+                              ? 'Unmute'
+                              : 'Muted'
+                            : 'Mute'
+                          : localIsFollowed
                           ? isButtonHovered
                             ? 'Unfollow'
                             : 'Following'
                           : 'Follow'
                       }
                       labelColor={
-                        localIsFollowed
+                        isBlocked || isMuted
+                          ? localIsBlocked || localIsMuted
+                            ? 'white'
+                            : 'red'
+                          : localIsFollowed
                           ? isButtonHovered
                             ? 'red'
                             : 'black'
                           : 'black'
                       }
                       labelColorDark={
-                        localIsFollowed
+                        isBlocked || isMuted
+                          ? localIsBlocked || localIsMuted
+                            ? 'white'
+                            : 'red'
+                          : localIsFollowed
                           ? isButtonHovered
                             ? 'red'
                             : 'white'
@@ -243,6 +397,10 @@ function UserItem({
     </div>
   );
 }
+UserItem.defaultProps = {
+  isBlocked: false,
+  isMuted: false,
+};
 
 UserItem.propTypes = {
   isFollowed: PropTypes.bool.isRequired,
@@ -253,6 +411,8 @@ UserItem.propTypes = {
   discription: PropTypes.string.isRequired,
   following: PropTypes.string.isRequired,
   followers: PropTypes.string.isRequired,
+  isBlocked: PropTypes.bool,
+  isMuted: PropTypes.bool,
 };
 
 export default UserItem;

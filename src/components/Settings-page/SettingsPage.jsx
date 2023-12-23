@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { useAuth } from '../../hooks/AuthContext';
-import SettingsList from './SettingsList';
 import { Outlet } from 'react-router';
 import { useNavigate } from 'react-router';
+import { useAuth } from '../../hooks/AuthContext';
+import SettingsList from './SettingsList';
 import OwnToaster from '../OwnToaster';
 
 function SettingPage() {

@@ -23,7 +23,7 @@ function UserProfileCard({ user }) {
                 src={user.bannerUrl || import.meta.env.VITE_DEFAULT_BANNER}
               >
                 <img
-                  className="m-auto aspect-[3/1] max-h-full w-full cursor-pointer object-fill"
+                  className="m-auto aspect-[3/1] max-h-full w-full cursor-pointer bg-white object-fill dark:bg-pure-black"
                   data-testid="user-cover"
                   src={user.bannerUrl || import.meta.env.VITE_DEFAULT_BANNER}
                   alt="cover"

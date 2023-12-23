@@ -110,7 +110,6 @@ describe('FollowersList', () => {
         </BrowserRouter>
       </AuthProvider>,
     );
-    console.log(window.location.pathname);
     await waitFor(() => {
       expect(window.fetch).toHaveBeenCalledTimes(1);
       expect(window.fetch).toHaveBeenCalledWith(

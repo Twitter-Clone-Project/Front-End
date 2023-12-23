@@ -13,7 +13,7 @@ function AddCard({ person, setDeletePerson }) {
         className="h-5 w-5 rounded-full"
       />
       <div className="w-[90%] max-w-fit overflow-clip whitespace-nowrap text-base font-bold text-black dark:text-white">
-        {person.name}
+        {person.screenName}
       </div>
       <button
         data-testid={`${person.id}-addCard-person-button`}

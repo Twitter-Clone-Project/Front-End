@@ -30,7 +30,7 @@ function AddResultCard({ setPerson, result, deletePerson }) {
       </div>
       <div className="flex w-full flex-col overflow-clip">
         <div className="w-[90%] max-w-fit overflow-clip whitespace-nowrap text-base font-bold text-black dark:text-white">
-          {result.name}
+          {result.screenName}
         </div>
         <div className="w-[90%]  max-w-fit overflow-clip whitespace-nowrap text-base text-[#71767B]">
           @{result.username}

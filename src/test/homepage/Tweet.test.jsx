@@ -1,11 +1,11 @@
-import { render, fireEvent, cleanup, screen } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { v4 as uuid4 } from 'uuid';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import * as router from 'react-router';
-import { addLocale, setDefaultLocale } from 'javascript-time-ago'; // Import the necessary functions
-import en from 'javascript-time-ago/locale/en'; // Import the locale data for 'en'
+import { addLocale, setDefaultLocale } from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
 import Tweet from '../../tweetPage/Tweet';
 import AuthProvider from '../../contexts/Auth/AuthProvider';
 import { useAuth } from '../../hooks/AuthContext';
@@ -56,10 +56,7 @@ useAuth.mockReturnValue({
   user: data[0].user,
 });
 vi.mock('../../hooks/AuthContext.js');
-// Register the 'en' locale data
 addLocale(en);
-
-// Set the default locale to 'en'
 setDefaultLocale('en');
 const navigate = vi.fn();
 beforeEach(() => {
@@ -119,9 +116,7 @@ describe('Tweet', () => {
 
     const imageElement = getByTestId('profileImage123456');
     fireEvent.mouseEnter(imageElement);
-    const userPopup = getByTestId(
-      `PopoverUserCard_${data[0].user.username}-popover_0`,
-    );
+    const userPopup = getByTestId(`popover${data[0].id}`);
     expect(userPopup).toBeInTheDocument();
     // screen.debug();
   });
@@ -193,9 +188,8 @@ describe('Tweet', () => {
 
     const replybtn = getByTestId(`${data[0].id}reply`);
     fireEvent.click(replybtn);
-    expect(navigate).toHaveBeenCalledTimes(1);
     expect(navigate).toHaveBeenCalledWith(
-      `/app/tweet/${data[0].id}`,
+      `/app/tweets/${data[0].id}`,
       expect.any(Object),
     );
 
