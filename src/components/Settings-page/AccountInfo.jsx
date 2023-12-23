@@ -1,12 +1,12 @@
 import React from 'react';
-import SettingsHeader from './SettingsHeader';
 import { NavLink } from 'react-router-dom';
+import SettingsHeader from './SettingsHeader';
 
 function AccountInfo({ windowWidth }) {
   const list = [
     {
       label: 'Update Your Email',
-      path: `/app/settings/accountinfo/updateemail`,
+      path: `/app/settings/accountinfo/email`,
     },
     {
       label: 'Update Your Username',

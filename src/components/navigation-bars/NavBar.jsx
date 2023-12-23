@@ -224,7 +224,6 @@ function NavBar() {
   const regex = /messages\/[^\/]+/;
 
   const hidden = location.pathname.match(regex);
-  console.log(hidden);
   return (
     <div
       ref={screen}

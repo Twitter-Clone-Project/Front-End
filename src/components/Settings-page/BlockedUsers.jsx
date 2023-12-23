@@ -36,8 +36,8 @@ function BlockedUsers() {
                 isFollowed={user.isFollowed}
                 isFollowing={user.isFollowing}
                 userPicture={user.imageUrl}
-                userName={user.username}
-                userID={user.userID}
+                userName={user.name}
+                userID={user.username}
                 discription={user.bio}
                 following={user.followingsCount}
                 followers={user.followersCount}
