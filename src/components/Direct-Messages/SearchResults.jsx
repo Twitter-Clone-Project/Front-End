@@ -10,14 +10,14 @@ function SearchResults({ searchValue, setOpenedId }) {
     conversation.contact.name.toLowerCase().includes(searchValue.toLowerCase()),
   );
   return (
-    <div>
+    <div data-testid="try-searching">
       {searchValue === '' && (
         <div className=" mt-8 flex items-center justify-center text-center text-[15px] text-[#536471] dark:text-[#71767B]">
           Try searching for people, groups, or messages
         </div>
       )}
       {searchValue !== '' && (
-        <div>
+        <div data-testid="conversationshistory">
           {filteredConversations.map((conversation) => (
             <SearchCard
               key={conversation.conversationId}

@@ -11,7 +11,7 @@ export default function Time({ sendedTime }) {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(dayjs());
-    }, 12000);
+    }, 1000);
     return () => {
       clearInterval(interval);
     };

@@ -1,8 +1,9 @@
 import { render, fireEvent, cleanup, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import * as router from 'react-router';
+import { EditorState } from 'draft-js';
 import AuthProvider from '../../contexts/Auth/AuthProvider';
 import { useAuth } from '../../hooks/AuthContext';
 import AddPost from '../../tweetPage/AddPost';
@@ -78,9 +79,32 @@ describe('Add Post', () => {
       </AuthProvider>,
     );
 
-    // emojibtn = getByTestId('addEmoji');
-    //fireEvent.click(emojibtn);
-    //expect(getByTestId('emojiPicker')).toBeInTheDocument();
+    const emojiBtn = getByTestId('emojiBtn');
+    fireEvent.click(emojiBtn);
+    expect(getByTestId('emojiPicker')).toBeInTheDocument();
     // screen.debug();
+  });
+
+  it('has disabled post button on empty text', () => {
+    const { getByTestId } = render(
+      <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
+        <BrowserRouter>
+          <AddPost setTweets={setTweets} />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+
+    const postBtn = getByTestId('post123');
+    // expect(postBtn).toBeDisabled();
+
+    const textField = getByTestId('textField');
+    const text = textField.querySelector('.DraftEditor-root');
+    fireEvent.change(text, { target: { textContent: 'hhh' } });
+    console.log(textField.outerHTML);
+    console.log(postBtn.outerHTML);
+    expect(textField).toBeInTheDocument();
+    expect(textField).toHaveTextContent('hhh');
+
+    // expect(postBtn).not.toBeDisabled();
   });
 });

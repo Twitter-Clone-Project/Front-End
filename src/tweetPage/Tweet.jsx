@@ -17,10 +17,17 @@ import ActionsMenu from './ActionsMenu';
 import PopoverUserCard from '../components/userComponents/PopoverUserCard';
 // import { useAuth } from '../hooks/AuthContext';
 
-function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
-  const [repost, toggleRepost] = useState(data.isRetweeted);
+function UnMemoTweet({
+  data,
+  tweets,
+  setTweets,
+  setFetchLikes,
+  setFetchRetweets,
+}) {
+  const [repost, toggleRepost] = useState(data.isRetweet);
   const [like, toggleLike] = useState(data.isLiked);
   const [repostsCount, setRepostsCount] = useState();
+  const [del, setDel] = useState(false);
   const [repliesCount, setRepliesCount] = useState();
   const [likesCount, setLikesCount] = useState();
   const [isLikeLoading, setIsLikeLoading] = useState(false);
@@ -28,6 +35,40 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
   // const { user: curUser } = useAuth();
   const location = useLocation();
   const [images, setImages] = useState();
+  useEffect(() => {
+    const handleActions = (e) => {
+      switch (e.detail) {
+        case 'del': {
+          setDel(true);
+          break;
+        }
+        case 'like': {
+          setLikesCount((prev) => prev + 1);
+          toggleLike((prev) => !prev);
+          break;
+        }
+        case 'unlike': {
+          setLikesCount((prev) => prev - 1);
+          toggleLike((prev) => !prev);
+          break;
+        }
+        case 'retweet': {
+          setRepostsCount((prev) => prev + 1);
+          toggleRepost((prev) => !prev);
+          break;
+        }
+        case 'unRetweet': {
+          setRepostsCount((prev) => prev - 1);
+          toggleRepost((prev) => !prev);
+          break;
+        }
+        default:
+          console.log('Unknown Event');
+      }
+    };
+    document.addEventListener(`${data.id}`, handleActions);
+    return () => document.removeEventListener(`${data.id}`, handleActions);
+  }, [data.id]);
   useEffect(() => {
     if (data.attachmentsUrl) {
       setImages(data.attachmentsUrl);
@@ -49,8 +90,9 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
   };
   const handleLike = () => {
     if (like === true) {
-      setLikesCount(likesCount - 1);
-      toggleLike(!like);
+      document.dispatchEvent(
+        new CustomEvent(`${data.id}`, { detail: 'unlike' }),
+      );
       if (!isLikeLoading) {
         setIsLikeLoading(true);
         const deleteLike = async () => {
@@ -66,8 +108,9 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             );
             const res = await response.json();
             if (!res.status) {
-              toggleLike(!like);
-              setLikesCount(likesCount + 1);
+              document.dispatchEvent(
+                new CustomEvent(`${data.id}`, { detail: 'like' }),
+              );
               throw new Error(res.message);
             }
           } catch (err) {
@@ -80,8 +123,7 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
         deleteLike();
       }
     } else if (like === false) {
-      setLikesCount(likesCount + 1);
-      toggleLike(!like);
+      document.dispatchEvent(new CustomEvent(`${data.id}`, { detail: 'like' }));
 
       if (!isLikeLoading) {
         setIsLikeLoading(true);
@@ -98,8 +140,9 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             );
             const res = await response.json();
             if (!res.status) {
-              setLikesCount(likesCount - 1);
-              toggleLike(!like);
+              document.dispatchEvent(
+                new CustomEvent(`${data.id}`, { detail: 'unlike' }),
+              );
               throw new Error(res.message);
             }
           } catch (err) {
@@ -116,10 +159,11 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
   };
   const handleRepost = () => {
     if (repost === true) {
-      toggleRepost(!repost);
-      setRepostsCount(repostsCount - 1);
       if (!isRepostLoading) {
-        setIsLikeLoading(true);
+        setIsRepostLoading(true);
+        document.dispatchEvent(
+          new CustomEvent(`${data.id}`, { detail: 'unRetweet' }),
+        );
         const deleteRetweet = async () => {
           try {
             const response = await fetch(
@@ -135,8 +179,9 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             );
             const res = await response.json();
             if (!res.status) {
-              toggleRepost(!repost);
-              setRepostsCount(repostsCount + 1);
+              document.dispatchEvent(
+                new CustomEvent(`${data.id}`, { detail: 'retweet' }),
+              );
               throw new Error(res.message);
             }
           } catch (err) {
@@ -149,8 +194,9 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
         deleteRetweet();
       }
     } else if (repost === false) {
-      toggleRepost(!repost);
-      setRepostsCount(repostsCount + 1);
+      document.dispatchEvent(
+        new CustomEvent(`${data.id}`, { detail: 'retweet' }),
+      );
       if (!isRepostLoading) {
         setIsRepostLoading(true);
         const retweet = async () => {
@@ -167,8 +213,9 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             const res = await response.json();
             console.log(res);
             if (!res.status) {
-              toggleRepost(!repost);
-              setRepostsCount(repostsCount - 1);
+              document.dispatchEvent(
+                new CustomEvent(`${data.id}`, { detail: 'unRetweet' }),
+              );
               throw new Error(res.message);
             }
           } catch (err) {
@@ -186,15 +233,7 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
   const handleReply = () => {
     handleClick();
   };
-
-  const [isHovered, setIsHovered] = useState(false);
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
+  if (del) return;
   return (
     <div
       data-testid={`${data.id}`}
@@ -207,47 +246,38 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
           e.stopPropagation();
         }}
       >
-        <div className="profileImage leftColumn absolute mr-[12px] h-[40px] w-[40px] ">
-          <img
-            data-testid={`profileImage${data.id}`}
-            src={
-              data.user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
-            }
-            alt="profileImage"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            className="  h-[40px] w-[40px] rounded-full object-cover transition-opacity"
-          />
-        </div>
-        {isHovered && (
-          <div
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            className="relative left-0 right-24 top-[-1] z-10 mt-5 flex h-[250px]  flex-col justify-center sm:w-[300px] "
-          >
-            <PopoverUserCard
-              popoverIsFollowed={data.user.isFollowed}
-              popoverIsFollowing={data.user.isFollowing}
-              popoverUserPicture={
+        <PopoverUserCard
+          popoverIsFollowed={data.user.isFollowed}
+          popoverIsFollowing={data.user.isFollowing}
+          popoverUserPicture={
+            data.user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
+          }
+          popoverUserName={data.user.screenName}
+          popoverUserID={data.user.username}
+          popoverDiscription={data.user.bio}
+          popoverFollowing={data.user.followingCount}
+          popoverFollowers={data.user.followersCount}
+          popoverTestID={`${data.user.username}-popover`}
+          popoverSetLocalIsFollowed
+        >
+          <div className="profileImage leftColumn absolute mr-[12px] h-[40px] w-[40px] ">
+            <img
+              data-testid={`profileImage${data.id}`}
+              src={
                 data.user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
               }
-              popoverUserName={data.user.screenName}
-              popoverUserID={data.user.username}
-              popoverDiscription=""
-              popoverFollowing={data.user.followingCount}
-              popoverFollowers={data.user.followersCount}
-              popoverTestID={`${data.user.username}-popover`}
-              popoverSetLocalIsFollowed
+              alt="profileImage"
+              className="  h-[40px] w-[40px] rounded-full object-cover transition-opacity"
             />
           </div>
-        )}
+        </PopoverUserCard>
       </div>
 
       <div className="rightColumn max-w-[95%]">
-        {(data.isRetweet || repost) && (
+        {data.isRetweet && (
           <div
             className={` retweeted-info flex w-full items-center text-xs font-semibold
-          text-dark-gray ${repost === false ? 'hidden' : ''} `}
+          text-dark-gray `}
             onClick={(e) => {
               e.stopPropagation();
             }}
@@ -259,9 +289,7 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
               <path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z" />
             </svg>
             <span>
-              {data.isRetweeted || repost
-                ? 'You'
-                : data.retweetedUser.screenName}{' '}
+              {data.isRetweeted ? 'You' : data.retweetedUser.screenName}{' '}
               reposted
             </span>
           </div>
@@ -279,15 +307,16 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
             >
               <div
                 data-testid={`username${data.id}`}
-                className="name whitespace-nowrap text-[15px] font-bold dark:text-white"
+                style={{ wordBreak: 'break-word' }}
+                className="name word max-w-[220px] truncate break-words text-[15px] font-bold dark:text-white"
               >
                 {data.user.screenName}
               </div>
             </Link>
             <div className="flex flex-wrap">
-              <div className="userName overflow-hidden text-[15px] text-dark-gray">
+              <div className="userName max-w-[150px] overflow-hidden truncate break-words  text-[15px] text-dark-gray">
                 {' '}
-                &ensp;@<span>{data.user.username}</span>
+                &ensp;@<span>{data.user.username || data.user.userName}</span>
               </div>
 
               <div className="date overflow-hidden break-keep text-[15px] text-dark-gray">
@@ -311,7 +340,6 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
               userId={data.user.userId}
               tweet={data}
               tweets={tweets}
-              setTweets={setTweets}
             />
           </div>
         </div>
@@ -390,6 +418,7 @@ function Tweet({ data, tweets, setTweets, setFetchLikes, setFetchRetweets }) {
   );
 }
 
+const Tweet = React.memo(UnMemoTweet);
 Tweet.propTypes = {
   // eslint-disable-next-line no-undef
   data: PropTypes.object.isRequired,
@@ -405,5 +434,4 @@ Tweet.defaultProps = {
     // console.log('Hi');
   },
 };
-
 export default Tweet;

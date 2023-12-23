@@ -83,7 +83,10 @@ function Messages() {
   }, [messages, socketMessages]);
 
   return (
-    <div className="flex flex-col gap-2 text-white dark:bg-black">
+    <div
+      data-testid="messages-chat"
+      className="flex flex-col gap-2 text-white dark:bg-black"
+    >
       {messages.map((message, index) => (
         <MessageCard
           key={message.messageId}
@@ -118,7 +121,10 @@ function Messages() {
           time={socketMessage.time}
         />
       ))}
-      <div ref={divRef} />
+      <div
+        data-testid="div-in-chat"
+        ref={divRef}
+      />
     </div>
   );
 }

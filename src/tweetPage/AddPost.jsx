@@ -216,6 +216,7 @@ function AddPost({ setTweets }) {
               onClick={handlePost}
               type="submit"
               id="post"
+              data-testid={`post${user.userId}`}
               disabled={postDisabled}
               className="flex h-[36px] w-[66px] items-center justify-center rounded-3xl border-blue bg-blue font-bold  text-white disabled:opacity-50"
             >

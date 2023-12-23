@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import NoResults from './NoResults';
 import TweetList from '../../tweetPage/TweetList';
 import DotLoader from './DotLoader';
@@ -11,6 +12,7 @@ function Posts() {
   const [page, setPage] = useState(2);
   const [error, setError] = useState('');
   const [posts, setPosts] = useState([]);
+  const [total, setTotal] = useState(10);
   const [isLoading, setIsLoading] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const [initialDone, setInitialDone] = useState(false);
@@ -43,7 +45,30 @@ function Posts() {
     };
     fetchUser();
   }, [dispatch, username]);
-
+  const getInitialTweets = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        `${import.meta.env.VITE_API_DOMAIN}users/${username}/tweets/1`,
+        {
+          method: 'GET',
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+        },
+      );
+      const data = await response.json();
+      if (data.data.length === 0) setIsDone(true);
+      setTotal(data.total);
+      setInitialDone(true);
+      setError('');
+      setPosts(() => [...data.data]);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [username]);
   const fetchTweets = useCallback(async () => {
     if (isLoading || isDone) return;
     try {
@@ -71,43 +96,8 @@ function Posts() {
   }, [isLoading, page, isDone, username]);
 
   useEffect(() => {
-    const getInitialTweets = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(
-          `${import.meta.env.VITE_API_DOMAIN}users/${username}/tweets/1`,
-          {
-            method: 'GET',
-            origin: true,
-            credentials: 'include',
-            withCredentials: true,
-          },
-        );
-        const data = await response.json();
-        if (data.data.length === 0) setIsDone(true);
-        setInitialDone(true);
-        setError('');
-        setPosts(() => [...data.data]);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     getInitialTweets();
-  }, [username]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const { scrollTop, clientHeight, scrollHeight } =
-        document.documentElement;
-      if (scrollTop + clientHeight >= scrollHeight - 20) {
-        fetchTweets();
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [fetchTweets]);
+  }, [getInitialTweets]);
 
   useEffect(() => {
     if (error !== '') toast(error);
@@ -124,8 +114,33 @@ function Posts() {
               data-testid="posts-list"
               className="flex w-full flex-col items-center gap-5"
             >
-              <TweetList data={posts} />
-              {isLoading && <DotLoader />}
+              <InfiniteScroll
+                dataLength={total}
+                next={fetchTweets}
+                hasMore={posts.length < total}
+                loader={
+                  <div className="flex items-center justify-center p-3">
+                    <DotLoader />
+                  </div>
+                }
+                endMessage={
+                  <p className="flex items-center justify-center p-3">
+                    {posts.length > 0 ? (
+                      <b>Yay! You have seen it all</b>
+                    ) : (
+                      <b>
+                        You haven&#39;t posted anything yet
+                        <br /> Go ahead and post 🤩
+                      </b>
+                    )}
+                  </p>
+                }
+              >
+                <TweetList
+                  data={posts}
+                  setTweets={setPosts}
+                />
+              </InfiniteScroll>
             </div>
           )}
           <OwnToaster />
