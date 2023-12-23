@@ -23,6 +23,11 @@ function NavBar() {
     chatContext,
   } = useContext(ChatContext);
 
+  const chatContextRef = useRef();
+  useEffect(() => {
+    chatContextRef.current = chatContext;
+  }, [chatContext]);
+
   // Messages
   useEffect(() => {
     const fetchCount = async () => {
@@ -82,7 +87,10 @@ function NavBar() {
   useEffect(() => {
     if (socket === null) return;
     const navBarListener = (message) => {
-      if (message.conversationId !== chatContext.conversationId) {
+      if (
+        chatContextRef &&
+        message.conversationId !== chatContextRef.current.conversationId
+      ) {
         setMessagesCount(messagesCount + 1);
       }
     };

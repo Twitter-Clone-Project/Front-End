@@ -86,7 +86,7 @@ function DirectMessages() {
   useEffect(() => {
     if (socket === null) return;
     const messageListener = (message) => {
-      console.log(socket);
+      // console.log(socket);
       setTop({ conversationId: message.conversationId, text: message.text });
       const lastChatContext = chatContextRef.current;
       if (

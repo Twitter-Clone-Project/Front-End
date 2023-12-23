@@ -1,6 +1,6 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useRef } from 'react';
 // import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -21,6 +21,11 @@ function ConversationsHistory() {
   } = useContext(ChatContext);
   dayjs.extend(utc);
   dayjs.extend(timezone);
+
+  const chatContextRef = useRef();
+  useEffect(() => {
+    chatContextRef.current = chatContext;
+  }, [chatContext]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -86,7 +91,11 @@ function ConversationsHistory() {
         removedConversation.lastMessage.timestamp = dayjs().format();
       }
 
-      if (removedConversation.conversationId !== chatContext.conversationId) {
+      if (
+        chatContextRef &&
+        removedConversation.conversationId !==
+          chatContextRef.current.conversationId
+      ) {
         removedConversation.isConversationSeen = false;
       }
       updatedConversations.unshift(removedConversation);
