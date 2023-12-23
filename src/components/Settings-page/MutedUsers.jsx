@@ -10,7 +10,7 @@ import usePost from './usePost';
 function MutedUsers() {
   const { data, error, isLoading, fetchData } = usePost();
   useEffect(() => {
-    fetchData(`${import.meta.env.VITE_API_DOMAIN}users/blockedUsers`, {
+    fetchData(`${import.meta.env.VITE_API_DOMAIN}users/mutedUsers`, {
       method: 'GET',
       origin: true,
       credentials: 'include',
@@ -42,6 +42,7 @@ function MutedUsers() {
                 following={user.followingsCount}
                 followers={user.followersCount}
                 testID={user.userId}
+                isMuted={true}
               />
             ))
           ) : (

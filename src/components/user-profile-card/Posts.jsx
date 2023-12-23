@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import PullToRefresh from 'react-simple-pull-to-refresh';
 import NoResults from './NoResults';
 import TweetList from '../../tweetPage/TweetList';
 import DotLoader from './DotLoader';
@@ -47,6 +47,7 @@ function Posts() {
   }, [dispatch, username]);
   const getInitialTweets = useCallback(async () => {
     try {
+      setIsDone(false);
       setIsLoading(true);
       const response = await fetch(
         `${import.meta.env.VITE_API_DOMAIN}users/${username}/tweets/1`,
@@ -59,6 +60,7 @@ function Posts() {
       );
       const data = await response.json();
       if (data.data.length === 0) setIsDone(true);
+      setPage(2);
       setTotal(data.total);
       setInitialDone(true);
       setError('');
@@ -98,13 +100,26 @@ function Posts() {
   useEffect(() => {
     getInitialTweets();
   }, [getInitialTweets]);
-
+  useEffect(() => {
+    const handleScroll = () => {
+      const { scrollTop, clientHeight, scrollHeight } =
+        document.documentElement;
+      if (scrollTop + clientHeight >= scrollHeight - 20) {
+        fetchTweets();
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [fetchTweets]);
   useEffect(() => {
     if (error !== '') toast(error);
   }, [error]);
 
   return (
-    <div data-testid={`${username}-Posts`}>
+    <div
+      className="flex sm:block"
+      data-testid={`${username}-Posts`}
+    >
       {!user.isBlockingMe ? (
         <div>
           {initialDone && posts.length === 0 ? (
@@ -112,35 +127,38 @@ function Posts() {
           ) : (
             <div
               data-testid="posts-list"
-              className="flex w-full flex-col items-center gap-5"
+              className="flex min-h-[calc(100%+60px)] w-full flex-col items-center gap-5 sm:h-auto"
             >
-              <InfiniteScroll
-                dataLength={total}
-                next={fetchTweets}
-                hasMore={posts.length < total}
-                loader={
-                  <div className="flex items-center justify-center p-3">
+              {' '}
+              <PullToRefresh
+                className="p-0"
+                pullingContent={
+                  <div className="flex items-center justify-center p-2">
                     <DotLoader />
                   </div>
                 }
-                endMessage={
-                  <p className="flex items-center justify-center p-3">
-                    {posts.length > 0 ? (
-                      <b>Yay! You have seen it all</b>
-                    ) : (
-                      <b>
-                        You haven&#39;t posted anything yet
-                        <br /> Go ahead and post 🤩
-                      </b>
-                    )}
-                  </p>
+                refreshingContent={
+                  <div className="flex items-center justify-center p-4">
+                    <DotLoader />
+                  </div>
                 }
+                onRefresh={getInitialTweets}
               >
                 <TweetList
                   data={posts}
                   setTweets={setPosts}
                 />
-              </InfiniteScroll>
+                {posts.length >= total && (
+                  <p className="flex items-center justify-center p-3">
+                    <b>Yay! You have seen it all</b>{' '}
+                  </p>
+                )}
+                {isLoading && (
+                  <div className="flex items-center justify-center p-4">
+                    <DotLoader />
+                  </div>
+                )}
+              </PullToRefresh>
             </div>
           )}
           <OwnToaster />

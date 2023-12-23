@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuid4 } from 'uuid';
+import { Skeleton } from '@mui/material';
 
 function Media({ images }) {
   // console.log(images);
+  const [isLoading, setIsLoading] = useState(true);
   if (images) {
     const [isVideo, setIsVideo] = useState(false);
     useEffect(() => {
@@ -56,13 +58,26 @@ function Media({ images }) {
           />
         )}
         {!isVideo && (
-          <img
-            src={images[0]}
-            alt="media"
-            className={`h-full  object-cover ${
-              images.length === 1 ? 'rounded-xl' : ''
-            }`}
-          />
+          <>
+            {isLoading && (
+              <Skeleton
+                sx={{ bgcolor: 'grey.900' }}
+                animation="wave"
+                variant="rectangular"
+                width={500}
+                height={500}
+              />
+            )}
+
+            <img
+              src={images[0]}
+              onLoad={() => setIsLoading(false)}
+              alt="media"
+              className={`aspect-square h-full  object-cover ${
+                images.length === 1 ? 'rounded-xl' : ''
+              }`}
+            />
+          </>
         )}
         <div className={`grid grid-rows-2  gap-[${images.length - 1}px]`}>
           {images3.map((image) => (

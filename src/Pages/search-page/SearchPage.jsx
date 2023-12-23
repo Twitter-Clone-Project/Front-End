@@ -22,15 +22,17 @@ function SearchPage() {
     },
     {
       label: 'People',
-      path: `/app/search/users?q=${value}&f=user`,
+      path: `/app/search/users?q=${value}`,
     },
   ];
-  useEffect(() => {
-    console.log(pastPath);
-  }, [pastPath]);
   return (
     <div
-      className="flex h-auto w-full max-w-[620px] flex-col border-border-gray sm:border-x-[1px]"
+      className="small:w-screen flex h-auto w-full max-w-[620px] flex-col border-border-gray
+      sm:w-[560px]
+      sm:border-x-[1px] 
+      md:w-[600px] 
+      xl:w-[600px]
+      "
       data-testid={`${value}-search-page`}
     >
       <div className="flex w-full flex-row justify-around border-b-[0.5px] border-b-light-gray px-2 py-2 dark:border-b-border-gray">
