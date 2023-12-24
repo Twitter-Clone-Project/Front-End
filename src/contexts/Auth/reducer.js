@@ -7,6 +7,7 @@ export default function reducer(state, action) {
         ...state,
         isAuthenticated: true,
         user: action.payload,
+        token: action.token,
       };
     case 'LOGOUT':
       if (state.isAuthenticated) {
@@ -17,6 +18,7 @@ export default function reducer(state, action) {
         ...state,
         isAuthenticated: false,
         user: null,
+        token: action.token,
       };
     default:
       throw new Error(`Unknown action type: ${action.type}`);

@@ -8,8 +8,16 @@ import { ChatContext } from '../../hooks/ContactContext';
 import { useAuth } from '../../hooks/AuthContext';
 
 // eslint-disable-next-line react/prop-types
-function SearchCard({ conversationData, setOpenedId }) {
-  const { chatContext, setChatContext, socket } = useContext(ChatContext);
+function SearchCard({ conversationData }) {
+  const {
+    chatContext,
+    setChatContext,
+    socket,
+    conversations,
+    setMessagesCount,
+    messagesCount,
+    setConversations,
+  } = useContext(ChatContext);
   const { user } = useAuth();
   return (
     <Link
@@ -20,10 +28,19 @@ function SearchCard({ conversationData, setOpenedId }) {
       <div
         data-testid={`${conversationData.conversationId}-search-card-main`}
         onClick={() => {
+          if (!conversationData.isConversationSeen)
+            setMessagesCount(messagesCount - 1);
           if (chatContext.conversationId === '') {
-            // console.log('First open id:', conversationData.conversationId);
             setChatContext({ ...conversationData });
-            setOpenedId(conversationData.conversationId);
+            const conversationIndex = conversations.findIndex(
+              (conv) => conv.conversationId === conversationData.conversationId,
+            );
+            if (conversationIndex !== -1) {
+              const updatedConversations = [...conversations];
+              updatedConversations[conversationIndex].isConversationSeen = true;
+              setConversations(updatedConversations);
+            }
+
             socket.emit('chat-opened', {
               userId: user.userId,
               conversationId: conversationData.conversationId,
@@ -32,14 +49,21 @@ function SearchCard({ conversationData, setOpenedId }) {
           } else if (
             chatContext.conversationId !== conversationData.conversationId
           ) {
-            // console.log('closing id', chatContext.conversationId);
             socket.emit('chat-closed', {
               userId: user.userId,
               conversationId: chatContext.conversationId,
               contactId: chatContext.contact.id,
             });
             setChatContext({ ...conversationData });
-            setOpenedId(conversationData.conversationId);
+            const conversationIndex = conversations.findIndex(
+              (conv) => conv.conversationId === conversationData.conversationId,
+            );
+            if (conversationIndex !== -1) {
+              const updatedConversations = [...conversations];
+              updatedConversations[conversationIndex].isConversationSeen = true;
+              setConversations(updatedConversations);
+            }
+
             // console.log('opening id', conversationData.conversationId);
             socket.emit('chat-opened', {
               userId: user.userId,

@@ -36,7 +36,6 @@ function Header({ title, path, type, image, imgVisible }) {
                 to="/app/messages"
                 className="  left-2 top-2 w-fit hover:no-underline"
                 onClick={() => {
-                  // console.log('closing id', chatContext.conversationId);
                   socket.emit('chat-closed', {
                     userId: user.userId,
                     conversationId: chatContext.conversationId,

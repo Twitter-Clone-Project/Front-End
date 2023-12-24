@@ -475,7 +475,6 @@ function UnMemoTweet({
           </button>
         </div>
       </div>
-      <OwnToaster />
     </div>
   );
 }

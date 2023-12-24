@@ -30,7 +30,8 @@ function EmailInput({ error, setError, email, setEmail, disabled }) {
         disabled:outline-none 
         dark:bg-black
         dark:text-white
-        dark:disabled:text-border-gray
+        dark:disabled:bg-border-gray
+        dark:disabled:text-dark-gray
         ${
           error !== ''
             ? 'outline-warning'
@@ -47,7 +48,7 @@ function EmailInput({ error, setError, email, setEmail, disabled }) {
         peer-focus:text-blue peer-[:not(:placeholder-shown)]:top-[6px]
         peer-[:not(:placeholder-shown)]:text-xs  disabled:bg-x-light-gray
         disabled:text-dark-gray
-        dark:peer-disabled:text-border-gray 
+        dark:peer-disabled:text-dark-gray 
         ${error !== '' ? 'text-warning peer-focus:text-warning' : ''}`}
       >
         Email

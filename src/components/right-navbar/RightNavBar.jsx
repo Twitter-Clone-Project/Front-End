@@ -66,7 +66,7 @@ function RightNavBar() {
               trands.slice(0, 6).map((trand) => (
                 <Link
                   key={trand.trendId}
-                  to={`/app/search/${trand.name}`}
+                  to={`/app/search/tweets?q=${trand.name}`}
                   className="text-black hover:no-underline dark:text-white "
                 >
                   <div

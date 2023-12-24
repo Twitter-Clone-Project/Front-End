@@ -34,7 +34,11 @@ function Login() {
       });
       const data = await res.json();
       if (data.status === false) throw new Error(data.message);
-      dispatch({ type: 'LOGIN', payload: data.data.user });
+      dispatch({
+        type: 'LOGIN',
+        payload: data.data.user,
+        token: data.data.token,
+      });
       navigate('/app');
     } catch (err) {
       toast(err.message);
@@ -114,7 +118,6 @@ function Login() {
           </div>
         </BoxCard>
       )}
-      <OwnToaster />
     </div>
   );
 }

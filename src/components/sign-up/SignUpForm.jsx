@@ -252,168 +252,165 @@ function SignUpForm({ test }) {
       </div>
     );
   return (
-    <>
-      <div className="popup-screen relative bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          <>
-            {next && !test && (
-              <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center  pb-6 pt-2 md:bg-dark-gray md:bg-opacity-50">
-                <ReCAPTCHA
-                  sitekey="6LeousYoAAAAACH0uCm7e4NKQkOWgrZWxmPPCMBZ"
-                  data-testid="google-recaptcha"
-                  onChange={(val) => {
-                    setNext(false);
-                    handleSignUp(val);
-                  }}
-                />
+    <div className="popup-screen relative bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <>
+          {next && !test && (
+            <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex w-full items-center justify-center  pb-6 pt-2 md:bg-dark-gray md:bg-opacity-50">
+              <ReCAPTCHA
+                sitekey="6LeousYoAAAAACH0uCm7e4NKQkOWgrZWxmPPCMBZ"
+                data-testid="google-recaptcha"
+                onChange={(val) => {
+                  setNext(false);
+                  handleSignUp(val);
+                }}
+              />
+            </div>
+          )}
+          <BoxCard classes="sm:px-12 mx-auto">
+            <div className="mx-auto flex w-full min-w-[300px] flex-1 flex-col justify-between overflow-auto px-5 ">
+              <div className="mx-auto flex pt-2 text-center dark:text-white">
+                <h1 className="mx-auto mt-5 flex-1 text-3xl font-bold">
+                  <span>Create your account</span>
+                </h1>
               </div>
-            )}
-            <BoxCard classes="sm:px-12 mx-auto">
-              <div className="mx-auto flex w-full min-w-[300px] flex-1 flex-col justify-between overflow-auto px-5 ">
-                <div className="mx-auto flex pt-2 text-center dark:text-white">
-                  <h1 className="mx-auto mt-5 flex-1 text-3xl font-bold">
-                    <span>Create your account</span>
-                  </h1>
+              <div className="mx-auto flex w-full flex-col p-3 ">
+                <div className="mx-auto w-full">
+                  <div className="mb-6 w-full">
+                    <NameInput
+                      title="Name"
+                      error={nameError}
+                      setError={setNameError}
+                      Name={name}
+                      setName={setName}
+                      maxLength="50"
+                    />
+                  </div>
+                  <div className="mb-6 w-full">
+                    <NameInput
+                      Name={userName}
+                      error={usernameError}
+                      setError={setUsernameError}
+                      setName={setUserName}
+                      maxLength="25"
+                      title="Username"
+                    />
+                  </div>
+                  <div className="mb-6 w-full">
+                    <PasswordInput
+                      error={passwordError}
+                      setError={setPasswordError}
+                      password={password}
+                      setPassword={setPassword}
+                      title="Password"
+                    />
+                  </div>
+                  <div className="mb-6 w-full">
+                    <PasswordInput
+                      error={passwordConfirmError}
+                      setError={setPasswordConfirmError}
+                      password={passwordConfirm}
+                      setPassword={setPasswordConfirm}
+                      title="Confirm Password"
+                    />
+                  </div>
+                  <div className="mb-6 w-full">
+                    <EmailInput
+                      error={emailError}
+                      setError={setEmailError}
+                      email={email}
+                      setEmail={setEmail}
+                      valid={validEmail}
+                      setValid={setValidEmail}
+                    />
+                  </div>
                 </div>
-                <div className="mx-auto flex w-full flex-col p-3 ">
-                  <div className="mx-auto w-full">
-                    <div className="mb-6 w-full">
-                      <NameInput
-                        title="Name"
-                        error={nameError}
-                        setError={setNameError}
-                        Name={name}
-                        setName={setName}
-                        maxLength="50"
-                      />
-                    </div>
-                    <div className="mb-6 w-full">
-                      <NameInput
-                        Name={userName}
-                        error={usernameError}
-                        setError={setUsernameError}
-                        setName={setUserName}
-                        maxLength="25"
-                        title="Username"
-                      />
-                    </div>
-                    <div className="mb-6 w-full">
-                      <PasswordInput
-                        error={passwordError}
-                        setError={setPasswordError}
-                        password={password}
-                        setPassword={setPassword}
-                        title="Password"
-                      />
-                    </div>
-                    <div className="mb-6 w-full">
-                      <PasswordInput
-                        error={passwordConfirmError}
-                        setError={setPasswordConfirmError}
-                        password={passwordConfirm}
-                        setPassword={setPasswordConfirm}
-                        title="Confirm Password"
-                      />
-                    </div>
-                    <div className="mb-6 w-full">
-                      <EmailInput
-                        error={emailError}
-                        setError={setEmailError}
-                        email={email}
-                        setEmail={setEmail}
-                        valid={validEmail}
-                        setValid={setValidEmail}
-                      />
-                    </div>
+                <div className="py-2">
+                  <div className="w-full font-bold dark:text-white">
+                    <span>Date of birth</span>
                   </div>
-                  <div className="py-2">
-                    <div className="w-full font-bold dark:text-white">
-                      <span>Date of birth</span>
-                    </div>
-                    <div className="w-full text-sm dark:text-light-thin">
-                      <p>
-                        <small className="form-text">
-                          This will not be shown publicly, Confirm your own age,
-                          even if this
-                          <br /> account is for a business, a pet, or something
-                          else
-                        </small>
-                      </p>
-                    </div>
+                  <div className="w-full text-sm dark:text-light-thin">
+                    <p>
+                      <small className="form-text">
+                        This will not be shown publicly, Confirm your own age,
+                        even if this
+                        <br /> account is for a business, a pet, or something
+                        else
+                      </small>
+                    </p>
                   </div>
-                  <div className="mx-auto flex w-full justify-between dark:text-white">
-                    <div className="w-5/12">
-                      <span>
-                        <DorpDownMenu
-                          header="Month"
-                          items={[
-                            '',
-                            'January',
-                            'February',
-                            'March',
-                            'April',
-                            'May',
-                            'June',
-                            'July',
-                            'August',
-                            'September',
-                            'October',
-                            'November',
-                            'December',
-                          ]}
-                          state={dateMonth}
-                          setState={setDateMonth}
-                        />
-                      </span>
-                    </div>
-                    <div className="w-3/12">
+                </div>
+                <div className="mx-auto flex w-full justify-between dark:text-white">
+                  <div className="w-5/12">
+                    <span>
                       <DorpDownMenu
-                        header="Day"
-                        items={['', ...dayCount]}
-                        state={dateDay}
-                        setState={setDateDay}
-                      />
-                    </div>
-                    <div className="w-3/12">
-                      <DorpDownMenu
-                        header="Year"
+                        header="Month"
                         items={[
                           '',
-                          ...Array.from(
-                            {
-                              length: new Date().getFullYear() - 1902,
-                            },
-                            (v, _i) => 1903 + _i,
-                          ).reverse(),
+                          'January',
+                          'February',
+                          'March',
+                          'April',
+                          'May',
+                          'June',
+                          'July',
+                          'August',
+                          'September',
+                          'October',
+                          'November',
+                          'December',
                         ]}
-                        state={dateYear}
-                        setState={setDateYear}
+                        state={dateMonth}
+                        setState={setDateMonth}
                       />
-                    </div>
+                    </span>
+                  </div>
+                  <div className="w-3/12">
+                    <DorpDownMenu
+                      header="Day"
+                      items={['', ...dayCount]}
+                      state={dateDay}
+                      setState={setDateDay}
+                    />
+                  </div>
+                  <div className="w-3/12">
+                    <DorpDownMenu
+                      header="Year"
+                      items={[
+                        '',
+                        ...Array.from(
+                          {
+                            length: new Date().getFullYear() - 1902,
+                          },
+                          (v, _i) => 1903 + _i,
+                        ).reverse(),
+                      ]}
+                      state={dateYear}
+                      setState={setDateYear}
+                    />
                   </div>
                 </div>
-
-                <div className="mx-auto mt-3 flex w-full flex-col">
-                  <Button
-                    onClick={() => (test ? handleSignUp() : setNext(true))}
-                    backGroundColor="black"
-                    backGroundColorDark="white"
-                    labelColor="white"
-                    labelColorDark="black"
-                    disabled={totalError}
-                    label="Next"
-                    path=""
-                  />
-                </div>
               </div>
-            </BoxCard>
-          </>
-        )}
-      </div>
-      <OwnToaster />
-    </>
+
+              <div className="mx-auto mt-3 flex w-full flex-col">
+                <Button
+                  onClick={() => (test ? handleSignUp() : setNext(true))}
+                  backGroundColor="black"
+                  backGroundColorDark="white"
+                  labelColor="white"
+                  labelColorDark="black"
+                  disabled={totalError}
+                  label="Next"
+                  path=""
+                />
+              </div>
+            </div>
+          </BoxCard>
+        </>
+      )}
+    </div>
   );
 }
 
