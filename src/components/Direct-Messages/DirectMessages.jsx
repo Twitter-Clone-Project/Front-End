@@ -19,31 +19,6 @@ function DirectMessages() {
   } = useContext(ChatContext);
   const [windowWidth, setWindowWidth] = useState(window.outerWidth);
 
-  // console.log(conversationsRef.current);
-
-  // useEffect(() => {
-  //   conversations.map((conversation) => {
-  //     if (x.conversationId === conversation.contact.username) {
-  //       if (chatContext.conversationId !== '') {
-  //         socket.emit('chat-closed', {
-  //           userId: user.userId,
-  //           conversationId: chatContext.conversationId,
-  //           contactId: chatContext.contact.id,
-  //         });
-  //       }
-  //       setChatContext(conversation);
-  //       // console.log('here', conversation.conversationId);
-  //       setOpenedId(conversation.conversationId);
-  //       socket.emit('chat-opened', {
-  //         userId: user.userId,
-  //         conversationId: conversation.conversationId,
-  //         contactId: conversation.contact.id,
-  //       });
-  //     }
-  //     return conversation;
-  //   });
-  // }, [x.conversationId]);
-
   // We Make this trick because the chatcontext
   // is an object or a complex data structure
   // and we need the last value at the receive event
@@ -54,7 +29,6 @@ function DirectMessages() {
   }, [chatContext]);
 
   // close the opened chat when go to another page
-
   useEffect(
     () => () => {
       if (socket === null) return;
@@ -65,7 +39,6 @@ function DirectMessages() {
         chatContextRef.current.conversationId !== '' &&
         chatContextRef.current.contact.id !== ''
       ) {
-        // console.log('closing in clean up function');
         socket.emit('chat-closed', {
           userId: user.userId,
           conversationId: chatContextRef.current.conversationId,
@@ -112,7 +85,6 @@ function DirectMessages() {
   useEffect(() => {
     if (socket === null) return;
     const messageListener = (message) => {
-      // console.log(socket);
       setTop({ conversationId: message.conversationId, text: message.text });
       const lastChatContext = chatContextRef.current;
       if (
@@ -125,7 +97,6 @@ function DirectMessages() {
         ]);
       }
     };
-    // console.log('receive', socket);
     socket.on('msg-receive', messageListener);
     return () => {
       socket.off('msg-receive', messageListener);
@@ -176,7 +147,7 @@ function DirectMessages() {
         {windowWidth >= 1024 && chatContext.conversationId === '' && (
           <div
             data-testid="welcome-page"
-            className="flex h-screen  flex-col justify-center border-x-[1px]  border-[#f6f8f9]
+            className="flex h-screen  flex-col justify-center border-r-[1px]  border-[#E1E8ED]
                       dark:border-[#252829] dark:bg-black dark:text-white
                       md:w-[600px] lg:w-[600px]
                       xl:w-[600px]"

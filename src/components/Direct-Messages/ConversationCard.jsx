@@ -30,7 +30,6 @@ function ConversationCard({ conversationData }) {
     conversations.map((conversation) => {
       if (conversationId === conversation.contact.username) {
         setChatContext(conversation);
-        // console.log('chat-opened', socket);
         socket.emit('chat-opened', {
           userId: user.userId,
           conversationId: conversation.conversationId,
@@ -53,7 +52,6 @@ function ConversationCard({ conversationData }) {
           if (!conversationData.isConversationSeen)
             setMessagesCount(messagesCount - 1);
           if (chatContext.conversationId === '') {
-            // console.log('First open id:', conversationData.conversationId);
             setChatContext({ ...conversationData });
 
             // mark this converstiona as seen
@@ -73,7 +71,6 @@ function ConversationCard({ conversationData }) {
           } else if (
             chatContext.conversationId !== conversationData.conversationId
           ) {
-            // console.log('closing id', chatContext.conversationId);
             socket.emit('chat-closed', {
               userId: user.userId,
               conversationId: chatContext.conversationId,
@@ -89,7 +86,6 @@ function ConversationCard({ conversationData }) {
               updatedConversations[conversationIndex].isConversationSeen = true;
               setConversations(updatedConversations);
             }
-            // console.log('opening id', conversationData.conversationId);
             socket.emit('chat-opened', {
               userId: user.userId,
               conversationId: conversationData.conversationId,
@@ -168,10 +164,5 @@ function ConversationCard({ conversationData }) {
     </Link>
   );
 }
-
-// ConversationCard.propTypes = {
-//   conversationData: PropTypes.object.isRequired,
-//   userId,
-// };
 
 export default ConversationCard;

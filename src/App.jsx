@@ -351,7 +351,12 @@ function App() {
             </Route>
             <Route
               path="/app/explore"
-              element={<TrandsPage />}
+              element={
+                <div className="flex gap-8">
+                  <TrandsPage />
+                  <RightNavBar />
+                </div>
+              }
             />
           </Route>
         </Routes>

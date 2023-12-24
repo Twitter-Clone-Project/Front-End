@@ -10,7 +10,6 @@ import { ChatContext } from '../../hooks/ContactContext';
 function ConversationsPage() {
   const [searchValue, setSearchValue] = useState('');
   const [mode, setMode] = useState(false);
-  // const [openedId, setOpenedId] = useState('');
   const [windowWidth, setWindowWidth] = useState(window.outerWidth);
   const { chatContext } = useContext(ChatContext);
 
@@ -32,7 +31,7 @@ function ConversationsPage() {
       <div
         data-testid="conversations-page"
         className={`flex h-screen  flex-col border-x-[1px]
-         border-[#f6f8f9] dark:border-[#252829]
+        border-[#E1E8ED] dark:border-[#252829]
          dark:bg-black dark:text-white  
       ${windowWidth > 1092 ? 'w-[388px]' : ''}
       ${windowWidth > 1023 && windowWidth <= 1092 ? 'w-[318px]' : ''}

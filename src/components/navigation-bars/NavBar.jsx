@@ -101,11 +101,9 @@ function NavBar() {
   }, [socket]);
 
   useEffect(() => {
-    // console.log('in NavBar');
     if (socket === null) return;
 
     socket.on('notification-receive', async () => {
-      // console.log('navbar increase count');
       setNotificationsCount(
         (prevNotificationsCount) => prevNotificationsCount + 1,
       );

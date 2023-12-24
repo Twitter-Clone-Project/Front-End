@@ -5,6 +5,7 @@ import SearchBar from '../search-bar/SearchBar';
 function TrandsPage() {
   const [trands, setTrends] = useState([]);
   const [value, setValue] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(`${import.meta.env.VITE_API_DOMAIN}trends`, {
@@ -21,8 +22,15 @@ function TrandsPage() {
   }, []);
 
   return (
-    <div className="flex h-screen w-full flex-col border-x-[1px] border-[#f6f8f9] dark:border-[#252829]">
-      <div className="border-b-[1px] border-[#f6f8f9] px-2 py-1 dark:border-[#252829]">
+    <div
+      className="flex h-screen w-full flex-col border-x-[1px] border-[#E1E8ED] dark:border-[#252829]
+    sm:w-[560px] 
+    md:w-[600px] 
+    xl:w-[600px]
+    small:w-screen
+    "
+    >
+      <div className="border-b-[1px]  border-[#E1E8ED] px-2 py-1 dark:border-[#252829]">
         <SearchBar
           setValue={setValue}
           value={value}
@@ -33,7 +41,7 @@ function TrandsPage() {
           trands.map((trand) => (
             <Link
               key={trand.trendId}
-              to={`/app/search/${trand.name}`}
+              to={`/app/search/tweets?q=${trand.name}`}
               className="text-black hover:no-underline dark:text-white "
             >
               <div

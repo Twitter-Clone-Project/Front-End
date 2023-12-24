@@ -31,9 +31,7 @@ function SearchCard({ conversationData }) {
           if (!conversationData.isConversationSeen)
             setMessagesCount(messagesCount - 1);
           if (chatContext.conversationId === '') {
-            // console.log('First open id:', conversationData.conversationId);
             setChatContext({ ...conversationData });
-            // setOpenedId(conversationData.conversationId);
             const conversationIndex = conversations.findIndex(
               (conv) => conv.conversationId === conversationData.conversationId,
             );
@@ -51,14 +49,12 @@ function SearchCard({ conversationData }) {
           } else if (
             chatContext.conversationId !== conversationData.conversationId
           ) {
-            // console.log('closing id', chatContext.conversationId);
             socket.emit('chat-closed', {
               userId: user.userId,
               conversationId: chatContext.conversationId,
               contactId: chatContext.contact.id,
             });
             setChatContext({ ...conversationData });
-            // setOpenedId(conversationData.conversationId);
             const conversationIndex = conversations.findIndex(
               (conv) => conv.conversationId === conversationData.conversationId,
             );
