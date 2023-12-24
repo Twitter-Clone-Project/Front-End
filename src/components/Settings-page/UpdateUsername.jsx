@@ -92,7 +92,7 @@ function UpdateUsername() {
             backBtn
             title="Change Username"
           />
-          <div className="b-2 flex w-full border-b border-b-light-gray p-4 dark:border-b-border-gray">
+          <div className="b-2 flex w-full border-b border-b-x-light-gray p-4 dark:border-b-border-gray">
             <NameInput
               title="Username"
               maxLength={50}

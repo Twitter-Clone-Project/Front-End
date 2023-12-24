@@ -35,7 +35,7 @@ function FloatingHeader({ drawerOpen, show, setDrawerOpen, handleLogout }) {
       data-testid="mobile-top-nav"
       className={`fixed left-0  z-20 ${
         show ? 'top-0' : '-top-52'
-      } flex w-full justify-center border-b-2 border-border-gray
+      } flex w-full justify-center border-b border-light-gray
       bg-opacity-75 px-4 py-1
       transition-all duration-[600ms] dark:bg-pure-black dark:bg-opacity-75 
       dark:text-white sm:hidden`}

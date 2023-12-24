@@ -20,11 +20,11 @@ function SettingsHeader({ title, backBtn, onBack }) {
   return (
     <div
       data-testid={`${title}-header`}
-      className="flex h-[57px] w-full items-center gap-6 border-b border-b-light-gray p-2 dark:border-b-border-gray dark:text-white"
+      className="flex h-[57px] w-full items-center gap-6 border-b border-b-x-light-gray p-2 dark:border-b-border-gray dark:text-white"
     >
       {((windowWidth < 988 && window.location.pathname != '/app/settings') ||
         backBtn) && <BackBtn onClick={onBack || (() => navigate(-1))} />}
-      <span className="text-xl font-semibold"> {title}</span>
+      <span className="pl-2 text-xl font-semibold"> {title}</span>
     </div>
   );
 }
