@@ -62,7 +62,7 @@ function NewPassword({ email, user }) {
       );
       const data = await res.json();
       if (data.status === false) throw new Error(data.message);
-      dispatch({ type: 'LOGIN', payload: user });
+      dispatch({ type: 'LOGIN', payload: user.user, token: user.token });
       navigate('/app', { replace: true });
     } catch (err) {
       toast(err.message);
