@@ -68,8 +68,8 @@ function ChangePassword() {
         <>
           <SettingsHeader title="Change your Password" />
           <div className="mx-auto flex w-full flex-col gap-1">
-            <div className="flex w-full flex-col gap-1 border-b-2 border-b-light-gray pb-3 dark:border-b-border-gray">
-              <div className="border-b border-b-light-gray p-4 dark:border-b-border-gray">
+            <div className="flex w-full flex-col gap-1 border-b-2 border-b-x-light-gray pb-3 dark:border-b-border-gray">
+              <div className="border-b border-b-x-light-gray p-4 dark:border-b-border-gray">
                 <PasswordInput
                   title="Current Password"
                   password={curPassword}
@@ -81,7 +81,7 @@ function ChangePassword() {
                   <span className="text-xs ">Forgot password?</span>
                 </Link>
               </div>
-              <div className="flex flex-col gap-6 border-b border-b-light-gray p-4 pb-6 dark:border-b-border-gray">
+              <div className="flex flex-col gap-6 border-b border-b-x-light-gray p-4 pb-6 dark:border-b-border-gray">
                 <PasswordInput
                   title="New Password"
                   password={newPassword}

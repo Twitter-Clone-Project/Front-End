@@ -291,7 +291,7 @@ function UnMemoTweet({
   return (
     <div
       data-testid={`${data.id}`}
-      className="tweet mb-[0.5px] mt-[-0.5px] grid w-full border-collapse grid-cols-[auto_1fr]  border-y-[0.5px] border-y-border-gray bg-white px-3 pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black sm:px-[16px] lg:w-[598px] "
+      className="tweet mb-[0.5px] mt-[-0.5px] grid w-full border-collapse grid-cols-[auto_1fr]  border-t-[0.5px] border-t-x-light-gray bg-white px-3 pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:border-t-border-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black sm:px-[16px] lg:min-w-[598px] "
       onClick={handleClick}
     >
       <div

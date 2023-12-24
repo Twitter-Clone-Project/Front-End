@@ -111,6 +111,7 @@ function PopoverUserCard({
           avoidCollisions
           className="HoverCardContent"
           sideOffset={5}
+          collisionPadding={2}
           align="center"
           side="bottom"
         >
