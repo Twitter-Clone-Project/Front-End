@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import PullToRefresh from 'react-simple-pull-to-refresh';
 import NoResults from './NoResults';
 import TweetList from '../../tweetPage/TweetList';
 import DotLoader from './DotLoader';
@@ -16,8 +16,35 @@ function Likes() {
   const [isDone, setIsDone] = useState(false);
   const [initialDone, setInitialDone] = useState(false);
   const { username } = useParams('username');
+  const getInitialTweets = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      setIsDone(false);
 
+      const response = await fetch(
+        `${import.meta.env.VITE_API_DOMAIN}users/${username}/likedTweets/1`,
+        {
+          method: 'GET',
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+        },
+      );
+      const data = await response.json();
+      if (data.data.length === 0) setIsDone(true);
+      setInitialDone(true);
+      setTotal(data.total);
+      setPage(2);
+      setPosts(() => [...data.data]);
+      setError('');
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [username]);
   const fetchTweets = useCallback(async () => {
+    console.log(page, '---', posts.length, '---', total);
     if (isLoading || isDone) return;
     try {
       setIsLoading(true);
@@ -46,74 +73,69 @@ function Likes() {
   }, [isLoading, page, isDone, username]);
 
   useEffect(() => {
-    const getInitialTweets = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(
-          `${import.meta.env.VITE_API_DOMAIN}users/${username}/likedTweets/1`,
-          {
-            method: 'GET',
-            origin: true,
-            credentials: 'include',
-            withCredentials: true,
-          },
-        );
-        const data = await response.json();
-        if (data.data.length === 0) setIsDone(true);
-        setInitialDone(true);
-        setTotal(data.total);
-        setPosts(() => [...data.data]);
-        setError('');
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
+    getInitialTweets();
+  }, [getInitialTweets]);
+  useEffect(() => {
+    const handleScroll = () => {
+      const { scrollTop, clientHeight, scrollHeight } =
+        document.documentElement;
+      if (scrollTop + clientHeight >= scrollHeight - 20) {
+        fetchTweets();
       }
     };
-    getInitialTweets();
-  }, [username]);
-
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [fetchTweets]);
   useEffect(() => {
     if (error !== '') toast(error);
   }, [error]);
-
+  console.log(posts.length < total);
   return (
-    <>
-      {initialDone && posts.length === 0 ? (
-        <NoResults title=" There are No Likes yet" />
-      ) : (
-        <div
-          data-testid="likes-list"
-          className="flex w-full flex-col items-center gap-5"
-        >
-          <InfiniteScroll
-            dataLength={total}
-            next={fetchTweets}
-            hasMore={posts.length !== total}
-            loader={
-              <div className="flex items-center justify-center p-3">
-                <DotLoader />
-              </div>
-            }
-            endMessage={
-              <p className="flex items-center justify-center p-3">
-                {posts.length > 0 ? (
-                  <b>Yay! You have seen it all</b>
-                ) : (
-                  <b>
-                    You haven&#39;t liken anything yet
-                    <br /> Go ahead and like posts 🤩
-                  </b>
-                )}
-              </p>
-            }
+    <div
+      className="flex sm:block"
+      data-testid={`${username}-Likes`}
+    >
+      <div>
+        {initialDone && posts.length === 0 ? (
+          <NoResults title=" There are No Likes yet" />
+        ) : (
+          <div
+            data-testid="likes-list"
+            className="flex min-h-[calc(100%+60px)] w-full flex-col items-center gap-5 sm:h-auto"
           >
-            <TweetList data={posts} />
-          </InfiniteScroll>
-        </div>
-      )}
-      <OwnToaster />
-    </>
+            <PullToRefresh
+              pullingContent={
+                <div className="flex items-center justify-center p-2">
+                  <DotLoader />
+                </div>
+              }
+              refreshingContent={
+                <div className="flex items-center justify-center p-4">
+                  <DotLoader />
+                </div>
+              }
+              onRefresh={getInitialTweets}
+            >
+              <TweetList
+                data={posts}
+                setTweets={setPosts}
+              />
+              {posts.length >= total && (
+                <p className="flex items-center justify-center p-3">
+                  <b>Yay! You have seen it all</b>{' '}
+                </p>
+              )}
+              {isLoading && (
+                <div className="flex items-center justify-center p-4">
+                  <DotLoader />
+                </div>
+              )}
+            </PullToRefresh>
+          </div>
+        )}
+        <OwnToaster />
+      </div>
+    </div>
   );
 }
 

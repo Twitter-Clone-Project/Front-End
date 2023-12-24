@@ -1,12 +1,27 @@
-import { render, fireEvent, cleanup, screen } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import React, { useState, useRef, useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import * as router from 'react-router';
-import { EditorState } from 'draft-js';
+import { EditorState, ContentState } from 'draft-js';
 import AuthProvider from '../../contexts/Auth/AuthProvider';
 import { useAuth } from '../../hooks/AuthContext';
 import AddPost from '../../tweetPage/AddPost';
+
+vi.mock('@draft-js-plugins/editor', () => ({
+  default: vi.fn((props) => {
+    const mockedonchange = (e) => {
+      const content = ContentState.createFromText(e.target.value);
+      props.onChange(EditorState.createWithContent(content));
+    };
+    return (
+      <input
+        data-testid="editor"
+        onChange={(e) => mockedonchange(e)}
+      />
+    );
+  }),
+}));
 
 const user = {
   userId: '123',
@@ -85,7 +100,7 @@ describe('Add Post', () => {
     // screen.debug();
   });
 
-  it('has disabled post button on empty text', () => {
+  it('should disable post button in case of no text', () => {
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
         <BrowserRouter>
@@ -93,18 +108,145 @@ describe('Add Post', () => {
         </BrowserRouter>
       </AuthProvider>,
     );
-
     const postBtn = getByTestId('post123');
-    // expect(postBtn).toBeDisabled();
+    expect(postBtn).toBeDisabled();
+    const input = getByTestId('editor');
+    fireEvent.change(input, { target: { value: 'new value' } });
+    expect(input.value).toBe('new value');
+    expect(postBtn).not.toBeDisabled();
+  });
 
-    const textField = getByTestId('textField');
-    const text = textField.querySelector('.DraftEditor-root');
-    fireEvent.change(text, { target: { textContent: 'hhh' } });
-    console.log(textField.outerHTML);
-    console.log(postBtn.outerHTML);
-    expect(textField).toBeInTheDocument();
-    expect(textField).toHaveTextContent('hhh');
+  it('should disable post button in case of whitrspaces', () => {
+    const { getByTestId } = render(
+      <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
+        <BrowserRouter>
+          <AddPost setTweets={setTweets} />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    const postBtn = getByTestId('post123');
+    expect(postBtn).toBeDisabled();
+    const input = getByTestId('editor');
+    fireEvent.change(input, { target: { value: '  ' } });
+    expect(postBtn).toBeDisabled();
+  });
 
-    // expect(postBtn).not.toBeDisabled();
+  it('should send a request to add tweet', async () => {
+    const { getByTestId } = render(
+      <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
+        <BrowserRouter>
+          <AddPost setTweets={setTweets} />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    const postBtn = getByTestId('post123');
+    const input = getByTestId('editor');
+    fireEvent.change(input, { target: { value: 'some tweet' } });
+    fireEvent.click(postBtn);
+    const formData = new FormData();
+    formData.append('tweetText', 'some tweet');
+    await waitFor(() => {
+      expect(window.fetch).toHaveBeenCalledTimes(1);
+      expect(window.fetch).toHaveBeenCalledWith(
+        `${import.meta.env.VITE_API_DOMAIN}tweets/add`,
+        expect.objectContaining({
+          method: 'POST',
+          body: formData,
+          credentials: 'include',
+          withCredentials: true,
+        }),
+      );
+    });
+  });
+
+  it('should remove the image on click on remove button ', () => {
+    const { getByTestId } = render(
+      <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
+        <BrowserRouter>
+          <AddPost setTweets={setTweets} />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    const mediaInput = getByTestId(`mediaInput${user.userId}`);
+    expect(mediaInput).not.toBeDisabled();
+    window.URL.createObjectURL = vi.fn((file) => `blob:${file.name}`);
+    const files = [
+      new File(['file content'], 'image1.png', { type: 'image/png' }),
+    ];
+    fireEvent.change(mediaInput, {
+      target: { files: files },
+    });
+    expect(mediaInput.files.length).toBe(1);
+    expect(mediaInput).not.toBeDisabled();
+    const media = getByTestId('media');
+    expect(media).toBeInTheDocument();
+    const remove = getByTestId('remove');
+    expect(remove).toBeInTheDocument();
+    fireEvent.click(remove);
+    expect(remove).not.toBeInTheDocument();
+  });
+
+  it('should not disable media button in case of less than 4 images ', () => {
+    const { getByTestId } = render(
+      <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
+        <BrowserRouter>
+          <AddPost setTweets={setTweets} />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    const mediaInput = getByTestId(`mediaInput${user.userId}`);
+    expect(mediaInput).not.toBeDisabled();
+    window.URL.createObjectURL = vi.fn((file) => `blob:${file.name}`);
+    const files = [
+      new File(['file content'], 'image1.png', { type: 'image/png' }),
+    ];
+    fireEvent.change(mediaInput, {
+      target: { files: files },
+    });
+    expect(mediaInput.files.length).toBe(1);
+    expect(mediaInput).not.toBeDisabled();
+  });
+
+  it('should disable media button after 4 images ', () => {
+    const { getByTestId } = render(
+      <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
+        <BrowserRouter>
+          <AddPost setTweets={setTweets} />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    const mediaInput = getByTestId(`mediaInput${user.userId}`);
+    expect(mediaInput).not.toBeDisabled();
+    const files = [
+      new File(['file content'], 'image1.png', { type: 'image/png' }),
+      new File(['file content'], 'image2.jpg', { type: 'image/jpeg' }),
+      new File(['file content'], 'image1.png', { type: 'image/png' }),
+      new File(['file content'], 'image2.jpg', { type: 'image/jpeg' }),
+    ];
+    fireEvent.change(mediaInput, {
+      target: { files: files },
+    });
+    expect(mediaInput.files.length).toBe(4);
+    expect(mediaInput).toBeDisabled();
+  });
+
+  it('should disable media button after 1 video ', () => {
+    const { getByTestId } = render(
+      <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
+        <BrowserRouter>
+          <AddPost setTweets={setTweets} />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    const mediaInput = getByTestId(`mediaInput${user.userId}`);
+    expect(mediaInput).not.toBeDisabled();
+    const video = new File(['file content'], 'video1.mp4', {
+      type: 'video/mp4',
+    });
+    fireEvent.change(mediaInput, {
+      target: { files: [video] },
+    });
+    expect(mediaInput.files.length).toBe(1);
+    expect(mediaInput).toBeDisabled();
   });
 });

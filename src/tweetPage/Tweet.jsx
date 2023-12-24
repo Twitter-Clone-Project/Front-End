@@ -241,6 +241,7 @@ function UnMemoTweet({
       onClick={handleClick}
     >
       <div
+      data-testid={`popover${data.id}`}
         className="leftColumn mr-[12px] h-[40px] w-[40px] "
         onClick={(e) => {
           e.stopPropagation();
@@ -339,6 +340,7 @@ function UnMemoTweet({
             <ActionsMenu
               userId={data.user.userId}
               tweet={data}
+              setTweets={setTweets}
               tweets={tweets}
             />
           </div>
@@ -367,10 +369,11 @@ function UnMemoTweet({
         <div>
           <Media images={images} />
         </div>
-        <div className="buttons flex h-[32px] flex-row  justify-between">
+        <div className="buttons ml-5 flex h-[32px] w-[100%]  flex-row justify-between">
           <button
             data-testid={`${data.id}reply`}
             type="submit"
+            className="flex w-[20%] flex-row "
             onClick={(e) => {
               e.stopPropagation();
               handleReply();
@@ -384,6 +387,7 @@ function UnMemoTweet({
           <button
             data-testid={`${data.id}repost`}
             type="submit"
+            className="flex w-[20%] flex-row"
             disabled={isRepostLoading}
             onClick={(e) => {
               e.stopPropagation();
@@ -400,6 +404,7 @@ function UnMemoTweet({
             data-testid={`${data.id}like`}
             disabled={isLikeLoading}
             type="submit"
+            className="flex w-[20%] flex-row "
             onClick={(e) => {
               e.stopPropagation();
               handleLike();
