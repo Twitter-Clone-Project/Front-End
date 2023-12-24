@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import SearchBar from '../search-bar/SearchBar';
 
 function RightNavBar() {
   const [trands, setTrends] = useState([]);
   const [value, setValue] = useState('');
   const [windowWidth, setWindowWidth] = useState(window.outerWidth);
+  const location = useLocation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,6 +33,7 @@ function RightNavBar() {
     };
   });
 
+  console.log(location.pathname);
   if (windowWidth > 1023)
     return (
       <div
@@ -39,11 +41,23 @@ function RightNavBar() {
           windowWidth <= 1092 ? 'w-[290px]' : 'w-[350px]'
         } flex flex-col gap-3`}
       >
-        <SearchBar
-          setValue={setValue}
-          value={value}
-        />
-        <div className="rou flex flex-col rounded-2xl bg-[#f7f8f8] text-black hover:rounded-2xl dark:bg-[#16181c] dark:text-white ">
+        {location.pathname !== '/app/search/tweets' &&
+          location.pathname !== '/app/search/users' && (
+            <SearchBar
+              setValue={setValue}
+              value={value}
+            />
+          )}
+
+        <div
+          className={`round flex flex-col rounded-2xl bg-[#f7f8f8]
+           text-black hover:rounded-2xl dark:bg-[#16181c] dark:text-white ${
+             location.pathname === '/app/search/tweets' ||
+             location.pathname === '/app/search/users'
+               ? 'mt-5'
+               : ''
+           }`}
+        >
           <div className="w-full px-4 py-3 text-[20px] font-bold">
             What’s happening
           </div>
