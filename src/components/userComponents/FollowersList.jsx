@@ -59,8 +59,9 @@ function FollowersList() {
       });
   }, [username]);
   return (
-    <div className="flex h-full min-h-screen w-full justify-center bg-white dark:bg-pure-black"
-    data-testid="FollowerList_0"
+    <div
+      className="flex h-full min-h-screen w-full justify-center bg-white dark:bg-pure-black"
+      data-testid="FollowerList_0"
     >
       <div className="w-full overflow-y-clip bg-white dark:bg-pure-black">
         <div className=" flex h-28 flex-col hover:cursor-pointer">
@@ -80,6 +81,7 @@ function FollowersList() {
                     <path
                       d="M7.414 13l5.043 5.04-1.414 1.42L3.586 12l7.457-7.46 1.414 1.42L7.414 11H21v2H7.414z"
                       fill="currentColor"
+                      className="fill-black dark:fill-x-light-gray"
                     />
                   </g>
                 </svg>
