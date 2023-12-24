@@ -1,10 +1,13 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router';
 
 function SearchResult({ data }) {
+  useEffect(() => {
+    console.log(data);
+  });
   const navigate = useNavigate();
   const handleClick = () => {
     navigate(`/app/${data.username}`);
@@ -25,7 +28,7 @@ function SearchResult({ data }) {
         />
       </div>
       <div className="flex w-5/6 flex-col text-base font-medium ">
-        <span className="font-semibold dark:text-white">{data.name}</span>
+        <span className="font-semibold dark:text-white">{data.screenName}</span>
         <span className="text-sm text-light-gray">@{data.username}</span>
       </div>
     </div>

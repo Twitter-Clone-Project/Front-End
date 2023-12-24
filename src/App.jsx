@@ -1,12 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import * as React from 'react';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  useNavigate,
-} from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 // import { v4 as uuid4 } from 'uuid';
 import TimeAgo from 'javascript-time-ago';
@@ -49,11 +43,13 @@ import BlockedUsers from './components/Settings-page/BlockedUsers';
 import MutedUsers from './components/Settings-page/MutedUsers';
 import ChangePassword from './components/Settings-page/ChangePassword';
 import UpdateEmail from './components/Settings-page/UpdateEmail';
+import UpdateUsername from './components/Settings-page/UpdateUsername';
+import EmailFlow from './components/Settings-page/EmailFlow';
 
 TimeAgo.addDefaultLocale(en);
 
 function App() {
-  const { dispatch, user } = useAuth();
+  const { dispatch } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   React.useEffect(() => {
     const refresh = async () => {
@@ -81,7 +77,6 @@ function App() {
   }, [dispatch]);
   React.useEffect(() => {
     const refresh = () => {
-      console.log('aaaa');
       window.location.href = '/';
     };
     window.addEventListener('storage', refresh);
@@ -95,7 +90,7 @@ function App() {
       <Spinner />
     </div>
   ) : (
-    <div className="flex h-full min-h-screen w-full overflow-auto bg-white dark:bg-pure-black">
+    <div className="flex h-full min-h-screen w-full  bg-white dark:bg-pure-black">
       <BrowserRouter>
         <Routes>
           <Route
@@ -162,19 +157,39 @@ function App() {
             />
             <Route
               path="tweets/:tweetId"
-              element={<TweetPage />}
+              element={
+                <div className="flex gap-8">
+                  <TweetPage />
+                  <RightNavBar />
+                </div>
+              }
             />
             <Route
               path="tweets/:tweetId/likes"
-              element={<LikersList />}
+              element={
+                <div className="flex gap-8">
+                  <LikersList />
+                  <RightNavBar />
+                </div>
+              }
             />
             <Route
               path="tweets/:tweetId/retweets"
-              element={<RetweetersList />}
+              element={
+                <div className="flex gap-8">
+                  <RetweetersList />
+                  <RightNavBar />
+                </div>
+              }
             />
             <Route
               path="notifications"
-              element={<NotificationsPage />}
+              element={
+                <div className="flex gap-8">
+                  <NotificationsPage />
+                  <RightNavBar />
+                </div>
+              }
             >
               <Route
                 index
@@ -224,7 +239,12 @@ function App() {
             </Route>
             <Route
               path="search"
-              element={<SearchPage />}
+              element={
+                <div className="flex gap-8">
+                  <SearchPage />
+                  <RightNavBar />
+                </div>
+              }
             >
               <Route
                 index
@@ -247,7 +267,12 @@ function App() {
             <Route
               exact
               path=":username/following"
-              element={<FollowingList />}
+              element={
+                <div className="flex gap-8">
+                  <FollowingList />
+                  <RightNavBar />
+                </div>
+              }
             />
             <Route
               exact
@@ -257,7 +282,12 @@ function App() {
             <Route
               exact
               path=":username/followers"
-              element={<FollowersList />}
+              element={
+                <div className="flex gap-8">
+                  <FollowersList />
+                  <RightNavBar />
+                </div>
+              }
             />
             <Route
               exact
@@ -271,13 +301,18 @@ function App() {
               />
               <Route
                 exact
-                path="accountinfo/updateemail"
+                path="accountinfo/email"
                 element={<UpdateEmail />}
-              />
+              >
+                <Route
+                  path="change-email"
+                  element={<EmailFlow />}
+                />
+              </Route>
               <Route
                 exact
                 path="accountinfo/updateusername"
-                element={<h1>Update username</h1>}
+                element={<UpdateUsername />}
               />
               <Route
                 exact

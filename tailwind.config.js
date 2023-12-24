@@ -4,16 +4,17 @@ export default {
   theme: {
     extend: {
       screens: {
-        "2xl": {
-          min: '1440px'
+        '2xl': {
+          min: '1440px',
         },
         mlg: {
           min: '1280px',
         },
         xmed: {
-          min: '1000px'
+          min: '1000px',
         },
-      }
+        small: { min: '0px', max: '639px' },
+      },
     },
     colors: {
       'pure-black': '#000',

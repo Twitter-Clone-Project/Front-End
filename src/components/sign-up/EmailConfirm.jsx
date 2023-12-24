@@ -9,7 +9,7 @@ import OwnToaster from '../OwnToaster';
 import NewPassword from '../login-page/NewPassword';
 import { useAuth } from '../../hooks/AuthContext';
 
-function EmailConfirm({ email, type = 'reset' }) {
+function EmailConfirm({ email, type = 'reset', onClose, onSuccess }) {
   const [code, setCode] = useState('');
   const [err, setError] = useState('');
   const [resetUser, setResetUser] = useState(null);
@@ -61,7 +61,10 @@ function EmailConfirm({ email, type = 'reset' }) {
       if (type === 'reset') {
         setResetUser(data.data.user);
         setResetPasswordOpen(true);
-      } else dispatch({ type: 'LOGIN', payload: data.data.user });
+      } else {
+        if (onSuccess) onSuccess();
+        dispatch({ type: 'LOGIN', payload: data.data.user });
+      }
     } catch (error) {
       toast(error.message);
     } finally {
@@ -78,12 +81,12 @@ function EmailConfirm({ email, type = 'reset' }) {
     );
 
   return (
-    <div className="confirm mx-auto flex min-h-full w-full flex-1 flex-col items-center justify-center text-lg text-black dark:text-white md:bg-dark-gray md:bg-opacity-50">
+    <div className="confirm mx-auto flex h-full min-h-full w-full flex-1 flex-col items-center justify-center text-lg text-black dark:text-white md:bg-dark-gray md:bg-opacity-50">
       {isLoading ? (
         <Spinner />
       ) : (
-        <BoxCard classes="mx-auto">
-          <div className="mx-auto mt-5 flex h-full min-w-[300px] flex-1 flex-col px-5">
+        <BoxCard onClose={onClose}>
+          <div className="mx-auto mt-5 flex h-full w-full min-w-[300px] max-w-[70%] flex-1 flex-col">
             <p className="text-start text-3xl font-semibold">
               We sent you a code
             </p>
@@ -132,10 +135,14 @@ function EmailConfirm({ email, type = 'reset' }) {
 
 EmailConfirm.defaultProps = {
   type: 'reset',
+  onClose: null,
+  onSuccess: null,
 };
 
 EmailConfirm.propTypes = {
   email: PropTypes.string.isRequired,
   type: PropTypes.string,
+  onClose: PropTypes.func,
+  onSuccess: PropTypes.func,
 };
 export default EmailConfirm;

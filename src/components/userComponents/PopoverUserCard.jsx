@@ -22,6 +22,7 @@ function PopoverUserCard({
   popoverFollowers,
   popoverSetLocalIsFollowed,
   popoverIsBlocked,
+  popoverIsMuted,
 }) {
   const { user: curUser } = useAuth();
 
@@ -79,7 +80,7 @@ function PopoverUserCard({
   };
 
   const handelButtonClick = () => {
-    if (!popoverIsBlocked) {
+    if (!popoverIsBlocked && !popoverIsMuted) {
       if (popoverIsFollowed) {
         unFollowReq();
       } else {
@@ -92,8 +93,8 @@ function PopoverUserCard({
   const navigate = useNavigate();
   return (
     <HoverCard.Root
-      openDelay={200}
-      closeDelay={200}
+      openDelay={700}
+      closeDelay={300}
       defaultOpen={false}
     >
       <HoverCard.Trigger asChild>{children}</HoverCard.Trigger>
@@ -141,7 +142,7 @@ function PopoverUserCard({
                 >
                   <Button
                     backGroundColor={
-                      popoverIsBlocked
+                      popoverIsBlocked || popoverIsMuted
                         ? 'warningRed'
                         : popoverIsFollowed
                         ? isPopoverButtonHovered
@@ -150,7 +151,7 @@ function PopoverUserCard({
                         : 'white'
                     }
                     backGroundColorDark={
-                      popoverIsBlocked
+                      popoverIsBlocked || popoverIsMuted
                         ? 'warningRed'
                         : popoverIsFollowed
                         ? isPopoverButtonHovered
@@ -159,7 +160,7 @@ function PopoverUserCard({
                         : 'black'
                     }
                     borderColor={
-                      popoverIsBlocked
+                      popoverIsBlocked || popoverIsMuted
                         ? 'none'
                         : popoverIsFollowed
                         ? isPopoverButtonHovered
@@ -172,6 +173,8 @@ function PopoverUserCard({
                         ? isPopoverButtonHovered
                           ? 'Blocked'
                           : 'Blocked'
+                        : popoverIsMuted
+                        ? 'Muted'
                         : popoverIsFollowed
                         ? isPopoverButtonHovered
                           ? 'Unfollow'
@@ -179,7 +182,7 @@ function PopoverUserCard({
                         : 'Follow'
                     }
                     labelColor={
-                      popoverIsBlocked
+                      popoverIsBlocked || popoverIsMuted
                         ? 'white'
                         : popoverIsFollowed
                         ? isPopoverButtonHovered
@@ -188,7 +191,7 @@ function PopoverUserCard({
                         : 'black'
                     }
                     labelColorDark={
-                      popoverIsBlocked
+                      popoverIsBlocked || popoverIsMuted
                         ? 'white'
                         : popoverIsFollowed
                         ? isPopoverButtonHovered
@@ -204,26 +207,29 @@ function PopoverUserCard({
                 ''
               )}
             </div>
-            <div className=" mt-2">
-              <div className="flex h-[41.5px] flex-col">
+            <div className=" mt-2 w-full">
+              <div className="flex h-[41.5px] flex-col overflow-ellipsis">
                 <Link
                   to={`/app/${popoverUserID}`}
-                  className="hover:no-underline"
+                  className="max-w-full hover:no-underline"
                   data-testid={`PopoverUserCard_${popoverUserID}_userInf`}
                 >
-                  <label
-                    htmlFor="popoverImg"
-                    className="cursor-pointer text-[15px] font-bold text-pure-black hover:underline dark:text-white"
-                  >
-                    {popoverUserName}
-                  </label>
-                  <div className="flex h-5 flex-row items-center">
-                    <span className=" w-min cursor-pointer text-light-thin">
+                  <div className="flex max-w-full">
+                    <span
+                      htmlFor="popoverImg"
+                      className="w-min max-w-full cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-[15px] font-bold text-pure-black hover:underline dark:text-white"
+                    >
+                      {popoverUserName}
+                    </span>
+                  </div>
+
+                  <div className="flex h-5 max-w-full flex-row items-center">
+                    <span className=" w-min max-w-[196px] cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-light-thin">
                       @{popoverUserID}
                     </span>
                     {popoverIsFollowing && (
                       <div
-                        className=" ml-1 h-4 items-center rounded bg-x-light-gray px-1 py-0.5 dark:bg-border-gray"
+                        className=" ml-1 h-4 min-w-[66.08px] items-center rounded bg-x-light-gray px-1 py-0.5 dark:bg-border-gray"
                         data-testid={`PopoverUserCard_${popoverUserID}_2`}
                       >
                         <p className=" h-3 text-[11px] leading-3 text-light-thin">
@@ -279,6 +285,10 @@ function PopoverUserCard({
   );
 }
 
+PopoverUserCard.defaultProps = {
+  popoverIsBlocked: false,
+  popoverIsMuted: false,
+};
 PopoverUserCard.propTypes = {
   popoverIsFollowed: PropTypes.bool.isRequired,
   popoverUserPicture: PropTypes.string.isRequired,
@@ -287,6 +297,8 @@ PopoverUserCard.propTypes = {
   popoverDiscription: PropTypes.string.isRequired,
   popoverFollowing: PropTypes.string.isRequired,
   popoverFollowers: PropTypes.string.isRequired,
+  popoverIsBlocked: PropTypes.bool,
+  popoverIsMuted: PropTypes.bool,
 };
 
 export default PopoverUserCard;

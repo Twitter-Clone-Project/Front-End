@@ -32,11 +32,11 @@ function SearchBar({ value, setValue }) {
     const controller = new AbortController();
 
     const timeId = setTimeout(() => {
-      console.log('fetching', value);
+      // console.log('fetching', value);
       const queryCheck = async () => {
         try {
           const res = await fetch(
-            `${import.meta.env.VITE_API_DOMAIN}users/search?query=${value}`,
+            `${import.meta.env.VITE_API_DOMAIN}users/search/1?query=${value}`,
             {
               method: 'GET',
               origin: true,
@@ -48,15 +48,13 @@ function SearchBar({ value, setValue }) {
             },
           );
           const data = await res.json();
+          console.log(data);
           if (data.status === false) throw new Error(data.message);
-          else {
-            if (data.message) console.log(data.message);
-            // else if (data.data.length > 10) {
-            //   data.data = data.data.slice(0, 10);
-            //   setResults(data.data);
-            //   console.log(data);
-            // }
-          }
+          else if (data.message) console.log(data.message);
+          else if (data.data.length > 10) {
+            data.data = data.data.slice(0, 10);
+            setResults(data.data);
+          } else setResults(data.data);
         } catch (err) {
           if (err.name !== 'AbortError') toast(err.message);
         } finally {

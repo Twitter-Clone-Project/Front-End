@@ -25,7 +25,7 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
 
   return (
     <div className="relative cursor-auto bg-white bg-opacity-100 p-4 text-black dark:bg-pure-black dark:text-white">
-      <div className="absolute -top-0 z-10 flex aspect-square w-1/4 min-w-[3rem] -translate-y-1/2 justify-between">
+      <div className="absolute -top-0 z-10 flex aspect-square w-1/4 min-w-[3rem] -translate-y-1/2 justify-between ">
         <PhotoProvider maskOpacity={0.5}>
           <PhotoView src={pic}>
             <img
@@ -33,7 +33,7 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
               data-testid="user-photo"
               src={pic}
               alt=""
-              className="h-auto w-full cursor-pointer rounded-full border-4 border-white dark:border-pure-black"
+              className="h-auto w-full cursor-pointer rounded-full border-4 border-white bg-white dark:border-pure-black dark:bg-pure-black"
             />
           </PhotoView>
         </PhotoProvider>

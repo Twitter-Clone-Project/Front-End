@@ -33,12 +33,15 @@ function ResultsList({ value, results }) {
       <div className="mx-[2px] h-[0.5px] bg-dark-gray" />
       {results.length !== 0 ? (
         <div data-testid={`search-bar-${value}results`}>
-          {results.map((result, index) => (
-            <SearchResult
-              data={result}
-              key={index}
-            />
-          ))}
+          {results.map(
+            (result, index) =>
+              result && (
+                <SearchResult
+                  data={result}
+                  key={index}
+                />
+              ),
+          )}
         </div>
       ) : (
         ''
