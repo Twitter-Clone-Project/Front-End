@@ -9,15 +9,15 @@ const initialState = {
 };
 
 function AuthProvider({ children }) {
-  const [{ user, isAuthenticated }, dispatch] = useReducer(
+  const [{ user, isAuthenticated, token }, dispatch] = useReducer(
     reducer,
     initialState,
   );
   return (
     <AuthContext.Provider
       value={useMemo(
-        () => ({ user, isAuthenticated, dispatch }),
-        [user, isAuthenticated, dispatch],
+        () => ({ user, isAuthenticated, dispatch, token }),
+        [user, isAuthenticated, dispatch, token],
       )}
     >
       {children}

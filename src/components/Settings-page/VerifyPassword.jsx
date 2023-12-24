@@ -16,7 +16,7 @@ function VerifyPassword({
   setPasswordError,
 }) {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, dispatch } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const handleLogin = async () => {
     try {
@@ -33,6 +33,11 @@ function VerifyPassword({
       });
       const data = await res.json();
       if (data.status === false) throw new Error(data.message);
+      dispatch({
+        type: 'LOGIN',
+        payload: data.data.user,
+        token: data.data.token,
+      });
       onClick();
     } catch (err) {
       toast(err.message);

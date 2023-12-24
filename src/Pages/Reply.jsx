@@ -21,14 +21,6 @@ function Reply({ data, tweetId, replies, setReplies }) {
   useEffect(() => {
     setText(data.replyText);
   }, [data]);
-  const [isHovered, setIsHovered] = useState(false);
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
   const navigate = useNavigate();
   const handleUserInfoClick = () => {
     navigate(`/app/${data.username}`);
@@ -46,36 +38,27 @@ function Reply({ data, tweetId, replies, setReplies }) {
         }}
       >
         <div className="profileImage leftColumn absolute mr-[12px] h-[40px] w-[40px] ">
-          <img
-            data-testid={`profileImage${data.id}`}
-            src={data.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR}
-            alt="profileImage"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            className="h-[40px] w-[40px] rounded-full object-cover transition-opacity"
-          />
-        </div>
-        {isHovered && (
-          <div
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            className="relative left-0 right-24 top-[-1] z-10 mt-5 flex h-[250px]  flex-col justify-center sm:w-[300px]"
+          <PopoverUserCard
+            popoverIsFollowed={data.isFollowed}
+            popoverUserPicture={
+              data.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
+            }
+            popoverUserName={data.screenName}
+            popoverUserID={data.username}
+            popoverDiscription=""
+            popoverFollowing={data.followingCount}
+            popoverFollowers={data.followersCount}
+            popoverTestID={`${data.username}-popover`}
+            popoverSetLocalIsFollowed
           >
-            <PopoverUserCard
-              popoverIsFollowed={data.isFollowed}
-              popoverUserPicture={
-                data.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
-              }
-              popoverUserName={data.screenName}
-              popoverUserID={data.username}
-              popoverDiscription=""
-              popoverFollowing={data.followingCount}
-              popoverFollowers={data.followersCount}
-              popoverTestID={`${data.username}-popover`}
-              popoverSetLocalIsFollowed
+            <img
+              data-testid={`profileImage${data.id}`}
+              src={data.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR}
+              alt="profileImage"
+              className="h-[40px] w-[40px] rounded-full object-cover transition-opacity"
             />
-          </div>
-        )}
+          </PopoverUserCard>
+        </div>
       </div>
 
       <div

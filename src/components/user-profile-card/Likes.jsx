@@ -121,7 +121,7 @@ function Likes() {
                 setTweets={setPosts}
               />
               {posts.length >= total && (
-                <p className="flex items-center justify-center p-3">
+                <p className="flex items-center justify-center border-t border-t-x-light-gray p-3 dark:border-t-border-gray">
                   <b>Yay! You have seen it all</b>{' '}
                 </p>
               )}

@@ -96,7 +96,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
     formData.append('name', name);
     formData.append('bio', bio);
     formData.append('location', location);
-    formData.append('website', website);
+    if (website) formData.append('website', website);
     formData.append(
       'birthDate',
       `${DOB.year}-${moment().month(DOB.month).format('MM')}-${DOB.day}`,

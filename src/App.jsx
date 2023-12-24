@@ -45,6 +45,7 @@ import ChangePassword from './components/Settings-page/ChangePassword';
 import UpdateEmail from './components/Settings-page/UpdateEmail';
 import UpdateUsername from './components/Settings-page/UpdateUsername';
 import EmailFlow from './components/Settings-page/EmailFlow';
+import NotFound from './components/not-found/NotFound';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -66,7 +67,12 @@ function App() {
         });
         const data = await res.json();
         if (data.status === false) throw new Error(data.message);
-        dispatch({ type: 'LOGIN', payload: data.data.user });
+        console.log(data);
+        dispatch({
+          type: 'LOGIN',
+          payload: data.data.user,
+          token: data.token,
+        });
       } catch (err) {
         dispatch({ type: 'LOGOUT' });
       } finally {
@@ -359,6 +365,10 @@ function App() {
               }
             />
           </Route>
+          <Route
+            path="*"
+            element={<NotFound />}
+          />
         </Routes>
       </BrowserRouter>
     </div>

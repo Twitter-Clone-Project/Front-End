@@ -6,11 +6,18 @@ import { ChatContext } from '../../hooks/ContactContext';
 import { useAuth } from '../../hooks/AuthContext';
 
 function AppLayout() {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const { setSocket } = useContext(ChatContext);
 
   useEffect(() => {
-    const newSocket = io(`${import.meta.env.VITE_SOCKET_DOMAIN}`);
+    const newSocket = io(`${import.meta.env.VITE_SOCKET_DOMAIN}`, {
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
+      extraHeaders: {
+        token,
+      },
+    });
     newSocket.on('connect', () => {
       newSocket.emit('add-user', { userId: user.userId });
     });

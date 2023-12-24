@@ -7,12 +7,12 @@ import ListNav from '../navigation-bars/ListNav';
 import Spinner from '../Spinner';
 import OwnToaster from '../OwnToaster';
 import NoProfile from './NoProfile';
+import SettingsHeader from '../Settings-page/SettingsHeader';
 
 function ProfilePage() {
   const { user: curUser, dispatch } = useAuth();
   const [user, setUser] = useState({});
   const [found, setFound] = useState(true);
-
   const [isLoading, setIsLoading] = useState(true);
   const { username } = useParams('username');
 
@@ -65,12 +65,15 @@ function ProfilePage() {
       ) : (
         <div
           data-testid={`${username}-profile`}
-          className="border-x-0 border-light-gray dark:border-border-gray dark:text-white sm:border-x-[1px]"
+          className="border-x-0 border-x-x-light-gray dark:border-border-gray dark:text-white sm:border-x-[1px]"
         >
+          <div className="sticky top-0 z-50">
+            <SettingsHeader title={user.name} />
+          </div>
           <div
             className={`${
               user.isBlockingMe ? '' : 'border-b-[1px]'
-            } border-light-gray dark:border-border-gray`}
+            } border-x-x-light-gray dark:border-border-gray`}
           >
             <UserProfileCard user={user} />
 
