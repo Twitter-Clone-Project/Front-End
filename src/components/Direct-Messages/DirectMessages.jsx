@@ -19,6 +19,31 @@ function DirectMessages() {
   } = useContext(ChatContext);
   const [windowWidth, setWindowWidth] = useState(window.outerWidth);
 
+  // console.log(conversationsRef.current);
+
+  // useEffect(() => {
+  //   conversations.map((conversation) => {
+  //     if (x.conversationId === conversation.contact.username) {
+  //       if (chatContext.conversationId !== '') {
+  //         socket.emit('chat-closed', {
+  //           userId: user.userId,
+  //           conversationId: chatContext.conversationId,
+  //           contactId: chatContext.contact.id,
+  //         });
+  //       }
+  //       setChatContext(conversation);
+  //       // console.log('here', conversation.conversationId);
+  //       setOpenedId(conversation.conversationId);
+  //       socket.emit('chat-opened', {
+  //         userId: user.userId,
+  //         conversationId: conversation.conversationId,
+  //         contactId: conversation.contact.id,
+  //       });
+  //     }
+  //     return conversation;
+  //   });
+  // }, [x.conversationId]);
+
   // We Make this trick because the chatcontext
   // is an object or a complex data structure
   // and we need the last value at the receive event
@@ -29,6 +54,7 @@ function DirectMessages() {
   }, [chatContext]);
 
   // close the opened chat when go to another page
+
   useEffect(
     () => () => {
       if (socket === null) return;
@@ -39,7 +65,7 @@ function DirectMessages() {
         chatContextRef.current.conversationId !== '' &&
         chatContextRef.current.contact.id !== ''
       ) {
-        // console.log('closed');
+        // console.log('closing in clean up function');
         socket.emit('chat-closed', {
           userId: user.userId,
           conversationId: chatContextRef.current.conversationId,

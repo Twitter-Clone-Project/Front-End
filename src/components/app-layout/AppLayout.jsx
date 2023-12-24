@@ -15,6 +15,7 @@ function AppLayout() {
       newSocket.emit('add-user', { userId: user.userId });
     });
     setSocket(newSocket);
+    // console.log('layout', newSocket);
     return () => {
       if (newSocket.connected) {
         newSocket.disconnect();

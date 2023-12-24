@@ -5,10 +5,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
-
 import PropTypes from 'prop-types';
 import Time from './Time';
-
 import { ChatContext } from '../../hooks/ContactContext';
 import { useAuth } from '../../hooks/AuthContext';
 
@@ -25,21 +23,14 @@ function ConversationCard({ conversationData }) {
     openedId,
   } = useContext(ChatContext);
   const { user } = useAuth();
-  const x = useParams();
+
+  const { conversationId } = useParams();
 
   useEffect(() => {
     conversations.map((conversation) => {
-      if (x.conversationId === conversation.contact.username) {
-        if (chatContext.conversationId !== '') {
-          socket.emit('chat-closed', {
-            userId: user.userId,
-            conversationId: chatContext.conversationId,
-            contactId: chatContext.contact.id,
-          });
-        }
+      if (conversationId === conversation.contact.username) {
         setChatContext(conversation);
-        // console.log('here', conversation.conversationId);
-        setOpenedId(conversation.conversationId);
+        // console.log('chat-opened', socket);
         socket.emit('chat-opened', {
           userId: user.userId,
           conversationId: conversation.conversationId,
@@ -48,7 +39,7 @@ function ConversationCard({ conversationData }) {
       }
       return conversation;
     });
-  }, [x.conversationId]);
+  }, [conversationId]);
 
   return (
     <Link
@@ -64,7 +55,8 @@ function ConversationCard({ conversationData }) {
           if (chatContext.conversationId === '') {
             // console.log('First open id:', conversationData.conversationId);
             setChatContext({ ...conversationData });
-            // setOpenedId(conversationData.conversationId);
+
+            // mark this converstiona as seen
             const conversationIndex = conversations.findIndex(
               (conv) => conv.conversationId === conversationData.conversationId,
             );
@@ -73,7 +65,6 @@ function ConversationCard({ conversationData }) {
               updatedConversations[conversationIndex].isConversationSeen = true;
               setConversations(updatedConversations);
             }
-
             socket.emit('chat-opened', {
               userId: user.userId,
               conversationId: conversationData.conversationId,
@@ -89,7 +80,15 @@ function ConversationCard({ conversationData }) {
               contactId: chatContext.contact.id,
             });
             setChatContext({ ...conversationData });
-            setOpenedId(conversationData.conversationId);
+            // mark this converstiona as seen
+            const conversationIndex = conversations.findIndex(
+              (conv) => conv.conversationId === conversationData.conversationId,
+            );
+            if (conversationIndex !== -1) {
+              const updatedConversations = [...conversations];
+              updatedConversations[conversationIndex].isConversationSeen = true;
+              setConversations(updatedConversations);
+            }
             // console.log('opening id', conversationData.conversationId);
             socket.emit('chat-opened', {
               userId: user.userId,
