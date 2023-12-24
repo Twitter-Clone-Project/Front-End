@@ -62,11 +62,11 @@ function LikersList() {
 
   return (
     <div
-      className="small:w-screen flex h-full min-h-screen w-full justify-center bg-white 
-      dark:bg-pure-black 
+      className="flex h-full min-h-screen w-full justify-center bg-white dark:bg-pure-black 
       sm:w-[560px] 
-      md:w-[600px]
-      xl:w-[600px]"
+      md:w-[600px] 
+      xl:w-[600px]
+      small:w-screen"
       data-testid="likers-list"
     >
       <div className="w-full overflow-y-clip bg-white dark:bg-pure-black">
@@ -116,7 +116,7 @@ function LikersList() {
                   userName={userDetails.name}
                   userID={userDetails.screenName}
                   discription=""
-                  following={userDetails.followingsCount}
+                  following={userDetails.followingCount}
                   followers={userDetails.followersCount}
                   testID={index}
                   itemID={userDetails.id}

@@ -60,11 +60,11 @@ function RetweetersList() {
 
   return (
     <div
-      className="small:w-screen flex h-full min-h-screen w-full justify-center bg-white
-      dark:bg-pure-black 
-      sm:w-[560px]
+      className="flex h-full min-h-screen w-full justify-center bg-white dark:bg-pure-black
+      sm:w-[560px] 
       md:w-[600px]
       xl:w-[600px]
+      small:w-screen
       "
       data-testid="retweeters-list"
     >
@@ -115,7 +115,7 @@ function RetweetersList() {
                   userName={userItem.name}
                   userID={userItem.screenName}
                   discription={userItem.bio}
-                  following={userItem.followingsCount}
+                  following={userItem.followingCount}
                   followers={userItem.followersCount}
                   testID={index}
                   itemID={userItem.id}

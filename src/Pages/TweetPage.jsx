@@ -264,7 +264,7 @@ function TweetPage() {
               <AddReply
                 setReplies={setReplies}
                 tweetId={tweetId}
-                replyFor={tweetData[0].user.userName}
+                replyFor={tweetData[0].user.username}
               />
             </div>
             <div className="w-full">
