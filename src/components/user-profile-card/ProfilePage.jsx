@@ -67,7 +67,9 @@ function ProfilePage() {
           data-testid={`${username}-profile`}
           className="border-x-0 border-x-x-light-gray dark:border-border-gray dark:text-white sm:border-x-[1px]"
         >
-          <SettingsHeader title={user.name} />
+          <div className="sticky top-0 z-50">
+            <SettingsHeader title={user.name} />
+          </div>
           <div
             className={`${
               user.isBlockingMe ? '' : 'border-b-[1px]'
