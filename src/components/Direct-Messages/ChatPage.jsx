@@ -43,8 +43,8 @@ function ChatPage() {
     return (
       <div
         data-testid="chat-page"
-        className={`flex h-screen  max-w-full flex-col border-x-[1px]
-          border-[#f6f8f9] dark:border-[#252829] dark:bg-black  
+        className={`flex h-screen  max-w-full flex-col border-r-[1px]
+        border-[#E1E8ED] dark:border-[#252829] dark:bg-black  
           ${windowWidth > 640 ? 'w-[559px]' : ' w-screen'}
         `}
       >

@@ -58,30 +58,26 @@ function ProfilePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, curUser, username]);
   if (!found) return <NoProfile />;
+  if (isLoading) return <Spinner />;
   return (
-    <>
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <div
-          data-testid={`${username}-profile`}
-          className="border-x-0 border-x-x-light-gray dark:border-border-gray dark:text-white sm:border-x-[1px]"
-        >
-          <SettingsHeader title={user.name} />
-          <div
-            className={`${
-              user.isBlockingMe ? '' : 'border-b-[1px]'
-            } border-x-x-light-gray dark:border-border-gray`}
-          >
-            <UserProfileCard user={user} />
+    <div
+      data-testid={`${username}-profile`}
+      className="border-x-0 border-x-x-light-gray dark:border-border-gray dark:text-white sm:border-x-[1px]"
+    >
+      <div className="sticky top-0 z-50">
+        <SettingsHeader title={user.name} />
+      </div>
+      <div
+        className={`${
+          user.isBlockingMe ? '' : 'border-b-[1px]'
+        } border-x-x-light-gray dark:border-border-gray`}
+      >
+        <UserProfileCard user={user} />
 
-            {!user.isBlockingMe && <ListNav items={ListNavItems} />}
-          </div>
-          <Outlet />
-        </div>
-      )}
-      <OwnToaster />
-    </>
+        {!user.isBlockingMe && <ListNav items={ListNavItems} />}
+      </div>
+      <Outlet />
+    </div>
   );
 }
 

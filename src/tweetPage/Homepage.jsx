@@ -108,7 +108,6 @@ function Homepage() {
           )}
         </PullToRefresh>
       </div>
-      <OwnToaster />
     </div>
   );
 }

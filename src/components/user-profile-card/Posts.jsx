@@ -161,7 +161,6 @@ function Posts() {
               </PullToRefresh>
             </div>
           )}
-          <OwnToaster />
         </div>
       ) : (
         <NoResults title="You’re blocked" />

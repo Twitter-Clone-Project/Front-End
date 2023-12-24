@@ -19,7 +19,6 @@ function AddResults({ value, setPerson, deletePerson }) {
       );
       const Json = await response.json();
       const { data } = Json;
-      // console.log(data);
       setResults(data);
     };
     if (value && value !== '') fetchData();

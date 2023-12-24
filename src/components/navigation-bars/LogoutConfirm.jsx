@@ -78,7 +78,6 @@ function LogoutConfirm() {
           />
         </div>
       </div>
-      <OwnToaster />
     </ConfirmPopUp>
   );
 }

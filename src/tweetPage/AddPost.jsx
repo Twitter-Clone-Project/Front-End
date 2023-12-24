@@ -219,7 +219,6 @@ function AddPost({ setTweets }) {
           </div>
         </div>
       </div>
-      <OwnToaster />
     </div>
   );
 }

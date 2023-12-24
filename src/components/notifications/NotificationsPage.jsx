@@ -15,11 +15,9 @@ function NotificationsPage() {
   const { user } = useAuth();
 
   useEffect(() => {
-    // console.log('in Notification page');
     if (socket === null) return;
     const notificationListener = (notification) => {
       socket.emit('mark-notifications-as-seen', { userId: user.userId });
-      // console.log('Add Notification to the socket list');
       setSocketNotifications((prevSocketNotifications) => [
         ...prevSocketNotifications,
         notification,
@@ -48,7 +46,6 @@ function NotificationsPage() {
         if (data.status === false) {
           throw new Error(data.message);
         }
-        // console.log(data.data);
         setNotifications(data.data.notifications);
         setSocketNotifications([]);
         socket.emit('mark-notifications-as-seen', { userId: user.userId });
@@ -74,11 +71,11 @@ function NotificationsPage() {
   return (
     <div
       data-testid="notifications-page"
-      className="small:w-screen flex  h-screen flex-col border-x-[1px] border-[#f6f8f9] 
-      dark:border-[#252829]
-      sm:w-[560px] 
+      className="flex h-screen  flex-col border-x-[1px]  border-[#E1E8ED] dark:border-[#252829] 
+      sm:w-[560px]
       md:w-[600px] 
-      xl:w-[600px]
+      xl:w-[600px] 
+      small:w-screen
       "
     >
       <div>
@@ -88,7 +85,7 @@ function NotificationsPage() {
           </div>
         </div>
       </div>
-      <div className="border-b-[1px] border-[#f6f8f9]  dark:border-[#252829]">
+      <div className="border-b-[1px] border-[#E1E8ED]  dark:border-[#252829]">
         <ListNav
           data-testid="notifications-page-list-nav"
           items={[

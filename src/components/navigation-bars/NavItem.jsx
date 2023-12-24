@@ -1,19 +1,123 @@
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { ChatContext } from '../../hooks/ContactContext';
+import { useAuth } from '../../hooks/AuthContext';
 
 function NavItem({ label, outlinedIcon, filledIcon, path, hidden = true }) {
   // eslint-disable-next-line no-unused-vars
   const location = useLocation();
-  const { messagesCount, notificationsCount, setNotificationsCount } =
-    useContext(ChatContext);
+  const { user } = useAuth();
+
+  const {
+    messagesCount,
+    notificationsCount,
+    setNotificationsCount,
+    setChatContext,
+    chatContext,
+    socket,
+  } = useContext(ChatContext);
+
+  const chatContextRef = useRef();
+  useEffect(() => {
+    chatContextRef.current = chatContext;
+  }, [chatContext]);
 
   return (
     <div className="flex content-start items-start justify-between p-3 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout  hover:dark:bg-hover-layout">
       <NavLink
         onClick={() => {
           if (label === 'Notifications') setNotificationsCount(0);
+          if (label !== 'Messages') {
+            // console.log('close form navitem', socket);
+            if (socket === null) return;
+            if (
+              chatContextRef.current &&
+              user &&
+              user.userId &&
+              chatContextRef.current.conversationId !== '' &&
+              chatContextRef.current.contact.id !== ''
+            ) {
+              socket.emit('chat-closed', {
+                userId: user.userId,
+                conversationId: chatContextRef.current.conversationId,
+                contactId: chatContextRef.current.contact.id,
+              });
+            }
+            setChatContext({
+              conversationId: '',
+              isConversationSeen: false,
+              contact: {
+                id: '',
+                email: '',
+                name: '',
+                username: '',
+                imageUrl: '',
+                followersCount: '',
+                createdAt: '',
+                commonFollowers: [
+                  {
+                    name: '',
+                    username: '',
+                    imageUrl: '',
+                  },
+                  {
+                    name: '',
+                    username: '',
+                    imageUrl: null,
+                  },
+                ],
+                commonFollowersCnt: 0,
+              },
+              lastMessage: {
+                id: '',
+                text: '',
+                timestamp: '',
+                isSeen: '',
+              },
+            });
+          }
+          if (label === 'Messages') {
+            if (chatContext.conversationId !== '') {
+              socket.emit('chat-closed', {
+                userId: user.userId,
+                conversationId: chatContext.conversationId,
+                contactId: chatContext.contact.id,
+              });
+            }
+            setChatContext({
+              conversationId: '',
+              isConversationSeen: false,
+              contact: {
+                id: '',
+                email: '',
+                name: '',
+                username: '',
+                imageUrl: '',
+                followersCount: '',
+                createdAt: '',
+                commonFollowers: [
+                  {
+                    name: '',
+                    username: '',
+                    imageUrl: '',
+                  },
+                  {
+                    name: '',
+                    username: '',
+                    imageUrl: null,
+                  },
+                ],
+                commonFollowersCnt: 0,
+              },
+              lastMessage: {
+                id: '',
+                text: '',
+                timestamp: '',
+                isSeen: '',
+              },
+            });
+          }
         }}
         to={path}
         data-testid={label}
