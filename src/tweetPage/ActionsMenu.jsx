@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { useAuth } from '../hooks/AuthContext';
 import OwnToaster from '../components/OwnToaster';
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 
 function ActionsMenu({ userId, tweet, tweets, setTweets }) {
   const { user } = useAuth();
@@ -65,9 +65,6 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
         }
         return response.json();
       })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
@@ -107,9 +104,6 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
         }
         return response.json();
       })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
@@ -141,9 +135,6 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
           toast(`You followed @${tweet.user.username}`);
         }
         return response.json();
-      })
-      .then((data) => {
-        console.log('Response data:', data);
       })
       .catch((error) => {
         console.error('Error during fetch:', error);
@@ -178,9 +169,6 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
         }
         return response.json();
       })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
@@ -203,10 +191,8 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
   const handleFollow = () => {
     if (!followed) {
       followReq();
-      console.log('follow');
     } else {
       unFollowReq();
-      console.log('unfollow');
     }
     toggleShow(false);
   };

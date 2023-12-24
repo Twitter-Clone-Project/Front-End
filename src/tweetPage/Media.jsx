@@ -4,7 +4,6 @@ import { v4 as uuid4 } from 'uuid';
 import { Skeleton } from '@mui/material';
 
 function Media({ images }) {
-  // console.log(images);
   const [isLoading, setIsLoading] = useState(true);
   if (images) {
     const [isVideo, setIsVideo] = useState(false);
@@ -35,6 +34,7 @@ function Media({ images }) {
                   variant="rectangular"
                   width={500}
                   height={500}
+                  key={uuid4()}
                 />
               )}
               <img

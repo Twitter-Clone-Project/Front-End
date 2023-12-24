@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
-// import Media from './Media';
 import { Link } from 'react-router-dom';
 import AddEmoji from './AddEmoji';
 import TextField from './TextField';
@@ -167,7 +166,6 @@ function AddPost({ setTweets }) {
               setText={setText}
             />
           </div>
-          {/* <Media images={filesURLs} /> */}
           <MediaRemove
             filesURLs={filesURLs}
             setFilesURLs={setFilesURLs}

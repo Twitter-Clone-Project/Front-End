@@ -27,7 +27,7 @@ const user = {
   userId: '123',
   username: 'janesmith',
   screenName: 'Jane Smith',
-  profileImageURL: 'https://example.com/profile.jpg',
+  imageUrl: 'https://example.com/profile.jpg',
   bio: "I'm the original user.",
   followersCount: 2000,
   followingCount: 1000,
@@ -81,8 +81,6 @@ describe('Add Post', () => {
       `/app/${user.username}`,
       expect.any(Object),
     );
-
-    // screen.debug();
   });
 
   it('shows the emoji picker on click on emoji icon', () => {
@@ -97,7 +95,6 @@ describe('Add Post', () => {
     const emojiBtn = getByTestId('emojiBtn');
     fireEvent.click(emojiBtn);
     expect(getByTestId('emojiPicker')).toBeInTheDocument();
-    // screen.debug();
   });
 
   it('should disable post button in case of no text', () => {

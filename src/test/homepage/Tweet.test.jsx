@@ -21,7 +21,7 @@ const data = [
       userId: '789',
       username: 'johndoe',
       screenName: 'John Doe',
-      profileImageURL: 'https://example.com/profile.jpg',
+      imageUrl: 'https://example.com/profile.jpg',
       bio: "I'm a retweeted user.",
       followersCount: 1000,
       followingCount: 500,
@@ -32,7 +32,7 @@ const data = [
       userId: '123',
       username: 'janesmith',
       screenName: 'Jane Smith',
-      profileImageURL: 'https://example.com/profile.jpg',
+      imageUrl: 'https://example.com/profile.jpg',
       bio: "I'm the original user.",
       followersCount: 2000,
       followingCount: 1000,
@@ -118,7 +118,6 @@ describe('Tweet', () => {
     fireEvent.mouseEnter(imageElement);
     const userPopup = getByTestId(`popover${data[0].id}`);
     expect(userPopup).toBeInTheDocument();
-    // screen.debug();
   });
 
   it('shows the actions menu on click on click on the 3 dots ', () => {
@@ -140,7 +139,6 @@ describe('Tweet', () => {
     const menubtn = getByTestId('123456menubtn');
     fireEvent.click(menubtn);
     expect(getByTestId('123456menu')).toBeInTheDocument();
-    // screen.debug();
   });
 
   it('navigates to the profile on click on the screenName', () => {
@@ -166,8 +164,6 @@ describe('Tweet', () => {
       `/app/${data[0].user.username}`,
       expect.any(Object),
     );
-
-    // screen.debug();
   });
 
   it('navigates to the tweetpage on click on the reply', () => {
@@ -192,8 +188,6 @@ describe('Tweet', () => {
       `/app/tweets/${data[0].id}`,
       expect.any(Object),
     );
-
-    // screen.debug();
   });
 
   it('has like button that change color and count on click ', () => {
