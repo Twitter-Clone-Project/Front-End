@@ -23,6 +23,7 @@ function PopoverUserCard({
   popoverSetLocalIsFollowed,
   popoverIsBlocked,
   popoverIsMuted,
+  userId,
 }) {
   const { user: curUser } = useAuth();
 
@@ -43,6 +44,9 @@ function PopoverUserCard({
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         popoverSetLocalIsFollowed(!popoverIsFollowed);
+        document.dispatchEvent(
+          new CustomEvent(`${userId}-user`, { detail: 'follow' }),
+        );
         return response.json();
       })
       .then((data) => {
@@ -69,6 +73,9 @@ function PopoverUserCard({
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         popoverSetLocalIsFollowed(!popoverIsFollowed);
+        document.dispatchEvent(
+          new CustomEvent(`${userId}-user`, { detail: 'unFollow' }),
+        );
         return response.json();
       })
       .then((data) => {

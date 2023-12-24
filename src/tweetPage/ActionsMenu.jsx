@@ -9,6 +9,26 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
   const [show, toggleShow] = useState(false);
   const dropdownRef = useRef(null);
   const [followed, toggleFollowed] = useState(tweet.user.isFollowed);
+  useEffect(() => {
+    const handleActions = (e) => {
+      switch (e.detail) {
+        case 'follow': {
+          toggleFollowed(true);
+          break;
+        }
+        case 'unFollow': {
+          toggleFollowed(false);
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    };
+    document.addEventListener(`${tweet.user.userId}-user`, handleActions);
+    return () =>
+      document.removeEventListener(`${tweet.user.userId}-user`, handleActions);
+  }, [tweet.user.userId]);
 
   const blockReq = () => {
     fetch(
@@ -35,6 +55,9 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
               (atweet) => atweet.user.username !== tweet.user.username,
             );
             setTweets(newTweets);
+            document.dispatchEvent(
+              new CustomEvent(`${tweet.user.userId}-user`, { detail: 'block' }),
+            );
           }
           toast(`Successfully blocked`);
           toggleShow(false);
@@ -74,6 +97,9 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
               (atweet) => atweet.user.username !== tweet.user.username,
             );
             setTweets(newTweets);
+            document.dispatchEvent(
+              new CustomEvent(`${tweet.user.userId}-user`, { detail: 'mute' }),
+            );
           }
           toast(`@${tweet.user.username} has been muted`);
           toggleShow(false);
@@ -108,7 +134,9 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         } else {
-          toggleFollowed((prev) => !prev);
+          document.dispatchEvent(
+            new CustomEvent(`${tweet.user.userId}-user`, { detail: 'follow' }),
+          );
           toast(`You followed @${tweet.user.username}`);
         }
         return response.json();
@@ -140,8 +168,12 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         } else {
-          toggleFollowed((prev) => !prev);
           toast(`You unfollowed @${tweet.user.username}`);
+          document.dispatchEvent(
+            new CustomEvent(`${tweet.user.userId}-user`, {
+              detail: 'unFollow',
+            }),
+          );
         }
         return response.json();
       })
@@ -198,7 +230,9 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
         const res = await response.json();
         if (res.status) {
           if (tweets) {
-            const delEvent = new CustomEvent(`${tweet.id}`, { detail: 'del' });
+            const delEvent = new CustomEvent(`${tweet.id}-tweet`, {
+              detail: 'del',
+            });
             document.dispatchEvent(delEvent);
           }
         }
