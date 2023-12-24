@@ -81,7 +81,7 @@ function SearchResult({ data, searchPage }) {
       <div className="pr-2">
         {searchPage ? (
           <PopoverUserCard
-            popoverIsFollowed={data.isFollowed}
+            popoverIsFollowed={followed}
             popoverUserPicture={
               data.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
             }
