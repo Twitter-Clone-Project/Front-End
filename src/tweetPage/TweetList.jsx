@@ -14,7 +14,7 @@ function TweetList({ data, setTweets }) {
           setTweets={setTweets}
         />
       )),
-    [data],
+    [data, setTweets],
   );
   return (
     <div

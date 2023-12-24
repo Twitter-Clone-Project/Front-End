@@ -35,6 +35,13 @@ function UnMemoTweet({
   const [isFollowing, setIsFollowing] = useState(data.user.isFollowing);
   const [isBlocked, setIsBlocked] = useState(data.user.isBlocked || false);
   const [isMuted, setIsMuted] = useState(data.user.isMuted || false);
+  const [followersCount, setFollowersCount] = useState(
+    data.user.followersCount,
+  );
+  const [followingsCount, setFollowingsCount] = useState(
+    data.user.followingCount,
+  );
+  // const { user: curUser } = useAuth();
   const location = useLocation();
   const [images, setImages] = useState();
   useEffect(() => {
@@ -299,8 +306,8 @@ function UnMemoTweet({
           popoverUserName={data.user.screenName}
           popoverUserID={data.user.username}
           popoverDiscription={data.user.bio}
-          popoverFollowing={data.user.followingCount}
-          popoverFollowers={data.user.followersCount}
+          popoverFollowing={followingsCount}
+          popoverFollowers={followersCount}
           popoverTestID={`${data.user.username}-popover`}
           popoverSetLocalIsFollowed={setIsFollowed}
           popoverIsBlocked={isBlocked}
@@ -476,11 +483,7 @@ Tweet.propTypes = {
 };
 
 Tweet.defaultProps = {
-  setFetchLikes: () => {
-    // console.log('Hi');
-  },
-  setFetchRetweets: () => {
-    // console.log('Hi');
-  },
+  setFetchLikes: () => {},
+  setFetchRetweets: () => {},
 };
 export default Tweet;

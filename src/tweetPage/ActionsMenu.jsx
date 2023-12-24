@@ -366,10 +366,11 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
                 <DropdownMenu.Item>
                   <button
                     type="submit"
+                    className="w-[100%]"
                     onClick={() => handleDelete()}
                   >
-                    <div className="me flex h-[50px] flex-row text-warning  hover:bg-xx-light-gray dark:hover:bg-hover-layout ">
-                      <div className="py-4 pl-4">
+                    <div className="me flex  h-[50px]  flex-row text-warning  hover:bg-xx-light-gray dark:hover:bg-hover-layout ">
+                      <div className="py-4 pl-4 ">
                         <svg
                           viewBox="0 0 25 25"
                           className="h-[20px] w-[20px] "
