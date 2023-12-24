@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, Outlet } from 'react-router';
-import OwnToaster from '../../components/OwnToaster';
+// import OwnToaster from '../../components/OwnToaster';
 import SearchBar from '../../components/search-bar/SearchBar';
 import ListNav from '../../components/navigation-bars/ListNav';
 
@@ -77,7 +77,6 @@ function SearchPage() {
         </div>
         <Outlet />
       </div>
-      <OwnToaster />
     </div>
   );
 }

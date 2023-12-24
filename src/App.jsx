@@ -46,6 +46,7 @@ import UpdateEmail from './components/Settings-page/UpdateEmail';
 import UpdateUsername from './components/Settings-page/UpdateUsername';
 import EmailFlow from './components/Settings-page/EmailFlow';
 import NotFound from './components/not-found/NotFound';
+import OwnToaster from './components/OwnToaster';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -67,7 +68,11 @@ function App() {
         });
         const data = await res.json();
         if (data.status === false) throw new Error(data.message);
-        dispatch({ type: 'LOGIN', payload: data.data.user });
+        dispatch({
+          type: 'LOGIN',
+          payload: data.data.user,
+          token: data.token,
+        });
       } catch (err) {
         dispatch({ type: 'LOGOUT' });
       } finally {
@@ -352,7 +357,12 @@ function App() {
             </Route>
             <Route
               path="/app/explore"
-              element={<TrandsPage />}
+              element={
+                <div className="flex gap-8">
+                  <TrandsPage />
+                  <RightNavBar />
+                </div>
+              }
             />
           </Route>
           <Route
@@ -361,6 +371,7 @@ function App() {
           />
         </Routes>
       </BrowserRouter>
+      <OwnToaster />
     </div>
   );
 }

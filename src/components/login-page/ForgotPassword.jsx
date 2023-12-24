@@ -83,7 +83,6 @@ function ForgotPassword() {
           </div>
         </BoxCard>
       )}
-      <OwnToaster />
     </div>
   );
 }

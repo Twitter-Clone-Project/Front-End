@@ -8,7 +8,7 @@ function TweetList({ data, setTweets }) {
     () =>
       data.map((tweetItem) => (
         <Tweet
-          key={tweetItem.id}
+          key={`${tweetItem.id}-${tweetItem.isRetweet}`}
           data={tweetItem}
           tweets={data}
           setTweets={setTweets}

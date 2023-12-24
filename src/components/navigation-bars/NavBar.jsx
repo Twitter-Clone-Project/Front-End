@@ -23,6 +23,11 @@ function NavBar() {
     chatContext,
   } = useContext(ChatContext);
 
+  const chatContextRef = useRef();
+  useEffect(() => {
+    chatContextRef.current = chatContext;
+  }, [chatContext]);
+
   // Messages
   useEffect(() => {
     const fetchCount = async () => {
@@ -81,19 +86,24 @@ function NavBar() {
 
   useEffect(() => {
     if (socket === null) return;
-    socket.on('msg-receive', async (message) => {
-      if (message.conversationId !== chatContext.conversationId) {
+    const navBarListener = (message) => {
+      if (
+        chatContextRef &&
+        message.conversationId !== chatContextRef.current.conversationId
+      ) {
         setMessagesCount(messagesCount + 1);
       }
-    });
+    };
+    socket.on('msg-receive', navBarListener);
+    return () => {
+      socket.off('msg-receive', navBarListener);
+    };
   }, [socket]);
 
   useEffect(() => {
-    // console.log('in NavBar');
     if (socket === null) return;
 
     socket.on('notification-receive', async () => {
-      // console.log('navbar increase count');
       setNotificationsCount(
         (prevNotificationsCount) => prevNotificationsCount + 1,
       );
@@ -221,6 +231,7 @@ function NavBar() {
       screen.current.addEventListener('keydown', handler);
     } else screen.current.removeEventListener('keydown', handler);
   }, [drawerOpen]);
+  // eslint-disable-next-line no-useless-escape
   const regex = /messages\/[^\/]+/;
 
   const hidden = location.pathname.match(regex);
