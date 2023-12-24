@@ -6,11 +6,18 @@ import { ChatContext } from '../../hooks/ContactContext';
 import { useAuth } from '../../hooks/AuthContext';
 
 function AppLayout() {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const { setSocket } = useContext(ChatContext);
 
   useEffect(() => {
-    const newSocket = io(`${import.meta.env.VITE_SOCKET_DOMAIN}`);
+    const newSocket = io(`${import.meta.env.VITE_SOCKET_DOMAIN}`, {
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
+      extraHeaders: {
+        token,
+      },
+    });
     newSocket.on('connect', () => {
       newSocket.emit('add-user', { userId: user.userId });
     });
@@ -21,7 +28,8 @@ function AppLayout() {
       }
     };
   }, [user.userId]);
-
+  const s = useAuth();
+  console.log(s);
   return (
     <div className="min-h-full w-full">
       <div className="layout mx-auto flex  h-full w-full min-w-[250px] flex-1 justify-center">
