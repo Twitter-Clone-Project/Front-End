@@ -31,11 +31,11 @@ function SearchPage() {
   ];
   return (
     <div
-      className="small:w-screen flex h-auto w-full max-w-[620px] flex-col border-border-gray
-      sm:w-[560px]
-      sm:border-x-[1px] 
+      className="flex h-auto w-full max-w-[620px] flex-col border-border-gray sm:w-[560px]
+      sm:border-x-[1px]
       md:w-[600px] 
-      xl:w-[600px]
+      xl:w-[600px] 
+      small:w-screen
       "
       data-testid={`${value}-search-page`}
     >
@@ -78,7 +78,6 @@ function SearchPage() {
         </div>
         <Outlet />
       </div>
-      <OwnToaster />
     </div>
   );
 }

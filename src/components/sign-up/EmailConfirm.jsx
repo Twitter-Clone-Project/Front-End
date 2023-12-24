@@ -132,7 +132,6 @@ function EmailConfirm({ email, type = 'reset', onClose, onSuccess }) {
           </div>
         </BoxCard>
       )}
-      <OwnToaster />
     </div>
   );
 }

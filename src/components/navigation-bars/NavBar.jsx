@@ -231,6 +231,7 @@ function NavBar() {
       screen.current.addEventListener('keydown', handler);
     } else screen.current.removeEventListener('keydown', handler);
   }, [drawerOpen]);
+  // eslint-disable-next-line no-useless-escape
   const regex = /messages\/[^\/]+/;
 
   const hidden = location.pathname.match(regex);

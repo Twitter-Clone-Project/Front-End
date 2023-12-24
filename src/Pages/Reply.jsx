@@ -144,7 +144,6 @@ function Reply({ data, tweetId, replies, setReplies }) {
           })}
         </div>
       </div>
-      <OwnToaster />
     </div>
   );
 }

@@ -283,7 +283,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
             <div
               id="myDropdown"
               data-testid={`${tweet.id}menu`}
-              className="dropdown-content right-0 z-10 flex w-[200px] flex-col rounded-2xl bg-white py-3 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] dark:bg-pure-black dark:text-white dark:shadow-white sm:w-[250px] md:w-[280px]"
+              className="dropdown-content right-0 z-10 flex w-[200px] flex-col rounded-2xl bg-white py-3 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] dark:bg-pure-black dark:text-white dark:shadow-sm dark:shadow-white sm:w-[250px] md:w-[280px]"
             >
               {userId !== user.userId && (
                 <div className="anotheruser  h-[175px] py-1 ">
@@ -402,7 +402,6 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
                 </DropdownMenu.Item>
               )}
             </div>
-            <OwnToaster />
           </DropdownMenu.Content>
         </DropdownMenu.Portal>
       </div>

@@ -118,7 +118,6 @@ function Login() {
           </div>
         </BoxCard>
       )}
-      <OwnToaster />
     </div>
   );
 }

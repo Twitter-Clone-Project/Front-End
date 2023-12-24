@@ -147,7 +147,6 @@ function NewPassword({ email, user }) {
           </div>
         </BoxCard>
       )}
-      <OwnToaster />
     </div>
   );
 }

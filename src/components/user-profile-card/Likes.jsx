@@ -44,7 +44,6 @@ function Likes() {
     }
   }, [username]);
   const fetchTweets = useCallback(async () => {
-    console.log(page, '---', posts.length, '---', total);
     if (isLoading || isDone) return;
     try {
       setIsLoading(true);
@@ -89,7 +88,6 @@ function Likes() {
   useEffect(() => {
     if (error !== '') toast(error);
   }, [error]);
-  console.log(posts.length < total);
   return (
     <div
       className="flex sm:block"
@@ -133,7 +131,6 @@ function Likes() {
             </PullToRefresh>
           </div>
         )}
-        <OwnToaster />
       </div>
     </div>
   );

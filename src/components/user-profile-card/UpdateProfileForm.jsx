@@ -422,7 +422,6 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
           </BoxCard>
         </>
       )}
-      <OwnToaster />
     </div>
   );
 }
