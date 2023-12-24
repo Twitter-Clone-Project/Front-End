@@ -1,12 +1,7 @@
 import React from 'react';
 import * as router from 'react-router';
 import UserItem from '../../components/userComponents/UserItem';
-import {
-  fireEvent,
-  render,
-  waitFor,
-  waitForElementToBeRemoved,
-} from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import ProtectedRoute from '../../components/ProtectedRoute';
