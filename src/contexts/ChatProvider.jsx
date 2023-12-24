@@ -16,7 +16,6 @@ export function ChatProvider({ children }) {
   const [notificationsCount, setNotificationsCount] = useState(0);
   const [notifications, setNotifications] = useState([]);
   const [socketNotifications, setSocketNotifications] = useState([]);
-  const [openedId, setOpenedId] = useState('');
 
   const [chatContext, setChatContext] = useState({
     conversationId: '',
@@ -75,8 +74,6 @@ export function ChatProvider({ children }) {
           setNotifications,
           socketNotifications,
           setSocketNotifications,
-          openedId,
-          setOpenedId,
         }),
         [
           chatContext,
@@ -99,8 +96,6 @@ export function ChatProvider({ children }) {
           setNotifications,
           socketNotifications,
           setSocketNotifications,
-          openedId,
-          setOpenedId,
         ],
       )}
     >
