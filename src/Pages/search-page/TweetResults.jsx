@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router';
 import toast from 'react-hot-toast';
@@ -52,6 +53,7 @@ function TweetResults() {
   }, [isLoading, page, isDone, value]);
 
   useEffect(() => {
+    if (!value) return;
     const getInitialResults = async () => {
       try {
         setIsLoading(true);
@@ -96,7 +98,7 @@ function TweetResults() {
 
   return (
     <div data-testid={`${value}-tweet-results`}>
-      {isLoading ? (
+      {isLoading && results.length === 0 ? (
         <Spinner />
       ) : (
         // eslint-disable-next-line react/jsx-no-useless-fragment
@@ -111,8 +113,11 @@ function TweetResults() {
               data-testid={`${value}-tweet-results-list`}
               className="flex w-full flex-col items-center"
             >
-              {results.map((result) => (
-                <Tweet data={result} />
+              {results.map((result, index) => (
+                <Tweet
+                  data={result}
+                  key={index}
+                />
               ))}
               {isLoading && <DotLoader />}
             </div>

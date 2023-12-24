@@ -69,8 +69,8 @@ function LikersList() {
       small:w-screen"
       data-testid="likers-list"
     >
-      <div className="w-full overflow-y-clip bg-white dark:bg-pure-black">
-        <div className=" flex flex-row justify-between border-b border-border-gray pt-4 hover:cursor-pointer">
+      <div className="w-full overflow-y-clip border-x  border-x-x-light-gray bg-white dark:border-border-gray dark:bg-pure-black">
+        <div className="flex flex-row border-b border-x-light-gray pt-4 hover:cursor-pointer dark:border-border-gray">
           <div className="flex h-[53px] px-4 ">
             <div className="flex items-center">
               <div

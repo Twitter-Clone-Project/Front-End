@@ -178,10 +178,10 @@ function TweetPage() {
 
   return (
     <div
-      className="mb-20  min-h-[calc(100%-60px)] w-full max-w-[620px] border-border-gray dark:text-white sm:my-auto sm:min-h-full sm:border-x-[1px]"
+      className="mb-20  min-h-[calc(100%-60px)]  w-full max-w-[620px] border-x-light-gray dark:border-border-gray dark:text-white sm:my-auto sm:min-h-full sm:border-x-[1px]"
       data-testid="tweet-page"
     >
-      <div className="mx-2 flex flex-col items-start justify-start">
+      <div className="flex w-full flex-col items-start justify-start">
         <div className="flex flex-wrap items-center">
           <div className="mb-2 mt-[9px] flex h-7 w-7 items-center justify-center rounded-full hover:bg-x-light-gray hover:dark:bg-light-thin">
             <svg
@@ -217,7 +217,10 @@ function TweetPage() {
               data-testid="tweet-component"
             >
               {tweetData.map((tweetItem, index) => (
-                <div data-testid={`tweet-${tweetItem.id}`}>
+                <div
+                  className="w-full"
+                  data-testid={`tweet-${tweetItem.id}`}
+                >
                   <Tweet
                     data={tweetItem}
                     // eslint-disable-next-line react/no-array-index-key
@@ -236,27 +239,29 @@ function TweetPage() {
               ))}
             </div>
 
-            <div className="flex w-full items-center justify-start gap-3 border-b-[0.5px] border-b-light-gray px-2 py-2 dark:border-b-border-gray">
+            <div className="flex w-full  items-center justify-start gap-3 border-y-[0.5px] border-y-light-gray px-2 py-2 dark:border-y-border-gray">
               <Link
                 to={`/app/tweets/${tweetId}/likes`}
                 relative="path"
-                className="hover:no-underline dark:text-white"
+                className="hover:no-underline"
                 data-testid="likes-list-count"
               >
                 <div className="flex flex-row items-center gap-1">
-                  {tweetData[0].likesCount}
-                  <span className="text-sm text-light-thin">likes</span>
+                  <span className="text-sm text-dark-gray hover:underline">
+                    {tweetData[0].likesCount} likes
+                  </span>
                 </div>
               </Link>
               <Link
                 to={`/app/tweets/${tweetId}/retweets`}
                 relative="path"
-                className="hover:no-underline dark:text-white"
+                className="hover:no-underline"
                 data-testid="retweets-list-count"
               >
                 <div className="flex flex-row items-center gap-1">
-                  {tweetData[0].retweetsCount}
-                  <span className="text-sm text-light-thin">retweets</span>
+                  <span className="text-sm text-dark-gray hover:underline">
+                    {tweetData[0].retweetsCount} retweets
+                  </span>
                 </div>
               </Link>
             </div>

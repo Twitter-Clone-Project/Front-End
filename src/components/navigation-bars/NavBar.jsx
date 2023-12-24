@@ -23,6 +23,11 @@ function NavBar() {
     chatContext,
   } = useContext(ChatContext);
 
+  const chatContextRef = useRef();
+  useEffect(() => {
+    chatContextRef.current = chatContext;
+  }, [chatContext]);
+
   // Messages
   useEffect(() => {
     const fetchCount = async () => {
@@ -81,19 +86,24 @@ function NavBar() {
 
   useEffect(() => {
     if (socket === null) return;
-    socket.on('msg-receive', async (message) => {
-      if (message.conversationId !== chatContext.conversationId) {
+    const navBarListener = (message) => {
+      if (
+        chatContextRef &&
+        message.conversationId !== chatContextRef.current.conversationId
+      ) {
         setMessagesCount(messagesCount + 1);
       }
-    });
+    };
+    socket.on('msg-receive', navBarListener);
+    return () => {
+      socket.off('msg-receive', navBarListener);
+    };
   }, [socket]);
 
   useEffect(() => {
-    // console.log('in NavBar');
     if (socket === null) return;
 
     socket.on('notification-receive', async () => {
-      // console.log('navbar increase count');
       setNotificationsCount(
         (prevNotificationsCount) => prevNotificationsCount + 1,
       );
@@ -221,6 +231,7 @@ function NavBar() {
       screen.current.addEventListener('keydown', handler);
     } else screen.current.removeEventListener('keydown', handler);
   }, [drawerOpen]);
+  // eslint-disable-next-line no-useless-escape
   const regex = /messages\/[^\/]+/;
 
   const hidden = location.pathname.match(regex);
@@ -244,8 +255,8 @@ function NavBar() {
         <div
           className={`fixed bottom-0 left-0 z-10
           flex w-full justify-between
-          border-t-[0.5px] border-border-gray
-          bg-white p-2 dark:bg-pure-black sm:left-auto
+          border-t-[0.5px] border-light-gray bg-white
+          p-2 dark:border-dark-gray dark:bg-pure-black sm:left-auto
           sm:mt-0 sm:h-full sm:w-auto sm:flex-col
           sm:items-start sm:justify-between sm:gap-1 sm:border-0 sm:px-2 
           ${!show ? 'opacity-30 sm:opacity-100' : ''}`}

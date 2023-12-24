@@ -40,9 +40,7 @@ function UserActions({ user }) {
         setLocalIsFollowed(false);
         return response.json();
       })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
+      .then((data) => {})
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
@@ -65,9 +63,7 @@ function UserActions({ user }) {
         setLocalIsBlocked(!localIsBlocked);
         return response.json();
       })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
+      .then((data) => {})
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
@@ -90,9 +86,7 @@ function UserActions({ user }) {
         setLocalIsMuted(!localIsMuted);
         return response.json();
       })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
+      .then((data) => {})
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
@@ -115,9 +109,7 @@ function UserActions({ user }) {
         setLocalIsMuted(!localIsMuted);
         return response.json();
       })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
+      .then((data) => {})
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
@@ -140,9 +132,7 @@ function UserActions({ user }) {
         setLocalIsFollowed(!localIsFollowed);
         return response.json();
       })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
+      .then((data) => {})
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
@@ -166,9 +156,7 @@ function UserActions({ user }) {
         setLocalIsFollowed(!localIsFollowed);
         return response.json();
       })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
+      .then((data) => {})
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
@@ -212,7 +200,7 @@ function UserActions({ user }) {
         {dropDownVisible && (
           <div
             ref={dropDownRef}
-            className="absolute -right-3 top-2 w-max rounded-lg bg-white shadow shadow-light-gray dark:bg-pure-black"
+            className="absolute -right-3 top-2 z-50 w-max max-w-[450px] rounded-lg bg-white shadow shadow-light-gray dark:bg-pure-black"
             data-testid={`${user.username}-UserActions-3`}
           >
             {!localIsBlocked && (
@@ -242,7 +230,9 @@ function UserActions({ user }) {
                     </g>
                   </svg>
                 </div>
-                {localIsMuted ? 'Unmute' : 'Mute'} @{user.username}
+                <div className="w-full max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
+                  {localIsMuted ? 'Unmute' : 'Mute'} @{user.username}
+                </div>
               </div>
             )}
             <div
@@ -271,7 +261,9 @@ function UserActions({ user }) {
                   </g>
                 </svg>
               </div>
-              {localIsBlocked ? 'Unblock' : 'Block'}@{user.username}
+              <div className="w-full max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
+                {localIsBlocked ? 'Unblock' : 'Block'}@{user.username}
+              </div>
             </div>
           </div>
         )}

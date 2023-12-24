@@ -11,18 +11,22 @@ function SearchPage() {
   const [value, setValue] = useState(
     location.search.slice(3, location.search.length),
   );
+  const [queryValue, setQueryValue] = useState();
   const navigate = useNavigate();
   const handelBackButton = () => {
     navigate(prevLoc || -1);
   };
+  useEffect(() => {
+    setQueryValue(location.search.slice(3, location.search.length));
+  }, [location.search]);
   const ListNavItems = [
     {
       label: 'Tweets',
-      path: `/app/search/tweets?q=${value}`,
+      path: `/app/search/tweets?q=${queryValue}`,
     },
     {
       label: 'People',
-      path: `/app/search/users?q=${value}`,
+      path: `/app/search/users?q=${queryValue}`,
     },
   ];
   return (
@@ -65,10 +69,7 @@ function SearchPage() {
           />
         </div>
       </div>
-      <div
-        // data-testid={`${username}-profile`}
-        className="h-full border-x-0 border-light-gray dark:border-border-gray dark:text-white"
-      >
+      <div className="h-full border-x-0 border-light-gray dark:border-border-gray dark:text-white">
         <div
           className={`
                border-light-gray dark:border-border-gray`}
@@ -77,16 +78,8 @@ function SearchPage() {
         </div>
         <Outlet />
       </div>
-      <OwnToaster />
     </div>
   );
 }
-
-// SearchPage.propTypes = {
-//   value: PropTypes.string.isRequired,
-//   setValue: PropTypes.string.isRequired,
-//   // eslint-disable-next-line react/forbid-prop-types
-//   //   tweetData: PropTypes.array.isRequired,
-// };
 
 export default SearchPage;

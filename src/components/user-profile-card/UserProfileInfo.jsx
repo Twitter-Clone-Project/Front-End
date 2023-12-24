@@ -150,9 +150,9 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
               >
                 <span
                   data-testid="following-count"
-                  className="mr-2 cursor-pointer text-pure-black hover:underline dark:text-white"
+                  className="mr-2 cursor-pointer text-pure-black decoration-1 hover:underline dark:text-white"
                 >
-                  {following}
+                  <span className="font-semibold">{following}</span>
                   <span className="text-light-thin"> Following</span>
                 </span>
               </div>
@@ -173,9 +173,9 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
               >
                 <span
                   data-testid="folllowers-count"
-                  className="mr-5  cursor-pointer text-pure-black hover:underline dark:text-white"
+                  className="mr-5  cursor-pointer text-pure-black decoration-1 hover:underline dark:text-white"
                 >
-                  {followers}
+                  <span className="font-semibold">{followers}</span>
                   <span className="text-light-thin"> Followers</span>
                 </span>
               </div>

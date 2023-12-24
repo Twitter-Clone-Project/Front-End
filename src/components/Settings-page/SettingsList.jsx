@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import BackBtn from './BackBtn';
+import { v4 as uuid4 } from 'uuid';
 
 function SettingsList({ windowWidth }) {
   const list = [
@@ -25,8 +26,8 @@ function SettingsList({ windowWidth }) {
 
   if (windowWidth > 988 || window.location.pathname === '/app/settings') {
     return (
-      <div className="h-screen w-full  min-w-[318px] max-w-full flex-col border-l  border-light-gray dark:border-border-gray dark:bg-black">
-        <div className="flex h-[57px] w-full items-center border-b border-light-gray p-2 dark:border-border-gray">
+      <div className="h-screen w-full  min-w-[318px] max-w-full flex-col border-l  border-l-x-light-gray dark:border-border-gray dark:bg-black">
+        <div className="flex h-[57px] w-full items-center border-b border-b-x-light-gray p-2 dark:border-border-gray">
           {windowWidth < 640 && (
             <BackBtn
               onClick={() => {
@@ -41,6 +42,7 @@ function SettingsList({ windowWidth }) {
         <div className="flex flex-col">
           {list.map((item) => (
             <NavLink
+              key={uuid4()}
               to={item.path}
               className={({ isActive }) =>
                 isActive

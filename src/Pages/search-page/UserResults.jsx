@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router';
 import toast from 'react-hot-toast';
@@ -9,7 +10,7 @@ import DotLoader from '../../components/user-profile-card/DotLoader';
 function UserResults() {
   const location = useLocation();
   const [value, setValue] = useState(
-    location.search.slice(3, location.search.length - 7),
+    location.search.slice(3, location.search.length),
   );
   const [page, setPage] = useState(2);
   const [error, setError] = useState('');
@@ -80,6 +81,7 @@ function UserResults() {
   }, [isLoading, page, isDone, value]);
 
   useEffect(() => {
+    if (!value) return;
     const getInitialResults = async () => {
       try {
         setIsLoading(true);
@@ -124,7 +126,7 @@ function UserResults() {
 
   return (
     <div data-testid={`${value}-user-results`}>
-      {isLoading ? (
+      {isLoading && results.length === 0 ? (
         <Spinner />
       ) : (
         // eslint-disable-next-line react/jsx-no-useless-fragment
@@ -140,7 +142,14 @@ function UserResults() {
               className="flex w-full flex-col items-center gap-5"
             >
               {results.map(
-                (result) => result && <SearchResult data={result} />,
+                (result, index) =>
+                  result && (
+                    <SearchResult
+                      data={result}
+                      key={index}
+                      searchPage
+                    />
+                  ),
               )}
               {isLoading && <DotLoader />}
             </div>
@@ -150,12 +159,5 @@ function UserResults() {
     </div>
   );
 }
-
-// SearchPage.propTypes = {
-//   value: PropTypes.string.isRequired,
-//   setValue: PropTypes.string.isRequired,
-//   // eslint-disable-next-line react/forbid-prop-types
-//   //   tweetData: PropTypes.array.isRequired,
-// };
 
 export default UserResults;

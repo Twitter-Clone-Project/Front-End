@@ -96,7 +96,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
     formData.append('name', name);
     formData.append('bio', bio);
     formData.append('location', location);
-    formData.append('website', website);
+    if (website) formData.append('website', website);
     formData.append(
       'birthDate',
       `${DOB.year}-${moment().month(DOB.month).format('MM')}-${DOB.day}`,
@@ -251,7 +251,9 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
                           </g>
                         </svg>
                       </ImageButton>
-                      {(curBanner !== import.meta.env.VITE_DEFAULT_BANNER ||
+                      {((curBanner !== import.meta.env.VITE_DEFAULT_BANNER &&
+                        curBanner !==
+                          'https://kady-twitter-images.s3.amazonaws.com/DefaultBanner.png') ||
                         banner) && (
                         <ImageButton
                           onclick={() => {
@@ -422,7 +424,6 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
           </BoxCard>
         </>
       )}
-      <OwnToaster />
     </div>
   );
 }

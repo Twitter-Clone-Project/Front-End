@@ -53,7 +53,6 @@ function ComposePost({ setComposeOpen }) {
         const data = await response.json();
         if (!data.status) throw new Error(data.message);
         toast('Your Post has been added successfully 😊');
-        navigate(0);
         setComposeOpen(false);
       } catch (error) {
         toast(error.message);
