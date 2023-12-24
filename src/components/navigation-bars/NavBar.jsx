@@ -244,8 +244,8 @@ function NavBar() {
         <div
           className={`fixed bottom-0 left-0 z-10
           flex w-full justify-between
-          border-t-[0.5px] border-border-gray
-          bg-white p-2 dark:bg-pure-black sm:left-auto
+          border-t-[0.5px] border-light-gray bg-white
+          p-2 dark:border-dark-gray dark:bg-pure-black sm:left-auto
           sm:mt-0 sm:h-full sm:w-auto sm:flex-col
           sm:items-start sm:justify-between sm:gap-1 sm:border-0 sm:px-2 
           ${!show ? 'opacity-30 sm:opacity-100' : ''}`}

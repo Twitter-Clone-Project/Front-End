@@ -76,7 +76,7 @@ function Homepage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [fetchTweets]);
   return (
-    <div className="my-[60px] mb-20  min-h-[calc(100%-60px)] w-full border-border-gray dark:text-white sm:my-auto sm:min-h-full sm:border-x-[1px] md:w-auto ">
+    <div className="my-[60px] mb-20  min-h-[calc(100%-60px)] w-full border-x-x-light-gray dark:border-x-border-gray dark:text-white sm:my-auto sm:min-h-full sm:border-x-[1px] md:w-auto ">
       <div className=" flex min-h-full w-full flex-col  ">
         <AddPost setTweets={setTweets} />
         <PullToRefresh
@@ -97,7 +97,7 @@ function Homepage() {
             setTweets={setTweets}
           />
           {tweets.length >= total && (
-            <p className="flex items-center justify-center p-3">
+            <p className="flex items-center justify-center border-t border-t-x-light-gray p-3 dark:border-t-border-gray">
               <b>Yay! You have seen it all</b>{' '}
             </p>
           )}

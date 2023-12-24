@@ -45,6 +45,7 @@ import ChangePassword from './components/Settings-page/ChangePassword';
 import UpdateEmail from './components/Settings-page/UpdateEmail';
 import UpdateUsername from './components/Settings-page/UpdateUsername';
 import EmailFlow from './components/Settings-page/EmailFlow';
+import NotFound from './components/not-found/NotFound';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -354,6 +355,10 @@ function App() {
               element={<TrandsPage />}
             />
           </Route>
+          <Route
+            path="*"
+            element={<NotFound />}
+          />
         </Routes>
       </BrowserRouter>
     </div>
