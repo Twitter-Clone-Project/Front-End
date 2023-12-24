@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import BackBtn from './BackBtn';
+import { v4 as uuid4 } from 'uuid';
 
 function SettingsList({ windowWidth }) {
   const list = [
@@ -41,6 +42,7 @@ function SettingsList({ windowWidth }) {
         <div className="flex flex-col">
           {list.map((item) => (
             <NavLink
+              key={uuid4()}
               to={item.path}
               className={({ isActive }) =>
                 isActive
