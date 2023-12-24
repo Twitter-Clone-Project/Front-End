@@ -22,11 +22,12 @@ function Media({ images }) {
     if (images.length % 2 === 0) {
       return (
         <div
+          key={uuid4()}
           className={`media4 my-2 grid max-h-[512px] max-w-[512px] grid-cols-2
         grid-rows-${images.length / 2} gap-[2px] overflow-hidden rounded-xl`}
         >
           {images.map((image) => (
-            <>
+            <div key={uuid4()}>
               {isLoading && (
                 <Skeleton
                   sx={{ bgcolor: 'grey.900' }}
@@ -34,17 +35,15 @@ function Media({ images }) {
                   variant="rectangular"
                   width={500}
                   height={500}
-                  key={uuid4()}
                 />
               )}
               <img
-                key={uuid4()}
                 src={image}
                 onLoad={() => setIsLoading(false)}
                 alt="media"
                 className="h-full w-full object-cover"
               />
-            </>
+            </div>
           ))}
         </div>
       );
@@ -52,6 +51,7 @@ function Media({ images }) {
     const images3 = images.slice(1);
     return (
       <div
+        key={uuid4()}
         className={`media4 my-2 grid max-h-[512px] max-w-[512px]
        grid-cols-${images.length / 2 + 0.5} grid-rows-1 gap-[${
          images.length - 1
