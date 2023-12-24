@@ -1,3 +1,5 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable react/jsx-no-duplicate-props */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -7,6 +9,7 @@ import { useNavigate } from 'react-router';
 import PopoverUserCard from '../userComponents/PopoverUserCard';
 import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
+// import toast from 'react-hot-toast';
 
 function SearchResult({ data, searchPage }) {
   const { user: curUser } = useAuth();
@@ -26,13 +29,15 @@ function SearchResult({ data, searchPage }) {
       headers: {
         'Content-Type': 'application/json',
       },
-    }).then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      setFollowed(!followed);
-      return response.json();
-    });
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        setFollowed(!followed);
+        return response.json();
+      })
+      .catch(() => {});
   };
 
   // Function to handle unFollow request
@@ -45,13 +50,15 @@ function SearchResult({ data, searchPage }) {
       headers: {
         'Content-Type': 'application/json',
       },
-    }).then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      setFollowed(!followed);
-      return response.json();
-    });
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        setFollowed(!followed);
+        return response.json();
+      })
+      .catch(() => {});
   };
 
   const handelButtonClick = () => {
@@ -65,7 +72,7 @@ function SearchResult({ data, searchPage }) {
   };
   return (
     <div
-      className="flex h-[70px] w-full flex-wrap items-center px-4 py-2  hover:cursor-pointer hover:bg-hover-layout"
+      className="flex h-[70px] w-full flex-row flex-wrap items-center py-2 pl-4  hover:cursor-pointer hover:bg-hover-layout"
       onClick={() => {
         handleClick();
       }}
@@ -100,94 +107,95 @@ function SearchResult({ data, searchPage }) {
           />
         )}
       </div>
-      <div className="flex flex-col pl-2 text-base font-medium ">
-        <div className="flex justify-between">
-          <div>
-            <span className="font-semibold dark:text-white">
-              {data.screenName}
-            </span>
-            <span className="text-sm text-light-gray">@{data.username}</span>
-          </div>
-          <div>
-            {searchPage && data.username !== curUser.username ? (
-              <div
-                role="button"
-                className=" h-9 w-28"
-                onMouseEnter={() => {
-                  setPopoverButtonHovered(true);
-                }}
-                onMouseLeave={() => {
-                  setPopoverButtonHovered(false);
-                }}
-                data-testid={`PopoverUserCard_${data.username}_1`}
-                onClick={handelButtonClick}
-                tabIndex={-6}
-              >
-                <Button
-                  backGroundColor={
-                    popoverIsBlocked
-                      ? 'warningRed'
-                      : followed
-                      ? isPopoverButtonHovered
-                        ? 'red'
-                        : 'white'
+      <div className="flex w-5/6 justify-between">
+        <div className="flex flex-col pl-2 text-base font-medium">
+          <span className="font-semibold dark:text-white">
+            {data.screenName}
+          </span>
+          <span className="text-sm text-light-gray">@{data.username}</span>
+        </div>
+        <div className="flex items-center justify-end">
+          {searchPage && data.username !== curUser.username ? (
+            <div
+              role="button"
+              className=" h-9 w-28"
+              onMouseEnter={() => {
+                setPopoverButtonHovered(true);
+              }}
+              onMouseLeave={() => {
+                setPopoverButtonHovered(false);
+              }}
+              data-testid={`PopoverUserCard_${data.username}_1`}
+              tabIndex={-6}
+              onClick={(e) => {
+                e.stopPropagation();
+                handelButtonClick();
+              }}
+            >
+              <Button
+                backGroundColor={
+                  popoverIsBlocked
+                    ? 'warningRed'
+                    : followed
+                    ? isPopoverButtonHovered
+                      ? 'red'
                       : 'white'
-                  }
-                  backGroundColorDark={
-                    popoverIsBlocked
-                      ? 'warningRed'
-                      : followed
-                      ? isPopoverButtonHovered
-                        ? 'red'
-                        : 'black'
+                    : 'white'
+                }
+                backGroundColorDark={
+                  popoverIsBlocked
+                    ? 'warningRed'
+                    : followed
+                    ? isPopoverButtonHovered
+                      ? 'red'
                       : 'black'
-                  }
-                  borderColor={
-                    popoverIsBlocked
-                      ? 'none'
-                      : followed
-                      ? isPopoverButtonHovered
-                        ? 'red'
-                        : 'gray'
+                    : 'black'
+                }
+                borderColor={
+                  popoverIsBlocked
+                    ? 'none'
+                    : followed
+                    ? isPopoverButtonHovered
+                      ? 'red'
                       : 'gray'
-                  }
-                  label={
-                    popoverIsBlocked
-                      ? isPopoverButtonHovered
-                        ? 'Blocked'
-                        : 'Blocked'
-                      : followed
-                      ? isPopoverButtonHovered
-                        ? 'Unfollow'
-                        : 'Following'
-                      : 'Follow'
-                  }
-                  labelColor={
-                    popoverIsBlocked
-                      ? 'white'
-                      : followed
-                      ? isPopoverButtonHovered
-                        ? 'red'
-                        : 'black'
+                    : 'gray'
+                }
+                label={
+                  popoverIsBlocked
+                    ? isPopoverButtonHovered
+                      ? 'Blocked'
+                      : 'Blocked'
+                    : followed
+                    ? isPopoverButtonHovered
+                      ? 'Unfollow'
+                      : 'Following'
+                    : 'Follow'
+                }
+                labelColor={
+                  popoverIsBlocked
+                    ? 'white'
+                    : followed
+                    ? isPopoverButtonHovered
+                      ? 'red'
                       : 'black'
-                  }
-                  labelColorDark={
-                    popoverIsBlocked
-                      ? 'white'
-                      : followed
-                      ? isPopoverButtonHovered
-                        ? 'red'
-                        : 'white'
+                    : 'black'
+                }
+                labelColorDark={
+                  popoverIsBlocked
+                    ? 'white'
+                    : followed
+                    ? isPopoverButtonHovered
+                      ? 'red'
                       : 'white'
-                  }
-                  hight="h-9"
-                  textSize="text-sm"
-                />
-              </div>
-            ) : (
-              ''
-            )}
-          </div>
+                    : 'white'
+                }
+                hight="h-9"
+                textSize="text-sm"
+              />
+            </div>
+          ) : (
+            ''
+          )}
         </div>
       </div>
     </div>
@@ -195,7 +203,7 @@ function SearchResult({ data, searchPage }) {
 }
 
 SearchResult.propTypes = {
-  data: PropTypes.string.isRequired,
+  data: PropTypes.object.isRequired,
   searchPage: PropTypes.bool,
 };
 

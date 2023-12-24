@@ -95,6 +95,7 @@ function UserResults() {
           },
         );
         const data = await response.json();
+        // console.log(data.data);
         if (data.data.length === 0) setIsDone(true);
         else setResults(() => [...data.data]);
         setInitialDone(true);

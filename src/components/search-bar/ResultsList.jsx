@@ -8,13 +8,15 @@ import { useNavigate, useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 import SearchResult from './SearchResult';
 
-function ResultsList({ value, results }) {
+function ResultsList({ value, results, setFocus }) {
   const location = useLocation();
   const navigate = useNavigate();
   const handleGoClick = () => {
     navigate(`/app/${value}`);
   };
   const handleSearchClick = () => {
+    // console.log(value);
+    setFocus();
     navigate(`/app/search/tweets?q=${value}`, {
       state: { pastPath: location },
     });
@@ -66,6 +68,11 @@ function ResultsList({ value, results }) {
 ResultsList.propTypes = {
   value: PropTypes.string.isRequired,
   results: PropTypes.array.isRequired,
+  setFocus: PropTypes.func,
+};
+
+ResultsList.defaultProps = {
+  setFocus: () => {},
 };
 
 export default ResultsList;
