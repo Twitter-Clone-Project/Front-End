@@ -145,7 +145,7 @@ function AddPost({ setTweets }) {
     setHashtags(text.match(/#\w+/g));
   }, [files, text]);
   return (
-    <div className="flex w-full items-center border-y-[0.5px] border-y-border-gray">
+    <div className="flex w-full items-center border-b-[0.5px] border-b-light-gray dark:border-b-border-gray">
       <div className="tweet mt-[0.5px] grid w-full grid-cols-[auto_1fr] bg-white px-[16px] pt-[12px] dark:bg-pure-black dark:text-white dark:hover:bg-pure-black md:w-[598px]">
         <div className="leftColumn mr-[12px] h-[40px] w-[40px] ">
           <div className="profileImage leftColumn mr-[12px] h-[40px] w-[40px] ">
@@ -221,7 +221,6 @@ function AddPost({ setTweets }) {
           </div>
         </div>
       </div>
-      <OwnToaster />
     </div>
   );
 }

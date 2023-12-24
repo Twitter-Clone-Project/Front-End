@@ -17,7 +17,7 @@ function UpdateEmail() {
         backBtn
         title="Change Email"
       />
-      <div className="b-2 flex w-full border-b border-b-light-gray p-4 dark:border-b-border-gray">
+      <div className="b-2 flex w-full border-b border-b-x-light-gray p-4 dark:border-b-border-gray">
         <EmailInput
           title="Email"
           disabled
@@ -28,7 +28,7 @@ function UpdateEmail() {
           setError={setEmailError}
         />
       </div>
-      <div className="my-1 flex w-full cursor-pointer items-center justify-center p-4 text-center transition-colors duration-200 hover:bg-[#1d9bf01a]">
+      <div className="my-1 flex w-full cursor-pointer items-center justify-center p-4 text-center transition-colors duration-200 hover:bg-[#739cb816] dark:hover:bg-[#1d9bf01a]">
         <Link
           to="change-email"
           className="text-sm font-thin hover:no-underline"

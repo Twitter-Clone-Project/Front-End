@@ -23,6 +23,7 @@ function PopoverUserCard({
   popoverSetLocalIsFollowed,
   popoverIsBlocked,
   popoverIsMuted,
+  userId,
 }) {
   const { user: curUser } = useAuth();
   const [localIsFollowed, setLocalIsFollowed] = useState(popoverIsFollowed);
@@ -42,8 +43,10 @@ function PopoverUserCard({
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        popoverSetLocalIsFollowed(!localIsFollowed);
-        setLocalIsFollowed(!localIsFollowed);
+        popoverSetLocalIsFollowed(!popoverIsFollowed);
+        document.dispatchEvent(
+          new CustomEvent(`${userId}-user`, { detail: 'follow' }),
+        );
         return response.json();
       })
       .then((data) => {})
@@ -67,8 +70,11 @@ function PopoverUserCard({
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        popoverSetLocalIsFollowed(!localIsFollowed);
-        setLocalIsFollowed(!localIsFollowed);
+
+        popoverSetLocalIsFollowed(!popoverIsFollowed);
+        document.dispatchEvent(
+          new CustomEvent(`${userId}-user`, { detail: 'unFollow' }),
+        );
         return response.json();
       })
       .then((data) => {})
@@ -102,6 +108,7 @@ function PopoverUserCard({
           avoidCollisions
           className="HoverCardContent"
           sideOffset={5}
+          collisionPadding={2}
           align="center"
           side="bottom"
         >

@@ -59,11 +59,15 @@ function EmailConfirm({ email, type = 'reset', onClose, onSuccess }) {
       const data = await res.json();
       if (data.status === false) throw new Error(data.message);
       if (type === 'reset') {
-        setResetUser(data.data.user);
+        setResetUser({ user: data.data.user, token: data.data.token });
         setResetPasswordOpen(true);
       } else {
         if (onSuccess) onSuccess();
-        dispatch({ type: 'LOGIN', payload: data.data.user });
+        dispatch({
+          type: 'LOGIN',
+          payload: data.data.user,
+          token: data.data.token,
+        });
       }
     } catch (error) {
       toast(error.message);
@@ -128,7 +132,6 @@ function EmailConfirm({ email, type = 'reset', onClose, onSuccess }) {
           </div>
         </BoxCard>
       )}
-      <OwnToaster />
     </div>
   );
 }

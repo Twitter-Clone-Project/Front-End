@@ -1,3 +1,5 @@
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -33,12 +35,15 @@ function ResultsList({ value, results }) {
       <div className="mx-[2px] h-[0.5px] bg-dark-gray" />
       {results.length !== 0 ? (
         <div data-testid={`search-bar-${value}results`}>
-          {results.map((result, index) => (
-            <SearchResult
-              data={result}
-              key={index}
-            />
-          ))}
+          {results.map(
+            (result, index) =>
+              result && (
+                <SearchResult
+                  data={result}
+                  key={index}
+                />
+              ),
+          )}
         </div>
       ) : (
         ''
