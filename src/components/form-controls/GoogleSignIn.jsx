@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
-import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin } from '@react-oauth/google';
 import Button from './Button';
 import { useAuth } from '../../hooks/AuthContext';
 import OwnToaster from '../OwnToaster';

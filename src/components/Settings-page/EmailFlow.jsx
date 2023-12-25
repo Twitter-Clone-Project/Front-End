@@ -4,10 +4,12 @@ import toast from 'react-hot-toast';
 import VerifyPassword from './VerifyPassword';
 import ChangeEmail from './ChangeEmail';
 import EmailConfirm from '../sign-up/EmailConfirm';
+import { useAuth } from '../../hooks/AuthContext';
 
 function EmailFlow() {
   const [step, setStep] = useState(0);
   const [email, setEmail] = useState('');
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [emailError, setEmailError] = useState('');
   const [password, setPassword] = useState('');
@@ -37,14 +39,20 @@ function EmailFlow() {
     return (
       <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex h-full w-full items-center justify-center">
         <EmailConfirm
-          email={email}
+          type="update"
+          newEmail={email}
+          email={user.email}
+          verifyUrl={`${import.meta.env.VITE_API_DOMAIN}profile/verifyEmail`}
+          resendUrl={`${import.meta.env.VITE_API_DOMAIN}profile/updateEmail`}
           onClose={() => navigate(-1)}
           onSuccess={() => setStep((val) => val + 1)}
         />
       </div>
     );
   if (step === 3) {
-    toast('Your email has been updated successfully');
+    toast('Your email has been updated successfully', {
+      id: 'toast',
+    });
     navigate(-1);
   }
 }

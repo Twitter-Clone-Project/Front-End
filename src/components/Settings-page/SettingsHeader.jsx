@@ -3,6 +3,16 @@ import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router';
 import BackBtn from './BackBtn';
 
+/**
+ * Represents the header component for the settings page.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered component.
+ * @example
+ * ```jsx
+ * <SettingsHeader title="Settings" />
+ * ```
+ */
 function SettingsHeader({ title, backBtn, onBack }) {
   const navigate = useNavigate();
   const [windowWidth, setWindowWidth] = useState(window.outerWidth);
@@ -32,9 +42,28 @@ SettingsHeader.defaultProps = {
   backBtn: false,
   onBack: null,
 };
+
+/**
+ * PropTypes for SettingsHeader component.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {string} props.title - The title of the settings page.
+ * @param {boolean} [props.backBtn=false] - Determines whether to display a back button.
+ * @param {function} [props.onBack=navigate(-1)] - The callback function to be called when the back button is clicked.
+ */
 SettingsHeader.propTypes = {
+  /**
+   * The title of the settings page.
+   */
   title: PropTypes.string.isRequired,
+  /**
+   * Determines whether to display a back button.
+   */
   backBtn: PropTypes.bool,
+  /**
+   * The callback function to be called when the back button is clicked.
+   */
   onBack: PropTypes.func,
 };
 
