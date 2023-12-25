@@ -127,12 +127,12 @@ function UserResults() {
 
   return (
     <div data-testid={`${value}-user-results`}>
-      {isLoading && results.length === 0 ? (
+      {!initialDone ? (
         <Spinner />
       ) : (
         // eslint-disable-next-line react/jsx-no-useless-fragment
         <>
-          {initialDone && results.length === 0 ? (
+          {results.length === 0 ? (
             <NoSearchResults
               value={value}
               testId={`${value}-nouser-results`}
@@ -140,7 +140,7 @@ function UserResults() {
           ) : (
             <div
               data-testid={`${value}-user-results-list`}
-              className="flex w-full flex-col items-center gap-5"
+              className="flex min-h-[calc(100%+60px)] w-full flex-col items-center  gap-5 sm:h-auto"
             >
               {results.map(
                 (result, index) =>

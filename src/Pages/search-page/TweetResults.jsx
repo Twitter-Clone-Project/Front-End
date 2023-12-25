@@ -100,10 +100,10 @@ function TweetResults() {
 
   useEffect(() => {
     setInitialDone(false);
-  });
+  }, [location]);
   return (
     <div data-testid={`${value}-tweet-results`}>
-      {isLoading && results.length === 0 ? (
+      {!initialDone ? (
         <Spinner />
       ) : (
         // eslint-disable-next-line react/jsx-no-useless-fragment
@@ -116,7 +116,7 @@ function TweetResults() {
           ) : (
             <div
               data-testid={`${value}-tweet-results-list`}
-              className="flex w-full flex-col items-center"
+              className="flex min-h-[calc(100%+60px)] w-full flex-col items-center sm:h-auto"
             >
               {results.map((result, index) => (
                 <Tweet
