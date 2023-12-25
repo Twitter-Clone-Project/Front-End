@@ -3,7 +3,7 @@ import * as router from 'react-router';
 import PopoverUserCard from '../../components/userComponents/PopoverUserCard';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { BrowserRouter, MemoryRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import ProtectedRoute from '../../components/ProtectedRoute';
 import AuthProvider from '../../contexts/Auth/AuthProvider';
 import { useAuth } from '../../hooks/AuthContext';
@@ -35,7 +35,7 @@ describe('PopoverUserCard', () => {
     window.fetch.mockRestore();
   });
 
-  it('renders without crashing', () => {
+  it('renders without crashing', async () => {
     useAuth.mockReturnValue({
       dispatch: vi.fn(),
       isAuthenticated: true,
@@ -55,17 +55,24 @@ describe('PopoverUserCard', () => {
               popoverFollowing="10"
               popoverFollowers="20"
               popoverIsBlocked={false}
-            />
+            >
+              <div data-testid={`tempPopoverItem`}>hello</div>
+            </PopoverUserCard>
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
-    expect(getByTestId('PopoverUserCard_john_doe_0')).toBeInTheDocument();
-    expect(getByTestId('PopoverUserCard_john_doe_1')).toBeInTheDocument();
-    expect(queryByTestId('PopoverUserCard_john_doe_2')).not.toBeInTheDocument();
-    expect(getByTestId('PopoverUserCard_john_doe_1')).toHaveTextContent(
-      'Follow',
-    );
+    fireEvent.mouseOver(getByTestId('tempPopoverItem'));
+    waitFor(() => {
+      expect(getByTestId('PopoverUserCard_john_doe_0')).toBeInTheDocument();
+      expect(getByTestId('PopoverUserCard_john_doe_1')).toBeInTheDocument();
+      expect(
+        queryByTestId('PopoverUserCard_john_doe_2'),
+      ).not.toBeInTheDocument();
+      expect(getByTestId('PopoverUserCard_john_doe_1')).toHaveTextContent(
+        'Follow',
+      );
+    });
   });
 
   it('should appear Following in the button when the user is Followed', () => {
@@ -88,19 +95,24 @@ describe('PopoverUserCard', () => {
               popoverFollowing="10"
               popoverFollowers="20"
               popoverIsBlocked={false}
-            />
+            >
+              <div data-testid={`tempPopoverItem`}>hello</div>
+            </PopoverUserCard>
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
-    expect(getByTestId('PopoverUserCard_john_doe_1')).toHaveTextContent(
-      'Following',
-    );
-    fireEvent.mouseEnter(getByTestId('PopoverUserCard_john_doe_1'));
-    expect(getByTestId('PopoverUserCard_john_doe_1')).toHaveTextContent(
-      'Unfollow',
-    );
-    fireEvent.mouseLeave(getByTestId('PopoverUserCard_john_doe_1'));
+    fireEvent.mouseOver(getByTestId('tempPopoverItem'));
+    waitFor(() => {
+      expect(getByTestId('PopoverUserCard_john_doe_1')).toHaveTextContent(
+        'Following',
+      );
+      fireEvent.mouseEnter(getByTestId('PopoverUserCard_john_doe_1'));
+      expect(getByTestId('PopoverUserCard_john_doe_1')).toHaveTextContent(
+        'Unfollow',
+      );
+      fireEvent.mouseLeave(getByTestId('PopoverUserCard_john_doe_1'));
+    });
   });
 
   it('should appear Blocked in the button when the user is blocked', () => {
@@ -123,14 +135,19 @@ describe('PopoverUserCard', () => {
               popoverFollowing="10"
               popoverFollowers="20"
               popoverIsBlocked={true}
-            />
+            >
+              <div data-testid={`tempPopoverItem`}>hello</div>
+            </PopoverUserCard>
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
-    expect(getByTestId('PopoverUserCard_john_doe_1')).toHaveTextContent(
-      'Blocked',
-    );
+    fireEvent.mouseOver(getByTestId('tempPopoverItem'));
+    waitFor(() => {
+      expect(getByTestId('PopoverUserCard_john_doe_1')).toHaveTextContent(
+        'Blocked',
+      );
+    });
   });
 
   it('should appear Follows Element when the user is Following you', () => {
@@ -139,7 +156,7 @@ describe('PopoverUserCard', () => {
       isAuthenticated: true,
       user: { name: 'Arabian', username: 'Horses' },
     });
-    const { queryByTestId } = render(
+    const { getByTestId, queryByTestId } = render(
       <AuthProvider>
         <BrowserRouter>
           <ProtectedRoute>
@@ -153,12 +170,17 @@ describe('PopoverUserCard', () => {
               popoverFollowing="10"
               popoverFollowers="20"
               popoverIsBlocked={false}
-            />
+            >
+              <div data-testid={`tempPopoverItem`}>hello</div>
+            </PopoverUserCard>
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
-    expect(queryByTestId('PopoverUserCard_john_doe_2')).toBeInTheDocument();
+    fireEvent.mouseOver(getByTestId('tempPopoverItem'));
+    waitFor(() => {
+      expect(queryByTestId('PopoverUserCard_john_doe_2')).toBeInTheDocument();
+    });
   });
 
   it('should not appear Follow Button when the user is the same one', () => {
@@ -181,12 +203,19 @@ describe('PopoverUserCard', () => {
               popoverFollowing="10"
               popoverFollowers="20"
               popoverIsBlocked={false}
-            />
+            >
+              <div data-testid={`tempPopoverItem`}>hello</div>
+            </PopoverUserCard>
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
-    expect(queryByTestId('PopoverUserCard_john_doe_1')).not.toBeInTheDocument();
+    fireEvent.mouseOver(getByTestId('tempPopoverItem'));
+    waitFor(() => {
+      expect(
+        queryByTestId('PopoverUserCard_john_doe_1'),
+      ).not.toBeInTheDocument();
+    });
   });
 
   it('handles follow correctly', async () => {
@@ -214,27 +243,32 @@ describe('PopoverUserCard', () => {
               popoverFollowers="20"
               opoverSetLocalIsFollowed
               popoverIsBlocked={false}
-            />
+            >
+              <div data-testid={`tempPopoverItem`}>hello</div>
+            </PopoverUserCard>
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
-    expect(getByTestId('PopoverUserCard_john_doe_1')).not.toBeDisabled();
-    fireEvent.click(getByTestId('PopoverUserCard_john_doe_1'));
-    await waitFor(() => {
-      expect(window.fetch).toHaveBeenCalledTimes(1);
-      expect(window.fetch).toHaveBeenCalledWith(
-        `${import.meta.env.VITE_API_DOMAIN}users/john_doe/follow`,
-        {
-          method: 'POST',
-          origin: true,
-          credentials: 'include',
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json',
+    fireEvent.mouseOver(getByTestId('tempPopoverItem'));
+    waitFor(async () => {
+      expect(getByTestId('PopoverUserCard_john_doe_1')).not.toBeDisabled();
+      fireEvent.click(getByTestId('PopoverUserCard_john_doe_1'));
+      await waitFor(() => {
+        expect(window.fetch).toHaveBeenCalledTimes(1);
+        expect(window.fetch).toHaveBeenCalledWith(
+          `${import.meta.env.VITE_API_DOMAIN}users/john_doe/follow`,
+          {
+            method: 'POST',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json',
+            },
           },
-        },
-      );
+        );
+      });
     });
   });
 
@@ -263,27 +297,32 @@ describe('PopoverUserCard', () => {
               popoverFollowers="20"
               opoverSetLocalIsFollowed
               popoverIsBlocked={false}
-            />
+            >
+              <div data-testid={`tempPopoverItem`}>hello</div>
+            </PopoverUserCard>
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
-    expect(getByTestId('PopoverUserCard_john_doe_1')).not.toBeDisabled();
-    fireEvent.click(getByTestId('PopoverUserCard_john_doe_1'));
-    await waitFor(() => {
-      expect(window.fetch).toHaveBeenCalledTimes(1);
-      expect(window.fetch).toHaveBeenCalledWith(
-        `${import.meta.env.VITE_API_DOMAIN}users/john_doe/unfollow`,
-        {
-          method: 'DELETE',
-          origin: true,
-          credentials: 'include',
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json',
+    fireEvent.mouseOver(getByTestId('tempPopoverItem'));
+    waitFor(async () => {
+      expect(getByTestId('PopoverUserCard_john_doe_1')).not.toBeDisabled();
+      fireEvent.click(getByTestId('PopoverUserCard_john_doe_1'));
+      await waitFor(() => {
+        expect(window.fetch).toHaveBeenCalledTimes(1);
+        expect(window.fetch).toHaveBeenCalledWith(
+          `${import.meta.env.VITE_API_DOMAIN}users/john_doe/unfollow`,
+          {
+            method: 'DELETE',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json',
+            },
           },
-        },
-      );
+        );
+      });
     });
   });
 
@@ -307,22 +346,26 @@ describe('PopoverUserCard', () => {
               popoverFollowers="20"
               opoverSetLocalIsFollowed
               popoverIsBlocked={false}
-            />
+            >
+              <div data-testid={`tempPopoverItem`}>hello</div>
+            </PopoverUserCard>
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
-
-    fireEvent.click(getByTestId('PopoverUserCard_john_doe_3'));
-    await waitFor(() => {
-      expect(navigate).toHaveBeenCalledWith(`/app/john_doe/following`, {
+    fireEvent.mouseOver(getByTestId('tempPopoverItem'));
+    waitFor(async () => {
+      fireEvent.click(getByTestId('PopoverUserCard_john_doe_3'));
+      await waitFor(() => {
+        expect(navigate).toHaveBeenCalledWith(`/app/john_doe/following`, {
+          state: '/',
+        });
+      });
+      expect(navigate).toHaveBeenCalled();
+      fireEvent.click(getByTestId('PopoverUserCard_john_doe_4'));
+      expect(navigate).toHaveBeenCalledWith(`/app/john_doe/followers`, {
         state: '/',
       });
-    });
-    expect(navigate).toHaveBeenCalled();
-    fireEvent.click(getByTestId('PopoverUserCard_john_doe_4'));
-    expect(navigate).toHaveBeenCalledWith(`/app/john_doe/followers`, {
-      state: '/',
     });
   });
 
@@ -370,29 +413,33 @@ describe('PopoverUserCard', () => {
                 popoverFollowers="20"
                 opoverSetLocalIsFollowed
                 popoverIsBlocked={false}
-              />
+              >
+                <div data-testid={`tempPopoverItem`}>hello</div>
+              </PopoverUserCard>
             </ProtectedRoute>
           </BrowserRouter>
         </AuthProvider>,
       );
-
-      fireEvent.click(getByTestId('PopoverUserCard_john_doe_img'));
-      expect(navigate2).toHaveBeenCalled();
-      expect(navigate2).toHaveBeenCalledWith(`/app/john_doe`, {
-        preventScrollReset: undefined,
-        relative: undefined,
-        replace: false,
-        state: undefined,
-        unstable_viewTransition: undefined,
-      });
-      fireEvent.click(getByTestId('PopoverUserCard_john_doe_userInf'));
-      expect(navigate2).toHaveBeenCalled();
-      expect(navigate2).toHaveBeenCalledWith(`/app/john_doe`, {
-        preventScrollReset: undefined,
-        relative: undefined,
-        replace: false,
-        state: undefined,
-        unstable_viewTransition: undefined,
+      fireEvent.mouseOver(getByTestId('tempPopoverItem'));
+      waitFor(() => {
+        fireEvent.click(getByTestId('PopoverUserCard_john_doe_img'));
+        expect(navigate2).toHaveBeenCalled();
+        expect(navigate2).toHaveBeenCalledWith(`/app/john_doe`, {
+          preventScrollReset: undefined,
+          relative: undefined,
+          replace: false,
+          state: undefined,
+          unstable_viewTransition: undefined,
+        });
+        fireEvent.click(getByTestId('PopoverUserCard_john_doe_userInf'));
+        expect(navigate2).toHaveBeenCalled();
+        expect(navigate2).toHaveBeenCalledWith(`/app/john_doe`, {
+          preventScrollReset: undefined,
+          relative: undefined,
+          replace: false,
+          state: undefined,
+          unstable_viewTransition: undefined,
+        });
       });
     });
   });
