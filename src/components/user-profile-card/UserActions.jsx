@@ -9,6 +9,7 @@ function UserActions({ user }) {
   const [localIsMuted, setLocalIsMuted] = useState(user.isMuted);
   const [dropDownVisible, setDropDownVisible] = useState(false);
   const dropDownRef = useRef();
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropDownRef.current && !dropDownRef.current.contains(event.target)) {
@@ -21,6 +22,44 @@ function UserActions({ user }) {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    const handleActions = (e) => {
+      switch (e.detail) {
+        case 'follow': {
+          setLocalIsFollowed(true);
+          break;
+        }
+        case 'unFollow': {
+          setLocalIsFollowed(false);
+          break;
+        }
+        case 'mute': {
+          setLocalIsMuted(true);
+          break;
+        }
+        case 'unMute': {
+          setLocalIsMuted(false);
+          break;
+        }
+        case 'block': {
+          setLocalIsBlocked(true);
+          break;
+        }
+        case 'unBlock': {
+          setLocalIsBlocked(false);
+          break;
+        }
+        default:
+          toast('Unknown user Event', {
+            id: 'toast',
+          });
+      }
+    };
+    document.addEventListener(`${user.userId}-user`, handleActions);
+    return () =>
+      document.removeEventListener(`${user.userId}-user`, handleActions);
+  }, [user.userId]);
 
   const blockReq = () => {
     fetch(`${import.meta.env.VITE_API_DOMAIN}users/${user.username}/block`, {
@@ -36,13 +75,13 @@ function UserActions({ user }) {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        setLocalIsBlocked(!localIsBlocked);
         setLocalIsFollowed(false);
+        document.dispatchEvent(
+          new CustomEvent(`${user.userId}-user`, { detail: 'block' }),
+        );
         return response.json();
       })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
+      .then((data) => {})
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
@@ -62,12 +101,12 @@ function UserActions({ user }) {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        setLocalIsBlocked(!localIsBlocked);
+        document.dispatchEvent(
+          new CustomEvent(`${user.userId}-user`, { detail: 'unBlock' }),
+        );
         return response.json();
       })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
+      .then((data) => {})
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
@@ -87,11 +126,12 @@ function UserActions({ user }) {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        setLocalIsMuted(!localIsMuted);
+        document.dispatchEvent(
+          new CustomEvent(`${user.userId}-user`, { detail: 'mute' }),
+        );
         return response.json();
       })
       .then((data) => {
-        console.log('Response data:', data);
       })
       .catch((error) => {
         console.error('Error during fetch:', error);
@@ -112,11 +152,12 @@ function UserActions({ user }) {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        setLocalIsMuted(!localIsMuted);
+        document.dispatchEvent(
+          new CustomEvent(`${user.userId}-user`, { detail: 'unMute' }),
+        );
         return response.json();
       })
       .then((data) => {
-        console.log('Response data:', data);
       })
       .catch((error) => {
         console.error('Error during fetch:', error);
@@ -137,12 +178,12 @@ function UserActions({ user }) {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        setLocalIsFollowed(!localIsFollowed);
+        document.dispatchEvent(
+          new CustomEvent(`${user.userId}-user`, { detail: 'follow' }),
+        );
         return response.json();
       })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
+      .then((data) => {})
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
@@ -163,12 +204,12 @@ function UserActions({ user }) {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        setLocalIsFollowed(!localIsFollowed);
+        document.dispatchEvent(
+          new CustomEvent(`${user.userId}-user`, { detail: 'unFollow' }),
+        );
         return response.json();
       })
-      .then((data) => {
-        console.log('Response data:', data);
-      })
+      .then((data) => {})
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
@@ -212,7 +253,7 @@ function UserActions({ user }) {
         {dropDownVisible && (
           <div
             ref={dropDownRef}
-            className="absolute -right-3 top-2 w-max rounded-lg bg-white shadow shadow-light-gray dark:bg-pure-black"
+            className="absolute -right-3 top-2 z-50 w-max max-w-[450px] rounded-lg bg-white shadow shadow-light-gray dark:bg-pure-black"
             data-testid={`${user.username}-UserActions-3`}
           >
             {!localIsBlocked && (
@@ -242,7 +283,9 @@ function UserActions({ user }) {
                     </g>
                   </svg>
                 </div>
-                {localIsMuted ? 'Unmute' : 'Mute'} @{user.username}
+                <div className="w-full max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
+                  {localIsMuted ? 'Unmute' : 'Mute'} @{user.username}
+                </div>
               </div>
             )}
             <div
@@ -271,7 +314,9 @@ function UserActions({ user }) {
                   </g>
                 </svg>
               </div>
-              {localIsBlocked ? 'Unblock' : 'Block'}@{user.username}
+              <div className="w-full max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
+                {localIsBlocked ? 'Unblock' : 'Block'}@{user.username}
+              </div>
             </div>
           </div>
         )}
