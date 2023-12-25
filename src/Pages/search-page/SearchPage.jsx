@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, Outlet } from 'react-router';
-import OwnToaster from '../../components/OwnToaster';
+// import OwnToaster from '../../components/OwnToaster';
 import SearchBar from '../../components/search-bar/SearchBar';
 import ListNav from '../../components/navigation-bars/ListNav';
 
@@ -11,31 +11,31 @@ function SearchPage() {
   const [value, setValue] = useState(
     location.search.slice(3, location.search.length),
   );
+  const [queryValue, setQueryValue] = useState();
   const navigate = useNavigate();
   const handelBackButton = () => {
     navigate(prevLoc || -1);
   };
+  useEffect(() => {
+    setQueryValue(location.search.slice(3, location.search.length));
+  }, [location.search]);
   const ListNavItems = [
     {
       label: 'Tweets',
-      path: `/app/search/tweets?q=${value}`,
+      path: `/app/search/tweets?q=${queryValue}`,
     },
     {
       label: 'People',
-      path: `/app/search/users?q=${value}&f=user`,
+      path: `/app/search/users?q=${queryValue}`,
     },
   ];
-  useEffect(() => {
-    console.log(pastPath);
-  }, [pastPath]);
   return (
     <div
-      className="small:w-screen flex h-auto w-full max-w-[620px] flex-col border-border-gray
-      sm:w-[560px]
-      sm:border-x-[1px] 
+      className="flex h-auto w-full max-w-[620px] flex-col border-x-x-light-gray dark:border-border-gray sm:w-[560px]
+      sm:border-x-[1px]
       md:w-[600px] 
-      xl:w-[600px]
-      "
+      xl:w-[600px] 
+      small:w-screen"
       data-testid={`${value}-search-page`}
     >
       <div className="flex w-full flex-row justify-around border-b-[0.5px] border-b-light-gray px-2 py-2 dark:border-b-border-gray">
@@ -68,10 +68,7 @@ function SearchPage() {
           />
         </div>
       </div>
-      <div
-        // data-testid={`${username}-profile`}
-        className="h-full border-x-0 border-light-gray dark:border-border-gray dark:text-white"
-      >
+      <div className="h-full border-x-0 border-light-gray dark:border-border-gray dark:text-white">
         <div
           className={`
                border-light-gray dark:border-border-gray`}
@@ -80,16 +77,8 @@ function SearchPage() {
         </div>
         <Outlet />
       </div>
-      <OwnToaster />
     </div>
   );
 }
-
-// SearchPage.propTypes = {
-//   value: PropTypes.string.isRequired,
-//   setValue: PropTypes.string.isRequired,
-//   // eslint-disable-next-line react/forbid-prop-types
-//   //   tweetData: PropTypes.array.isRequired,
-// };
 
 export default SearchPage;

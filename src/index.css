@@ -14,11 +14,14 @@
   width: 100%;
   justify-content: center;
 }
-* {
+body,
+root,
+html {
   scrollbar-gutter: stable;
 }
 .ptr,
-.ptr__children,.ptr__pull-down {
+.ptr__children,
+.ptr__pull-down {
   overflow: unset !important;
 }
 *,
@@ -144,7 +147,7 @@ img:before {
   height: 100%;
   background-repeat: no-repeat;
   background-size: cover;
-  background-image: url('/default_avatar.jpg');
+  background-image: url('/public/default_avatar.jpg');
 }
 .hyphens {
   -webkit-hyphens: auto;
@@ -169,6 +172,16 @@ img:before {
   animation-duration: 300ms;
 }
 
+.DropdownMenuContent {
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+.DropdownMenuContent[data-side='top'] {
+  animation-name: slideUp;
+}
+.DropdownMenuContent[data-side='bottom'] {
+  animation-name: slideDown;
+}
 @keyframes slideUp {
   from {
     opacity: 0;

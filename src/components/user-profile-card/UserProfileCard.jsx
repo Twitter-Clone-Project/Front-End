@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 import UserProfileInfo from './UserProfileInfo';
 import 'react-photo-view/dist/react-photo-view.css';
 import UpdateProfileForm from './UpdateProfileForm';
+import { Skeleton } from '@mui/material';
 
 function UserProfileCard({ user }) {
   const [updateFormOpen, setUpdateFormOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   return (
     <div
       data-testid={`${user.username}-card`}
@@ -17,14 +19,26 @@ function UserProfileCard({ user }) {
       )}
       <div className="mx-auto flex w-full flex-col">
         <div className="profile-cover max-h-[500px]">
-          <div className="object-fill">
+          <div className="grid max-w-full grid-cols-[1fr] grid-rows-1 overflow-hidden object-fill">
+            {isLoading && (
+              <Skeleton
+                sx={{ bgcolor: 'grey.900', aspectRatio: '3/1' }}
+                animation="wave"
+                variant="rectangular"
+                height={200}
+              />
+            )}
             <PhotoProvider maskOpacity={0.5}>
               <PhotoView
                 src={user.bannerUrl || import.meta.env.VITE_DEFAULT_BANNER}
               >
                 <img
-                  className="m-auto aspect-[3/1] max-h-full w-full cursor-pointer bg-white object-fill dark:bg-pure-black"
+                  className={`m-auto aspect-[3/1] max-h-full ${
+                    isLoading ? 'hidden' : ''
+                  } w-full cursor-pointer bg-white object-fill
+                  dark:bg-pure-black`}
                   data-testid="user-cover"
+                  onLoad={() => setIsLoading(false)}
                   src={user.bannerUrl || import.meta.env.VITE_DEFAULT_BANNER}
                   alt="cover"
                 />

@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import Spinner from '../components/Spinner';
@@ -12,8 +12,8 @@ function TweetPage() {
   const location = useLocation();
   const pastPath = location.state?.pastPath;
   const [replies, setReplies] = useState([]);
-  const [isDone, setIsDone] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isDone, setIsDone] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const { tweetId } = useParams();
   const [tweetData, setTweetData] = useState();
   const [fetchLikes, setFetchLikes] = useState(false);
@@ -24,25 +24,25 @@ function TweetPage() {
     navigate(pastPath.pathname || -1);
   };
 
-  const fetchReplies = useCallback(async () => {
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/replies`,
-        {
-          method: 'GET',
-          origin: true,
-          credentials: 'include',
-          withCredentials: true,
-        },
-      );
-      const data = await response.json();
-      if (data.status) {
-        setReplies(() => [...data.data]);
-      }
-    } catch (error) {
-      toast(error.message);
-    }
-  }, [tweetId]);
+  // const fetchReplies = useCallback(async () => {
+  //   try {
+  //     const response = await fetch(
+  //       `${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/replies`,
+  //       {
+  //         method: 'GET',
+  //         origin: true,
+  //         credentials: 'include',
+  //         withCredentials: true,
+  //       },
+  //     );
+  //     const data = await response.json();
+  //     if (data.status) {
+  //       setReplies(() => [...data.data]);
+  //     }
+  //   } catch (error) {
+  //     toast(error.message);
+  //   }
+  // }, [tweetId]);
 
   useEffect(() => {
     const getInitialReplies = async () => {
@@ -66,7 +66,7 @@ function TweetPage() {
       }
     };
     getInitialReplies();
-  }, []);
+  }, [tweetId]);
 
   useEffect(() => {
     const getInitialTweet = async () => {
@@ -90,19 +90,19 @@ function TweetPage() {
       }
     };
     getInitialTweet();
-  }, []);
+  }, [tweetId]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const { scrollTop, clientHeight, scrollHeight } =
-        document.documentElement;
-      if (scrollTop + clientHeight >= scrollHeight - 20) {
-        fetchReplies();
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [fetchReplies]);
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const { scrollTop, clientHeight, scrollHeight } =
+  //       document.documentElement;
+  //     if (scrollTop + clientHeight >= scrollHeight - 20) {
+  //       fetchReplies();
+  //     }
+  //   };
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, [fetchReplies]);
 
   useEffect(() => {
     // console.log('Like changed');
@@ -127,7 +127,7 @@ function TweetPage() {
     };
     getInitialTweet();
     setFetchLikes(false);
-  }, [fetchLikes]);
+  }, [fetchLikes, tweetId]);
 
   useEffect(() => {
     const getInitialTweet = async () => {
@@ -151,7 +151,7 @@ function TweetPage() {
     };
     getInitialTweet();
     setFetchRetweets(false);
-  }, [fetchRetweets]);
+  }, [fetchRetweets, tweetId]);
 
   useEffect(() => {
     const getInitialTweet = async () => {
@@ -174,14 +174,14 @@ function TweetPage() {
       }
     };
     getInitialTweet();
-  }, [replies]);
+  }, [replies, tweetId]);
 
   return (
     <div
-      className="mb-20  min-h-[calc(100%-60px)] w-full max-w-[620px] border-border-gray dark:text-white sm:my-auto sm:min-h-full sm:border-x-[1px]"
+      className="mb-20  min-h-[calc(100%-60px)]  w-full max-w-[620px] border-x-light-gray dark:border-border-gray dark:text-white sm:my-auto sm:min-h-full sm:border-x-[1px]"
       data-testid="tweet-page"
     >
-      <div className="mx-2 flex flex-col items-start justify-start">
+      <div className="flex w-full flex-col items-start justify-start">
         <div className="flex flex-wrap items-center">
           <div className="mb-2 mt-[9px] flex h-7 w-7 items-center justify-center rounded-full hover:bg-x-light-gray hover:dark:bg-light-thin">
             <svg
@@ -217,7 +217,10 @@ function TweetPage() {
               data-testid="tweet-component"
             >
               {tweetData.map((tweetItem, index) => (
-                <div data-testid={`tweet-${tweetItem.id}`}>
+                <div
+                  className="w-full"
+                  data-testid={`tweet-${tweetItem.id}`}
+                >
                   <Tweet
                     data={tweetItem}
                     // eslint-disable-next-line react/no-array-index-key
@@ -236,27 +239,29 @@ function TweetPage() {
               ))}
             </div>
 
-            <div className="flex w-full items-center justify-start gap-3 border-b-[0.5px] border-b-light-gray px-2 py-2 dark:border-b-border-gray">
+            <div className="flex w-full  items-center justify-start gap-3 border-y-[0.5px] border-y-light-gray px-2 py-2 dark:border-y-border-gray">
               <Link
                 to={`/app/tweets/${tweetId}/likes`}
                 relative="path"
-                className="hover:no-underline dark:text-white"
+                className="hover:no-underline"
                 data-testid="likes-list-count"
               >
                 <div className="flex flex-row items-center gap-1">
-                  {tweetData[0].likesCount}
-                  <span className="text-sm text-light-thin">likes</span>
+                  <span className="text-sm text-dark-gray hover:underline">
+                    {tweetData[0].likesCount} likes
+                  </span>
                 </div>
               </Link>
               <Link
                 to={`/app/tweets/${tweetId}/retweets`}
                 relative="path"
-                className="hover:no-underline dark:text-white"
+                className="hover:no-underline"
                 data-testid="retweets-list-count"
               >
                 <div className="flex flex-row items-center gap-1">
-                  {tweetData[0].retweetsCount}
-                  <span className="text-sm text-light-thin">retweets</span>
+                  <span className="text-sm text-dark-gray hover:underline">
+                    {tweetData[0].retweetsCount} retweets
+                  </span>
                 </div>
               </Link>
             </div>
@@ -281,10 +286,4 @@ function TweetPage() {
   );
 }
 
-// TweetPage.propTypes = {
-//   pastPath: PropTypes.string.isRequired,
-//   tweetId: PropTypes.string.isRequired,
-//   // eslint-disable-next-line react/forbid-prop-types
-//   tweetData: PropTypes.array.isRequired,
-// };
 export default TweetPage;

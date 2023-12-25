@@ -32,6 +32,16 @@ function UnMemoTweet({
   const [likesCount, setLikesCount] = useState();
   const [isLikeLoading, setIsLikeLoading] = useState(false);
   const [isRepostLoading, setIsRepostLoading] = useState(false);
+  const [isFollowed, setIsFollowed] = useState(data.user.isFollowed);
+  const [isFollowing, setIsFollowing] = useState(data.user.isFollowing);
+  const [isBlocked, setIsBlocked] = useState(data.user.isBlocked || false);
+  const [isMuted, setIsMuted] = useState(data.user.isMuted || false);
+  const [followersCount, setFollowersCount] = useState(
+    data.user.followersCount,
+  );
+  const [followingsCount, setFollowingsCount] = useState(
+    data.user.followingCount,
+  );
   // const { user: curUser } = useAuth();
   const location = useLocation();
   const [images, setImages] = useState();
@@ -63,12 +73,55 @@ function UnMemoTweet({
           break;
         }
         default:
-          console.log('Unknown Event');
+          toast('Unknown tweet Event', {
+            id: 'toast',
+          });
       }
     };
-    document.addEventListener(`${data.id}`, handleActions);
-    return () => document.removeEventListener(`${data.id}`, handleActions);
+    document.addEventListener(`${data.id}-tweet`, handleActions);
+    return () =>
+      document.removeEventListener(`${data.id}-tweet`, handleActions);
   }, [data.id]);
+  useEffect(() => {
+    const handleActions = (e) => {
+      console.log(e);
+      switch (e.detail) {
+        case 'follow': {
+          setIsFollowed(true);
+          setFollowersCount((prev) => prev + 1);
+          break;
+        }
+        case 'unFollow': {
+          setIsFollowed(false);
+          setFollowersCount((prev) => prev - 1);
+          break;
+        }
+        case 'mute': {
+          setIsMuted(true);
+          break;
+        }
+        case 'unMute': {
+          setIsMuted(false);
+          break;
+        }
+        case 'block': {
+          setIsBlocked(true);
+          break;
+        }
+        case 'unBlock': {
+          setIsBlocked(false);
+          break;
+        }
+        default:
+          toast('Unknown user Event', {
+            id: 'toast',
+          });
+      }
+    };
+    document.addEventListener(`${data.user.userId}-user`, handleActions);
+    return () =>
+      document.removeEventListener(`${data.user.userId}-user`, handleActions);
+  }, [data.user.userId]);
   useEffect(() => {
     if (data.attachmentsUrl) {
       setImages(data.attachmentsUrl);
@@ -91,7 +144,7 @@ function UnMemoTweet({
   const handleLike = () => {
     if (like === true) {
       document.dispatchEvent(
-        new CustomEvent(`${data.id}`, { detail: 'unlike' }),
+        new CustomEvent(`${data.id}-tweet`, { detail: 'unlike' }),
       );
       if (!isLikeLoading) {
         setIsLikeLoading(true);
@@ -109,7 +162,7 @@ function UnMemoTweet({
             const res = await response.json();
             if (!res.status) {
               document.dispatchEvent(
-                new CustomEvent(`${data.id}`, { detail: 'like' }),
+                new CustomEvent(`${data.id}-tweet`, { detail: 'like' }),
               );
               throw new Error(res.message);
             }
@@ -125,7 +178,9 @@ function UnMemoTweet({
         deleteLike();
       }
     } else if (like === false) {
-      document.dispatchEvent(new CustomEvent(`${data.id}`, { detail: 'like' }));
+      document.dispatchEvent(
+        new CustomEvent(`${data.id}-tweet`, { detail: 'like' }),
+      );
 
       if (!isLikeLoading) {
         setIsLikeLoading(true);
@@ -143,7 +198,7 @@ function UnMemoTweet({
             const res = await response.json();
             if (!res.status) {
               document.dispatchEvent(
-                new CustomEvent(`${data.id}`, { detail: 'unlike' }),
+                new CustomEvent(`${data.id}-tweet`, { detail: 'unlike' }),
               );
               throw new Error(res.message);
             }
@@ -164,7 +219,7 @@ function UnMemoTweet({
       if (!isRepostLoading) {
         setIsRepostLoading(true);
         document.dispatchEvent(
-          new CustomEvent(`${data.id}`, { detail: 'unRetweet' }),
+          new CustomEvent(`${data.id}-tweet`, { detail: 'unRetweet' }),
         );
         const deleteRetweet = async () => {
           try {
@@ -182,7 +237,7 @@ function UnMemoTweet({
             const res = await response.json();
             if (!res.status) {
               document.dispatchEvent(
-                new CustomEvent(`${data.id}`, { detail: 'retweet' }),
+                new CustomEvent(`${data.id}-tweet`, { detail: 'retweet' }),
               );
               throw new Error(res.message);
             }
@@ -197,7 +252,7 @@ function UnMemoTweet({
       }
     } else if (repost === false) {
       document.dispatchEvent(
-        new CustomEvent(`${data.id}`, { detail: 'retweet' }),
+        new CustomEvent(`${data.id}-tweet`, { detail: 'retweet' }),
       );
       if (!isRepostLoading) {
         setIsRepostLoading(true);
@@ -213,10 +268,9 @@ function UnMemoTweet({
               },
             );
             const res = await response.json();
-            console.log(res);
             if (!res.status) {
               document.dispatchEvent(
-                new CustomEvent(`${data.id}`, { detail: 'unRetweet' }),
+                new CustomEvent(`${data.id}-tweet`, { detail: 'unRetweet' }),
               );
               throw new Error(res.message);
             }
@@ -239,28 +293,32 @@ function UnMemoTweet({
   return (
     <div
       data-testid={`${data.id}`}
-      className="tweet mb-[0.5px] mt-[-0.5px] grid w-full border-collapse grid-cols-[auto_1fr]  border-y-[0.5px] border-y-border-gray bg-white px-3 pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black sm:px-[16px] lg:w-[598px] "
+      className="tweet mb-[0.5px] mt-[-0.5px] grid w-full border-collapse grid-cols-[auto_1fr]  border-t-[0.5px] border-t-x-light-gray bg-white px-3 pt-[12px] hover:cursor-pointer hover:bg-xx-light-gray dark:border-t-border-gray dark:bg-pure-black dark:text-white dark:hover:bg-pure-black sm:px-[16px] lg:min-w-[598px] "
       onClick={handleClick}
     >
       <div
+        data-testid={`popover${data.id}`}
         className="leftColumn mr-[12px] h-[40px] w-[40px] "
         onClick={(e) => {
           e.stopPropagation();
         }}
       >
         <PopoverUserCard
-          popoverIsFollowed={data.user.isFollowed}
-          popoverIsFollowing={data.user.isFollowing}
+          popoverIsFollowed={isFollowed}
+          popoverIsFollowing={isFollowing}
           popoverUserPicture={
             data.user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
           }
           popoverUserName={data.user.screenName}
           popoverUserID={data.user.username}
           popoverDiscription={data.user.bio}
-          popoverFollowing={data.user.followingCount}
-          popoverFollowers={data.user.followersCount}
+          popoverFollowing={followingsCount}
+          popoverFollowers={followersCount}
           popoverTestID={`${data.user.username}-popover`}
-          popoverSetLocalIsFollowed
+          popoverSetLocalIsFollowed={setIsFollowed}
+          popoverIsBlocked={isBlocked}
+          popoverIsMuted={isMuted}
+          userId={data.user.userId}
         >
           <div className="profileImage leftColumn absolute mr-[12px] h-[40px] w-[40px] ">
             <img
@@ -370,10 +428,11 @@ function UnMemoTweet({
         <div>
           <Media images={images} />
         </div>
-        <div className="buttons flex h-[32px] flex-row  justify-between">
+        <div className="buttons ml-5 flex h-[32px] w-[100%]  flex-row justify-between">
           <button
             data-testid={`${data.id}reply`}
             type="submit"
+            className="flex w-[20%] flex-row "
             onClick={(e) => {
               e.stopPropagation();
               handleReply();
@@ -387,6 +446,7 @@ function UnMemoTweet({
           <button
             data-testid={`${data.id}repost`}
             type="submit"
+            className="flex w-[20%] flex-row"
             disabled={isRepostLoading}
             onClick={(e) => {
               e.stopPropagation();
@@ -403,6 +463,7 @@ function UnMemoTweet({
             data-testid={`${data.id}like`}
             disabled={isLikeLoading}
             type="submit"
+            className="flex w-[20%] flex-row "
             onClick={(e) => {
               e.stopPropagation();
               handleLike();
@@ -416,7 +477,6 @@ function UnMemoTweet({
           </button>
         </div>
       </div>
-      <OwnToaster />
     </div>
   );
 }

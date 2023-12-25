@@ -16,7 +16,7 @@ function reactButtons({ type, data, clicked }) {
             ? 'text-[#F91880]'
             : ''
         } 
-       group m-auto  flex h-[20px]
+       group m-auto  flex h-[20px] w-[50%]
         flex-row text-sm hover:cursor-pointer`}
       >
         <svg
@@ -44,7 +44,8 @@ function reactButtons({ type, data, clicked }) {
             }`}
           />
         </svg>
-        {data !== 0 && <p className="px-[8px]">{data}</p>}
+        {data !== 0 && <p className="w-[50%] px-[8px]">{data}</p>}
+        {data === 0 && <p className="w-[50%] px-[8px]"> </p>}
       </div>
     );
   }
@@ -60,7 +61,7 @@ function reactButtons({ type, data, clicked }) {
           ? 'hover:text-[#F91880]'
           : ''
       } 
-     group m-auto  flex h-[20px]
+     group m-auto  flex h-[20px] w-[50%]
       flex-row text-sm text-dark-gray hover:cursor-pointer`}
     >
       <svg
@@ -88,7 +89,8 @@ function reactButtons({ type, data, clicked }) {
           }`}
         />
       </svg>
-      {data !== 0 && <p className="px-[8px]">{data}</p>}
+      {data !== 0 && <p className="w-[50%] px-[8px]">{data}</p>}
+      {data === 0 && <p className="w-[50%] px-[8px]"> </p>}
     </div>
   );
 }

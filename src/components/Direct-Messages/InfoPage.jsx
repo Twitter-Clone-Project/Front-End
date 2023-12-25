@@ -82,7 +82,7 @@ export default function InfoPage() {
     return (
       <div
         data-testid="info-page"
-        className="flex  h-screen w-full max-w-full  flex-col  border-r-[1px]  border-[#f6f8f9] dark:border-[#252829] dark:bg-black md:w-[600px]   lg:w-[600px] xl:w-[600px]"
+        className="flex  h-screen w-full max-w-full  flex-col  border-r-[1px]   border-[#E1E8ED] dark:border-[#252829] dark:bg-black md:w-[600px]   lg:w-[600px] xl:w-[600px]"
       >
         <div className="flex h-[53px] items-center gap-7  px-4">
           <div>
@@ -106,7 +106,7 @@ export default function InfoPage() {
             Conversation info
           </div>
         </div>
-        <div className=" border-b-[1px]  border-[#f6f8f9] dark:border-[#252829]">
+        <div className=" border-b-[1px]  border-[#E1E8ED] dark:border-[#252829]">
           <UserItem
             isFollowed={user.isFollowed}
             isFollowing={user.isFollowing}

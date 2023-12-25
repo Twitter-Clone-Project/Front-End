@@ -42,6 +42,7 @@ function BlockedUsers() {
                 following={user.followingsCount}
                 followers={user.followersCount}
                 testID={user.userId}
+                isBlocked={true}
               />
             ))
           ) : (
