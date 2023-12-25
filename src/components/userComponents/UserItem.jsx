@@ -45,8 +45,7 @@ function UserItem({
         setLocalIsFollowed(!localIsFollowed);
         return response.json();
       })
-      .then((data) => {
-      })
+      .then((data) => {})
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
@@ -70,8 +69,7 @@ function UserItem({
         setLocalIsFollowed(!localIsFollowed);
         return response.json();
       })
-      .then((data) => {
-      })
+      .then((data) => {})
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
@@ -95,8 +93,7 @@ function UserItem({
         setLocalIsFollowed(false);
         return response.json();
       })
-      .then((data) => {
-      })
+      .then((data) => {})
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
@@ -119,8 +116,7 @@ function UserItem({
         setLocalIsBlocked(!localIsBlocked);
         return response.json();
       })
-      .then((data) => {
-      })
+      .then((data) => {})
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
@@ -143,8 +139,7 @@ function UserItem({
         setLocalIsMuted(!localIsMuted);
         return response.json();
       })
-      .then((data) => {
-      })
+      .then((data) => {})
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
@@ -167,8 +162,7 @@ function UserItem({
         setLocalIsMuted(!localIsMuted);
         return response.json();
       })
-      .then((data) => {
-      })
+      .then((data) => {})
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
@@ -206,7 +200,7 @@ function UserItem({
         data-testid={`UserItem_${userID}_toUserProfile`}
       >
         <div className="flex w-full flex-row">
-          <div className="mr-3 h-full w-11">
+          <div className="mr-3 h-full ">
             <PopoverUserCard
               popoverIsFollowed={localIsFollowed}
               popoverIsFollowing={isFollowing}
@@ -227,9 +221,9 @@ function UserItem({
               />
             </PopoverUserCard>
           </div>
-          <div className="flex w-full flex-col">
+          <div className="flex w-[calc(100%-56px)] flex-col">
             <div className="flex w-full flex-row items-center justify-between">
-              <div className="flex h-[41.5px] flex-col">
+              <div className="flex h-[41.5px] w-full max-w-[75%] flex-col">
                 <PopoverUserCard
                   popoverIsFollowed={localIsFollowed}
                   popoverIsFollowing={isFollowing}
@@ -243,13 +237,13 @@ function UserItem({
                 >
                   <label
                     htmlFor="img"
-                    className=" h-[21.5px] cursor-pointer text-[15px] font-bold text-pure-black hover:underline dark:text-white"
+                    className="h-[21.5px] w-min max-w-full cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-[15px] font-bold text-pure-black hover:underline dark:text-white"
                     data-testid={`UserItem_${userID}_name`}
                   >
                     {userName}
                   </label>
                 </PopoverUserCard>
-                <div className="flex h-5 flex-row items-center">
+                <div className="flex h-5 w-full flex-row items-center">
                   <PopoverUserCard
                     popoverIsFollowed={localIsFollowed}
                     popoverIsFollowing={isFollowing}
@@ -262,7 +256,7 @@ function UserItem({
                     popoverSetLocalIsFollowed={setLocalIsFollowed}
                   >
                     <span
-                      className=" w-min text-light-thin"
+                      className="w-min max-w-[80%] overflow-hidden text-ellipsis whitespace-nowrap text-light-thin"
                       data-testid={`UserItem_${userID}_userName`}
                     >
                       @{userID}
@@ -273,7 +267,7 @@ function UserItem({
                       className=" ml-1 h-4 items-center rounded bg-x-light-gray px-1 py-0.5 dark:bg-border-gray"
                       data-testid={`UserItem_${userID}_1`}
                     >
-                      <p className=" h-3 text-[11px] leading-3 text-light-thin">
+                      <p className="h-3 text-[11px] leading-3 text-light-thin">
                         Follows you
                       </p>
                     </div>
@@ -377,8 +371,8 @@ function UserItem({
                 )}
               </div>
             </div>
-            <div className=" pt-1">
-              <p className=" text-[15px] text-pure-black dark:text-white">
+            <div className="pt-1">
+              <p className="break-words text-[15px] text-pure-black dark:text-white">
                 {discription}
               </p>
             </div>
