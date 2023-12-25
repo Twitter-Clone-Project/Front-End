@@ -170,6 +170,9 @@ function SearchBar({ value, setValue }) {
                         <ResultsList
                           value={value}
                           results={results}
+                          setFocus={() => {
+                            handleInputBlur();
+                          }}
                         />
                       </div>
                     )}

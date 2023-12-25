@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router';
@@ -23,8 +24,8 @@ function TweetResults() {
     setValue(location.search.slice(3, location.search.length));
     setResults([]);
   }, [value, location]);
-
   const fetchResults = useCallback(async () => {
+    // console.log(value);
     if (isLoading || isDone) return;
     try {
       setIsLoading(true);
@@ -40,6 +41,7 @@ function TweetResults() {
         },
       );
       const data = await response.json();
+      // console.log(data);
       if (!data.status) throw new Error(data.message);
       if (data.data.length === 0) setIsDone(true);
       else setResults((prevResults) => [...prevResults, ...data.data]);
@@ -53,7 +55,6 @@ function TweetResults() {
   }, [isLoading, page, isDone, value]);
 
   useEffect(() => {
-    if (!value) return;
     const getInitialResults = async () => {
       try {
         setIsLoading(true);
@@ -67,6 +68,7 @@ function TweetResults() {
           },
         );
         const data = await response.json();
+        // console.log(data);
         if (data.data.length === 0) setIsDone(true);
         else setResults(() => [...data.data]);
         setInitialDone(true);
@@ -78,7 +80,7 @@ function TweetResults() {
       }
     };
     getInitialResults();
-  }, [value]);
+  }, [value, initialDone]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -96,14 +98,17 @@ function TweetResults() {
     if (error !== '') toast(error);
   }, [error]);
 
+  useEffect(() => {
+    setInitialDone(false);
+  }, [location]);
   return (
     <div data-testid={`${value}-tweet-results`}>
-      {isLoading && results.length === 0 ? (
+      {!initialDone ? (
         <Spinner />
       ) : (
         // eslint-disable-next-line react/jsx-no-useless-fragment
         <>
-          {initialDone && results.length === 0 ? (
+          {results.length === 0 ? (
             <NoSearchResults
               value={value}
               testId={`${value}-notweet-results`}
@@ -111,7 +116,7 @@ function TweetResults() {
           ) : (
             <div
               data-testid={`${value}-tweet-results-list`}
-              className="flex w-full flex-col items-center"
+              className="flex min-h-[calc(100%+60px)] w-full flex-col items-center sm:h-auto"
             >
               {results.map((result, index) => (
                 <Tweet

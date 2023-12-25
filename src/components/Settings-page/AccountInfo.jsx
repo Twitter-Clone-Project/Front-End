@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import SettingsHeader from './SettingsHeader';
+import { v4 as uuid4 } from 'uuid';
 
 function AccountInfo({ windowWidth }) {
   const list = [
@@ -19,6 +20,7 @@ function AccountInfo({ windowWidth }) {
       <div className="flex flex-col">
         {list.map((item) => (
           <NavLink
+            key={uuid4()}
             to={item.path}
             className={({ isActive }) =>
               isActive

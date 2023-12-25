@@ -46,7 +46,6 @@ function UserItem({
         return response.json();
       })
       .then((data) => {
-        console.log('Response data:', data);
       })
       .catch((error) => {
         console.error('Error during fetch:', error);
@@ -69,11 +68,9 @@ function UserItem({
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         setLocalIsFollowed(!localIsFollowed);
-        console.log(localIsFollowed);
         return response.json();
       })
       .then((data) => {
-        console.log('Response data:', data);
       })
       .catch((error) => {
         console.error('Error during fetch:', error);
@@ -99,7 +96,6 @@ function UserItem({
         return response.json();
       })
       .then((data) => {
-        console.log('Response data:', data);
       })
       .catch((error) => {
         console.error('Error during fetch:', error);
@@ -124,7 +120,6 @@ function UserItem({
         return response.json();
       })
       .then((data) => {
-        console.log('Response data:', data);
       })
       .catch((error) => {
         console.error('Error during fetch:', error);
@@ -149,7 +144,6 @@ function UserItem({
         return response.json();
       })
       .then((data) => {
-        console.log('Response data:', data);
       })
       .catch((error) => {
         console.error('Error during fetch:', error);
@@ -174,7 +168,6 @@ function UserItem({
         return response.json();
       })
       .then((data) => {
-        console.log('Response data:', data);
       })
       .catch((error) => {
         console.error('Error during fetch:', error);
@@ -184,7 +177,6 @@ function UserItem({
   const handelFollowUnFollowButton = (event) => {
     event.preventDefault();
     event.stopPropagation(); // to ignore any other functions in the same component
-    console.log(isBlocked, isMuted);
     if (isBlocked) {
       if (localIsBlocked) {
         unBlockReq();
@@ -195,7 +187,6 @@ function UserItem({
     } else if (isMuted) {
       if (localIsMuted) {
         unMuteReq();
-        console.log('unmute');
       } else {
         muteReq();
       }
@@ -414,5 +405,4 @@ UserItem.propTypes = {
   isBlocked: PropTypes.bool,
   isMuted: PropTypes.bool,
 };
-
 export default UserItem;

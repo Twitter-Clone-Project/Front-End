@@ -163,7 +163,9 @@ function UnMemoTweet({
               throw new Error(res.message);
             }
           } catch (err) {
-            toast(err.message);
+            toast(err.message, {
+              id: 'toast',
+            });
           } finally {
             setIsLikeLoading(false);
           }

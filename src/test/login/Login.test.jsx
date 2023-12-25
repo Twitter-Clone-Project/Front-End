@@ -4,11 +4,13 @@ import * as router from 'react-router';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import AuthProvider from '../../contexts/Auth/AuthProvider';
 import Login from '../../components/login-page/Login';
 import ForgotPassword from '../../components/login-page/ForgotPassword';
 import NewPassword from '../../components/login-page/NewPassword';
 import EmailConfirm from '../../components/sign-up/EmailConfirm';
+import OwnToaster from '../../components/OwnToaster';
 
 describe('Login component', () => {
   const navigate = vi.fn();
@@ -39,9 +41,11 @@ describe('Login component', () => {
   it('should render the login form', () => {
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
-        <BrowserRouter>
-          <Login />
-        </BrowserRouter>
+        <GoogleOAuthProvider>
+          <BrowserRouter>
+            <Login />
+          </BrowserRouter>
+        </GoogleOAuthProvider>
       </AuthProvider>,
     );
     const emailInput = getByTestId('Email');
@@ -67,9 +71,11 @@ describe('Login component', () => {
   it('should submit the form with valid credentials', async () => {
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
-        <BrowserRouter>
-          <Login />
-        </BrowserRouter>
+        <GoogleOAuthProvider>
+          <BrowserRouter>
+            <Login />
+          </BrowserRouter>
+        </GoogleOAuthProvider>
       </AuthProvider>,
     );
 
@@ -104,9 +110,11 @@ describe('Login component', () => {
   it('should submit the form with valid credentials', async () => {
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
-        <BrowserRouter>
-          <Login />
-        </BrowserRouter>
+        <GoogleOAuthProvider>
+          <BrowserRouter>
+            <Login />
+          </BrowserRouter>
+        </GoogleOAuthProvider>
       </AuthProvider>,
     );
 
@@ -130,9 +138,11 @@ describe('Login component', () => {
 
     const { getByTestId, getByText } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
-        <BrowserRouter>
-          <Login />
-        </BrowserRouter>
+        <GoogleOAuthProvider>
+          <BrowserRouter>
+            <Login />
+          </BrowserRouter>
+        </GoogleOAuthProvider>
       </AuthProvider>,
     );
     const emailInput = getByTestId('Email');
@@ -162,9 +172,11 @@ describe('Login component', () => {
     });
     const { getByTestId } = render(
       <BrowserRouter>
-        <AuthProvider>
-          <Login />
-        </AuthProvider>
+        <GoogleOAuthProvider>
+          <AuthProvider>
+            <Login />
+          </AuthProvider>
+        </GoogleOAuthProvider>
       </BrowserRouter>,
     );
 
@@ -189,7 +201,9 @@ describe('Login component', () => {
     const { getByTestId } = render(
       <BrowserRouter>
         <AuthProvider>
-          <ForgotPassword />
+          <GoogleOAuthProvider>
+            <ForgotPassword />
+          </GoogleOAuthProvider>
         </AuthProvider>
       </BrowserRouter>,
     );
@@ -232,8 +246,11 @@ describe('Login component', () => {
     const { getByTestId, getByText } = render(
       <BrowserRouter>
         <AuthProvider>
-          <ForgotPassword />
+          <GoogleOAuthProvider>
+            <ForgotPassword />
+          </GoogleOAuthProvider>
         </AuthProvider>
+        <OwnToaster />
       </BrowserRouter>,
     );
     const container = getByTestId('forgot-password');
@@ -262,7 +279,9 @@ describe('Login component', () => {
     const { getByTestId } = render(
       <BrowserRouter>
         <AuthProvider>
-          <NewPassword email="mahsobhy3@gmail.com" />
+          <GoogleOAuthProvider>
+            <NewPassword email="mahsobhy3@gmail.com" />
+          </GoogleOAuthProvider>
         </AuthProvider>
       </BrowserRouter>,
     );
@@ -294,7 +313,7 @@ describe('Login component', () => {
   });
   it('should render New Password with error', async () => {
     window.fetch.mockResolvedValue({
-      ok: false,
+      ok: true,
       json: () =>
         Promise.resolve({
           status: false,
@@ -304,8 +323,11 @@ describe('Login component', () => {
     const { getByTestId, getByText } = render(
       <BrowserRouter>
         <AuthProvider>
-          <NewPassword email="mahsobhy3@gmail.com" />
+          <GoogleOAuthProvider>
+            <NewPassword email="mahsobhy3@gmail.com" />
+          </GoogleOAuthProvider>
         </AuthProvider>
+        <OwnToaster />
       </BrowserRouter>,
     );
 
@@ -341,10 +363,12 @@ describe('Login component', () => {
     const { getByTestId } = render(
       <BrowserRouter>
         <AuthProvider>
-          <EmailConfirm
-            type="reset"
-            email="mahsobhy3@gmail.com"
-          />
+          <GoogleOAuthProvider>
+            <EmailConfirm
+              type="reset"
+              email="mahsobhy3@gmail.com"
+            />
+          </GoogleOAuthProvider>
         </AuthProvider>
       </BrowserRouter>,
     );

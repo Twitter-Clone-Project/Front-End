@@ -1,4 +1,4 @@
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { v4 as uuid4 } from 'uuid';
 import React from 'react';
@@ -6,9 +6,11 @@ import { BrowserRouter } from 'react-router-dom';
 import * as router from 'react-router';
 import { addLocale, setDefaultLocale } from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
+import userEvent from '@testing-library/user-event';
 import Tweet from '../../tweetPage/Tweet';
 import AuthProvider from '../../contexts/Auth/AuthProvider';
 import { useAuth } from '../../hooks/AuthContext';
+import { act } from 'react-dom/test-utils';
 
 const data = [
   {
@@ -62,6 +64,8 @@ const navigate = vi.fn();
 beforeEach(() => {
   vi.spyOn(router, 'useNavigate').mockImplementation(() => navigate);
   vi.spyOn(window, 'fetch');
+  vi.useFakeTimers({ shouldAdvanceTime: true });
+
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
     value: vi.fn().mockImplementation((query) => ({
@@ -79,6 +83,8 @@ beforeEach(() => {
 
 afterEach(() => {
   window.fetch.mockRestore();
+  vi.runOnlyPendingTimers();
+  vi.useRealTimers();
 });
 
 describe('Tweet', () => {
@@ -120,7 +126,10 @@ describe('Tweet', () => {
     expect(userPopup).toBeInTheDocument();
   });
 
-  it('shows the actions menu on click on click on the 3 dots ', () => {
+  it('shows the actions menu on click on click on the 3 dots ', async () => {
+    const user = userEvent.setup({
+      advanceTimers: (ms) => vi.advanceTimersByTime(ms),
+    });
     const { getByTestId } = render(
       <AuthProvider
         value={{ dispatch, user: data[0].user, isAuthenticated: true }}
@@ -137,8 +146,12 @@ describe('Tweet', () => {
     );
 
     const menubtn = getByTestId('123456menubtn');
-    fireEvent.click(menubtn);
-    expect(getByTestId('123456menu')).toBeInTheDocument();
+    await user.click(menubtn);
+    vi.advanceTimersByTime(700);
+    await waitFor(() => {
+      expect(getByTestId('123456menu')).toBeInTheDocument();
+    });
+    // screen.debug();
   });
 
   it('navigates to the profile on click on the screenName', () => {
