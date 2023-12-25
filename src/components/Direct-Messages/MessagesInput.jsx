@@ -136,7 +136,7 @@ function MessagesInput() {
           <div
             data-testid="input-messages-div-inside-2"
             className={` ${
-              message === ''
+              message.trim() === ''
                 ? 'cursor-default'
                 : ' hover:bg-blue-light dark:hover:bg-[#262f3b]'
             } 
