@@ -17,6 +17,9 @@ function SearchPage() {
     navigate(prevLoc || -1);
   };
   useEffect(() => {
+    setValue(location.search.slice(3, location.search.length));
+  }, [location]);
+  useEffect(() => {
     setQueryValue(location.search.slice(3, location.search.length));
   }, [location.search]);
   const ListNavItems = [
