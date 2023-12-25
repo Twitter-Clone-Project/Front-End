@@ -19,7 +19,7 @@ module.exports = {
       { allowConstantExport: true },
     ],
     'prettier/prettier': ['error', { endOfLine: 'auto', indent: 'off' }],
-    'linebreak-style': ['error', 'windows'],
+    'linebreak-style': ['error', 'unix'],
     'prefer-destructuring': ['error', { object: true, array: false }],
     'no-console': 'warn',
     'new-cap': 'off',
