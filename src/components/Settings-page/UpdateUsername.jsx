@@ -58,7 +58,6 @@ function UpdateUsername() {
               return e;
             });
         } catch (err) {
-          console.log(err);
           if (err.name !== 'AbortError') toast(err.message);
         } finally {
           setUsernameLoading(false);
@@ -84,10 +83,7 @@ function UpdateUsername() {
     }
   }, [error, data]);
   return (
-    <div
-      data-testid="update-username-page"
-      className="w-full"
-    >
+    <div className="w-full">
       {isLoading ? (
         <Spinner />
       ) : (
