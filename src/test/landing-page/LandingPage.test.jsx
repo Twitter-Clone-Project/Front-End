@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import LandingPage from '../../components/landingPage/LandingPage';
 import AuthProvider from '../../contexts/Auth/AuthProvider';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 it('First test', () => {
   render(
@@ -11,7 +12,9 @@ it('First test', () => {
       value={{ dispatch: vi.fn(), user: null, isAuthenticated: false }}
     >
       <BrowserRouter>
-        <LandingPage />
+        <GoogleOAuthProvider>
+          <LandingPage />
+        </GoogleOAuthProvider>
       </BrowserRouter>
     </AuthProvider>,
   );
