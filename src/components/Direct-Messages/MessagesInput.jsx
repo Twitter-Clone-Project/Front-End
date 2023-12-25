@@ -25,7 +25,7 @@ function MessagesInput() {
   };
 
   const handleClick = () => {
-    if (socket === null || message === '') return;
+    if (socket === null || message === '' || message.trim() === '') return;
 
     const newMessage = {
       conversationId: chatContext.conversationId,
@@ -136,7 +136,7 @@ function MessagesInput() {
           <div
             data-testid="input-messages-div-inside-2"
             className={` ${
-              message === ''
+              message.trim() === ''
                 ? 'cursor-default'
                 : ' hover:bg-blue-light dark:hover:bg-[#262f3b]'
             } 
@@ -144,7 +144,7 @@ function MessagesInput() {
           >
             <svg
               className={`h-5 w-5 fill-blue ${
-                message === '' ? 'opacity-50' : 'opacity-100'
+                message.trim() === '' ? 'opacity-50' : 'opacity-100'
               } `}
               viewBox="0 0 24 24"
             >
