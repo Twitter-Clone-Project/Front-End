@@ -4,6 +4,17 @@ import BackBtn from './BackBtn';
 import { v4 as uuid4 } from 'uuid';
 import PropTypes from 'prop-types';
 
+/**
+ * Renders a list of settings options.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {number} props.windowWidth - The width of the window.
+ * @returns {JSX.Element|null} The rendered SettingsList component.
+ * @example
+ * <SettingsList windowWidth={window.outerWidth} />
+ */
+
 function SettingsList({ windowWidth }) {
   const list = [
     {

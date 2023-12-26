@@ -9,6 +9,37 @@ import Button from '../form-controls/Button';
 import PopoverUserCard from './PopoverUserCard';
 import { useAuth } from '../../hooks/AuthContext';
 
+/**
+ * UserItem component displays information about a user and provides functionality for following/unfollowing, blocking/unblocking, and muting/unmuting the user.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {boolean} props.isFollowed - Indicates whether the user is followed.
+ * @param {boolean} props.isFollowing - Indicates whether the user is following.
+ * @param {string} props.userPicture - The URL of the user's profile picture.
+ * @param {string} props.userName - The username of the user.
+ * @param {string} props.userID - The ID of the user.
+ * @param {string} props.discription - The description of the user.
+ * @param {number} props.following - The number of users the user is following.
+ * @param {number} props.followers - The number of users following the user.
+ * @param {boolean} props.isBlocked - Indicates whether the user is blocked.
+ * @param {boolean} props.isMuted - Indicates whether the user is muted.
+ * @returns {JSX.Element} The rendered UserItem component.
+ * @example
+ * <UserItem
+ *   isFollowed={true}
+ *   isFollowing={false}
+ *   userPicture="https://example.com/profile.jpg"
+ *   userName="JohnDoe"
+ *   userID="123456"
+ *   discription="Lorem ipsum dolor sit amet"
+ *   following={100}
+ *   followers={500}
+ *   isBlocked={false}
+ *   isMuted={true}
+ * />
+ */
+
 function UserItem({
   isFollowed,
   isFollowing,
@@ -21,13 +52,13 @@ function UserItem({
   isBlocked,
   isMuted,
 }) {
+  /* ... component implementation ... */
   const [localIsFollowed, setLocalIsFollowed] = useState(isFollowed);
   const [localIsBlocked, setLocalIsBlocked] = useState(isBlocked);
   const [localIsMuted, setLocalIsMuted] = useState(isMuted);
   const { user: curUser } = useAuth();
   const [isButtonHovered, setButtonHovered] = useState(false);
 
-  // Function to handle follow request
   const followReq = () => {
     fetch(`${import.meta.env.VITE_API_DOMAIN}users/${userID}/follow`, {
       method: 'POST',
@@ -51,7 +82,6 @@ function UserItem({
       });
   };
 
-  // Function to handle unFollow request
   const unFollowReq = () => {
     fetch(`${import.meta.env.VITE_API_DOMAIN}users/${userID}/unfollow`, {
       method: 'DELETE',
@@ -170,14 +200,13 @@ function UserItem({
 
   const handelFollowUnFollowButton = (event) => {
     event.preventDefault();
-    event.stopPropagation(); // to ignore any other functions in the same component
+    event.stopPropagation();
     if (isBlocked) {
       if (localIsBlocked) {
         unBlockReq();
       } else {
         blockReq();
       }
-      // localIsFollowed ? unFollowReq() : followReq();
     } else if (isMuted) {
       if (localIsMuted) {
         unMuteReq();
@@ -382,6 +411,7 @@ function UserItem({
     </div>
   );
 }
+
 UserItem.defaultProps = {
   isBlocked: false,
   isMuted: false,

@@ -10,6 +10,45 @@ import Button from '../form-controls/Button';
 
 import { useAuth } from '../../hooks/AuthContext';
 
+/**
+ * popoverUserCard component displays information about a user in a popover. which is displayed when the user hovers over an component that has this component as a child.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {React.ReactNode} props.children - The content of the popover trigger.
+ * @param {boolean} props.popoverIsFollowed - Indicates if the user is followed.
+ * @param {boolean} props.popoverIsFollowing - Indicates if the user is following.
+ * @param {string} props.popoverUserPicture - The URL of the user's profile picture.
+ * @param {string} props.popoverUserName - The name of the user.
+ * @param {string} props.popoverUserID - The ID of the user.
+ * @param {string} props.popoverDiscription - The description of the user.
+ * @param {string} props.popoverFollowing - The number of users the user is following.
+ * @param {string} props.popoverFollowers - The number of users following the user.
+ * @param {Function} props.popoverSetLocalIsFollowed - The function to set the local isFollowed state.
+ * @param {boolean} props.popoverIsBlocked - Indicates if the user is blocked.
+ * @param {boolean} props.popoverIsMuted - Indicates if the user is muted.
+ * @param {string} props.userId - The ID of the current user.
+ * @returns {React.ReactNode} The rendered component.
+ * @example
+ * <PopoverUserCard
+ *   popoverIsFollowed={true}
+ *   popoverIsFollowing={false}
+ *   popoverUserPicture="https://example.com/profile.jpg"
+ *   popoverUserName="John Doe"
+ *   popoverUserID="johndoe"
+ *   popoverDiscription="Lorem ipsum dolor sit amet"
+ *   popoverFollowing="100"
+ *   popoverFollowers="200"
+ *   popoverSetLocalIsFollowed={handleSetLocalIsFollowed}
+ *   popoverIsBlocked={false}
+ *   popoverIsMuted={false}
+ *   userId="currentUserId"
+ * >
+ *   <button>Hover me</button>
+ * </PopoverUserCard>
+ *
+ */
+
 function PopoverUserCard({
   children,
   popoverIsFollowed,
@@ -26,7 +65,6 @@ function PopoverUserCard({
   userId,
 }) {
   const { user: curUser } = useAuth();
-  // Function to handle follow request
 
   const followReq = () => {
     fetch(`${import.meta.env.VITE_API_DOMAIN}users/${popoverUserID}/follow`, {
@@ -54,7 +92,6 @@ function PopoverUserCard({
       });
   };
 
-  // Function to handle unFollow request
   const unFollowReq = () => {
     fetch(`${import.meta.env.VITE_API_DOMAIN}users/${popoverUserID}/unfollow`, {
       method: 'DELETE',
