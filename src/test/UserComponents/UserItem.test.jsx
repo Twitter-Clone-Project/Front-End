@@ -329,6 +329,7 @@ describe('UserItem', () => {
         },
       );
     });
+    window.fetch.mockClear();
     window.fetch.mockResolvedValueOnce({
       ok: true,
       json: () =>
@@ -402,7 +403,7 @@ describe('UserItem', () => {
       );
     });
     expect(getByTestId('UserItem_john_doe_2')).toHaveTextContent('Mute');
-
+    window.fetch.mockClear();
     window.fetch.mockResolvedValueOnce({
       ok: true,
       json: () =>
@@ -516,6 +517,7 @@ describe('UserItem', () => {
       json: () =>
         Promise.resolve({ status: true, message: 'Unfollowed Successfully' }),
     });
+
     useAuth.mockReturnValue({
       dispatch: vi.fn(),
       isAuthenticated: true,
