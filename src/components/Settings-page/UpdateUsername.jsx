@@ -83,10 +83,7 @@ function UpdateUsername() {
     }
   }, [error, data]);
   return (
-    <div
-      data-testid="update-username-page"
-      className="w-full"
-    >
+    <div className="w-full">
       {isLoading ? (
         <Spinner />
       ) : (
