@@ -276,6 +276,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
                   <DropdownMenu.Item>
                     <button
                       type="submit"
+                      data-testid="follow"
                       onClick={() => handleFollow()}
                       className="w-[100%]"
                     >
@@ -315,6 +316,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
                   <DropdownMenu.Item>
                     <button
                       type="submit"
+                      data-testid="mute"
                       onClick={() => handleMute()}
                       className="w-[100%]"
                     >
@@ -339,6 +341,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
                   <DropdownMenu.Item>
                     <button
                       type="submit"
+                      data-testid="block"
                       onClick={() => handleBlock()}
                       className="w-[100%]"
                     >
@@ -366,6 +369,7 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
                 <DropdownMenu.Item>
                   <button
                     type="submit"
+                    data-testid="delete"
                     className="w-[100%]"
                     onClick={() => handleDelete()}
                   >

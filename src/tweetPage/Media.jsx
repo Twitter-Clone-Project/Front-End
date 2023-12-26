@@ -22,6 +22,7 @@ function Media({ images }) {
     if (images.length % 2 === 0) {
       return (
         <div
+          data-testid="24images"
           className={`media4 my-2 grid max-h-[512px] max-w-[512px] grid-cols-2
         grid-rows-${images.length / 2} gap-[2px] overflow-hidden rounded-xl`}
         >
@@ -50,6 +51,7 @@ function Media({ images }) {
     const images3 = images.slice(1);
     return (
       <div
+        data-testid="13images"
         className={`media4 my-2 grid max-h-[512px] max-w-[512px]
        grid-cols-${images.length / 2 + 0.5} grid-rows-1 gap-[${
          images.length - 1

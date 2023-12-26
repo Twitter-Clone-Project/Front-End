@@ -160,7 +160,10 @@ function AddPost({ setTweets }) {
         </div>
 
         <div className="rightColumn h-auto">
-          <div className="peer max-w-full placeholder:text-light-thin">
+          <div
+            data-testid="input"
+            className="peer max-w-full placeholder:text-light-thin"
+          >
             <TextField
               text={text}
               setText={setText}
