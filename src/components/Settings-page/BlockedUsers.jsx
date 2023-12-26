@@ -23,7 +23,10 @@ function BlockedUsers() {
   }, [error]);
 
   return (
-    <div className="w-full">
+    <div
+      data-testid="blocked-users-page"
+      className="w-full"
+    >
       {isLoading ? (
         <Spinner />
       ) : (
@@ -42,7 +45,7 @@ function BlockedUsers() {
                 following={user.followingsCount}
                 followers={user.followersCount}
                 testID={user.userId}
-                isBlocked={true}
+                isBlocked
               />
             ))
           ) : (
