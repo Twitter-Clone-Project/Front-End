@@ -79,7 +79,7 @@ function FollowersList() {
       <div className="w-full overflow-y-clip bg-white dark:bg-pure-black">
         <div className=" flex h-28 flex-col hover:cursor-pointer">
           <div className="flex h-[53px] flex-row px-4 ">
-            <div className=" w-14">
+            <div className=" w-14 min-w-[56px]">
               <div
                 className="mb-2 mt-[9px] flex h-9 w-9 items-center justify-center rounded-full hover:bg-x-light-gray dark:hover:bg-[#181919]"
                 onClick={handelBackButton}
@@ -100,7 +100,7 @@ function FollowersList() {
                 </svg>
               </div>
             </div>
-            <div className="mb-[3px] mt-[6px] flex flex-col">
+            <div className="mb-[3px] mt-[6px] flex w-full flex-col">
               <div className="flex h-7 max-w-[80%] py-0.5">
                 <span className="w-min max-w-full cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-[20px] font-bold leading-6 text-pure-black hover:underline dark:text-white">
                   {name}
