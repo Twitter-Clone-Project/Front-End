@@ -1,6 +1,6 @@
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import * as router from 'react-router';
 import { EditorState, ContentState } from 'draft-js';
@@ -27,7 +27,7 @@ const user = {
   userId: '123',
   username: 'janesmith',
   screenName: 'Jane Smith',
-  profileImageURL: 'https://example.com/profile.jpg',
+  imageUrl: 'https://example.com/profile.jpg',
   bio: "I'm the original user.",
   followersCount: 2000,
   followingCount: 1000,
@@ -81,8 +81,6 @@ describe('Add Post', () => {
       `/app/${user.username}`,
       expect.any(Object),
     );
-
-    // screen.debug();
   });
 
   it('shows the emoji picker on click on emoji icon', () => {
@@ -97,10 +95,9 @@ describe('Add Post', () => {
     const emojiBtn = getByTestId('emojiBtn');
     fireEvent.click(emojiBtn);
     expect(getByTestId('emojiPicker')).toBeInTheDocument();
-    // screen.debug();
   });
 
-  it('should disable post button in case of no text', () => {
+  it('should not disable post button in case of some text', () => {
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
         <BrowserRouter>
@@ -116,7 +113,52 @@ describe('Add Post', () => {
     expect(postBtn).not.toBeDisabled();
   });
 
-  it('should disable post button in case of whitrspaces', () => {
+  it('should not disable post button in case of hashtags', () => {
+    const { getByTestId } = render(
+      <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
+        <BrowserRouter>
+          <AddPost setTweets={setTweets} />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    const postBtn = getByTestId('post123');
+    expect(postBtn).toBeDisabled();
+    const input = getByTestId('editor');
+    fireEvent.change(input, { target: { value: '#new #value' } });
+    expect(input.value).toBe('#new #value');
+    expect(postBtn).not.toBeDisabled();
+  });
+  it('should disable post button in case of no text', () => {
+    const { getByTestId } = render(
+      <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
+        <BrowserRouter>
+          <AddPost setTweets={setTweets} />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    const postBtn = getByTestId('post123');
+    expect(postBtn).toBeDisabled();
+    const input = getByTestId('editor');
+    fireEvent.change(input, { target: { value: '' } });
+    expect(input.value).toBe('');
+    expect(postBtn).toBeDisabled();
+  });
+
+  it('should disable post button in case of newlines', () => {
+    const { getByTestId } = render(
+      <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
+        <BrowserRouter>
+          <AddPost setTweets={setTweets} />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    const postBtn = getByTestId('post123');
+    expect(postBtn).toBeDisabled();
+    const input = getByTestId('editor');
+    fireEvent.change(input, { target: { value: '\n\n' } });
+    expect(postBtn).toBeDisabled();
+  });
+  it('should disable post button in case of spaces', () => {
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
         <BrowserRouter>
@@ -159,6 +201,31 @@ describe('Add Post', () => {
     });
   });
 
+  it('should remove the video on click on remove button ', () => {
+    const { getByTestId } = render(
+      <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
+        <BrowserRouter>
+          <AddPost setTweets={setTweets} />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    const mediaInput = getByTestId(`mediaInput${user.userId}`);
+    expect(mediaInput).not.toBeDisabled();
+    window.URL.createObjectURL = vi.fn((file) => `blob:${file.name}`);
+    const files = [
+      new File(['file content'], 'video1.mp4', { type: 'video/mp4' }),
+    ];
+    fireEvent.change(mediaInput, {
+      target: { files: files },
+    });
+    expect(mediaInput.files.length).toBe(1);
+    const media = getByTestId('media');
+    expect(media).toBeInTheDocument();
+    const remove = getByTestId('remove');
+    expect(remove).toBeInTheDocument();
+    fireEvent.click(remove);
+    expect(remove).not.toBeInTheDocument();
+  });
   it('should remove the image on click on remove button ', () => {
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
@@ -184,6 +251,147 @@ describe('Add Post', () => {
     expect(remove).toBeInTheDocument();
     fireEvent.click(remove);
     expect(remove).not.toBeInTheDocument();
+  });
+  it('should remove the image on click on remove button in case of 2 images ', () => {
+    const { getByTestId } = render(
+      <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
+        <BrowserRouter>
+          <AddPost setTweets={setTweets} />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    const mediaInput = getByTestId(`mediaInput${user.userId}`);
+    expect(mediaInput).not.toBeDisabled();
+    window.URL.createObjectURL = vi.fn((file) => `blob:${file.name}`);
+    const files = [
+      new File(['file content'], 'image1.png', { type: 'image/png' }),
+      new File(['file content'], 'image1.png', { type: 'image/png' }),
+    ];
+    fireEvent.change(mediaInput, {
+      target: { files: files },
+    });
+    expect(mediaInput.files.length).toBe(2);
+    expect(mediaInput).not.toBeDisabled();
+    const media = getByTestId('media');
+    expect(media).toBeInTheDocument();
+    const remove = getByTestId(`remove20`);
+    expect(remove).toBeInTheDocument();
+    fireEvent.click(remove);
+    expect(remove).not.toBeInTheDocument();
+  });
+
+  it('should remove the image on click on remove button in case of 3 images ', () => {
+    const { getByTestId } = render(
+      <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
+        <BrowserRouter>
+          <AddPost setTweets={setTweets} />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    const mediaInput = getByTestId(`mediaInput${user.userId}`);
+    expect(mediaInput).not.toBeDisabled();
+    window.URL.createObjectURL = vi.fn((file) => `blob:${file.name}`);
+    const files = [
+      new File(['file content'], 'image1.png', { type: 'image/png' }),
+      new File(['file content'], 'image1.png', { type: 'image/png' }),
+      new File(['file content'], 'image1.png', { type: 'image/png' }),
+    ];
+    fireEvent.change(mediaInput, {
+      target: { files: files },
+    });
+    expect(mediaInput.files.length).toBe(3);
+    expect(mediaInput).not.toBeDisabled();
+    const media = getByTestId('media');
+    expect(media).toBeInTheDocument();
+    const remove = getByTestId(`remove30`);
+    expect(remove).toBeInTheDocument();
+    fireEvent.click(remove);
+    expect(remove).not.toBeInTheDocument();
+  });
+
+  it('should not disable media button in case of no images or videos', () => {
+    const { getByTestId } = render(
+      <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
+        <BrowserRouter>
+          <AddPost setTweets={setTweets} />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    const mediaInput = getByTestId(`mediaInput${user.userId}`);
+    expect(mediaInput).not.toBeDisabled();
+    window.URL.createObjectURL = vi.fn((file) => `blob:${file.name}`);
+    const files = [];
+    fireEvent.change(mediaInput, {
+      target: { files: files },
+    });
+    expect(mediaInput.files.length).toBe(0);
+    expect(mediaInput).not.toBeDisabled();
+  });
+  it('should not disable media button in case of image and video because it will get none', () => {
+    const { getByTestId } = render(
+      <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
+        <BrowserRouter>
+          <AddPost setTweets={setTweets} />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    const mediaInput = getByTestId(`mediaInput${user.userId}`);
+    expect(mediaInput).not.toBeDisabled();
+    window.URL.createObjectURL = vi.fn((file) => `blob:${file.name}`);
+    const files = [
+      new File(['file content'], 'image1.png', { type: 'image1/png' }),
+      new File(['file content'], 'video.mp4', { type: 'video/mp4' }),
+    ];
+    fireEvent.change(mediaInput, {
+      target: { files: files },
+    });
+    expect(mediaInput.files.length).toBe(2);
+    expect(mediaInput).not.toBeDisabled();
+  });
+  it('should not disable media button in case of 5 images because it will get none', () => {
+    const { getByTestId } = render(
+      <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
+        <BrowserRouter>
+          <AddPost setTweets={setTweets} />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    const mediaInput = getByTestId(`mediaInput${user.userId}`);
+    expect(mediaInput).not.toBeDisabled();
+    window.URL.createObjectURL = vi.fn((file) => `blob:${file.name}`);
+    const files = [
+      new File(['file content'], 'image1.png', { type: 'image1/png' }),
+      new File(['file content'], 'image2.png', { type: 'image2/png' }),
+      new File(['file content'], 'image3.png', { type: 'image3/png' }),
+      new File(['file content'], 'image4.png', { type: 'image4/png' }),
+      new File(['file content'], 'image5.png', { type: 'image5/png' }),
+    ];
+    fireEvent.change(mediaInput, {
+      target: { files: files },
+    });
+    expect(mediaInput.files.length).toBe(5);
+    expect(mediaInput).not.toBeDisabled();
+  });
+
+  it('should not disable media button in case of less than 4 images ', () => {
+    const { getByTestId } = render(
+      <AuthProvider value={{ dispatch, user: user, isAuthenticated: true }}>
+        <BrowserRouter>
+          <AddPost setTweets={setTweets} />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    const mediaInput = getByTestId(`mediaInput${user.userId}`);
+    expect(mediaInput).not.toBeDisabled();
+    window.URL.createObjectURL = vi.fn((file) => `blob:${file.name}`);
+    const files = [
+      new File(['file content'], 'image1.png', { type: 'image/png' }),
+    ];
+    fireEvent.change(mediaInput, {
+      target: { files: files },
+    });
+    expect(mediaInput.files.length).toBe(1);
+    expect(mediaInput).not.toBeDisabled();
   });
 
   it('should not disable media button in case of less than 4 images ', () => {

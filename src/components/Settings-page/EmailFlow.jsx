@@ -9,22 +9,13 @@ import { useAuth } from '../../hooks/AuthContext';
 function EmailFlow() {
   const [step, setStep] = useState(0);
   const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [emailError, setEmailError] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordError, setPasswordError] = useState('');
 
   if (step === 0)
-    return (
-      <VerifyPassword
-        password={password}
-        setPassword={setPassword}
-        passwordError={passwordError}
-        setPasswordError={setPasswordError}
-        onClick={() => setStep((val) => val + 1)}
-      />
-    );
+    return <VerifyPassword onClick={() => setStep((val) => val + 1)} />;
   if (step === 1)
     return (
       <ChangeEmail
