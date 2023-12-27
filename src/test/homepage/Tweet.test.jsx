@@ -670,6 +670,11 @@ describe('Tweet', () => {
     const user = userEvent.setup({
       advanceTimers: (ms) => vi.advanceTimersByTime(ms),
     });
+    window.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({ status: true, message: 'Followed Successfully' }),
+    });
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
         <BrowserRouter>
@@ -752,6 +757,11 @@ describe('Tweet', () => {
         repliesCount: 3,
       },
     ];
+    window.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({ status: true, message: 'UnFollowed Successfully' }),
+    });
     const user = userEvent.setup({
       advanceTimers: (ms) => vi.advanceTimersByTime(ms),
     });
@@ -802,6 +812,11 @@ describe('Tweet', () => {
     const user = userEvent.setup({
       advanceTimers: (ms) => vi.advanceTimersByTime(ms),
     });
+    window.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({ status: true, message: 'Blocked Successfully' }),
+    });
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
         <BrowserRouter>
@@ -841,6 +856,11 @@ describe('Tweet', () => {
   it('should send a request to mute user', async () => {
     const user = userEvent.setup({
       advanceTimers: (ms) => vi.advanceTimersByTime(ms),
+    });
+    window.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({ status: true, message: 'Muted Successfully' }),
     });
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>

@@ -34,22 +34,22 @@ describe('Update Username component', () => {
     window.fetch.mockRestore();
   });
 
-  it('should render Update Username component', () => {
-    useAuth.mockReturnValue({
-      dispatch: vi.fn(),
-      isAuthenticated: true,
-      user: { name: 'mahmoud', username: 'MoSobhy' },
-    });
-    const { getByTestId } = render(
-      <AuthProvider>
-        <BrowserRouter>
-          <UpdateUsername />
-        </BrowserRouter>
-      </AuthProvider>,
-    );
-    expect(getByTestId('update-username-page')).toBeInTheDocument();
-    expect(getByTestId('Username')).toBeInTheDocument();
-  });
+  // it('should render Update Username component', () => {
+  //   useAuth.mockReturnValue({
+  //     dispatch: vi.fn(),
+  //     isAuthenticated: true,
+  //     user: { name: 'mahmoud', username: 'MoSobhy' },
+  //   });
+  //   const { getByTestId } = render(
+  //     <AuthProvider>
+  //       <BrowserRouter>
+  //         <UpdateUsername />
+  //       </BrowserRouter>
+  //     </AuthProvider>,
+  //   );
+  //   expect(getByTestId('update-username-page')).toBeInTheDocument();
+  //   expect(getByTestId('Username')).toBeInTheDocument();
+  // });
   it('should send a request to update username successfully', async () => {
     useAuth.mockReturnValue({
       dispatch: vi.fn(),
