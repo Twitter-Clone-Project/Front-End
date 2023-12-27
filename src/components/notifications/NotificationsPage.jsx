@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useRef } from 'react';
 import { Outlet } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../hooks/AuthContext';
@@ -14,13 +14,18 @@ function NotificationsPage() {
   } = useContext(ChatContext);
   const { user } = useAuth();
 
+  const socketRef = useRef();
+  useEffect(() => {
+    socketRef.current = socket;
+  }, [socket]);
+
   useEffect(() => {
     if (socket === null) return;
     const notificationListener = (notification) => {
       socket.emit('mark-notifications-as-seen', { userId: user.userId });
       setSocketNotifications((prevSocketNotifications) => [
-        ...prevSocketNotifications,
         notification,
+        ...prevSocketNotifications,
       ]);
     };
     socket.on('notification-receive', notificationListener);
@@ -48,7 +53,9 @@ function NotificationsPage() {
         }
         setNotifications(data.data.notifications);
         setSocketNotifications([]);
-        socket.emit('mark-notifications-as-seen', { userId: user.userId });
+        socketRef.current.emit('mark-notifications-as-seen', {
+          userId: user.userId,
+        });
       } catch (err) {
         toast(err.message);
       }
