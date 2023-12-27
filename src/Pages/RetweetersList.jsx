@@ -1,3 +1,10 @@
+//  ---------------------------------------------------
+//                RetweetersList Documentation
+//  ---------------------------------------------------
+//  RetweetersList is responsible showing the users who retweeted
+//  a certain tweet, it extracts the tweetId from the url and gets
+//  the users who retweeted this tweet.
+
 /* eslint-disable react/require-default-props */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -105,21 +112,24 @@ function RetweetersList() {
         <div data-testid="retweeters-list-2">
           {retweetsData
             ? retweetsData.map((userItem, index) => (
-                <UserItem
-                  key={uuid4()}
-                  isFollowed={userItem.isFollowed}
-                  isFollowing={userItem.isFollowing}
-                  userPicture={
-                    user.profileImageUrl || import.meta.env.VITE_DEFAULT_AVATAR
-                  }
-                  userName={userItem.name}
-                  userID={userItem.screenName}
-                  discription={userItem.bio}
-                  following={userItem.followingCount}
-                  followers={userItem.followersCount}
-                  testID={index}
-                  itemID={userItem.id}
-                />
+                <div data-testid={`${userItem.id}-result`}>
+                  <UserItem
+                    key={uuid4()}
+                    isFollowed={userItem.isFollowed}
+                    isFollowing={userItem.isFollowing}
+                    userPicture={
+                      user.profileImageUrl ||
+                      import.meta.env.VITE_DEFAULT_AVATAR
+                    }
+                    userName={userItem.name}
+                    userID={userItem.screenName}
+                    discription={userItem.bio}
+                    following={userItem.followingCount}
+                    followers={userItem.followersCount}
+                    testID={index}
+                    itemID={userItem.id}
+                  />
+                </div>
               ))
             : ''}
         </div>

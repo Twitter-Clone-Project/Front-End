@@ -1,3 +1,11 @@
+//  ---------------------------------------------------
+//                AddReply Documentation
+//  ---------------------------------------------------
+//  AddReply is responsible providing the interface for the users
+//  to add replies to a certain tweet, this interface includes a text
+//  and an emoji picker, whenver typing the user can then add his reply
+//  to the opened tweet.
+
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from 'react';
@@ -135,9 +143,19 @@ function AddReply({ setReplies, tweetId, replyFor }) {
   );
 }
 
+export default AddReply;
+
+//  ---------------------------------------------------
+//                AddReply PropTypes
+//  ---------------------------------------------------
+//   setReplies: the state function which controls the replies for a
+//   certain tweet to be sent to the reply Component
+//   tweetId: the Id of the tweet for which we are rendering the reply
+//   replyFor: the username of the user for which the current authenticated
+//   user is opening a tweet for
+
 AddReply.propTypes = {
   setReplies: PropTypes.func.isRequired,
   tweetId: PropTypes.string.isRequired,
   replyFor: PropTypes.string.isRequired,
 };
-export default AddReply;
