@@ -15,8 +15,5 @@ COPY . .
 # Expose port 5173 (the port your app is running on)
 EXPOSE 5173
 
-# Create dist folder for prod
-RUN npm run build
-
 # Start the app using the full path to npm
-CMD npm run preview
+CMD npm run dev
