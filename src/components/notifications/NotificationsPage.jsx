@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useEffect, useContext } from 'react';
 import { Outlet } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -5,6 +6,17 @@ import { useAuth } from '../../hooks/AuthContext';
 import { ChatContext } from '../../hooks/ContactContext';
 import ListNav from '../navigation-bars/ListNav';
 
+/**
+ * Renders the notifications page displaying user notifications.
+ * Manages socket listeners for new notifications, fetches notifications from the server,
+ * and displays a navigation bar to switch between All and Mentions notifications.
+ * @component
+ * @returns {JSX.Element} JSX representing the notifications page.
+ * @example
+ * ```jsx
+ *  <NotificationsPage />
+ * ```
+ */
 function NotificationsPage() {
   const {
     socket,

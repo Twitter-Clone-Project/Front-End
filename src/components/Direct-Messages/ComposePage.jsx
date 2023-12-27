@@ -6,6 +6,18 @@ import AddCard from './AddCard';
 import { ChatContext } from '../../hooks/ContactContext';
 import BoxCard from '../BoxCard';
 
+/**
+ * Represents the Compose Page for creating new chats.
+ *
+ * Allows users to select recipients and compose new messages.
+ * @component
+ * @returns {JSX.Element} JSX for the Compose Page component.
+ * @example
+ * ```jsx
+ *  <ComposePage />
+ * ```
+ */
+
 export default function ComposePage() {
   const navigate = useNavigate();
   const [value, setValue] = useState('');

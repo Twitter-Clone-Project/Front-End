@@ -1,8 +1,20 @@
+/* eslint-disable max-len */
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import SearchCard from './SearchCard';
 import { ChatContext } from '../../hooks/ContactContext';
 
+/**
+ * Displays search results based on the provided search value.
+ * @component
+ * @param {Object} props - Component props.
+ * @param {string} props.searchValue - The value used for filtering conversations.
+ * @returns {JSX.Element} JSX for displaying filtered search results.
+ * @example
+ * ```jsx
+ *  <SearchResults searchValue={searchValue} />
+ * ```
+ */
 function SearchResults({ searchValue }) {
   const { conversations, setOpenedId } = useContext(ChatContext);
 
@@ -36,3 +48,9 @@ SearchResults.propTypes = {
 };
 
 export default SearchResults;
+SearchResults.propTypes = {
+  /**
+   *  The value used for filtering conversations.
+   */
+  searchValue: PropTypes.string.isRequired,
+};

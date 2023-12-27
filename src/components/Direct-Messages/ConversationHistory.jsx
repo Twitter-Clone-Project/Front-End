@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useContext, useRef } from 'react';
@@ -8,6 +9,15 @@ import timezone from 'dayjs/plugin/timezone';
 
 import ConversationCard from './ConversationCard';
 import { ChatContext } from '../../hooks/ContactContext';
+/**
+ * Represents the component displaying conversation history.
+ * @component
+ * @returns {JSX.Element} JSX for the Conversations History component.
+ * @example
+ * ```jsx
+ *  <ConversationsHistory />
+ * ```
+ */
 
 function ConversationsHistory() {
   const {

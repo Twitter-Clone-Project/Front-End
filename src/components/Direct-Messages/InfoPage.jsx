@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useEffect, useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import UserItem from '../userComponents/UserItem';
@@ -5,6 +6,15 @@ import { ChatContext } from '../../hooks/ContactContext';
 import ConfirmPopUp from '../user-profile-card/ConfirmPopUp';
 import Button from '../form-controls/Button';
 
+/**
+ * Component for displaying conversation information, allowing users to block or leave a conversation.
+ * @component
+ * @returns {JSX.Element} JSX for the Compose Page component.
+ * @example
+ * ```jsx
+ *  <InfoPage />
+ * ```
+ */
 export default function InfoPage() {
   const { chatContext, setChatContext } = useContext(ChatContext);
   const [user, setUser] = useState(null);

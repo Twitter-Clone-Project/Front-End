@@ -1,8 +1,23 @@
+/* eslint-disable react/require-default-props */
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-array-index-key */
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 import { ChatContext } from '../../hooks/ContactContext';
+
+/**
+ * Renders a card displaying information about a person within a chat context.
+ * @component
+ * @param {object} props - Component props.
+ * @param {React.RefObject} props.imgRef - Reference to the image element.
+ * @returns {JSX.Element} JSX for the person card.
+ * @example
+ * ```jsx
+ *  <PersonCard imgRef={imgRef} />
+ * ```
+ */
 
 function PersonCard({ imgRef }) {
   const { chatContext } = useContext(ChatContext);
@@ -85,3 +100,12 @@ function PersonCard({ imgRef }) {
 }
 
 export default PersonCard;
+PersonCard.propTypes = {
+  /**
+   *  Reference to the image element.
+   */
+  imgRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.object }),
+  ]),
+};

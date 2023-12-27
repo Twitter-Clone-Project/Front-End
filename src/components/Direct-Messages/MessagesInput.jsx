@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable react/prop-types */
 import React, { useRef, useState, useContext, useEffect } from 'react';
 import data from '@emoji-mart/data';
@@ -5,6 +6,16 @@ import Picker from '@emoji-mart/react';
 // import dayjs from 'dayjs';
 import { useAuth } from '../../hooks/AuthContext';
 import { ChatContext } from '../../hooks/ContactContext';
+
+/**
+ * MessagesInput component handles the input field and functionality for sending messages.
+ * @component
+ * @returns {JSX.Element} JSX for the MessagesInput component.
+ * @example
+ * ```jsx
+ *  <MessagesInput />
+ * ```
+ */
 
 function MessagesInput() {
   const { user } = useAuth();
@@ -181,7 +192,5 @@ function MessagesInput() {
     </div>
   );
 }
-
-MessagesInput.propTypes = {};
 
 export default MessagesInput;

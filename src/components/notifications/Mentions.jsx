@@ -1,8 +1,20 @@
+/* eslint-disable max-len */
 /* eslint-disable no-nested-ternary */
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { ChatContext } from '../../hooks/ContactContext';
 import NotificationCard from './NotificationCard';
+
+/**
+ * Renders notifications specifically related to mentions.
+ * Filters and displays notifications based on mentions from both socket and regular notifications.
+ * @component
+ * @returns {JSX.Element} JSX representing the mention notifications.
+ * @example
+ * ```jsx
+ *  <Mentions />
+ * ```
+ */
 
 export default function Mentions() {
   const { notifications, socketNotifications } = useContext(ChatContext);

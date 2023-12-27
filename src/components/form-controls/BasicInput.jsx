@@ -1,5 +1,21 @@
+/* eslint-disable max-len */
 import React from 'react';
 
+/**
+ * Renders a basic input field with error handling and character limit display.
+ * @param {Object} props - Component props.
+ * @param {string} props.title - The title/label for the input field.
+ * @param {string} props.value - The current value of the input field.
+ * @param {Function} props.setValue - Function to set the input field value.
+ * @param {string} props.error - The error message to display.
+ * @param {Function} props.setError - Function to set the error message.
+ * @param {number} props.maxLength - The maximum allowed length for the input.
+ * @returns {JSX.Element} JSX representing the basic input field.
+ * @example
+ * ```jsx
+ *  <BasicInput title={title} value={value} setValue={setValue}  error={error} setError={setError} maxLength={maxLength} />
+ * ```
+ */
 // eslint-disable-next-line react/prop-types
 function BasicInput({ title, value, setValue, error, setError, maxLength }) {
   return (

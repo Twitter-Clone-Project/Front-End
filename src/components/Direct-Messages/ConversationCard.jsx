@@ -1,6 +1,6 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useEffect, useContext } from 'react';
@@ -9,6 +9,17 @@ import PropTypes from 'prop-types';
 import Time from './Time';
 import { ChatContext } from '../../hooks/ContactContext';
 import { useAuth } from '../../hooks/AuthContext';
+
+/**
+ * Represents a card for a conversation in the chat interface.
+ * @component
+ * @param {Object} conversationData - The info for the conversation.
+ * @returns {JSX.Element} JSX for the Conversation Card component.
+ * @example
+ * ```jsx
+ *  <ConversationCard conversationData={conversationData} />
+ * ```
+ */
 
 function ConversationCard({ conversationData }) {
   const {
@@ -166,3 +177,9 @@ function ConversationCard({ conversationData }) {
 }
 
 export default ConversationCard;
+ConversationCard.propTypes = {
+  /**
+   *  The info for the conversation.
+   */
+  conversationData: PropTypes.object.isRequired,
+};
