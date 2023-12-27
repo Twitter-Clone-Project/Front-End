@@ -1,5 +1,16 @@
 import React from 'react';
 
+/**
+ * Renders a spinner component.
+ *
+ * @component
+ * @example
+ * ```jsx
+ * return (
+ *   <Spinner />
+ * )
+ * ```
+ */
 function Spinner() {
   return (
     <div

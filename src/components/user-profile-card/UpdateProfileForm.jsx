@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useReducer, useRef, useState, useEffect, useMemo } from 'react';
 import moment from 'moment/moment';
 import PropTypes from 'prop-types';
@@ -11,7 +12,6 @@ import BasicInput from '../form-controls/BasicInput';
 import DorpDownMenu from '../form-controls/DorpDownMenu';
 import TextArea from '../form-controls/TextArea';
 import ImageButton from './ImageButton';
-import OwnToaster from '../OwnToaster';
 import UpdateCancel from './UpdateCancel';
 import PopupCardHeader from './PopupCardHeader';
 import Spinner from '../Spinner';
@@ -57,6 +57,19 @@ function DOBReducer(state, action) {
   }
 }
 
+/**
+ * UpdateProfileForm component allows users to update their profile information.
+ * It includes fields for updating name, bio, location, website, date of birth, profile photo, and banner photo.
+ * The component also handles form validation and submission.
+ *
+ * @component
+ * @example
+ * ```jsx
+ * return (
+ *   <UpdateProfileForm setUpdateFormOpen={setUpdateFormOpen} />
+ * )
+ * ```
+ */
 function UpdateProfileForm({ setUpdateFormOpen }) {
   const { user, dispatch } = useAuth();
   const DOBInitialState = useMemo(
@@ -429,7 +442,7 @@ function UpdateProfileForm({ setUpdateFormOpen }) {
 }
 
 UpdateProfileForm.defaultProps = {
-  setUpdateFormOpen: () => {},
+  setUpdateFormOpen: null,
 };
 UpdateProfileForm.propTypes = {
   setUpdateFormOpen: PropTypes.func,

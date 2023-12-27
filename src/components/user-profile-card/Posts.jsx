@@ -5,8 +5,19 @@ import PullToRefresh from 'react-simple-pull-to-refresh';
 import NoResults from './NoResults';
 import TweetList from '../../tweetPage/TweetList';
 import DotLoader from './DotLoader';
-import OwnToaster from '../OwnToaster';
 import { useAuth } from '../../hooks/AuthContext';
+
+/**
+ * Renders a component that displays the posts of a user.
+ *
+ * @component
+ * @example
+ * ```jsx
+ * return (
+ *   <Posts />
+ * )
+ * ```
+ */
 
 function Posts() {
   const [page, setPage] = useState(2);

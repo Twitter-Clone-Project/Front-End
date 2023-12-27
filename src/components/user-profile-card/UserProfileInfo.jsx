@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router';
@@ -5,9 +6,20 @@ import { PhotoProvider, PhotoView } from 'react-photo-view';
 import moment from 'moment';
 import Button from '../form-controls/Button';
 import 'react-photo-view/dist/react-photo-view.css';
+import PropTypes from 'prop-types';
 import { useAuth } from '../../hooks/AuthContext';
 import UserDetail from './UserDetail';
 import UserActions from './UserActions';
+
+/**
+ * Renders the user profile information.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Object} props.user - The user object containing profile information.
+ * @param {Function} props.setUpdateFormOpen - Callback function to open the update form.
+ * @returns {JSX.Element} The rendered UserProfileInfo component.
+ */
 
 function UserProfileInfo({ user, setUpdateFormOpen }) {
   const navigate = useNavigate();
@@ -186,5 +198,35 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
     </div>
   );
 }
+// Prop types for the UserProfileInfo component
+UserProfileInfo.propTypes = {
+  // Prop types for the UserProfileInfo component
+  user: PropTypes.shape({
+    // The username of the user (required)
+    username: PropTypes.string.isRequired,
+    // The name of the user (required)
+    name: PropTypes.string.isRequired,
+    // The birth date of the user
+    birthDate: PropTypes.string,
+    // The creation date of the user
+    createdAt: PropTypes.string,
+    // The image URL of the user
+    imageUrl: PropTypes.string,
+    // The number of followers of the user
+    followersCount: PropTypes.number,
+    // The number of followings of the user
+    followingsCount: PropTypes.number,
+    // The bio of the user
+    bio: PropTypes.string,
+    // The location of the user
+    location: PropTypes.string,
+    // The website of the user
+    website: PropTypes.string,
+    // Indicates if the user is blocking the current user
+    isBlockingMe: PropTypes.bool,
+  }).isRequired,
+  // Callback function to open the update form (required)
+  setUpdateFormOpen: PropTypes.func.isRequired,
+};
 
 export default UserProfileInfo;

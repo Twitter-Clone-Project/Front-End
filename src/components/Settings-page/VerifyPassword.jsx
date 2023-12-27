@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router';
@@ -7,6 +8,18 @@ import PasswordInput from '../form-controls/passwordInput';
 import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
 import Spinner from '../Spinner';
+
+/**
+ * VerifyPassword component is used to verify the user's password.
+ * It displays a popup screen where the user can enter their password.
+ * If the password is correct, the user is logged in and the onClick callback is called.
+ * If the password is incorrect, an error message is displayed.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Function} props.onClick - The callback function to be called when the password is verified.
+ * @returns {JSX.Element} - The rendered VerifyPassword component.
+ */
 
 function VerifyPassword({ onClick }) {
   const navigate = useNavigate();
@@ -86,7 +99,9 @@ function VerifyPassword({ onClick }) {
   );
 }
 VerifyPassword.propTypes = {
+  /**
+   * The callback function to be called when the password is verified.
+   */
   onClick: PropTypes.func.isRequired,
 };
-
 export default VerifyPassword;

@@ -7,8 +7,13 @@ import NoResults from '../user-profile-card/NoResults';
 import SettingsHeader from './SettingsHeader';
 import usePost from './usePost';
 
+/**
+ * Component representing the Blocked Users page in the settings.
+ * Fetches and displays a list of blocked user accounts.
+ */
 function BlockedUsers() {
   const { data, error, isLoading, fetchData } = usePost();
+
   useEffect(() => {
     fetchData(`${import.meta.env.VITE_API_DOMAIN}users/blockedUsers`, {
       method: 'GET',
@@ -58,5 +63,9 @@ function BlockedUsers() {
     </div>
   );
 }
+
+BlockedUsers.propTypes = {
+  // No props required
+};
 
 export default BlockedUsers;

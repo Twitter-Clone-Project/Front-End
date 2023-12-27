@@ -1,5 +1,10 @@
 import React from 'react';
 
+/**
+ * DotLoader Component
+ *
+ * A loading spinner component that displays a dot carousel animation.
+ */
 function DotLoader() {
   return (
     <div
@@ -12,5 +17,9 @@ function DotLoader() {
     </div>
   );
 }
+
+DotLoader.propTypes = {
+  // No props required for this component
+};
 
 export default DotLoader;

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -7,6 +8,20 @@ import NavItem from './NavItem';
 import UserNavCard from './UserNavCard';
 import Logout from './Logout';
 import UserImg from './UserImg';
+
+/**
+ * FloatingHeader component displays a floating header for mobile devices.
+ * It includes a drawer button, user navigation card, and navigation items.
+ * The component also provides a logout functionality.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {boolean} props.drawerOpen - Indicates whether the drawer is open or closed.
+ * @param {boolean} props.show - Indicates whether the floating header is shown or hidden.
+ * @param {function} props.setDrawerOpen - A function to set the state of the drawer.
+ * @param {function} props.handleLogout - A function to handle the logout action.
+ * @returns {JSX.Element} The rendered FloatingHeader component.
+ */
 
 function FloatingHeader({ drawerOpen, show, setDrawerOpen, handleLogout }) {
   const { user } = useAuth();
@@ -130,9 +145,21 @@ function FloatingHeader({ drawerOpen, show, setDrawerOpen, handleLogout }) {
 }
 
 FloatingHeader.propTypes = {
+  /**
+   * Indicates whether the drawer is open or closed.
+   */
   drawerOpen: PropTypes.bool.isRequired,
+  /**
+   * Indicates whether the floating header is shown or hidden.
+   */
   show: PropTypes.bool.isRequired,
+  /**
+   * A function to set the state of the drawer.
+   */
   setDrawerOpen: PropTypes.func.isRequired,
+  /**
+   * A function to handle the logout action.
+   */
   handleLogout: PropTypes.func.isRequired,
 };
 

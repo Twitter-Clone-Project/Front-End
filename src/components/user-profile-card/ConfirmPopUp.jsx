@@ -1,6 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * ConfirmPopUp Component
+ *
+ * A reusable component that displays a confirmation popup.
+ *
+ * @component
+ * @example
+ * ```jsx
+ * return (
+ *   <ConfirmPopUp classes="custom-class">
+ *     Are you sure you want to delete this item?
+ *   </ConfirmPopUp>
+ * )
+ * ```
+ */
 function ConfirmPopUp({ children, classes }) {
   return (
     <div
@@ -19,8 +34,17 @@ function ConfirmPopUp({ children, classes }) {
     </div>
   );
 }
+
 ConfirmPopUp.propTypes = {
+  /**
+   * The content to be displayed inside the confirmation popup.
+   */
   children: PropTypes.node.isRequired,
+
+  /**
+   * Additional CSS classes to be applied to the confirmation popup.
+   */
   classes: PropTypes.string.isRequired,
 };
+
 export default ConfirmPopUp;

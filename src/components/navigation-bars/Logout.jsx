@@ -1,6 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Logout component.
+ *
+ * This component renders a logout button.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Function} props.handleLogout - The function to handle logout.
+ * @returns {JSX.Element} The JSX element representing the logout button.
+ */
+
 function Logout({ handleLogout }) {
   return (
     <button
@@ -39,7 +50,17 @@ function Logout({ handleLogout }) {
   );
 }
 
+/**
+ * PropTypes for the Logout component.
+ *
+ * @typedef {Object} LogoutPropTypes
+ * @property {Function} handleLogout - The function to handle logout.
+ */
+
 Logout.propTypes = {
+  /*
+   *  The function to handle logout.
+   */
   handleLogout: PropTypes.func.isRequired,
 };
 export default Logout;
