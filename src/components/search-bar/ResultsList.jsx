@@ -17,7 +17,7 @@ function ResultsList({ value, results, setFocus }) {
   const handleSearchClick = () => {
     // console.log(value);
     setFocus();
-    navigate(`/app/search/tweets?q=${value}`, {
+    navigate(`/app/search/tweets?q=${encodeURIComponent(value)}`, {
       state: { pastPath: location },
     });
   };
