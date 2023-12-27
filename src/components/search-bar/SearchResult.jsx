@@ -122,14 +122,14 @@ function SearchResult({ data, searchPage }) {
             popoverSetLocalIsFollowed
           >
             <img
-              src={data.displayPicture || import.meta.env.VITE_DEFAULT_AVATAR}
+              src={data.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR}
               alt="dp"
               className="h-[40px] w-[40px] rounded-full"
             />
           </PopoverUserCard>
         ) : (
           <img
-            src={data.displayPicture || import.meta.env.VITE_DEFAULT_AVATAR}
+            src={data.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR}
             alt="dp"
             className="h-[40px] w-[40px] rounded-full"
           />
