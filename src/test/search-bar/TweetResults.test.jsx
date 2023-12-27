@@ -7,7 +7,8 @@ import { BrowserRouter } from 'react-router-dom';
 import ProtectedRoute from '../../components/ProtectedRoute';
 import AuthProvider from '../../contexts/Auth/AuthProvider';
 import { useAuth } from '../../hooks/AuthContext';
-import NoSearchResults from '../../Pages/search-page/NoSearchResults';
+import TweetResults from '../../Pages/search-page/TweetResults';
+import Tweet from '../../tweetPage/Tweet';
 
 const data = [
   {
@@ -76,22 +77,35 @@ afterEach(() => {
   window.fetch.mockRestore();
 });
 
-describe('NoSearchResults', () => {
+describe('TweetResults', () => {
   it('renders the component successfully', () => {
     const { getByText, getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: true }}>
         <BrowserRouter>
           <ProtectedRoute>
-            <NoSearchResults
-              testId="no-search-results"
-              value="test"
-            />
+            <TweetResults />
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
 
-    expect(getByTestId('no-search-results')).to.exist;
-    expect(getByText(`No results for "TEST"`)).toBeInTheDocument();
+    expect(getByTestId('-tweet-results')).to.exist;
+    expect(getByText(`No results for ""`)).toBeInTheDocument();
   });
+
+  //   it('shows the component successfully', () => {
+  //     // Set up useLocation mock to return the correct pastPath
+  //     vi.spyOn(router, 'useLocation').mockImplementation(() => ({
+  //       search: 'test',
+  //     }));
+  //     const { getByText, getByTestId } = render(
+  //       <AuthProvider value={{ dispatch, user: null, isAuthenticated: true }}>
+  //         <BrowserRouter>
+  //           <ProtectedRoute>
+  //             <TweetResults />
+  //           </ProtectedRoute>
+  //         </BrowserRouter>
+  //       </AuthProvider>,
+  //     );
+  //   });
 });

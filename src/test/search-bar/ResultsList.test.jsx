@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-expressions */
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import React from 'react';
 import * as router from 'react-router';
@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import ProtectedRoute from '../../components/ProtectedRoute';
 import AuthProvider from '../../contexts/Auth/AuthProvider';
 import { useAuth } from '../../hooks/AuthContext';
-import NoSearchResults from '../../Pages/search-page/NoSearchResults';
+import ResultsList from '../../components/search-bar/ResultsList';
 
 const data = [
   {
@@ -76,14 +76,15 @@ afterEach(() => {
   window.fetch.mockRestore();
 });
 
-describe('NoSearchResults', () => {
+describe('ResultsList', () => {
   it('renders the component successfully', () => {
     const { getByText, getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: true }}>
         <BrowserRouter>
           <ProtectedRoute>
-            <NoSearchResults
-              testId="no-search-results"
+            <ResultsList
+              //   testId="no-search-results"
+              results={[{ username: 'test-name' }]}
               value="test"
             />
           </ProtectedRoute>
@@ -91,7 +92,25 @@ describe('NoSearchResults', () => {
       </AuthProvider>,
     );
 
-    expect(getByTestId('no-search-results')).to.exist;
-    expect(getByText(`No results for "TEST"`)).toBeInTheDocument();
+    expect(getByTestId('search-bar-serachtest')).to.exist;
+    expect(getByTestId('search-bar-gototest')).to.exist;
+    expect(getByTestId('search-bar-testresults')).to.exist;
+    fireEvent.click(getByTestId('search-bar-serachtest'));
+    expect(navigate).toHaveBeenCalledWith('/app/search/tweets?q=test', {
+      state: {
+        pastPath: {
+          hash: '',
+          key: 'default',
+          pathname: '/',
+          search: '',
+          state: null,
+        },
+      },
+    });
+    // fireEvent.click(getByTestId('search-bar-gototest'));
+    // expect(navigate).toHaveBeenCalledWith('/app/test');
+    expect(navigate).toBeCalledTimes(1);
+
+    // expect(getByText(`No results for "TEST"`)).toBeInTheDocument();
   });
 });
