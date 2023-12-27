@@ -15,5 +15,7 @@ COPY . .
 # Expose port 5173 (the port your app is running on)
 EXPOSE 5173
 
+RUN npm run build
+
 # Start the app using the full path to npm
-CMD npm run dev
+CMD npm run preview
