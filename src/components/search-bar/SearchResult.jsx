@@ -3,9 +3,10 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router';
+import toast from 'react-hot-toast';
 import PopoverUserCard from '../userComponents/PopoverUserCard';
 import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
@@ -13,7 +14,7 @@ import { useAuth } from '../../hooks/AuthContext';
 
 function SearchResult({ data, searchPage }) {
   const { user: curUser } = useAuth();
-  const [popoverIsBlocked] = useState(false);
+  const [popoverIsBlocked, setPopoverIsBlocked] = useState(false);
   const [followed, setFollowed] = useState(data.isFollowed);
   const [isPopoverButtonHovered, setPopoverButtonHovered] = useState(false);
   const navigate = useNavigate();
@@ -60,7 +61,34 @@ function SearchResult({ data, searchPage }) {
       })
       .catch(() => {});
   };
-
+  useEffect(() => {
+    const getBlocked = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_DOMAIN}users/blockedUsers`,
+          {
+            method: 'GET',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+          },
+        );
+        const res = await response.json();
+        if (res.status) {
+          if (res.data.users.length > 0) {
+            const names = [];
+            res.data.users.forEach((user) => {
+              names.push(user.username);
+            });
+            if (names.indexOf(data.username) !== -1) setPopoverIsBlocked(true);
+          }
+        }
+      } catch (error) {
+        toast(error.message);
+      }
+    };
+    getBlocked();
+  }, [data.username]);
   const handelButtonClick = () => {
     if (!popoverIsBlocked) {
       if (followed) {
