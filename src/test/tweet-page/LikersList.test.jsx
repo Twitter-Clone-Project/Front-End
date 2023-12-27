@@ -52,7 +52,7 @@ afterEach(() => {
 
 // ... (Previous test setup code remains the same)
 
-describe('RetweetersList', () => {
+describe('LikersList', () => {
   it('renders the component successfully', () => {
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: true }}>

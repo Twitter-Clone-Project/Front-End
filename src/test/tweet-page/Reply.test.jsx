@@ -81,7 +81,7 @@ afterEach(() => {
 
 // ... (Previous test setup code remains the same)
 
-describe('AddReply', () => {
+describe('Reply', () => {
   it('renders the component successfully for the same user', () => {
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: true }}>
