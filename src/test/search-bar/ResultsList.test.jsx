@@ -107,9 +107,9 @@ describe('ResultsList', () => {
         },
       },
     });
-    // fireEvent.click(getByTestId('search-bar-gototest'));
-    // expect(navigate).toHaveBeenCalledWith('/app/test');
-    expect(navigate).toBeCalledTimes(1);
+    fireEvent.click(getByTestId('search-bar-gototest'));
+    expect(navigate).toHaveBeenCalledWith('/app/test');
+    expect(navigate).toBeCalledTimes(2);
 
     // expect(getByText(`No results for "TEST"`)).toBeInTheDocument();
   });
