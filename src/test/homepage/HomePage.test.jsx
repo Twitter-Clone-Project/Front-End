@@ -14,7 +14,7 @@ const user = {
   userId: '123',
   username: 'janesmith',
   screenName: 'Jane Smith',
-  profileImageURL: 'https://example.com/profile.jpg',
+  imageUrl: 'https://example.com/profile.jpg',
   bio: "I'm the original user.",
   followersCount: 2000,
   followingCount: 1000,

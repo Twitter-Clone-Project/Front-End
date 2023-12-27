@@ -14,7 +14,7 @@ function TweetList({ data, setTweets }) {
           setTweets={setTweets}
         />
       )),
-    [data],
+    [data, setTweets],
   );
   return (
     <div
@@ -35,13 +35,13 @@ TweetList.propTypes = {
         userId: PropTypes.string.isRequired,
         username: PropTypes.string.isRequired,
         screenName: PropTypes.string.isRequired,
-        profileImageURL: PropTypes.string,
+        imageUrl: PropTypes.string,
       }),
       retweetedUser: PropTypes.shape({
         userId: PropTypes.string,
         username: PropTypes.string,
         screenName: PropTypes.string,
-        profileImageURL: PropTypes.string,
+        imageUrl: PropTypes.string,
       }),
       createdAt: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired,

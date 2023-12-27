@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 import { Outlet } from 'react-router';
 import { Link } from 'react-router-dom';
 import ConversationsPage from './ConversationsPage';
@@ -85,16 +85,17 @@ function DirectMessages() {
   useEffect(() => {
     if (socket === null) return;
     const messageListener = (message) => {
-      setTop({ conversationId: message.conversationId, text: message.text });
+      setTop({
+        conversationId: message.conversationId,
+        text: message.text,
+      });
+
       const lastChatContext = chatContextRef.current;
       if (
         lastChatContext &&
         lastChatContext.conversationId === message.conversationId
       ) {
-        setSocketMessages((prevMessages) => [
-          ...prevMessages,
-          { ...message, time: dayjs().format('YYYY-MM-DD HH:mm:ssZ') },
-        ]);
+        setSocketMessages((prevMessages) => [...prevMessages, message]);
       }
     };
     socket.on('msg-receive', messageListener);

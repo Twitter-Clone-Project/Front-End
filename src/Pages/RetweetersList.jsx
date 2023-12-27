@@ -115,7 +115,7 @@ function RetweetersList() {
                   userName={userItem.name}
                   userID={userItem.screenName}
                   discription={userItem.bio}
-                  following={userItem.followingsCount}
+                  following={userItem.followingCount}
                   followers={userItem.followersCount}
                   testID={index}
                   itemID={userItem.id}

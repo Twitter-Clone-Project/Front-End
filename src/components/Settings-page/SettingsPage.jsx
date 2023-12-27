@@ -6,6 +6,15 @@ import { useAuth } from '../../hooks/AuthContext';
 import SettingsList from './SettingsList';
 import OwnToaster from '../OwnToaster';
 
+/**
+ * Represents the SettingsPage component. it renders the settings page.
+ * @component
+ * @returns {JSX.Element} The rendered component.
+ * @example
+ * import SettingsPage from './SettingsPage';
+ * <SettingsPage />
+ */
+
 function SettingPage() {
   const [windowWidth, setWindowWidth] = useState(window.outerWidth);
 
@@ -20,7 +29,10 @@ function SettingPage() {
   });
 
   return (
-    <div className="h-screen w-full">
+    <div
+      className="h-screen w-full"
+      data-testid="SettingPage_HomeSetteingPage_0"
+    >
       <div className="layout mx-auto h-full grid-cols-[auto_1fr] grid-rows-1 overflow-auto no-scrollbar  dark:bg-black md:grid">
         <div className="">
           <SettingsList windowWidth={windowWidth} />

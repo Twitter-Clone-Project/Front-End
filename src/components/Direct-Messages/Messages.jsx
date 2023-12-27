@@ -112,12 +112,8 @@ function Messages() {
           lastMessageId={
             i === socketMessage.length - 1 ? socketMessage.messageId : '-1'
           }
-          isFromMe={socketMessage.hasOwnProperty('isFromMe') ? true : false}
-          isSeen={
-            socketMessage.hasOwnProperty('isSeen')
-              ? socketMessage.isSeen
-              : false
-          }
+          isFromMe={socketMessage.isFromMe}
+          isSeen={socketMessage.isSeen}
           time={socketMessage.time}
         />
       ))}

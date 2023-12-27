@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
-import React, { useRef, useState, useContext } from 'react';
+import React, { useRef, useState, useContext, useEffect } from 'react';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 import { useAuth } from '../../hooks/AuthContext';
 import { ChatContext } from '../../hooks/ContactContext';
 
@@ -14,7 +14,7 @@ function MessagesInput() {
     socketMessages,
     setSocketMessages,
     socket,
-    chatState,
+    // chatState,
   } = useContext(ChatContext);
   const [showEmoji, setShowEmoji] = useState(false);
   const [message, setMessage] = useState('');
@@ -24,6 +24,11 @@ function MessagesInput() {
     setMessage(message + event.native);
   };
 
+  const socketMessagesRef = useRef();
+  useEffect(() => {
+    socketMessagesRef.current = socketMessages;
+  }, [socketMessages]);
+
   const handleClick = () => {
     if (socket === null || message === '' || message.trim() === '') return;
 
@@ -32,25 +37,45 @@ function MessagesInput() {
       senderId: user.userId,
       receiverId: chatContext.contact.id,
       text: message,
-      isSeen: chatState[chatContext.conversationId].inChat,
+      // isSeen: chatState[chatContext.conversationId].inChat,
     };
     setTop({
       conversationId: chatContext.conversationId,
       text: message,
     });
     socket.emit('msg-send', newMessage);
-    setSocketMessages([
-      ...socketMessages,
-      {
-        text: message,
-        isFromMe: true,
-        // true --Seen   false --Sent
-        isSeen: chatState[chatContext.conversationId].inChat,
-        time: dayjs().format('YYYY-MM-DD HH:mm:ssZ'),
-      },
-    ]);
+    // setSocketMessages([
+    //   ...socketMessages,
+    //   {
+    //     text: message,
+    //     isFromMe: true,
+    //     // true --Seen   false --Sent
+    //     isSeen: chatState[chatContext.conversationId].inChat,
+    //     time: dayjs().format('YYYY-MM-DD HH:mm:ssZ'),
+    //   },
+    // ]);
     setMessage('');
   };
+
+  useEffect(() => {
+    if (socket === null) return;
+    const broadcastListener = (receivedMessage) => {
+      if (receivedMessage.conversationId !== chatContext.conversationId) return;
+      setSocketMessages([
+        ...socketMessagesRef.current,
+        {
+          text: receivedMessage.text,
+          isFromMe: true,
+          isSeen: receivedMessage.isSeen,
+          time: receivedMessage.time,
+        },
+      ]);
+    };
+    socket.on('msg-redirect', broadcastListener);
+    return () => {
+      socket.off('msg-redirect', broadcastListener);
+    };
+  }, [socket]);
 
   return (
     <div className="flex h-14 w-full flex-col items-center border-t-[1px] border-[#f6f8f9] bg-white px-3 dark:border-[#252829] dark:bg-black">
