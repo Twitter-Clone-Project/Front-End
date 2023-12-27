@@ -97,6 +97,9 @@ function UserNavCard() {
   );
 }
 
+UserNavCard.defaultProps = {
+  user: null,
+};
 UserNavCard.propTypes = {
   // The user object containing username, name, imageUrl, followersCount, and followingsCount.
   user: PropTypes.shape({
@@ -105,7 +108,7 @@ UserNavCard.propTypes = {
     imageUrl: PropTypes.string,
     followersCount: PropTypes.number.isRequired,
     followingsCount: PropTypes.number.isRequired,
-  }).isRequired,
+  }),
 };
 
 export default UserNavCard;
