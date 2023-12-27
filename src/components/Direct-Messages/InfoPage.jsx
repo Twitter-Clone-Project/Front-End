@@ -77,12 +77,25 @@ export default function InfoPage() {
     navigate(`/app/messages/`);
     window.location.reload();
   };
+  const [windowWidth, setWindowWidth] = useState(window.outerWidth);
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.outerWidth);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  });
 
   if (user)
     return (
       <div
         data-testid="info-page"
-        className="flex  h-screen w-full max-w-full  flex-col  border-r-[1px]   border-[#E1E8ED] dark:border-[#252829] dark:bg-black md:w-[600px]   lg:w-[600px] xl:w-[600px]"
+        className={`flex  h-screen w-full max-w-full  flex-col  border-r-[1px]
+        border-[#E1E8ED] dark:border-[#252829] dark:bg-black ${
+          windowWidth > 640 ? 'w-[559px]' : ' w-screen'
+        }`}
       >
         <div className="flex h-[53px] items-center gap-7  px-4">
           <div>
