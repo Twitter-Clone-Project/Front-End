@@ -12,7 +12,20 @@ import ReactButtons from './reactButtons';
 import Media from './Media';
 import ActionsMenu from './ActionsMenu';
 import PopoverUserCard from '../components/userComponents/PopoverUserCard';
-
+/**
+ * Component for displaying a single tweet.
+ * @Component
+ *    @example
+ * ```jsx
+    <Tweet
+          key={`${tweetItem.id}-${tweetItem.isRetweet}`}
+          data={tweetItem}
+          tweets={data}
+          setTweets={setTweets}
+        />
+ * ```
+ * @returns {JSX.Element} - The rendered component.
+ */
 function UnMemoTweet({
   data,
   tweets,
@@ -480,20 +493,6 @@ UnMemoTweet.propTypes = {
   setTweets: PropTypes.func.isRequired,
 };
 
-/**
- * Component for displaying a single tweet.
- * @Component
- *    @example
- * ```jsx
-    <Tweet
-          key={`${tweetItem.id}-${tweetItem.isRetweet}`}
-          data={tweetItem}
-          tweets={data}
-          setTweets={setTweets}
-        />
- * ```
- * @returns {JSX.Element} - The rendered component.
- */
 const Tweet = React.memo(UnMemoTweet);
 /**
  * @Component

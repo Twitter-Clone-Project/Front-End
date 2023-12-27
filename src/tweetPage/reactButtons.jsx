@@ -112,7 +112,7 @@ function reactButtons({ type, data, clicked }) {
  * @param {Object} props - The component props.
  * @param {string} props.type - The type of the button.
  * @param {string} props.data - The data associated with the button.
- * @param {Object} props.clicked - The clicked object.
+ * @param {bool} props.clicked - The clicked object.
  */
 reactButtons.propTypes = {
   /**
@@ -127,7 +127,7 @@ reactButtons.propTypes = {
    * The clicked object.
    */
   // eslint-disable-next-line react/forbid-prop-types
-  clicked: PropTypes.object,
+  clicked: PropTypes.bool,
 };
 reactButtons.defaultProps = {
   clicked: false,

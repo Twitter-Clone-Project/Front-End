@@ -2,6 +2,18 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Tweet from './Tweet';
 
+/**
+ * 
+ * Component for displaying a list of tweets.
+ * @component
+ * ```jsx
+ *     <TweetList
+            data={tweets}
+            setTweets={setTweets}
+          />
+ * `
+ * @returns {JSX.Element} - The rendered component.
+ */
 function TweetList({ data, setTweets }) {
   const renderTweet = useMemo(
     () =>

@@ -10,7 +10,8 @@ const hashtagPlugin = createHashtagPlugin();
 const plugins = [hashtagPlugin];
 
 /**
- * @Component for rendering a text field.
+ * Component for rendering a text field.
+ * @component
  * @example
  * ```jsx
  *   <TextField
