@@ -32,11 +32,12 @@ function SearchBar({ value, setValue }) {
     const controller = new AbortController();
 
     const timeId = setTimeout(() => {
-      // console.log('fetching', value);
       const queryCheck = async () => {
         try {
           const res = await fetch(
-            `${import.meta.env.VITE_API_DOMAIN}users/search/1?query=${value}`,
+            `${
+              import.meta.env.VITE_API_DOMAIN
+            }users/search/1?query=${encodeURIComponent(value)}`,
             {
               method: 'GET',
               origin: true,
@@ -48,7 +49,7 @@ function SearchBar({ value, setValue }) {
             },
           );
           const data = await res.json();
-          // console.log(data);
+          console.log(data);
           if (data.status === false) throw new Error(data.message);
           else if (data.data) {
             if (data.data.length > 10) {

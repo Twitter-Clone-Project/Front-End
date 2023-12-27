@@ -29,11 +29,11 @@ function SearchPage() {
   const ListNavItems = [
     {
       label: 'Tweets',
-      path: `/app/search/tweets?q=${queryValue}`,
+      path: `/app/search/tweets?q=${encodeURIComponent(queryValue)}`,
     },
     {
       label: 'People',
-      path: `/app/search/users?q=${queryValue}`,
+      path: `/app/search/users?q=${encodeURIComponent(queryValue)}`,
     },
   ];
   return (
