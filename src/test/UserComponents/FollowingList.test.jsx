@@ -13,32 +13,18 @@ vi.mock('../../hooks/AuthContext.js');
 
 describe('FollowingList', () => {
   const navigate = vi.fn();
-  // const mockLocation = {
-  //   pathname: '/app/Horses/following',
-  //   state: {},
-  //   key: '',
-  //   search: '',
-  //   hash: '',
-  // };
 
   beforeEach(() => {
     vi.spyOn(router, 'useNavigate').mockImplementation(() => navigate);
     vi.spyOn(window, 'fetch');
-    // Object.defineProperty(ReactRouter, 'useLocation', {
-    //   value: vi.fn(),
-    //   configurable: true,
-    //   writable: true,
-    // });
-    // vi.spyOn(ReactRouter, 'useLocation').mockReturnValue(mockLocation);
-
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
       value: vi.fn().mockImplementation((query) => ({
         matches: false,
         media: query,
         onchange: null,
-        addListener: vi.fn(), // Deprecated
-        removeListener: vi.fn(), // Deprecated
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
         addEventListener: vi.fn(),
         removeEventListener: vi.fn(),
         dispatchEvent: vi.fn(),
@@ -120,7 +106,49 @@ describe('FollowingList', () => {
     await waitFor(() => {
       expect(window.fetch).toHaveBeenCalledTimes(1);
       expect(window.fetch).toHaveBeenCalledWith(
-        `${import.meta.env.VITE_API_DOMAIN}users/undefined/followings`, //----------------------------> should change the window location
+        `${import.meta.env.VITE_API_DOMAIN}users/undefined/followings`,
+        {
+          method: 'GET',
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+        },
+      );
+    });
+  });
+
+  it('test error in request users from API', async () => {
+    window.fetch.mockResolvedValueOnce({
+      ok: false,
+      json: () =>
+        Promise.resolve({
+          status: false,
+          data: {
+            name: 'MohamedMaher',
+            users: [
+              { userId: '2', username: 'ArabianHorses', name: 'ArabianHorses' },
+            ],
+          },
+        }),
+    });
+    useAuth.mockReturnValue({
+      dispatch: vi.fn(),
+      isAuthenticated: true,
+      user: { name: 'Arabian', username: 'Horses' },
+    });
+    const { getByTestId, queryByTestId } = render(
+      <AuthProvider>
+        <BrowserRouter>
+          <ProtectedRoute>
+            <FollowingList />
+          </ProtectedRoute>
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    await waitFor(() => {
+      expect(window.fetch).toHaveBeenCalledTimes(1);
+      expect(window.fetch).toHaveBeenCalledWith(
+        `${import.meta.env.VITE_API_DOMAIN}users/undefined/followings`,
         {
           method: 'GET',
           origin: true,
