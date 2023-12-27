@@ -1,3 +1,12 @@
+//  ---------------------------------------------------
+//                ResultsList Documentation
+//  ---------------------------------------------------
+//  ResultsList is responsible for showing the users results who matched
+//  the current search query entered by the user, if no users match
+//  the user will still have the option to search for the same query value
+//  and get the tweet results, also can head to the profile page of the user
+//  having a username exactly as the current search query.
+
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/forbid-prop-types */
@@ -64,6 +73,16 @@ function ResultsList({ value, results, setFocus }) {
     </div>
   );
 }
+
+//  ---------------------------------------------------
+//                ResultsList PropTypes
+//  ---------------------------------------------------
+//  value: the state value containing the serach query entered by the user
+//  results: the state array containing all the results for a current query
+//  setFoucs: an optional parameter which represents a certain fucntion that
+//  that can be called after the user searches for a certain query in the
+//  search page typically used for bluring the focus from the search bar
+//  after submitting the query
 
 ResultsList.propTypes = {
   value: PropTypes.string.isRequired,

@@ -1,3 +1,10 @@
+//  ---------------------------------------------------
+//                SearchBar Documentation
+//  ---------------------------------------------------
+//  SearchBar is the field through which the user can search for any query
+//  all over the application, this component also has a results conatainer
+//  show a user results list matching the user's current query.
+
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState } from 'react';
@@ -189,6 +196,13 @@ function SearchBar({ value, setValue }) {
     </div>
   );
 }
+
+//  ---------------------------------------------------
+//                SearchBar PropTypes
+//  ---------------------------------------------------
+//  value: the state containing the serach query entered by the user
+//  setValue: the state function contolling the current query value
+//  entered by the user
 
 SearchBar.propTypes = {
   value: PropTypes.string.isRequired,

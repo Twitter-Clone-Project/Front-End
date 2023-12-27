@@ -1,3 +1,10 @@
+//  ---------------------------------------------------
+//                NoSearchResults Documentation
+//  ---------------------------------------------------
+//  NoSearchResults is responsible for showing the users that his query
+//  matched no results either for the tweet results or the user results.
+//  Typically used in the search page.
+
 /* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -21,6 +28,12 @@ function NoSearchResults({ value, testId }) {
     </div>
   );
 }
+
+//  ---------------------------------------------------
+//                ResultsList PropTypes
+//  ---------------------------------------------------
+//  value: the state value containing the serach query entered by the user
+//  testId: a dynamic testId based on the current users's query
 
 NoSearchResults.propTypes = {
   value: PropTypes.string.isRequired,

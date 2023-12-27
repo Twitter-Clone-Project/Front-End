@@ -1,3 +1,11 @@
+//  ---------------------------------------------------
+//                SearchResult Documentation
+//  ---------------------------------------------------
+//  SearchResult is responsible for showing a single user result who matched
+//  the current search query entered by the user, the UI for this component
+//  may differ based on the search result is being shown in the search bar
+//  or the in the search page.
+
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/jsx-no-duplicate-props */
 /* eslint-disable no-nested-ternary */
@@ -229,6 +237,14 @@ function SearchResult({ data, searchPage }) {
     </div>
   );
 }
+
+//  ---------------------------------------------------
+//                ResultsList PropTypes
+//  ---------------------------------------------------
+//  data: an object containing the data of a user that matched the current
+//  search query
+//  searchPage: an optional boolean to check whether the search result is shown
+//  in the search bar or in the search page
 
 SearchResult.propTypes = {
   data: PropTypes.object.isRequired,
