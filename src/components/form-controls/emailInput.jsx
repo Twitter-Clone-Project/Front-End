@@ -1,6 +1,22 @@
+/* eslint-disable max-len */
 /* eslint-disable react/prop-types */
 import React from 'react';
 import validator from 'validator';
+
+/**
+ * Renders an input field for email, validating and displaying errors for invalid emails.
+ * @param {Object} props - Component props.
+ * @param {string} props.error - The error message to display for invalid emails.
+ * @param {Function} props.setError - Function to set the error message.
+ * @param {string} props.email - The value of the email input field.
+ * @param {Function} props.setEmail - Function to set the email input value.
+ * @param {boolean} props.disabled - Flag indicating if the input is disabled.
+ * @returns {JSX.Element} JSX representing the email input field.\
+ * @example
+ * ```jsx
+ *  <EmailInput error={error} setError={setError} email={email}  setEmail={setEmail} disabled={disabled} />
+ * ```
+ */
 
 // eslint-disable-next-line no-unused-vars
 function EmailInput({ error, setError, email, setEmail, disabled }) {

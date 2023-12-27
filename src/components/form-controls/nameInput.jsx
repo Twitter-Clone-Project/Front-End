@@ -1,7 +1,24 @@
+/* eslint-disable max-len */
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 
 // eslint-disable-next-line no-unused-vars
+
+/**
+ * Renders an input field for a specific name with character limit and error handling.
+ * @param {Object} props - Component props.
+ * @param {string} props.title - The title/label for the input field.
+ * @param {string} props.error - The error message to display.
+ * @param {Function} props.setError - Function to set the error message.
+ * @param {string} props.Name - The value of the name input field.
+ * @param {Function} props.setName - Function to set the name input value.
+ * @param {number} props.maxLength - The maximum length allowed for the name.
+ * @returns {JSX.Element} JSX representing the name input field.
+ * @example
+ * ```jsx
+ *  <NameInput title={title} setError={setError} error={error}  Name={Name} maxLength={maxLength} />
+ * ```
+ */
 
 function NameInput({ title, error, setError, Name, setName, maxLength }) {
   const [max, setMax] = useState(0);

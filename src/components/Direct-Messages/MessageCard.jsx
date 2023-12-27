@@ -1,9 +1,28 @@
+/* eslint-disable max-len */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
+
+/**
+ * MessageCard Component displays message within the conversation.
+ * @component
+ * @param {string} props.Message - The content of the message.
+ * @param {string} props.id - The unique identifier for the message.
+ * @param {string} props.clicked - The identifier for the clicked message.
+ * @param {string} props.lastMessageId - The identifier for the last message.
+ * @param {boolean} props.isFromMe - Indicates whether the message is from the current user.
+ * @param {boolean} props.isSeen - Indicates whether the message has been seen.
+ * @param {Function} props.setClicked - Function to set the clicked message.
+ * @param {string} props.time - The timestamp of the message.
+ * @returns {JSX.Element} JSX for the MessageCard component.
+ * @example
+ *  ```jsx
+ *  <MessageCard Message={Message} id={id} clicked={clicked} lastMessageId={lastMessageId} isFromMe={isFromMe} isSeen={isSeen} setClicked={setClicked} time={time} />
+ * ```
+ */
 
 function MessageCard({
   Message,
@@ -69,13 +88,37 @@ function MessageCard({
 }
 
 MessageCard.propTypes = {
+  /**
+   *  The content of the message.
+   */
   Message: PropTypes.string.isRequired,
+  /**
+   *  The unique identifier for the message.
+   */
   id: PropTypes.string.isRequired,
+  /**
+   *  The identifier for the clicked message.
+   */
   clicked: PropTypes.string.isRequired,
+  /**
+   *  The identifier for the last message.
+   */
   lastMessageId: PropTypes.string.isRequired,
+  /**
+   *  Indicates whether the message is from the current user.
+   */
   isFromMe: PropTypes.bool.isRequired,
+  /**
+   *  Indicates whether the message has been seen.
+   */
   isSeen: PropTypes.bool.isRequired,
+  /**
+   *  Function to set the clicked message.
+   */
   setClicked: PropTypes.func.isRequired,
+  /**
+   *  The timestamp of the message.
+   */
   time: PropTypes.string.isRequired,
 };
 

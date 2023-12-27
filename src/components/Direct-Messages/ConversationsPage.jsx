@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable react/jsx-boolean-value */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useContext } from 'react';
@@ -6,7 +7,15 @@ import ConversationsHistory from './ConversationHistory';
 import SearchResults from './SearchResults';
 import Header from './Header';
 import { ChatContext } from '../../hooks/ContactContext';
-
+/**
+ * Represents the Conversations Page component displaying chat history and search results.
+ * @component
+ * @returns {JSX.Element} JSX for the Compose Page component.
+ * @example
+ * ```jsx
+ *  <ConversationsPage />
+ * ```
+ */
 function ConversationsPage() {
   const [searchValue, setSearchValue] = useState('');
   const [mode, setMode] = useState(false);

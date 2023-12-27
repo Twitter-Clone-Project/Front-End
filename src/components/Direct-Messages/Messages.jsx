@@ -5,6 +5,16 @@ import React, { useRef, useEffect, useState, useContext } from 'react';
 import MessageCard from './MessageCard';
 import { ChatContext } from '../../hooks/ContactContext';
 
+/**
+ * Messages component displays the conversation messages.
+ * @component
+ * @returns {JSX.Element} JSX for the Messages component.
+ * @example
+ * ```jsx
+ *  <Messages />
+ * ```
+ */
+
 function Messages() {
   const divRef = useRef(null);
   const [clicked, setClicked] = useState('');

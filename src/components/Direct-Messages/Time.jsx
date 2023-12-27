@@ -1,8 +1,22 @@
+/* eslint-disable max-len */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import PropTypes from 'prop-types';
+
+/**
+ * Displays the time difference between the provided 'sendedTime' and the current time.
+ * @component
+ * @param {Object} props - Component props.
+ * @param {string} props.sendedTime - The time to compare against the current time.
+ * @returns {JSX.Element} JSX representing the time difference.
+ * @example
+ * ```jsx
+ *  <Time sendedTime={sendedTime} />
+ * ```
+ */
 
 export default function Time({ sendedTime }) {
   const [currentTime, setCurrentTime] = useState(dayjs());
@@ -55,3 +69,9 @@ export default function Time({ sendedTime }) {
     </div>
   );
 }
+Time.propTypes = {
+  /**
+   *  The time to compare against the current time
+   */
+  sendedTime: PropTypes.string.isRequired,
+};
