@@ -437,7 +437,6 @@ describe('PopoverUserCard', () => {
 
     afterEach(() => {
       window.fetch.mockRestore();
-
     });
     it('should go to user profile on click on name, userName or img', async () => {
       const user = userEvent.setup({
@@ -491,6 +490,124 @@ describe('PopoverUserCard', () => {
           state: undefined,
           unstable_viewTransition: undefined,
         });
+      });
+    });
+  });
+
+  it('handles error in follow ', async () => {
+    const user = userEvent.setup({
+      advanceTimers: (ms) => vi.advanceTimersByTime(ms),
+    });
+    window.fetch.mockResolvedValueOnce({
+      ok: false,
+      json: () =>
+        Promise.resolve({ status: false, message: 'Followed Successfully' }),
+    });
+    useAuth.mockReturnValue({
+      dispatch: vi.fn(),
+      isAuthenticated: true,
+      user: { name: 'Arabian', username: 'Horses' },
+    });
+    const { getByTestId } = render(
+      <AuthProvider>
+        <BrowserRouter>
+          <ProtectedRoute>
+            <PopoverUserCard
+              popoverIsFollowed={false}
+              popoverUserPicture="image-url"
+              popoverUserName="JohnDoe"
+              popoverUserID="john_doe"
+              popoverDiscription="Some description"
+              popoverFollowing="10"
+              popoverFollowers="20"
+              opoverSetLocalIsFollowed
+              popoverIsBlocked={false}
+            >
+              <div data-testid={`tempPopoverItem`}>hello</div>
+            </PopoverUserCard>
+          </ProtectedRoute>
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    const elemet = getByTestId('tempPopoverItem');
+    await user.hover(elemet);
+    vi.advanceTimersByTime(700);
+    await waitFor(async () => {
+      expect(getByTestId('PopoverUserCard_john_doe_1')).not.toBeDisabled();
+      fireEvent.click(getByTestId('PopoverUserCard_john_doe_1'));
+      await waitFor(() => {
+        expect(window.fetch).toHaveBeenCalledTimes(1);
+        expect(window.fetch).toHaveBeenCalledWith(
+          `${import.meta.env.VITE_API_DOMAIN}users/john_doe/follow`,
+          {
+            method: 'POST',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+      });
+    });
+  });
+
+  it('handles error in unfollow', async () => {
+    const user = userEvent.setup({
+      advanceTimers: (ms) => vi.advanceTimersByTime(ms),
+    });
+    window.fetch.mockResolvedValueOnce({
+      ok: false,
+      json: () =>
+        Promise.resolve({ status: false, message: 'UnFollowed Successfully' }),
+    });
+    useAuth.mockReturnValue({
+      dispatch: vi.fn(),
+      isAuthenticated: true,
+      user: { name: 'Arabian', username: 'Horses' },
+    });
+    const { getByTestId } = render(
+      <AuthProvider>
+        <BrowserRouter>
+          <ProtectedRoute>
+            <PopoverUserCard
+              popoverIsFollowed={true}
+              popoverUserPicture="image-url"
+              popoverUserName="JohnDoe"
+              popoverUserID="john_doe"
+              popoverDiscription="Some description"
+              popoverFollowing="10"
+              popoverFollowers="20"
+              opoverSetLocalIsFollowed
+              popoverIsBlocked={false}
+            >
+              <div data-testid={`tempPopoverItem`}>hello</div>
+            </PopoverUserCard>
+          </ProtectedRoute>
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    const elemet = getByTestId('tempPopoverItem');
+    await user.hover(elemet);
+    vi.advanceTimersByTime(700);
+    await waitFor(async () => {
+      expect(getByTestId('PopoverUserCard_john_doe_1')).not.toBeDisabled();
+      fireEvent.click(getByTestId('PopoverUserCard_john_doe_1'));
+      await waitFor(() => {
+        expect(window.fetch).toHaveBeenCalledTimes(1);
+        expect(window.fetch).toHaveBeenCalledWith(
+          `${import.meta.env.VITE_API_DOMAIN}users/john_doe/unfollow`,
+          {
+            method: 'DELETE',
+            origin: true,
+            credentials: 'include',
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        );
       });
     });
   });

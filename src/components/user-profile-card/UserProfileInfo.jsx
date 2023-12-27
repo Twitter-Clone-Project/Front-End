@@ -74,7 +74,7 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
           </div>
         )}
       </div>
-      <div className="mb-5 mt-2">
+      <div className="mb-2 mt-2">
         <div className="flex  flex-col">
           <span
             style={{ wordBreak: 'break-word', whiteSpace: 'break-spaces' }}
@@ -82,10 +82,10 @@ function UserProfileInfo({ user, setUpdateFormOpen }) {
           >
             {name}
           </span>
-          <div className="flex h-5 flex-row items-center">
+          <div className="min-h-5 flex flex-row  items-center">
             <span
               data-testid={`${username}-username`}
-              className="w-min text-light-thin"
+              className="text-light-thin"
             >
               @{username}
             </span>

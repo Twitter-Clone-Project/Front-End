@@ -28,6 +28,10 @@ function MessagesInput() {
   useEffect(() => {
     socketMessagesRef.current = socketMessages;
   }, [socketMessages]);
+  const chatContextRef = useRef();
+  useEffect(() => {
+    chatContextRef.current = chatContext;
+  }, [chatContext]);
 
   const handleClick = () => {
     if (socket === null || message === '' || message.trim() === '') return;
@@ -60,7 +64,11 @@ function MessagesInput() {
   useEffect(() => {
     if (socket === null) return;
     const broadcastListener = (receivedMessage) => {
-      if (receivedMessage.conversationId !== chatContext.conversationId) return;
+      if (
+        chatContextRef &&
+        receivedMessage.conversationId !== chatContextRef.current.conversationId
+      )
+        return;
       setSocketMessages([
         ...socketMessagesRef.current,
         {

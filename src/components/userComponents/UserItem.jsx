@@ -107,97 +107,107 @@ function UserItem({
       });
   };
 
-  const blockReq = () => {
-    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${userID}/block`, {
-      method: 'POST',
-      origin: true,
-      credentials: 'include',
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        setLocalIsBlocked(!localIsBlocked);
+  const blockReq = async () => {
+    try {
+      setLocalIsBlocked(true);
+
+      const response = await fetch(
+        `${import.meta.env.VITE_API_DOMAIN}users/${userID}/block`,
+        {
+          method: 'POST',
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      const res = await response.json();
+      if (!res.status) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      } else {
         setLocalIsFollowed(false);
-        return response.json();
-      })
-      .then((data) => {})
-      .catch((error) => {
-        console.error('Error during fetch:', error);
-      });
+      }
+    } catch (error) {
+      setLocalIsBlocked(false);
+      console.error('Error during fetch:', error);
+    }
   };
 
-  const unBlockReq = () => {
-    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${userID}/unblock`, {
-      method: 'DELETE',
-      origin: true,
-      credentials: 'include',
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        setLocalIsBlocked(!localIsBlocked);
-        return response.json();
-      })
-      .then((data) => {})
-      .catch((error) => {
-        console.error('Error during fetch:', error);
-      });
+  const unBlockReq = async () => {
+    try {
+      setLocalIsBlocked(false);
+      const response = await fetch(
+        `${import.meta.env.VITE_API_DOMAIN}users/${userID}/unblock`,
+        {
+          method: 'DELETE',
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      const res = await response.json();
+      if (!res.status) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+    } catch (error) {
+      setLocalIsBlocked(true);
+      console.error('Error during fetch:', error);
+    }
   };
 
-  const muteReq = () => {
-    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${userID}/mute`, {
-      method: 'POST',
-      origin: true,
-      credentials: 'include',
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        setLocalIsMuted(!localIsMuted);
-        return response.json();
-      })
-      .then((data) => {})
-      .catch((error) => {
-        console.error('Error during fetch:', error);
-      });
+  const muteReq = async () => {
+    try {
+      setLocalIsMuted(true);
+      const response = await fetch(
+        `${import.meta.env.VITE_API_DOMAIN}users/${userID}/mute`,
+        {
+          method: 'POST',
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      const res = await response.json();
+      if (!res.status) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+    } catch (error) {
+      setLocalIsMuted(false);
+      console.error('Error during fetch:', error);
+    }
   };
 
-  const unMuteReq = () => {
-    fetch(`${import.meta.env.VITE_API_DOMAIN}users/${userID}/unmute`, {
-      method: 'DELETE',
-      origin: true,
-      credentials: 'include',
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        setLocalIsMuted(!localIsMuted);
-        return response.json();
-      })
-      .then((data) => {})
-      .catch((error) => {
-        console.error('Error during fetch:', error);
-      });
+  const unMuteReq = async () => {
+    try {
+      setLocalIsMuted(false);
+      const response = await fetch(
+        `${import.meta.env.VITE_API_DOMAIN}users/${userID}/unmute`,
+        {
+          method: 'DELETE',
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      const res = await response.json();
+      if (!res.status) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+    } catch (error) {
+      setLocalIsMuted(true);
+      console.error('Error during fetch:', error);
+    }
   };
 
   const handelFollowUnFollowButton = (event) => {
@@ -242,6 +252,8 @@ function UserItem({
               popoverFollowing={following}
               popoverFollowers={followers}
               popoverSetLocalIsFollowed={setLocalIsFollowed}
+              popoverIsBlocked={localIsBlocked}
+              popoverIsMuted={localIsMuted}
             >
               <img
                 id="img"
@@ -265,6 +277,8 @@ function UserItem({
                   popoverFollowing={following}
                   popoverFollowers={followers}
                   popoverSetLocalIsFollowed={setLocalIsFollowed}
+                  popoverIsBlocked={localIsBlocked}
+                  popoverIsMuted={localIsMuted}
                 >
                   <label
                     htmlFor="img"
@@ -285,6 +299,8 @@ function UserItem({
                     popoverFollowing={following}
                     popoverFollowers={followers}
                     popoverSetLocalIsFollowed={setLocalIsFollowed}
+                    popoverIsBlocked={localIsBlocked}
+                    popoverIsMuted={localIsMuted}
                   >
                     <span
                       className="w-min max-w-[80%] overflow-hidden text-ellipsis whitespace-nowrap text-light-thin"
@@ -417,6 +433,8 @@ function UserItem({
 UserItem.defaultProps = {
   isBlocked: false,
   isMuted: false,
+  discription: null,
+  userPicture: null,
 };
 
 UserItem.propTypes = {
@@ -431,7 +449,7 @@ UserItem.propTypes = {
   /**
    * the URL of the user's profile picture.
    */
-  userPicture: PropTypes.string.isRequired,
+  userPicture: PropTypes.string,
   /**
    * the name of the user.
    */
@@ -443,7 +461,7 @@ UserItem.propTypes = {
   /**
    * the description of the user.
    */
-  discription: PropTypes.string.isRequired,
+  discription: PropTypes.string,
   /**
    * the number of users the user is following.
    */
