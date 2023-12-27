@@ -15,7 +15,6 @@ import Media from './Media';
 import OwnToaster from '../components/OwnToaster';
 import ActionsMenu from './ActionsMenu';
 import PopoverUserCard from '../components/userComponents/PopoverUserCard';
-// import { useAuth } from '../hooks/AuthContext';
 
 function UnMemoTweet({
   data,
@@ -84,7 +83,6 @@ function UnMemoTweet({
   }, [data.id]);
   useEffect(() => {
     const handleActions = (e) => {
-      console.log(e);
       switch (e.detail) {
         case 'follow': {
           setIsFollowed(true);
@@ -125,10 +123,8 @@ function UnMemoTweet({
   useEffect(() => {
     if (data.attachmentsUrl) {
       setImages(data.attachmentsUrl);
-      // console.log(data.attachmentsUrl, 'Url');
     } else {
       setImages(data.attachmentsURL);
-      // console.log(data.attachmentsURL, 'URL');
     }
     toggleLike(data.isLiked);
     toggleRepost(data.isRetweeted);
@@ -307,7 +303,7 @@ function UnMemoTweet({
           popoverIsFollowed={isFollowed}
           popoverIsFollowing={isFollowing}
           popoverUserPicture={
-            data.user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
+            data.user.imageUrl || import.meta.env.VITE_DEFAULT_AVATAR
           }
           popoverUserName={data.user.screenName}
           popoverUserID={data.user.username}
@@ -323,9 +319,7 @@ function UnMemoTweet({
           <div className="profileImage leftColumn absolute mr-[12px] h-[40px] w-[40px] ">
             <img
               data-testid={`profileImage${data.id}`}
-              src={
-                data.user.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
-              }
+              src={data.user.imageUrl || import.meta.env.VITE_DEFAULT_AVATAR}
               alt="profileImage"
               className="  h-[40px] w-[40px] rounded-full object-cover transition-opacity"
             />
@@ -490,11 +484,7 @@ Tweet.propTypes = {
 };
 
 Tweet.defaultProps = {
-  setFetchLikes: () => {
-    // console.log('Hi');
-  },
-  setFetchRetweets: () => {
-    // console.log('Hi');
-  },
+  setFetchLikes: () => {},
+  setFetchRetweets: () => {},
 };
 export default Tweet;
