@@ -2,7 +2,6 @@
 import * as React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from 'react';
-// import { v4 as uuid4 } from 'uuid';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import LandingPage from './components/landingPage/LandingPage';
@@ -50,6 +49,20 @@ import OwnToaster from './components/OwnToaster';
 
 TimeAgo.addDefaultLocale(en);
 
+/**
+ * The main component of the application.
+ * It handles
+ ** Authentication
+ ** Routing
+ *
+ * @component
+ * @example
+ * ```jsx
+ * ReactDOM.createRoot(document.getElementById('root')).render(
+ *   <App />
+ * );
+ * ```
+ */
 function App() {
   const { dispatch } = useAuth();
   const [isLoading, setIsLoading] = useState(true);

@@ -4,7 +4,7 @@ import SearchBar from '../search-bar/SearchBar';
 
 function TrandsPage() {
   const [trands, setTrends] = useState([]);
-  const [value, setValue] = useState([]);
+  const [value, setValue] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {

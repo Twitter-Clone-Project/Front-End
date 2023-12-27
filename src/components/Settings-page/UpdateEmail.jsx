@@ -11,7 +11,10 @@ function UpdateEmail() {
   const [emailError, setEmailError] = useState('');
 
   return (
-    <div className="flex w-full flex-col">
+    <div
+      data-testid="update-email-page"
+      className="flex w-full flex-col"
+    >
       <Outlet />
       <SettingsHeader
         backBtn
@@ -30,6 +33,7 @@ function UpdateEmail() {
       </div>
       <div className="my-1 flex w-full cursor-pointer items-center justify-center p-4 text-center transition-colors duration-200 hover:bg-[#739cb816] dark:hover:bg-[#1d9bf01a]">
         <Link
+          data-testid="update-email-btn"
           to="change-email"
           className="text-sm font-thin hover:no-underline"
         >

@@ -4,7 +4,6 @@ import { v4 as uuid4 } from 'uuid';
 import { Skeleton } from '@mui/material';
 
 function Media({ images }) {
-  // console.log(images);
   const [isLoading, setIsLoading] = useState(true);
   if (images) {
     const [isVideo, setIsVideo] = useState(false);
@@ -23,11 +22,12 @@ function Media({ images }) {
     if (images.length % 2 === 0) {
       return (
         <div
+          data-testid="24images"
           className={`media4 my-2 grid max-h-[512px] max-w-[512px] grid-cols-2
         grid-rows-${images.length / 2} gap-[2px] overflow-hidden rounded-xl`}
         >
           {images.map((image) => (
-            <>
+            <div key={uuid4()}>
               {isLoading && (
                 <Skeleton
                   sx={{ bgcolor: 'grey.900' }}
@@ -38,13 +38,12 @@ function Media({ images }) {
                 />
               )}
               <img
-                key={uuid4()}
                 src={image}
                 onLoad={() => setIsLoading(false)}
                 alt="media"
                 className="h-full w-full object-cover"
               />
-            </>
+            </div>
           ))}
         </div>
       );
@@ -52,6 +51,7 @@ function Media({ images }) {
     const images3 = images.slice(1);
     return (
       <div
+        data-testid="13images"
         className={`media4 my-2 grid max-h-[512px] max-w-[512px]
        grid-cols-${images.length / 2 + 0.5} grid-rows-1 gap-[${
          images.length - 1
@@ -94,7 +94,7 @@ function Media({ images }) {
         <div className={`grid grid-rows-2  gap-[${images.length - 1}px]`}>
           {images3.map((image) => (
             <img
-              key={uuid4()}
+              key={image}
               src={image}
               alt="media"
               className="h-full w-full object-cover"

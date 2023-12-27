@@ -55,28 +55,33 @@ function ChangeEmail({ onClick, email, setEmail, error, setError }) {
       const res = await fetch(
         `${import.meta.env.VITE_API_DOMAIN}profile/updateEmail`,
         {
-          method: 'POST',
+          method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
           },
           origin: true,
           credentials: 'include',
           withCredentials: true,
-          body: JSON.stringify({ newEmail: user.email }),
+          body: JSON.stringify({ newEmail: email }),
         },
       );
       const data = await res.json();
       if (data.status === false) throw new Error(data.message);
       onClick();
     } catch (err) {
-      toast(err.message);
+      toast(err.message, {
+        id: 'toast',
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex h-full w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
+    <div
+      data-testid="change-email-popup"
+      className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex h-full w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50"
+    >
       {isLoading ? (
         <Spinner />
       ) : (

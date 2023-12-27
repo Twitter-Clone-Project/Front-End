@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
-// import Media from './Media';
 import { Link } from 'react-router-dom';
 import AddEmoji from './AddEmoji';
 import TextField from './TextField';
@@ -161,13 +160,15 @@ function AddPost({ setTweets }) {
         </div>
 
         <div className="rightColumn h-auto">
-          <div className="peer max-w-full placeholder:text-light-thin">
+          <div
+            data-testid="input"
+            className="peer max-w-full placeholder:text-light-thin"
+          >
             <TextField
               text={text}
               setText={setText}
             />
           </div>
-          {/* <Media images={filesURLs} /> */}
           <MediaRemove
             filesURLs={filesURLs}
             setFilesURLs={setFilesURLs}

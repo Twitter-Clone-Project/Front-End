@@ -9,7 +9,7 @@ function NoSearchResults({ value, testId }) {
       data-testid={testId}
     >
       <div className="flex w-[80%] justify-start pt-4">
-        <div className="mt-20 flex flex-col justify-start">
+        <div className="mt-20 flex flex-col justify-start overflow-hidden truncate">
           <span className="pb-2 text-4xl font-bold dark:text-white">
             No results for <br /> "{value.toUpperCase()}"
           </span>

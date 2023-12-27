@@ -42,7 +42,7 @@ function MediaRemove({ filesURLs, setFilesURLs, files, setFiles }) {
             />
             <button
               type="submit"
-              data-testid="remove"
+              data-testid={`remove2${i}`}
               onClick={() => handleImageRemove(i)}
               className="absolute right-3 top-3 h-[20px] w-[20px]  rounded-3xl bg-black text-sm"
             >
@@ -69,7 +69,7 @@ function MediaRemove({ filesURLs, setFilesURLs, files, setFiles }) {
   return (
     <div
       data-testid="media"
-      className={`media4 grid max-h-[512px] max-w-[512px]
+      className={`media grid max-h-[512px] max-w-[512px]
            grid-cols-${filesURLs.length / 2 + 0.5} grid-rows-1 gap-[${
              filesURLs.length - 1
            }px]  overflow-hidden rounded-xl `}
@@ -128,7 +128,7 @@ function MediaRemove({ filesURLs, setFilesURLs, files, setFiles }) {
             />
             <button
               type="submit"
-              data-testid="remove"
+              data-testid={`remove3${i}`}
               onClick={() => handleImageRemove(i + 1)}
               className="absolute right-3 top-3 h-[20px] w-[20px]  rounded-3xl bg-black text-sm"
             >

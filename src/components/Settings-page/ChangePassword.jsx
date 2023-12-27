@@ -32,6 +32,14 @@ function ChangePassword() {
     } else {
       setNewPasswordConfirmError('');
     }
+    if (newPasswordConfirm.length < 7 && newPasswordConfirm !== '') {
+      setNewPasswordConfirmError(
+        'Your password needs to be at least 8 characters.',
+      );
+    }
+    if (newPassword.length < 7 && newPassword !== '') {
+      setNewPasswordError('Your password needs to be at least 8 characters.');
+    }
   }, [newPasswordConfirm, newPassword]);
 
   useEffect(() => {
@@ -61,7 +69,10 @@ function ChangePassword() {
     });
   };
   return (
-    <div className="w-full">
+    <div
+      data-testid="change-password-page"
+      className="w-full"
+    >
       {isLoading ? (
         <Spinner />
       ) : (

@@ -4,12 +4,24 @@ import * as router from 'react-router';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
+import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
 import AuthProvider from '../../contexts/Auth/AuthProvider';
 import SignUpForm from '../../components/sign-up/SignUpForm';
 import EmailConfirm from '../../components/sign-up/EmailConfirm';
 import UnprotectedRoute from '../../components/UnprotectedRoute';
 import GoogleSignInBtn from '../../components/form-controls/GoogleSignIn';
+import OwnToaster from '../../components/OwnToaster';
 
+vi.mock('@react-oauth/google', async () => {
+  const mod = await vi.importActual('@react-oauth/google');
+  return {
+    ...mod,
+    useGoogleLogin: vi.fn().mockImplementation(({ onSuccess, onError }) =>
+      // eslint-disable-next-line camelcase
+      onSuccess({ access_token: 'token' }),
+    ),
+  };
+});
 describe('SignUp component', () => {
   const navigate = vi.fn();
   beforeEach(() => {
@@ -166,6 +178,7 @@ describe('SignUp component', () => {
             <SignUpForm test />
           </UnprotectedRoute>
         </BrowserRouter>
+        <OwnToaster />
       </AuthProvider>,
     );
     window.fetch
@@ -301,6 +314,7 @@ describe('SignUp component', () => {
             />
           </UnprotectedRoute>
         </BrowserRouter>
+        <OwnToaster />
       </AuthProvider>,
     );
     window.fetch.mockResolvedValueOnce({
@@ -325,6 +339,7 @@ describe('SignUp component', () => {
             />
           </UnprotectedRoute>
         </BrowserRouter>
+        <OwnToaster />
       </AuthProvider>,
     );
     window.fetch.mockResolvedValueOnce({
@@ -347,6 +362,7 @@ describe('SignUp component', () => {
             />
           </UnprotectedRoute>
         </BrowserRouter>
+        <OwnToaster />
       </AuthProvider>,
     );
     window.fetch.mockResolvedValueOnce({
@@ -361,7 +377,11 @@ describe('SignUp component', () => {
   });
   it('should render google sign in btn', async () => {
     const { getByTestId } = render(
-      <GoogleSignInBtn label="Sign In with Google" />,
+      <AuthProvider>
+        <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID_GOOGLE}>
+          <GoogleSignInBtn label="Sign In with Google" />,
+        </GoogleOAuthProvider>
+      </AuthProvider>,
     );
 
     window.fetch.mockResolvedValueOnce({
@@ -384,13 +404,23 @@ describe('SignUp component', () => {
           headers: {
             'Content-Type': 'application/json',
           },
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+          body: JSON.stringify({
+            googleAccessToken: 'token',
+          }),
         },
       );
     });
   });
   it('should render google sign in btn with error', async () => {
     const { getByTestId, getByText } = render(
-      <GoogleSignInBtn label="Sign In with Google" />,
+      <AuthProvider>
+        <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID_GOOGLE}>
+          <GoogleSignInBtn label="Sign In with Google" />,
+        </GoogleOAuthProvider>
+      </AuthProvider>,
     );
 
     window.fetch.mockResolvedValueOnce({
