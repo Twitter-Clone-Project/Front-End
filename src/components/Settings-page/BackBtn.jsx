@@ -1,6 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * A button component used for navigating back.
+ *
+ * @component
+ * @example
+ * return (
+ *   <BackBtn onClick={handleClick} />
+ * )
+ */
 function BackBtn({ onClick }) {
   return (
     <div
@@ -27,7 +36,12 @@ function BackBtn({ onClick }) {
     </div>
   );
 }
+
 BackBtn.propTypes = {
+  /**
+   * Function to be called when the button is clicked.
+   */
   onClick: PropTypes.func.isRequired,
 };
+
 export default BackBtn;

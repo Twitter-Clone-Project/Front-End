@@ -183,7 +183,7 @@ function TweetPage() {
     >
       <div className="flex w-full flex-col items-start justify-start">
         <div className="flex flex-wrap items-center">
-          <div className="mb-2 mt-[9px] flex h-7 w-7 items-center justify-center rounded-full hover:bg-x-light-gray hover:dark:bg-light-thin">
+          <div className="mx-2 mb-2 mt-[9px] flex h-7 w-7 items-center justify-center rounded-full hover:bg-[#e7e7e7] dark:hover:bg-[#181919]">
             <svg
               viewBox="0 0 24 24"
               aria-hidden="true"
@@ -269,7 +269,7 @@ function TweetPage() {
               <AddReply
                 setReplies={setReplies}
                 tweetId={tweetId}
-                replyFor={tweetData[0].user.userName}
+                replyFor={tweetData[0].user.username}
               />
             </div>
             <div className="w-full">

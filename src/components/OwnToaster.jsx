@@ -1,6 +1,18 @@
+/* eslint-disable max-len */
 import { Toaster } from 'react-hot-toast';
 import React from 'react';
 
+/**
+ * OwnToaster component displays a customized toaster using the Toaster component from a library.
+ *
+ * @component
+ * @example
+ * ```jsx
+ * return (
+ *   <OwnToaster />
+ * )
+ * ```
+ */
 function OwnToaster() {
   return (
     <Toaster

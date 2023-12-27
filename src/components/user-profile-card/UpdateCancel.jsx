@@ -1,8 +1,12 @@
+/* eslint-disable max-len */
 import React from 'react';
 import PropTypes from 'prop-types';
 import ConfirmPopUp from './ConfirmPopUp';
 import Button from '../form-controls/Button';
 
+/**
+ * A component that displays a confirmation popup with options to discard changes or cancel.
+ */
 function UpdateCancel({ onDiscard, onCancel }) {
   return (
     <ConfirmPopUp>
@@ -39,8 +43,16 @@ function UpdateCancel({ onDiscard, onCancel }) {
     </ConfirmPopUp>
   );
 }
+
 UpdateCancel.propTypes = {
+  /**
+   * Callback function to handle discarding changes.
+   */
   onDiscard: PropTypes.func.isRequired,
+  /**
+   * Callback function to handle canceling the action.
+   */
   onCancel: PropTypes.func.isRequired,
 };
+
 export default UpdateCancel;

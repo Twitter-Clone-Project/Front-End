@@ -1,7 +1,28 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
+/**
+ * A reusable component that represents a box card.
+ * It can be used to display content with a header and optional close button.
+ *
+ * @component
+ * @example
+ * ```jsx
+ * return (
+ *   <BoxCard
+ *     header={<h2>Card Header</h2>}
+ *     onClose={() => console.log('Card closed')}
+ *     minHeight="500px"
+ *     classes="custom-styles"
+ *   >
+ *     <p>Card Content</p>
+ *   </BoxCard>
+ * )
+ * ```
+ */
 function BoxCard({ children, classes, minHeight, onClose, header, compose }) {
   const navigate = useNavigate();
   return (
@@ -64,5 +85,39 @@ function BoxCard({ children, classes, minHeight, onClose, header, compose }) {
     </div>
   );
 }
+// BoxCard.defaultProps = {
+//   classes: '',
+//   minHeight: '650px',
+//   onClose: null,
+//   header: null,
+//   compose: false,
+// };
+
+BoxCard.propTypes = {
+  /**
+   * The content to be displayed inside the BoxCard.
+   */
+  children: PropTypes.node.isRequired,
+  /**
+   * Additional CSS classes to be applied to the BoxCard.
+   */
+  classes: PropTypes.string,
+  /**
+   * The minimum height of the BoxCard.
+   */
+  minHeight: PropTypes.string,
+  /**
+   * The function to be called when the close button is clicked.
+   */
+  onClose: PropTypes.func,
+  /**
+   * The header component to be displayed at the top of the BoxCard.
+   */
+  header: PropTypes.node,
+  /**
+   * Whether the BoxCard is in compose mode or not.
+   */
+  compose: PropTypes.bool,
+};
 
 export default BoxCard;

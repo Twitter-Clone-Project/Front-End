@@ -5,6 +5,7 @@ import {
   cleanup,
   screen,
   waitFor,
+  getByTestId,
 } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { v4 as uuid4 } from 'uuid';
@@ -61,6 +62,7 @@ useAuth.mockReturnValue({
   isAuthenticated: true,
   user: data[0].user,
 });
+// vi.mock('./api'); // Mocking the API function
 vi.mock('../../hooks/AuthContext.js');
 const navigate = vi.fn();
 beforeEach(() => {
@@ -214,7 +216,7 @@ describe('TweetPage', () => {
           },
         }),
     });
-    render(
+    const { queryByTestId } = render(
       <AuthProvider>
         <BrowserRouter>
           <ProtectedRoute>
@@ -234,8 +236,236 @@ describe('TweetPage', () => {
           withCredentials: true,
         },
       );
+      // setTweets(data);
+      // const tweetComponent = queryByTestId('tweet-component'); // Replace with your test ID
+      // expect(tweetComponent).to.exist;
     });
   });
+
+  // it('should show tweet component', async () => {
+  //   const { getByTestId, getByText, queryByTestId } = render(
+  //     <AuthProvider value={{ dispatch, user: null, isAuthenticated: true }}>
+  //       <BrowserRouter>
+  //         <ProtectedRoute>
+  //           <TweetPage />
+  //         </ProtectedRoute>
+  //       </BrowserRouter>
+  //     </AuthProvider>,
+  //   );
+  //   window.fetch.mockResolvedValueOnce({
+  //     ok: true,
+  //     json: () =>
+  //       Promise.resolve({
+  //         status: true,
+  //         data: {
+  //           id: '123456',
+  //           isRetweet: true,
+  //           text: 'This is a retweet!',
+  //           createdAt: '2023-11-29T21:33',
+  //           attachmentsURL: ['https://example.com/image.jpg'],
+  //           retweetedUser: {
+  //             userId: '789',
+  //             username: 'johndoe',
+  //             screenName: 'John Doe',
+  //             profileImageURL: 'https://example.com/profile.jpg',
+  //             bio: "I'm a retweeted user.",
+  //             followersCount: 1000,
+  //             followingCount: 500,
+  //             isFollowed: true,
+  //             isFollowing: true,
+  //           },
+  //           user: {
+  //             userId: '123',
+  //             username: 'janesmith',
+  //             screenName: 'Jane Smith',
+  //             profileImageURL: 'https://example.com/profile.jpg',
+  //             bio: "I'm the original user.",
+  //             followersCount: 2000,
+  //             followingCount: 1000,
+  //             isFollowed: true,
+  //             isFollowing: true,
+  //           },
+  //           isLiked: true,
+  //           isRetweeted: false,
+  //           isReplied: true,
+  //           likesCount: 10,
+  //           retweetsCount: 5,
+  //           repliesCount: 3,
+  //         },
+  //       }),
+  //   });
+
+  //   // .mockResolvedValueOnce({
+  //   //   ok: true,
+  //   //   json: () =>
+  //   //     Promise.resolve({
+  //   //       status: true,
+  //   //       data: {
+  //   //         isFound: false,
+  //   //       },
+  //   //     }),
+  //   // })
+  //   // .mockResolvedValueOnce({
+  //   //   ok: true,
+  //   //   json: () =>
+  //   //     Promise.resolve({
+  //   //       status: true,
+  //   //       data: {
+  //   //         isFound: true,
+  //   //       },
+  //   //     }),
+  //   // })
+  //   // .mockResolvedValueOnce({
+  //   //   ok: true,
+  //   //   json: () =>
+  //   //     Promise.resolve({
+  //   //       status: true,
+  //   //       data: {
+  //   //         isFound: false,
+  //   //       },
+  //   //     }),
+  //   // })
+  //   // .mockResolvedValueOnce({
+  //   //   ok: false,
+  //   //   json: () =>
+  //   //     Promise.resolve({
+  //   //       status: false,
+  //   //       message: 'Invalid inputs',
+  //   //     }),
+  //   // });
+  //   // const emailInput = getByTestId('Email');
+  //   // const month = getByTestId('Month');
+  //   // const day = getByTestId('Day');
+  //   // const year = getByTestId('Year');
+  //   // const nameInput = getByTestId('Name');
+  //   // const usernameInput = getByTestId('Username');
+  //   // const passwordInput = getByTestId('Password');
+  //   // const passwordConfirmInput = getByTestId('Confirm Password');
+
+  //   // fireEvent.change(usernameInput, { target: { value: 'Test Username' } });
+  //   await waitFor(async () => {
+  //     expect(getByTestId('tweet-copmonent')).toBeInTheDocument();
+  //   });
+  //   // fireEvent.change(usernameInput, { target: { value: 'Test Usernamem' } });
+  //   // await waitFor(() => {
+  //   //   expect(queryByTestId('Username-err')).not.toBeInTheDocument();
+  //   // });
+  //   // fireEvent.change(nameInput, { target: { value: 'Test' } });
+
+  //   // fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+  //   // await waitFor(() => {
+  //   //   expect(getByTestId('email-error')).toBeInTheDocument();
+  //   // });
+  //   // await waitFor(() => {
+  //   //   fireEvent.change(emailInput, { target: { value: 'test12@example.com' } });
+  //   //   expect(queryByTestId('email-error')).not.toBeInTheDocument();
+  //   // });
+
+  //   // fireEvent.change(passwordInput, { target: { value: 'password' } });
+
+  //   // fireEvent.change(passwordConfirmInput, {
+  //   //   target: { value: 'password' },
+  //   // });
+
+  //   // fireEvent.change(month, { target: { value: 'March' } });
+
+  //   // fireEvent.change(day, { target: { value: '15' } });
+  //   // fireEvent.change(year, { target: { value: '2000' } });
+
+  //   // await waitFor(() => {
+  //   //   fireEvent.click(getByTestId('Next'));
+  //   //   expect(getByText('Invalid inputs')).toBeInTheDocument();
+  //   // });
+  // });
+  // it('renders visible content when API returns data', async () => {
+  //   window.fetch.mockResolvedValueOnce({
+  //     ok: true,
+  //     json: () =>
+  //       Promise.resolve({
+  //         status: true,
+  //         data: {
+  //           status: 'true',
+  //           data: [
+  //             {
+  //               id: '123456',
+  //               isRetweet: true,
+  //               text: 'This is a retweet!',
+  //               createdAt: '2023-11-29T21:33',
+  //               attachmentsURL: ['https://example.com/image.jpg'],
+  //               retweetedUser: {
+  //                 userId: '789',
+  //                 username: 'johndoe',
+  //                 screenName: 'John Doe',
+  //                 profileImageURL: 'https://example.com/profile.jpg',
+  //                 bio: "I'm a retweeted user.",
+  //                 followersCount: 1000,
+  //                 followingCount: 500,
+  //                 isFollowed: true,
+  //                 isFollowing: true,
+  //               },
+  //               user: {
+  //                 userId: '123',
+  //                 username: 'janesmith',
+  //                 screenName: 'Jane Smith',
+  //                 profileImageURL: 'https://example.com/profile.jpg',
+  //                 bio: "I'm the original user.",
+  //                 followersCount: 2000,
+  //                 followingCount: 1000,
+  //                 isFollowed: true,
+  //                 isFollowing: true,
+  //               },
+  //               isLiked: true,
+  //               isRetweeted: false,
+  //               isReplied: true,
+  //               likesCount: 10,
+  //               retweetsCount: 5,
+  //               repliesCount: 3,
+  //             },
+  //           ],
+  //         },
+  //       }),
+  //   });
+
+  //   render(
+  //     <AuthProvider>
+  //       <BrowserRouter>
+  //         <ProtectedRoute>
+  //           <TweetPage />
+  //         </ProtectedRoute>
+  //       </BrowserRouter>
+  //     </AuthProvider>,
+  //   );
+
+  //   await waitFor(() => {
+  //     const visibleContent = getByTestId('tweet-component');
+  //     console.log(visibleContent, 'Hi');
+  //     expect(visibleContent).toBeInTheDocument();
+  //   });
+  // });
+
+  // it('renders hidden content when API returns no data', async () => {
+  //   window.fetch.mockResolvedValueOnce({
+  //     ok: true,
+  //     json: () =>
+  //       Promise.resolve({
+  //         status: false,
+  //       }),
+  //   });
+
+  //   render(
+  //     <AuthProvider>
+  //       <BrowserRouter>
+  //         <ProtectedRoute>
+  //           <TweetPage />
+  //         </ProtectedRoute>
+  //       </BrowserRouter>
+  //     </AuthProvider>,
+  //   );
+  //   await waitFor(() => {
+  //     const hiddenContent = getByTestId('spinner-component');
+  //     expect(hiddenContent).toBeInTheDocument();
+  //   });
+  // });
   //   it('renders conditionally based on tweetData', async () => {
   //     // Simulate API response with expected data
   //     const mockResponse = {

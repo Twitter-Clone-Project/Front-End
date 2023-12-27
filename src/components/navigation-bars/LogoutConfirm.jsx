@@ -3,8 +3,12 @@ import { useNavigate } from 'react-router';
 import toast from 'react-hot-toast';
 import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
-import OwnToaster from '../OwnToaster';
 import ConfirmPopUp from '../user-profile-card/ConfirmPopUp';
+
+/**
+ * LogoutConfirm component displays a confirmation popup for logging out.
+ * It provides options to log out or cancel the logout process.
+ */
 
 function LogoutConfirm() {
   const navigate = useNavigate();
@@ -81,5 +85,7 @@ function LogoutConfirm() {
     </ConfirmPopUp>
   );
 }
-
+LogoutConfirm.propTypes = {
+  // No props are required for this component.
+};
 export default LogoutConfirm;

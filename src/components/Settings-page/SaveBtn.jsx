@@ -2,6 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '../form-controls/Button';
 
+/**
+ * A button component used for saving changes.
+ *
+ * @component
+ * @example
+ * ```jsx
+ * return (
+ *   <SaveBtn
+ *     handleChange={handleSave}
+ *     totalError={hasErrors}
+ *   />
+ * )
+ * ```
+ */
 function SaveBtn({ handleChange, totalError }) {
   return (
     <div className="flex w-full items-center justify-end p-3">
@@ -19,8 +33,15 @@ function SaveBtn({ handleChange, totalError }) {
     </div>
   );
 }
+
 SaveBtn.propTypes = {
+  /**
+   * Function to handle the save button click event.
+   */
   handleChange: PropTypes.func.isRequired,
+  /**
+   * Boolean indicating whether there are any errors.
+   */
   totalError: PropTypes.bool.isRequired,
 };
 

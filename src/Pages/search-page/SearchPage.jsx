@@ -9,7 +9,7 @@ function SearchPage() {
   const pastPath = location.state?.pastPath;
   const [prevLoc] = useState(pastPath);
   const [value, setValue] = useState(
-    location.search.slice(3, location.search.length),
+    decodeURIComponent(location.search.slice(3, location.search.length)),
   );
   const [queryValue, setQueryValue] = useState();
   const navigate = useNavigate();
@@ -17,19 +17,23 @@ function SearchPage() {
     navigate(prevLoc || -1);
   };
   useEffect(() => {
-    setValue(location.search.slice(3, location.search.length));
+    setValue(
+      decodeURIComponent(location.search.slice(3, location.search.length)),
+    );
   }, [location]);
   useEffect(() => {
-    setQueryValue(location.search.slice(3, location.search.length));
+    setQueryValue(
+      decodeURIComponent(location.search.slice(3, location.search.length)),
+    );
   }, [location.search]);
   const ListNavItems = [
     {
       label: 'Tweets',
-      path: `/app/search/tweets?q=${queryValue}`,
+      path: `/app/search/tweets?q=${encodeURIComponent(queryValue)}`,
     },
     {
       label: 'People',
-      path: `/app/search/users?q=${queryValue}`,
+      path: `/app/search/users?q=${encodeURIComponent(queryValue)}`,
     },
   ];
   return (

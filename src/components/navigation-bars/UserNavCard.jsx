@@ -1,13 +1,20 @@
+/* eslint-disable max-len */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/AuthContext';
 
+/**
+ * UserNavCard component displays the navigation card for the user.
+ * It shows the user's profile picture, name, username, followers, and following count.
+ * The component also provides links to navigate to the user's profile, followers, and following pages.
+ */
 function UserNavCard() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const location = useLocation();
-  // console.log(location);
+
   const { username, name, pic, followers, following } = {
     username: user.username,
     name: user.name,
@@ -15,6 +22,7 @@ function UserNavCard() {
     followers: user.followersCount,
     following: user.followingsCount,
   };
+
   return (
     <div className="cursor-auto bg-white bg-opacity-100 p-4 text-black dark:bg-pure-black dark:text-white">
       <div className="flex w-full flex-row justify-between">
@@ -26,11 +34,11 @@ function UserNavCard() {
             id="popoverImg"
             src={pic}
             alt=""
-            className=" h-12 w-12 rounded-full"
+            className="h-12 w-12 rounded-full"
           />
         </Link>
       </div>
-      <div className=" mt-2">
+      <div className="mt-2">
         <div className="flex h-[41.5px] flex-col">
           <Link
             to={`/app/${username}`}
@@ -43,7 +51,7 @@ function UserNavCard() {
               {name}
             </label>
             <div className="flex h-5 flex-row items-center">
-              <span className=" w-min cursor-pointer text-light-thin">
+              <span className="w-min cursor-pointer text-light-thin">
                 @{username}
               </span>
             </div>
@@ -79,7 +87,7 @@ function UserNavCard() {
             navigate(`/app/${username}/followers`, { state: location.pathname })
           }
         >
-          <span className="mr-5  cursor-pointer text-pure-black hover:underline dark:text-white">
+          <span className="mr-5 cursor-pointer text-pure-black hover:underline dark:text-white">
             {followers}
             <span className="text-light-thin"> Followers</span>
           </span>
@@ -88,5 +96,18 @@ function UserNavCard() {
     </div>
   );
 }
+UserNavCard.defaultProps = {
+  user: null,
+};
+UserNavCard.propTypes = {
+  // The user object containing username, name, imageUrl, followersCount, and followingsCount.
+  user: PropTypes.shape({
+    username: PropTypes.string,
+    name: PropTypes.string,
+    imageUrl: PropTypes.string,
+    followersCount: PropTypes.number,
+    followingsCount: PropTypes.number,
+  }),
+};
 
 export default UserNavCard;

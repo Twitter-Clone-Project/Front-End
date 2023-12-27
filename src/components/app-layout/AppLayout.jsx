@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import io from 'socket.io-client';
 import NavBar from '../navigation-bars/NavBar';
@@ -10,15 +10,14 @@ function AppLayout() {
   const { setSocket } = useContext(ChatContext);
 
   useEffect(() => {
-    const newSocket = io(`${import.meta.env.VITE_SOCKET_DOMAIN}`);
-    //  {
-    //   origin: true,
-    //   credentials: 'include',
-    //   withCredentials: true,
-    //   extraHeaders: {
-    //     token,
-    //   },
-    // }
+    const newSocket = io(`${import.meta.env.VITE_SOCKET_DOMAIN}`, {
+      origin: true,
+      credentials: 'include',
+      withCredentials: true,
+      extraHeaders: {
+        token,
+      },
+    });
     newSocket.on('connect', () => {
       newSocket.emit('add-user', { userId: user.userId });
     });

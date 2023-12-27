@@ -16,7 +16,7 @@ function reactButtons({ type, data, clicked }) {
             ? 'text-[#F91880]'
             : ''
         } 
-       group m-auto  flex h-[20px] w-[50%]
+       group m-auto  flex h-[20px] w-full
         flex-row text-sm hover:cursor-pointer`}
       >
         <svg
@@ -61,7 +61,7 @@ function reactButtons({ type, data, clicked }) {
           ? 'hover:text-[#F91880]'
           : ''
       } 
-     group m-auto  flex h-[20px] w-[50%]
+     group m-auto  flex h-[20px] w-full
       flex-row text-sm text-dark-gray hover:cursor-pointer`}
     >
       <svg

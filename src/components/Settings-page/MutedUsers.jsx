@@ -7,6 +7,17 @@ import NoResults from '../user-profile-card/NoResults';
 import SettingsHeader from './SettingsHeader';
 import usePost from './usePost';
 
+/**
+ * Renders a page displaying a list of muted user accounts.
+ *
+ * @component
+ * @example
+ * ```jsx
+ * return (
+ *   <MutedUsers />
+ * )
+ * ```
+ */
 function MutedUsers() {
   const { data, error, isLoading, fetchData } = usePost();
   useEffect(() => {

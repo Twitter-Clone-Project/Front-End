@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * UserDetail component displays a user detail with an icon and text.
+ */
 function UserDetail({ path, children }) {
   return (
     <span className="flex align-middle text-base font-thin text-light-thin">
@@ -20,8 +23,15 @@ function UserDetail({ path, children }) {
     </span>
   );
 }
+
 UserDetail.propTypes = {
+  /**
+   * The path of the icon to be displayed.
+   */
   path: PropTypes.string.isRequired,
+  /**
+   * The content to be displayed next to the icon.
+   */
   children: PropTypes.node.isRequired,
 };
 

@@ -10,7 +10,7 @@ import DotLoader from '../../components/user-profile-card/DotLoader';
 function UserResults() {
   const location = useLocation();
   const [value, setValue] = useState(
-    location.search.slice(3, location.search.length),
+    decodeURIComponent(location.search.slice(3, location.search.length)),
   );
   const [page, setPage] = useState(2);
   const [error, setError] = useState('');
@@ -20,39 +20,11 @@ function UserResults() {
   const [isDone, setIsDone] = useState(false);
 
   useEffect(() => {
-    setValue(location.search.slice(3, location.search.length));
+    setValue(
+      decodeURIComponent(location.search.slice(3, location.search.length)),
+    );
     setResults([]);
   }, [value, location]);
-
-  // useEffect(() => {
-  //   const getUserResults = async () => {
-  //     try {
-  //       setIsLoading(true);
-  //       const response = await fetch(
-  //         `${import.meta.env.VITE_API_DOMAIN}users/search/1?query=${value}`,
-  //         {
-  //           method: 'GET',
-  //           origin: true,
-  //           credentials: 'include',
-  //           withCredentials: true,
-  //         },
-  //       );
-  //       const data = await response.json();
-  //       console.log(data);
-  //       if (data.status) {
-  //         if (data.message) console.log(data.message);
-  //         else setResults(() => [...data.data]);
-  //       }
-  //       setError('');
-  //     } catch (err) {
-  //       console.log(err);
-  //       setError(err.message);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-  //   getUserResults();
-  // }, [value]);
 
   const fetchResults = useCallback(async () => {
     if (isLoading || isDone) return;
@@ -96,10 +68,12 @@ function UserResults() {
         );
         const data = await response.json();
         // console.log(data.data);
-        if (data.data.length === 0) setIsDone(true);
-        else setResults(() => [...data.data]);
-        setInitialDone(true);
-        setError('');
+        if (data.status) {
+          if (data.data.length === 0) setIsDone(true);
+          else setResults(() => [...data.data]);
+          setInitialDone(true);
+          setError('');
+        }
       } catch (err) {
         setError(err.message);
       } finally {
@@ -127,8 +101,10 @@ function UserResults() {
 
   return (
     <div data-testid={`${value}-user-results`}>
-      {!initialDone ? (
-        <Spinner />
+      {!initialDone && isLoading ? (
+        <div className="flex justify-center">
+          <Spinner />
+        </div>
       ) : (
         // eslint-disable-next-line react/jsx-no-useless-fragment
         <>

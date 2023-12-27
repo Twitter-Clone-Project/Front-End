@@ -9,7 +9,7 @@ function ComposeLayout({ children, setComposeOpen }) {
       data-testid="compose-layout"
       className="fixed bottom-0 left-0 top-0 z-[2000] flex h-screen w-full items-start justify-center bg-dark-gray bg-opacity-30"
     >
-      <div className="absolute h-full w-full md:top-1/4 md:h-auto md:-translate-y-1/4">
+      <div className="absolute h-full w-full md:top-[5%] md:h-auto md:-translate-y-[5%]">
         <BoxCard
           minHeight="min-h-[300px]"
           compose
