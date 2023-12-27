@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
 import { useAuth } from '../hooks/AuthContext';
-import OwnToaster from '../components/OwnToaster';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 
 function ActionsMenu({ userId, tweet, tweets, setTweets }) {
