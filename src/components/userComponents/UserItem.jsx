@@ -26,7 +26,7 @@ import { useAuth } from '../../hooks/AuthContext';
  * @param {boolean} props.isMuted - Indicates whether the user is muted.
  * @returns {JSX.Element} The rendered UserItem component.
  * @example
- * ```js
+ * ```jsx
  * <UserItem
  *   isFollowed={true}
  *   isFollowing={false}

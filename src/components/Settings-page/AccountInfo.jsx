@@ -11,7 +11,7 @@ import SettingsHeader from './SettingsHeader';
  * @returns {JSX.Element} The rendered AccountInfo component.
  * @example
  * import AccountInfo from './AccountInfo';
- * ```js
+ * ```jsx
  * <AccountInfo />
  * ```
  */

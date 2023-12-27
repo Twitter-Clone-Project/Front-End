@@ -30,7 +30,7 @@ import { useAuth } from '../../hooks/AuthContext';
  * @param {string} props.userId - The ID of the current user.
  * @returns {React.ReactNode} The rendered component.
  * @example
- * ```js
+ * ```jsx
  * <PopoverUserCard
  *   popoverIsFollowed={true}
  *   popoverIsFollowing={false}
