@@ -53,4 +53,22 @@ describe('SettingPage', () => {
     );
     expect(getByTestId('SettingPage_HomeSetteingPage_0')).toBeInTheDocument();
   });
+
+  it('resize the window', () => {
+    useAuth.mockReturnValue({
+      dispatch: vi.fn(),
+      isAuthenticated: true,
+      user: { name: 'Arabian', username: 'Horses' },
+    });
+    const { getByTestId, queryByTestId } = render(
+      <AuthProvider>
+        <BrowserRouter>
+          <ProtectedRoute>
+            <SettingPage />
+          </ProtectedRoute>
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    fireEvent.resize(window);
+  });
 });

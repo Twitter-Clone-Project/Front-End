@@ -164,12 +164,3 @@ describe('SettingsList', () => {
     });
   });
 });
-
-// expect(navigate).toHaveBeenCalled();
-//     expect(navigate).toHaveBeenCalledWith(`/app/john_doe`, {
-//       preventScrollReset: undefined,
-//       relative: undefined,
-//       replace: false,
-//       state: undefined,
-//       unstable_viewTransition: undefined,
-//     });
