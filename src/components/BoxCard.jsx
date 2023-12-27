@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -84,13 +85,13 @@ function BoxCard({ children, classes, minHeight, onClose, header, compose }) {
     </div>
   );
 }
-BoxCard.defaultProps = {
-  classes: '',
-  minHeight: '650px',
-  onClose: null,
-  header: null,
-  compose: false,
-};
+// BoxCard.defaultProps = {
+//   classes: '',
+//   minHeight: '650px',
+//   onClose: null,
+//   header: null,
+//   compose: false,
+// };
 
 BoxCard.propTypes = {
   /**
