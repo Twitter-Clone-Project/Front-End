@@ -8,6 +8,7 @@ import ProtectedRoute from '../../components/ProtectedRoute';
 import AuthProvider from '../../contexts/Auth/AuthProvider';
 import { useAuth } from '../../hooks/AuthContext';
 import OwnToaster from '../../components/OwnToaster';
+import userEvent from '@testing-library/user-event';
 
 vi.mock('../../hooks/AuthContext.js');
 
@@ -17,6 +18,7 @@ describe('UserItem', () => {
   beforeEach(() => {
     vi.spyOn(router, 'useNavigate').mockImplementation(() => navigate);
     vi.spyOn(window, 'fetch');
+    vi.useFakeTimers({ shouldAdvanceTime: true });
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
       value: vi.fn().mockImplementation((query) => ({
@@ -34,6 +36,8 @@ describe('UserItem', () => {
 
   afterEach(() => {
     window.fetch.mockRestore();
+    vi.runOnlyPendingTimers();
+    vi.useRealTimers();
   });
 
   it('renders without crashing', () => {
@@ -67,6 +71,9 @@ describe('UserItem', () => {
   });
 
   it('test hover to show popOver', async () => {
+    const user = userEvent.setup({
+      advanceTimers: (ms) => vi.advanceTimersByTime(ms),
+    });
     useAuth.mockReturnValue({
       dispatch: vi.fn(),
       isAuthenticated: true,
@@ -90,13 +97,19 @@ describe('UserItem', () => {
         </BrowserRouter>
       </AuthProvider>,
     );
-
-    fireEvent.mouseOver(getByTestId('UserItem_john_doe_img'));
-    // await new Promise((resolve) => setTimeout(resolve, 700));
-    // fireEvent.mouseOver(getByTestId('UserItem_john_doe_3'));
-    // fireEvent.mouseOut(getByTestId('UserItem_john_doe_3'));
-    // fireEvent.mouseOut(getByTestId('UserItem_john_doe_img'));
-    // await new Promise((resolve) => setTimeout(resolve, 600));
+    const elemet = getByTestId('UserItem_john_doe_img');
+    await user.hover(elemet);
+    vi.advanceTimersByTime(700);
+    await waitFor(() => {
+      expect(getByTestId('PopoverUserCard_john_doe_0')).toBeInTheDocument();
+      expect(getByTestId('PopoverUserCard_john_doe_1')).toBeInTheDocument();
+      expect(
+        queryByTestId('PopoverUserCard_john_doe_2'),
+      ).not.toBeInTheDocument();
+      expect(getByTestId('PopoverUserCard_john_doe_1')).toHaveTextContent(
+        'Follow',
+      );
+    });
   });
 
   it('should appear Following in the button when the user is Followed', () => {
