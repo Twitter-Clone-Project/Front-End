@@ -14,7 +14,9 @@ import ListNav from '../navigation-bars/ListNav';
  * @component
  * @returns {JSX.Element} The rendered component.
  * @example
+ * ```js
  * <FollowersList />
+ * ```
  *  */
 
 function FollowersList() {

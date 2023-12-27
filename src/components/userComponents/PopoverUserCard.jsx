@@ -30,6 +30,7 @@ import { useAuth } from '../../hooks/AuthContext';
  * @param {string} props.userId - The ID of the current user.
  * @returns {React.ReactNode} The rendered component.
  * @example
+ * ```js
  * <PopoverUserCard
  *   popoverIsFollowed={true}
  *   popoverIsFollowing={false}
@@ -46,7 +47,7 @@ import { useAuth } from '../../hooks/AuthContext';
  * >
  *   <button>Hover me</button>
  * </PopoverUserCard>
- *
+ * ```
  */
 
 function PopoverUserCard({
@@ -339,16 +340,49 @@ PopoverUserCard.defaultProps = {
 };
 
 PopoverUserCard.propTypes = {
+  /**
+   * indicates whether the user is followed by the current user.
+   */
   popoverIsFollowed: PropTypes.bool.isRequired,
+  /**
+   * the URL of the user's profile picture.
+   */
   popoverUserPicture: PropTypes.string,
+  /**
+   * the name of the user.
+   */
   popoverUserName: PropTypes.string.isRequired,
+  /**
+   * the username of the user.
+   */
   popoverUserID: PropTypes.string.isRequired,
+  /**
+   * the description of the user.
+   */
   popoverDiscription: PropTypes.string,
+  /**
+   * the number of users the user is following
+   */
   popoverFollowing: PropTypes.string.isRequired,
+  /**
+   * the number of users following the user
+   */
   popoverFollowers: PropTypes.string.isRequired,
+  /**
+   * indicates whether the user is blocked by the current user.
+   */
   popoverIsBlocked: PropTypes.bool,
+  /**
+   * indicates whether the user is muted by the current user.
+   */
   popoverIsMuted: PropTypes.bool,
+  /**
+   * function to set the local isFollowed state
+   */
   popoverSetLocalIsFollowed: PropTypes.func,
+  /**
+   * indicates whether the user is following the current user.
+   */
   popoverIsFollowing: PropTypes.bool.isRequired,
 };
 

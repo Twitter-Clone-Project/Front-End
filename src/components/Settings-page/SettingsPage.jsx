@@ -12,7 +12,9 @@ import OwnToaster from '../OwnToaster';
  * @returns {JSX.Element} The rendered component.
  * @example
  * import SettingsPage from './SettingsPage';
+ * ```js
  * <SettingsPage />
+ * ```
  */
 
 function SettingPage() {

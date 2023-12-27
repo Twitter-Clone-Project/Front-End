@@ -8,16 +8,15 @@ import { v4 as uuid4 } from 'uuid';
 import UserItem from './UserItem';
 import ListNav from '../navigation-bars/ListNav';
 
-
-
-
 /**
  * Represents the following list component.it renders the list of users that the user is following.
- * 
+ *
  * @component
  * @returns {JSX.Element} The rendered component.
  * @example
+ * ```js
  * <FollowingList />
+ * ```
  *  */
 function FollowingList() {
   const location = useLocation();
