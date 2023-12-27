@@ -10,7 +10,7 @@ import DotLoader from '../../components/user-profile-card/DotLoader';
 function UserResults() {
   const location = useLocation();
   const [value, setValue] = useState(
-    location.search.slice(3, location.search.length),
+    decodeURIComponent(location.search.slice(3, location.search.length)),
   );
   const [page, setPage] = useState(2);
   const [error, setError] = useState('');
@@ -20,7 +20,9 @@ function UserResults() {
   const [isDone, setIsDone] = useState(false);
 
   useEffect(() => {
-    setValue(location.search.slice(3, location.search.length));
+    setValue(
+      decodeURIComponent(location.search.slice(3, location.search.length)),
+    );
     setResults([]);
   }, [value, location]);
 
