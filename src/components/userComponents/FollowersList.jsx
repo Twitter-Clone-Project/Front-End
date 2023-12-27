@@ -8,15 +8,21 @@ import { v4 as uuid4 } from 'uuid';
 import UserItem from './UserItem';
 import ListNav from '../navigation-bars/ListNav';
 
+/**
+ * Represents the Followers list component.it renders the list of users that are following the user.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered component.
+ * @example
+ * <FollowersList />
+ *  */
+
 function FollowersList() {
-  // Get the past location for Back Button
   const location = useLocation();
   const pastPath = location.state;
 
-  // Get the username from the URL params
   const { username } = useParams('username');
 
-  // Define navigation items for the ListNav component
   const ListNavItems = [
     {
       label: 'Following',

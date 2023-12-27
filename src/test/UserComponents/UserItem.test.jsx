@@ -280,6 +280,152 @@ describe('UserItem', () => {
     });
   });
 
+  it('handles block and unblock correctly', async () => {
+    window.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({ status: true, message: 'unBlocked Successfully' }),
+    });
+    useAuth.mockReturnValue({
+      dispatch: vi.fn(),
+      isAuthenticated: true,
+      user: { name: 'Arabian', username: 'Horses' },
+    });
+    const { getByTestId, getByText } = render(
+      <AuthProvider>
+        <BrowserRouter>
+          <ProtectedRoute>
+            <UserItem
+              isFollowed={false}
+              isFollowing={false}
+              userPicture="image-url"
+              userName="JohnDoe"
+              userID="john_doe"
+              discription="Some description"
+              following="10"
+              followers="20"
+              isBlocked={true}
+            />
+          </ProtectedRoute>
+        </BrowserRouter>
+        <OwnToaster />
+      </AuthProvider>,
+    );
+    expect(getByTestId('UserItem_john_doe_2')).not.toBeDisabled();
+    expect(getByTestId('UserItem_john_doe_2')).toHaveTextContent('Blocked');
+    fireEvent.click(getByTestId('UserItem_john_doe_2'));
+    await waitFor(() => {
+      expect(window.fetch).toHaveBeenCalledTimes(1);
+      expect(window.fetch).toHaveBeenCalledWith(
+        `${import.meta.env.VITE_API_DOMAIN}users/john_doe/unblock`,
+        {
+          method: 'DELETE',
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+    });
+    window.fetch.mockClear();
+    window.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({ status: true, message: 'Blocked Successfully' }),
+    });
+    fireEvent.click(getByTestId('UserItem_john_doe_2'));
+    expect(getByTestId('UserItem_john_doe_2')).toHaveTextContent('Block');
+    await waitFor(() => {
+      expect(window.fetch).toHaveBeenCalledWith(
+        `${import.meta.env.VITE_API_DOMAIN}users/john_doe/block`,
+        {
+          method: 'POST',
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+    });
+  });
+
+  it('handles mute and unmute correctly', async () => {
+    window.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({ status: true, message: 'unMuted Successfully' }),
+    });
+    useAuth.mockReturnValue({
+      dispatch: vi.fn(),
+      isAuthenticated: true,
+      user: { name: 'Arabian', username: 'Horses' },
+    });
+    const { getByTestId, getByText } = render(
+      <AuthProvider>
+        <BrowserRouter>
+          <ProtectedRoute>
+            <UserItem
+              isFollowed={false}
+              isFollowing={false}
+              userPicture="image-url"
+              userName="JohnDoe"
+              userID="john_doe"
+              discription="Some description"
+              following="10"
+              followers="20"
+              isMuted={true}
+            />
+          </ProtectedRoute>
+        </BrowserRouter>
+        <OwnToaster />
+      </AuthProvider>,
+    );
+    expect(getByTestId('UserItem_john_doe_2')).not.toBeDisabled();
+    expect(getByTestId('UserItem_john_doe_2')).toHaveTextContent('Muted');
+    fireEvent.click(getByTestId('UserItem_john_doe_2'));
+    await waitFor(() => {
+      expect(window.fetch).toHaveBeenCalledTimes(1);
+      expect(window.fetch).toHaveBeenCalledWith(
+        `${import.meta.env.VITE_API_DOMAIN}users/john_doe/unmute`,
+        {
+          method: 'DELETE',
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+    });
+    expect(getByTestId('UserItem_john_doe_2')).toHaveTextContent('Mute');
+    window.fetch.mockClear();
+    window.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({ status: true, message: 'Muted Successfully' }),
+    });
+    fireEvent.click(getByTestId('UserItem_john_doe_2'));
+    await waitFor(() => {
+      expect(window.fetch).toHaveBeenCalledWith(
+        `${import.meta.env.VITE_API_DOMAIN}users/john_doe/mute`,
+        {
+          method: 'POST',
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+    });
+  });
+
   it('should go to user profile on click on name, userName or img', async () => {
     useAuth.mockReturnValue({
       dispatch: vi.fn(),
@@ -313,6 +459,202 @@ describe('UserItem', () => {
       replace: false,
       state: undefined,
       unstable_viewTransition: undefined,
+    });
+  });
+
+  it('handle error in following', async () => {
+    window.fetch.mockResolvedValueOnce({
+      ok: false,
+      json: () =>
+        Promise.resolve({ status: true, message: 'Followed Successfully' }),
+    });
+    useAuth.mockReturnValue({
+      dispatch: vi.fn(),
+      isAuthenticated: true,
+      user: { name: 'Arabian', username: 'Horses' },
+    });
+    const { getByTestId, getByText } = render(
+      <AuthProvider>
+        <BrowserRouter>
+          <ProtectedRoute>
+            <UserItem
+              isFollowed={false}
+              isFollowing={false}
+              userPicture="image-url"
+              userName="JohnDoe"
+              userID="john_doe"
+              discription="Some description"
+              following="10"
+              followers="20"
+            />
+          </ProtectedRoute>
+        </BrowserRouter>
+        <OwnToaster />
+      </AuthProvider>,
+    );
+    expect(getByTestId('UserItem_john_doe_2')).not.toBeDisabled();
+    fireEvent.click(getByTestId('UserItem_john_doe_2'));
+    await waitFor(() => {
+      expect(window.fetch).toHaveBeenCalledTimes(1);
+      expect(window.fetch).toHaveBeenCalledWith(
+        `${import.meta.env.VITE_API_DOMAIN}users/john_doe/follow`,
+        {
+          method: 'POST',
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+    });
+  });
+
+  it('handles error in unfollow ', async () => {
+    window.fetch.mockResolvedValueOnce({
+      ok: false,
+      json: () =>
+        Promise.resolve({ status: true, message: 'Unfollowed Successfully' }),
+    });
+
+    useAuth.mockReturnValue({
+      dispatch: vi.fn(),
+      isAuthenticated: true,
+      user: { name: 'Arabian', username: 'Horses' },
+    });
+    const { getByTestId } = render(
+      <AuthProvider>
+        <BrowserRouter>
+          <ProtectedRoute>
+            <UserItem
+              isFollowed={true}
+              isFollowing={false}
+              userPicture="image-url"
+              userName="JohnDoe"
+              userID="john_doe"
+              discription="Some description"
+              following="10"
+              followers="20"
+            />
+          </ProtectedRoute>
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    expect(getByTestId('UserItem_john_doe_2')).not.toBeDisabled();
+    fireEvent.click(getByTestId('UserItem_john_doe_2'));
+    await waitFor(() => {
+      expect(window.fetch).toHaveBeenCalledTimes(1);
+      expect(window.fetch).toHaveBeenCalledWith(
+        `${import.meta.env.VITE_API_DOMAIN}users/john_doe/unfollow`,
+        {
+          method: 'DELETE',
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+    });
+  });
+
+  it('handles error in unblock ', async () => {
+    window.fetch.mockResolvedValueOnce({
+      ok: false,
+      json: () =>
+        Promise.resolve({ status: true, message: 'unblocked Successfully' }),
+    });
+    useAuth.mockReturnValue({
+      dispatch: vi.fn(),
+      isAuthenticated: true,
+      user: { name: 'Arabian', username: 'Horses' },
+    });
+    const { getByTestId } = render(
+      <AuthProvider>
+        <BrowserRouter>
+          <ProtectedRoute>
+            <UserItem
+              isFollowed={true}
+              isFollowing={false}
+              userPicture="image-url"
+              userName="JohnDoe"
+              userID="john_doe"
+              discription="Some description"
+              following="10"
+              followers="20"
+              isBlocked={true}
+            />
+          </ProtectedRoute>
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    expect(getByTestId('UserItem_john_doe_2')).not.toBeDisabled();
+    fireEvent.click(getByTestId('UserItem_john_doe_2'));
+    await waitFor(() => {
+      expect(window.fetch).toHaveBeenCalledTimes(1);
+      expect(window.fetch).toHaveBeenCalledWith(
+        `${import.meta.env.VITE_API_DOMAIN}users/john_doe/unblock`,
+        {
+          method: 'DELETE',
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+    });
+  });
+
+  it('handles error in unmmute ', async () => {
+    window.fetch.mockResolvedValueOnce({
+      ok: false,
+      json: () =>
+        Promise.resolve({ status: true, message: 'unmuted Successfully' }),
+    });
+    useAuth.mockReturnValue({
+      dispatch: vi.fn(),
+      isAuthenticated: true,
+      user: { name: 'Arabian', username: 'Horses' },
+    });
+    const { getByTestId } = render(
+      <AuthProvider>
+        <BrowserRouter>
+          <ProtectedRoute>
+            <UserItem
+              isFollowed={true}
+              isFollowing={false}
+              userPicture="image-url"
+              userName="JohnDoe"
+              userID="john_doe"
+              discription="Some description"
+              following="10"
+              followers="20"
+              isMuted={true}
+            />
+          </ProtectedRoute>
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    expect(getByTestId('UserItem_john_doe_2')).not.toBeDisabled();
+    fireEvent.click(getByTestId('UserItem_john_doe_2'));
+    await waitFor(() => {
+      expect(window.fetch).toHaveBeenCalledTimes(1);
+      expect(window.fetch).toHaveBeenCalledWith(
+        `${import.meta.env.VITE_API_DOMAIN}users/john_doe/unmute`,
+        {
+          method: 'DELETE',
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
     });
   });
 });

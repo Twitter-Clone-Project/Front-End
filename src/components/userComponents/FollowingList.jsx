@@ -8,15 +8,23 @@ import { v4 as uuid4 } from 'uuid';
 import UserItem from './UserItem';
 import ListNav from '../navigation-bars/ListNav';
 
+
+
+
+/**
+ * Represents the following list component.it renders the list of users that the user is following.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered component.
+ * @example
+ * <FollowingList />
+ *  */
 function FollowingList() {
-  // Get the past location for Back Button
   const location = useLocation();
   const pastPath = location.state;
 
-  // Get the username from the URL params
   const { username } = useParams('username');
 
-  // Define navigation items for the ListNav component
   const ListNavItems = [
     {
       label: 'Following',
@@ -35,7 +43,6 @@ function FollowingList() {
     navigate(pastPath);
   };
 
-  // Fetch the list of Follower users
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_DOMAIN}users/${username}/followings`, {
       method: 'GET',

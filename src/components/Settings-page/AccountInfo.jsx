@@ -3,7 +3,18 @@ import { NavLink } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
 import SettingsHeader from './SettingsHeader';
 
-function AccountInfo({ windowWidth }) {
+/**
+ * Renders the AccountInfo component.it is a child component of SettingsPage that has the navigation links to update email and username.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @returns {JSX.Element} The rendered AccountInfo component.
+ * @example
+ * import AccountInfo from './AccountInfo';
+ * <AccountInfo />
+ */
+
+function AccountInfo() {
   const list = [
     {
       label: 'Update Your Email',
@@ -15,10 +26,10 @@ function AccountInfo({ windowWidth }) {
     },
   ];
   return (
-    <div>
+    <div data-testid="AccountInfo_0">
       <SettingsHeader title="Account Info" />
       <div className="flex flex-col">
-        {list.map((item) => (
+        {list.map((item, index) => (
           <NavLink
             key={uuid4()}
             to={item.path}
@@ -27,6 +38,7 @@ function AccountInfo({ windowWidth }) {
                 ? 'list-nav-active flex-1 bg-xx-light-gray hover:no-underline dark:bg-[#16181c] '
                 : 'flex-1  hover:no-underline'
             }
+            data-testid={`AccountInfo_Link_${index}`}
           >
             <div className="flex h-12 w-full justify-between px-4 py-3 hover:bg-xx-light-gray hover:dark:bg-[#16181c]">
               <p className=" text-black dark:text-white">{item.label}</p>

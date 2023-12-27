@@ -1,6 +1,17 @@
 import * as React from 'react';
 import Button from '../form-controls/Button';
 import { useState, useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
+
+/**
+ * Renders the user actions component. It contains the follow, mute, and block buttons.
+ *
+ * @component
+ * @param {Object} user - The user object.
+ * @returns {JSX.Element} The user actions component.
+ * @example
+ * <UserActions user={user} />
+ */
 
 function UserActions({ user }) {
   const [isButtonHovered, setButtonHovered] = useState(false);
@@ -131,8 +142,7 @@ function UserActions({ user }) {
         );
         return response.json();
       })
-      .then((data) => {
-      })
+      .then((data) => {})
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
@@ -157,8 +167,7 @@ function UserActions({ user }) {
         );
         return response.json();
       })
-      .then((data) => {
-      })
+      .then((data) => {})
       .catch((error) => {
         console.error('Error during fetch:', error);
       });
@@ -398,5 +407,9 @@ function UserActions({ user }) {
     </div>
   );
 }
+
+UserActions.propTypes = {
+  user: PropTypes.object.isRequired,
+};
 
 export default UserActions;

@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import ProtectedRoute from '../../components/ProtectedRoute';
 import AuthProvider from '../../contexts/Auth/AuthProvider';
 import { useAuth } from '../../hooks/AuthContext';
+import userEvent from '@testing-library/user-event';
 
 vi.mock('../../hooks/AuthContext.js');
 
@@ -16,6 +17,7 @@ describe('PopoverUserCard', () => {
   beforeEach(() => {
     vi.spyOn(router, 'useNavigate').mockImplementation(() => navigate);
     vi.spyOn(window, 'fetch');
+    vi.useFakeTimers({ shouldAdvanceTime: true });
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
       value: vi.fn().mockImplementation((query) => ({
@@ -33,9 +35,14 @@ describe('PopoverUserCard', () => {
 
   afterEach(() => {
     window.fetch.mockRestore();
+    vi.runOnlyPendingTimers();
+    vi.useRealTimers();
   });
 
   it('renders without crashing', async () => {
+    const user = userEvent.setup({
+      advanceTimers: (ms) => vi.advanceTimersByTime(ms),
+    });
     useAuth.mockReturnValue({
       dispatch: vi.fn(),
       isAuthenticated: true,
@@ -62,8 +69,10 @@ describe('PopoverUserCard', () => {
         </BrowserRouter>
       </AuthProvider>,
     );
-    fireEvent.mouseOver(getByTestId('tempPopoverItem'));
-    waitFor(() => {
+    const elemet = getByTestId('tempPopoverItem');
+    await user.hover(elemet);
+    vi.advanceTimersByTime(700);
+    await waitFor(() => {
       expect(getByTestId('PopoverUserCard_john_doe_0')).toBeInTheDocument();
       expect(getByTestId('PopoverUserCard_john_doe_1')).toBeInTheDocument();
       expect(
@@ -75,7 +84,10 @@ describe('PopoverUserCard', () => {
     });
   });
 
-  it('should appear Following in the button when the user is Followed', () => {
+  it('should appear Following in the button when the user is Followed', async () => {
+    const user = userEvent.setup({
+      advanceTimers: (ms) => vi.advanceTimersByTime(ms),
+    });
     useAuth.mockReturnValue({
       dispatch: vi.fn(),
       isAuthenticated: true,
@@ -102,8 +114,10 @@ describe('PopoverUserCard', () => {
         </BrowserRouter>
       </AuthProvider>,
     );
-    fireEvent.mouseOver(getByTestId('tempPopoverItem'));
-    waitFor(() => {
+    const elemet = getByTestId('tempPopoverItem');
+    await user.hover(elemet);
+    vi.advanceTimersByTime(700);
+    await waitFor(() => {
       expect(getByTestId('PopoverUserCard_john_doe_1')).toHaveTextContent(
         'Following',
       );
@@ -115,7 +129,10 @@ describe('PopoverUserCard', () => {
     });
   });
 
-  it('should appear Blocked in the button when the user is blocked', () => {
+  it('should appear Blocked in the button when the user is blocked', async () => {
+    const user = userEvent.setup({
+      advanceTimers: (ms) => vi.advanceTimersByTime(ms),
+    });
     useAuth.mockReturnValue({
       dispatch: vi.fn(),
       isAuthenticated: true,
@@ -142,15 +159,20 @@ describe('PopoverUserCard', () => {
         </BrowserRouter>
       </AuthProvider>,
     );
-    fireEvent.mouseOver(getByTestId('tempPopoverItem'));
-    waitFor(() => {
+    const elemet = getByTestId('tempPopoverItem');
+    await user.hover(elemet);
+    vi.advanceTimersByTime(700);
+    await waitFor(() => {
       expect(getByTestId('PopoverUserCard_john_doe_1')).toHaveTextContent(
         'Blocked',
       );
     });
   });
 
-  it('should appear Follows Element when the user is Following you', () => {
+  it('should appear Follows Element when the user is Following you', async () => {
+    const user = userEvent.setup({
+      advanceTimers: (ms) => vi.advanceTimersByTime(ms),
+    });
     useAuth.mockReturnValue({
       dispatch: vi.fn(),
       isAuthenticated: true,
@@ -177,13 +199,18 @@ describe('PopoverUserCard', () => {
         </BrowserRouter>
       </AuthProvider>,
     );
-    fireEvent.mouseOver(getByTestId('tempPopoverItem'));
-    waitFor(() => {
+    const elemet = getByTestId('tempPopoverItem');
+    await user.hover(elemet);
+    vi.advanceTimersByTime(700);
+    await waitFor(() => {
       expect(queryByTestId('PopoverUserCard_john_doe_2')).toBeInTheDocument();
     });
   });
 
-  it('should not appear Follow Button when the user is the same one', () => {
+  it('should not appear Follow Button when the user is the same one', async () => {
+    const user = userEvent.setup({
+      advanceTimers: (ms) => vi.advanceTimersByTime(ms),
+    });
     useAuth.mockReturnValue({
       dispatch: vi.fn(),
       isAuthenticated: true,
@@ -210,8 +237,10 @@ describe('PopoverUserCard', () => {
         </BrowserRouter>
       </AuthProvider>,
     );
-    fireEvent.mouseOver(getByTestId('tempPopoverItem'));
-    waitFor(() => {
+    const elemet = getByTestId('tempPopoverItem');
+    await user.hover(elemet);
+    vi.advanceTimersByTime(700);
+    await waitFor(() => {
       expect(
         queryByTestId('PopoverUserCard_john_doe_1'),
       ).not.toBeInTheDocument();
@@ -219,6 +248,9 @@ describe('PopoverUserCard', () => {
   });
 
   it('handles follow correctly', async () => {
+    const user = userEvent.setup({
+      advanceTimers: (ms) => vi.advanceTimersByTime(ms),
+    });
     window.fetch.mockResolvedValueOnce({
       ok: true,
       json: () =>
@@ -250,8 +282,10 @@ describe('PopoverUserCard', () => {
         </BrowserRouter>
       </AuthProvider>,
     );
-    fireEvent.mouseOver(getByTestId('tempPopoverItem'));
-    waitFor(async () => {
+    const elemet = getByTestId('tempPopoverItem');
+    await user.hover(elemet);
+    vi.advanceTimersByTime(700);
+    await waitFor(async () => {
       expect(getByTestId('PopoverUserCard_john_doe_1')).not.toBeDisabled();
       fireEvent.click(getByTestId('PopoverUserCard_john_doe_1'));
       await waitFor(() => {
@@ -273,6 +307,9 @@ describe('PopoverUserCard', () => {
   });
 
   it('handles unfollow correctly', async () => {
+    const user = userEvent.setup({
+      advanceTimers: (ms) => vi.advanceTimersByTime(ms),
+    });
     window.fetch.mockResolvedValueOnce({
       ok: true,
       json: () =>
@@ -304,8 +341,10 @@ describe('PopoverUserCard', () => {
         </BrowserRouter>
       </AuthProvider>,
     );
-    fireEvent.mouseOver(getByTestId('tempPopoverItem'));
-    waitFor(async () => {
+    const elemet = getByTestId('tempPopoverItem');
+    await user.hover(elemet);
+    vi.advanceTimersByTime(700);
+    await waitFor(async () => {
       expect(getByTestId('PopoverUserCard_john_doe_1')).not.toBeDisabled();
       fireEvent.click(getByTestId('PopoverUserCard_john_doe_1'));
       await waitFor(() => {
@@ -327,6 +366,9 @@ describe('PopoverUserCard', () => {
   });
 
   it('should go to followers/following list on click on follower or following count', async () => {
+    const user = userEvent.setup({
+      advanceTimers: (ms) => vi.advanceTimersByTime(ms),
+    });
     useAuth.mockReturnValue({
       dispatch: vi.fn(),
       isAuthenticated: true,
@@ -353,8 +395,10 @@ describe('PopoverUserCard', () => {
         </BrowserRouter>
       </AuthProvider>,
     );
-    fireEvent.mouseOver(getByTestId('tempPopoverItem'));
-    waitFor(async () => {
+    const elemet = getByTestId('tempPopoverItem');
+    await user.hover(elemet);
+    vi.advanceTimersByTime(700);
+    await waitFor(async () => {
       fireEvent.click(getByTestId('PopoverUserCard_john_doe_3'));
       await waitFor(() => {
         expect(navigate).toHaveBeenCalledWith(`/app/john_doe/following`, {
@@ -375,6 +419,7 @@ describe('PopoverUserCard', () => {
     beforeEach(() => {
       vi.spyOn(router, 'useNavigate').mockImplementation(() => navigate2);
       vi.spyOn(window, 'fetch');
+      vi.useFakeTimers({ shouldAdvanceTime: true });
       Object.defineProperty(window, 'matchMedia', {
         writable: true,
         value: vi.fn().mockImplementation((query) => ({
@@ -392,8 +437,12 @@ describe('PopoverUserCard', () => {
 
     afterEach(() => {
       window.fetch.mockRestore();
+
     });
     it('should go to user profile on click on name, userName or img', async () => {
+      const user = userEvent.setup({
+        advanceTimers: (ms) => vi.advanceTimersByTime(ms),
+      });
       useAuth.mockReturnValue({
         dispatch: vi.fn(),
         isAuthenticated: true,
@@ -420,8 +469,10 @@ describe('PopoverUserCard', () => {
           </BrowserRouter>
         </AuthProvider>,
       );
-      fireEvent.mouseOver(getByTestId('tempPopoverItem'));
-      waitFor(() => {
+      const elemet = getByTestId('tempPopoverItem');
+      await user.hover(elemet);
+      vi.advanceTimersByTime(700);
+      await waitFor(() => {
         fireEvent.click(getByTestId('PopoverUserCard_john_doe_img'));
         expect(navigate2).toHaveBeenCalled();
         expect(navigate2).toHaveBeenCalledWith(`/app/john_doe`, {

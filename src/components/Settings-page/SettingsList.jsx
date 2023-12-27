@@ -2,6 +2,18 @@ import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import BackBtn from './BackBtn';
 import { v4 as uuid4 } from 'uuid';
+import PropTypes from 'prop-types';
+
+/**
+ * Renders a list of settings options.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {number} props.windowWidth - The width of the window.
+ * @returns {JSX.Element|null} The rendered SettingsList component.
+ * @example
+ * <SettingsList windowWidth={window.outerWidth} />
+ */
 
 function SettingsList({ windowWidth }) {
   const list = [
@@ -26,7 +38,10 @@ function SettingsList({ windowWidth }) {
 
   if (windowWidth > 988 || window.location.pathname === '/app/settings') {
     return (
-      <div className="h-screen w-full  min-w-[318px] max-w-full flex-col border-l  border-l-x-light-gray dark:border-border-gray dark:bg-black">
+      <div
+        className="h-screen w-full  min-w-[318px] max-w-full flex-col border-l  border-l-x-light-gray dark:border-border-gray dark:bg-black"
+        data-testid="SettingsList_0"
+      >
         <div className="flex h-[57px] w-full items-center border-b border-b-x-light-gray p-2 dark:border-border-gray">
           {windowWidth < 640 && (
             <BackBtn
@@ -40,7 +55,7 @@ function SettingsList({ windowWidth }) {
           </p>
         </div>
         <div className="flex flex-col">
-          {list.map((item) => (
+          {list.map((item, index) => (
             <NavLink
               key={uuid4()}
               to={item.path}
@@ -49,6 +64,7 @@ function SettingsList({ windowWidth }) {
                   ? 'list-nav-active flex-1 bg-xx-light-gray hover:no-underline dark:bg-[#16181c] '
                   : 'flex-1  hover:no-underline'
               }
+              data-testid={`SettingsList_Link_${index}`}
             >
               <div className="flex h-12 w-full justify-between px-4 py-3 hover:bg-xx-light-gray hover:dark:bg-[#16181c] ">
                 <p className=" text-black dark:text-white">{item.label}</p>
@@ -74,5 +90,9 @@ function SettingsList({ windowWidth }) {
     );
   }
 }
+
+SettingsList.propTypes = {
+  windowWidth: PropTypes.number.isRequired,
+};
 
 export default SettingsList;
