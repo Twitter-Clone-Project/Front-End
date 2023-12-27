@@ -73,12 +73,12 @@ describe('FollowersList', () => {
     expect(window.location.pathname).toBe('/');
   });
 
-  it('test request users from API', async () => {
+  it('test error request users from API', async () => {
     window.fetch.mockResolvedValueOnce({
-      ok: true,
+      ok: false,
       json: () =>
         Promise.resolve({
-          status: true,
+          status: false,
           data: {
             name: 'MohamedMaher',
             users: [
@@ -87,15 +87,6 @@ describe('FollowersList', () => {
           },
         }),
     });
-    // vi.mock('react-router', async () => {
-    //   const mod = await vi.importActual('react-router-dom');
-    //   return {
-    //     ...mod,
-    //     useLocation: vi
-    //       .fn()
-    //       .mockImplementation(() => ({ pathname: '/app/john_doe/following' })),
-    //   };
-    // });
     useAuth.mockReturnValue({
       dispatch: vi.fn(),
       isAuthenticated: true,
@@ -113,7 +104,49 @@ describe('FollowersList', () => {
     await waitFor(() => {
       expect(window.fetch).toHaveBeenCalledTimes(1);
       expect(window.fetch).toHaveBeenCalledWith(
-        `${import.meta.env.VITE_API_DOMAIN}users/undefined/followers`, //----------------------------> should change the window location
+        `${import.meta.env.VITE_API_DOMAIN}users/undefined/followers`,
+        {
+          method: 'GET',
+          origin: true,
+          credentials: 'include',
+          withCredentials: true,
+        },
+      );
+    });
+  });
+
+  it('test error in request users from API', async () => {
+    window.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          status: true,
+          data: {
+            name: 'MohamedMaher',
+            users: [
+              { userId: '2', username: 'ArabianHorses', name: 'ArabianHorses' },
+            ],
+          },
+        }),
+    });
+    useAuth.mockReturnValue({
+      dispatch: vi.fn(),
+      isAuthenticated: true,
+      user: { name: 'Arabian', username: 'Horses' },
+    });
+    const { getByTestId, queryByTestId } = render(
+      <AuthProvider>
+        <BrowserRouter>
+          <ProtectedRoute>
+            <FollowersList />
+          </ProtectedRoute>
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    await waitFor(() => {
+      expect(window.fetch).toHaveBeenCalledTimes(1);
+      expect(window.fetch).toHaveBeenCalledWith(
+        `${import.meta.env.VITE_API_DOMAIN}users/undefined/followers`,
         {
           method: 'GET',
           origin: true,
