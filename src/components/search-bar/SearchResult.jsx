@@ -5,7 +5,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import toast from 'react-hot-toast';
 import PopoverUserCard from '../userComponents/PopoverUserCard';
 import Button from '../form-controls/Button';
@@ -18,8 +18,11 @@ function SearchResult({ data, searchPage }) {
   const [followed, setFollowed] = useState(data.isFollowed);
   const [isPopoverButtonHovered, setPopoverButtonHovered] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const handleClick = () => {
-    navigate(`/app/${data.username}`);
+    navigate(`/app/${data.username}`, {
+      state: { pastPath: location },
+    });
   };
   const followReq = () => {
     fetch(`${import.meta.env.VITE_API_DOMAIN}users/${data.username}/follow`, {

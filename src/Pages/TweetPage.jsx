@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect, useState } from 'react';
@@ -21,7 +22,10 @@ function TweetPage() {
 
   const navigate = useNavigate();
   const handelBackButton = () => {
-    navigate(pastPath.pathname || -1);
+    const pastLocation = pastPath
+      ? pastPath.pathname + (pastPath.search || '')
+      : -1;
+    navigate(pastLocation);
   };
 
   // const fetchReplies = useCallback(async () => {
