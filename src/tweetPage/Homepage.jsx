@@ -3,9 +3,17 @@ import toast from 'react-hot-toast';
 import PullToRefresh from 'react-simple-pull-to-refresh';
 import AddPost from './AddPost';
 import TweetList from './TweetList';
-import OwnToaster from '../components/OwnToaster';
 import DotLoader from '../components/user-profile-card/DotLoader';
 
+/**
+ * Component for the home page.
+ * @Component
+ * @returns {JSX.Element} - The rendered component.
+ * @example
+ * ```jsx
+ *    <Homepage/>
+ * ```
+ */
 function Homepage() {
   const [tweets, setTweets] = useState([]);
   const [pageNum, setPageNum] = useState(2);

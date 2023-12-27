@@ -1,8 +1,18 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuid4 } from 'uuid';
 import { Skeleton } from '@mui/material';
 
+/**
+ * Component for displaying media.
+ * @Component
+ * @returns {JSX.Element} - The rendered component.
+ * @example
+ * ```jsx
+ *    <Media images={images} />
+ * ```
+ */
 function Media({ images }) {
   const [isLoading, setIsLoading] = useState(true);
   if (images) {
@@ -106,9 +116,15 @@ function Media({ images }) {
   }
   return <div />;
 }
-
+/**
+ * @Component
+ * @param {Object} props - The component props.
+ * @param {Array} props.images - The array of images.
+ */
 Media.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
+  /**
+   * The array of images.
+   */
   images: PropTypes.array,
 };
 

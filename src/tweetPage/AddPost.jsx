@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
@@ -6,8 +6,16 @@ import AddEmoji from './AddEmoji';
 import TextField from './TextField';
 import { useAuth } from '../hooks/AuthContext';
 import MediaRemove from './MediaRemove';
-import OwnToaster from '../components/OwnToaster';
 
+/**
+ * Component for adding a post.
+ * @component
+ * @returns {JSX.Element} The rendered component.
+ * @example
+ * ```jsx
+   <AddPost setTweets={setTweets} />
+ * ```
+ */
 function AddPost({ setTweets }) {
   const { user } = useAuth();
   const [files, setFiles] = useState([]);
@@ -141,7 +149,7 @@ function AddPost({ setTweets }) {
       setPostDisabled(false);
     }
 
-    setHashtags(text.match(/#\w+/g));
+    setHashtags((text.match(/#\w+/g) || []).map((tag) => tag.substring(1)));
   }, [files, text]);
   return (
     <div className="flex w-full items-center border-b-[0.5px] border-b-light-gray dark:border-b-border-gray">
@@ -225,5 +233,17 @@ function AddPost({ setTweets }) {
     </div>
   );
 }
+/**
+ * @Component
+ * @param {Object} props - The component props.
+ * @param {function} props.setTweets - The function to update the tweets.
+ */
 
+AddPost.propTypes = {
+  /**
+   * The function to update the tweets.
+   * @param {Array} updatedTweets - The updated array of tweets.
+   */
+  setTweets: PropTypes.func.isRequired,
+};
 export default AddPost;

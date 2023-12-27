@@ -31,8 +31,8 @@ const data = [
       bio: "I'm a retweeted user.",
       followersCount: 1000,
       followingCount: 500,
-      isFollowed: true,
-      isFollowing: true,
+      isFollowed: false,
+      isFollowing: false,
     },
     user: {
       userId: '123',
@@ -42,8 +42,8 @@ const data = [
       bio: "I'm the original user.",
       followersCount: 2000,
       followingCount: 1000,
-      isFollowed: true,
-      isFollowing: true,
+      isFollowed: false,
+      isFollowing: false,
     },
     isLiked: true,
     isRetweeted: false,
@@ -691,22 +691,111 @@ describe('Tweet', () => {
     });
     const followBtn = getByTestId('follow');
     expect(followBtn).toBeInTheDocument();
-    // await user.click(muteBtn);
-    // vi.advanceTimersByTime(700);
-    // await waitFor(() => {
-    //   expect(window.fetch).toHaveBeenCalledTimes(1);
-    //   expect(window.fetch).toHaveBeenCalledWith(
-    //     `${import.meta.env.VITE_API_DOMAIN}users/${tweet.user.username}/block`,
-    //     expect.objectContaining({
-    //       method: 'POST',
-    //       credentials: 'include',
-    //       withCredentials: true,
-    //       body: JSON.stringify({
-    //         userName: data[0].user.username,
-    //       }),
-    //     }),
-    //   );
-    // });
+    fireEvent.click(followBtn);
+
+    expect(window.fetch).toHaveBeenCalledTimes(1);
+    expect(window.fetch).toHaveBeenCalledWith(
+      `${import.meta.env.VITE_API_DOMAIN}users/${data[0].user.username}/follow`,
+      expect.objectContaining({
+        method: 'POST',
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userName: data[0].user.username,
+        }),
+      }),
+    );
+  });
+
+  it('should send a request to unfollow user', async () => {
+    const data1 = [
+      {
+        id: '123456',
+        isRetweet: true,
+        text: 'This is a retweet!',
+        createdAt: '2023-11-29T21:33',
+        attachmentsURL: [
+          'https://example.com/image.jpg',
+          'https://example.com/image.jpg',
+        ],
+        retweetedUser: {
+          userId: '789',
+          username: 'johndoe',
+          screenName: 'John Doe',
+          imageUrl: 'https://example.com/profile.jpg',
+          bio: "I'm a retweeted user.",
+          followersCount: 1000,
+          followingCount: 500,
+          isFollowed: true,
+          isFollowing: true,
+        },
+        user: {
+          userId: '123',
+          username: 'janesmith',
+          screenName: 'Jane Smith',
+          imageUrl: 'https://example.com/profile.jpg',
+          bio: "I'm the original user.",
+          followersCount: 2000,
+          followingCount: 1000,
+          isFollowed: true,
+          isFollowing: true,
+        },
+        isLiked: true,
+        isRetweeted: false,
+        isReplied: true,
+        likesCount: 10,
+        retweetsCount: 5,
+        repliesCount: 3,
+      },
+    ];
+    const user = userEvent.setup({
+      advanceTimers: (ms) => vi.advanceTimersByTime(ms),
+    });
+    const { getByTestId } = render(
+      <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
+        <BrowserRouter>
+          <ActionsMenu
+            userId={1}
+            tweet={data1[0]}
+            setTweets={setTweets}
+            tweets={data1}
+          />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+
+    const menubtn = getByTestId('123456menubtn');
+    await user.click(menubtn);
+    vi.advanceTimersByTime(700);
+    await waitFor(() => {
+      expect(getByTestId('123456menu')).toBeInTheDocument();
+    });
+    const followBtn = getByTestId('follow');
+    expect(followBtn).toBeInTheDocument();
+    fireEvent.click(followBtn);
+
+    expect(window.fetch).toHaveBeenCalledTimes(1);
+    expect(window.fetch).toHaveBeenCalledWith(
+      `${import.meta.env.VITE_API_DOMAIN}users/${
+        data1[0].user.username
+      }/unfollow`,
+      expect.objectContaining({
+        method: 'DELETE',
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userid: data1[0].user.username,
+        }),
+      }),
+    );
   });
 
   it('should send a request to block user', async () => {
@@ -734,22 +823,19 @@ describe('Tweet', () => {
     });
     const blockBtn = getByTestId('block');
     expect(blockBtn).toBeInTheDocument();
-    // await user.click(muteBtn);
-    // vi.advanceTimersByTime(700);
-    // await waitFor(() => {
-    //   expect(window.fetch).toHaveBeenCalledTimes(1);
-    //   expect(window.fetch).toHaveBeenCalledWith(
-    //     `${import.meta.env.VITE_API_DOMAIN}users/${tweet.user.username}/block`,
-    //     expect.objectContaining({
-    //       method: 'POST',
-    //       credentials: 'include',
-    //       withCredentials: true,
-    //       body: JSON.stringify({
-    //         userName: data[0].user.username,
-    //       }),
-    //     }),
-    //   );
-    // });
+    fireEvent.click(blockBtn);
+    expect(window.fetch).toHaveBeenCalledTimes(1);
+    expect(window.fetch).toHaveBeenCalledWith(
+      `${import.meta.env.VITE_API_DOMAIN}users/${data[0].user.username}/block`,
+      expect.objectContaining({
+        method: 'POST',
+        credentials: 'include',
+        withCredentials: true,
+        body: JSON.stringify({
+          userName: data[0].user.username,
+        }),
+      }),
+    );
   });
 
   it('should send a request to mute user', async () => {
@@ -777,22 +863,19 @@ describe('Tweet', () => {
     });
     const muteBtn = getByTestId('mute');
     expect(muteBtn).toBeInTheDocument();
-    // await user.click(muteBtn);
-    // vi.advanceTimersByTime(700);
-    // await waitFor(() => {
-    //   expect(window.fetch).toHaveBeenCalledTimes(1);
-    //   expect(window.fetch).toHaveBeenCalledWith(
-    //     `${import.meta.env.VITE_API_DOMAIN}users/${tweet.user.username}/mute`,
-    //     expect.objectContaining({
-    //       method: 'POST',
-    //       credentials: 'include',
-    //       withCredentials: true,
-    //       body: JSON.stringify({
-    //         userName: data[0].user.username,
-    //       }),
-    //     }),
-    //   );
-    // });
+    fireEvent.click(muteBtn);
+    expect(window.fetch).toHaveBeenCalledTimes(1);
+    expect(window.fetch).toHaveBeenCalledWith(
+      `${import.meta.env.VITE_API_DOMAIN}users/${data[0].user.username}/mute`,
+      expect.objectContaining({
+        method: 'POST',
+        credentials: 'include',
+        withCredentials: true,
+        body: JSON.stringify({
+          userName: data[0].user.username,
+        }),
+      }),
+    );
   });
   it('should send a request to delete tweet', async () => {
     const user = userEvent.setup({
@@ -819,21 +902,15 @@ describe('Tweet', () => {
     });
     const deleteBtn = getByTestId('delete');
     expect(deleteBtn).toBeInTheDocument();
-    // await user.click(deleteBtn);
-    // vi.advanceTimersByTime(700);
-    // await waitFor(() => {
-    //   expect(window.fetch).toHaveBeenCalledTimes(1);
-    //   expect(window.fetch).toHaveBeenCalledWith(
-    //     `${import.meta.env.VITE_API_DOMAIN}tweets/${data[0].id}/deleteTweet`,
-    //     expect.objectContaining({
-    //       method: 'POST',
-    //       credentials: 'include',
-    //       withCredentials: true,
-    //       body: JSON.stringify({
-    //         userName: data[0].user.username,
-    //       }),
-    //     }),
-    //   );
-    // });
+    fireEvent.click(deleteBtn);
+    expect(window.fetch).toHaveBeenCalledWith(
+      `${import.meta.env.VITE_API_DOMAIN}tweets/${data[0].id}/deleteTweet`,
+      expect.objectContaining({
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        method: 'DELETE',
+      }),
+    );
   });
 });
