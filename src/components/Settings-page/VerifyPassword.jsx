@@ -8,15 +8,11 @@ import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
 import Spinner from '../Spinner';
 
-function VerifyPassword({
-  onClick,
-  password,
-  setPassword,
-  passwordError,
-  setPasswordError,
-}) {
+function VerifyPassword({ onClick }) {
   const navigate = useNavigate();
   const { user, dispatch } = useAuth();
+  const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const handleLogin = async () => {
     try {
@@ -47,7 +43,10 @@ function VerifyPassword({
   };
 
   return (
-    <div className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex h-full w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50">
+    <div
+      data-testid="verify-password-popup"
+      className="popup-screen absolute bottom-0 left-0 top-0 z-20 flex h-full w-full items-center justify-center md:bg-dark-gray md:bg-opacity-50"
+    >
       {isLoading ? (
         <Spinner />
       ) : (
@@ -88,10 +87,6 @@ function VerifyPassword({
 }
 VerifyPassword.propTypes = {
   onClick: PropTypes.func.isRequired,
-  password: PropTypes.string.isRequired,
-  setPassword: PropTypes.func.isRequired,
-  passwordError: PropTypes.string.isRequired,
-  setPasswordError: PropTypes.func.isRequired,
 };
 
 export default VerifyPassword;
