@@ -94,7 +94,7 @@ function Reply({ data, tweetId, replies, setReplies }) {
             <PopoverUserCard
               popoverIsFollowed
               popoverUserPicture={
-                data.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
+                data.imageUrl || import.meta.env.VITE_DEFAULT_AVATAR
               }
               popoverUserName={data.screenName}
               popoverUserID={data.username}
@@ -106,9 +106,7 @@ function Reply({ data, tweetId, replies, setReplies }) {
             >
               <img
                 data-testid={`profileImage${data.id}`}
-                src={
-                  data.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
-                }
+                src={data.imageUrl || import.meta.env.VITE_DEFAULT_AVATAR}
                 alt="profileImage"
                 className="h-[40px] w-[40px] rounded-full object-cover transition-opacity"
               />
@@ -118,7 +116,7 @@ function Reply({ data, tweetId, replies, setReplies }) {
             <PopoverUserCard
               popoverIsFollowed={false}
               popoverUserPicture={
-                data.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
+                data.imageUrl || import.meta.env.VITE_DEFAULT_AVATAR
               }
               popoverUserName={data.screenName}
               popoverUserID={data.username}
@@ -130,9 +128,7 @@ function Reply({ data, tweetId, replies, setReplies }) {
             >
               <img
                 data-testid={`profileImage${data.id}`}
-                src={
-                  data.profileImageURL || import.meta.env.VITE_DEFAULT_AVATAR
-                }
+                src={data.imageUrl || import.meta.env.VITE_DEFAULT_AVATAR}
                 alt="profileImage"
                 className="h-[40px] w-[40px] rounded-full object-cover transition-opacity"
               />
