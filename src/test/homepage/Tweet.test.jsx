@@ -498,7 +498,7 @@ describe('Tweet', () => {
       expect.any(Object),
     );
   });
-  it('changes color and count on unlike ', () => {
+  it('changes color and count on unlike and call api ', () => {
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
         <BrowserRouter>
@@ -511,17 +511,30 @@ describe('Tweet', () => {
         </BrowserRouter>
       </AuthProvider>,
     );
-
+    window.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({ status: true, message: 'Unliked Successfully' }),
+    });
     const likebtn = getByTestId('123456like');
     expect(likebtn).toHaveTextContent('10');
     const innerDiv = likebtn.querySelector('.Reply');
     expect(innerDiv).toHaveClass('text-[#F91880]');
     fireEvent.click(likebtn);
+    expect(window.fetch).toHaveBeenCalledWith(
+      `${import.meta.env.VITE_API_DOMAIN}tweets/${data[0].id}/deleteLike`,
+      expect.objectContaining({
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        method: 'DELETE',
+      }),
+    );
     expect(likebtn).not.toHaveClass('text-[#F91880]');
     expect(likebtn).toHaveTextContent('9');
   });
 
-  it('changes color and count on like ', () => {
+  it('changes color and count on like and call api ', async () => {
     const data1 = [
       {
         id: '123456',
@@ -562,6 +575,11 @@ describe('Tweet', () => {
         repliesCount: 3,
       },
     ];
+    window.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({ status: true, message: 'Liked Successfully' }),
+    });
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
         <BrowserRouter>
@@ -580,9 +598,19 @@ describe('Tweet', () => {
     const innerDiv = likebtn.querySelector('.Reply');
     expect(innerDiv).not.toHaveClass('text-[#F91880]');
     fireEvent.click(likebtn);
+    expect(window.fetch).toHaveBeenCalledWith(
+      `${import.meta.env.VITE_API_DOMAIN}tweets/${data1[0].id}/addlike`,
+      expect.objectContaining({
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        method: 'POST',
+      }),
+    );
+    expect(innerDiv).toHaveClass('text-[#F91880]');
     expect(likebtn).toHaveTextContent('11');
   });
-  it('changes color and count on repost ', () => {
+  it('changes color and count on repost and call api ', () => {
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
         <BrowserRouter>
@@ -595,13 +623,28 @@ describe('Tweet', () => {
         </BrowserRouter>
       </AuthProvider>,
     );
-
+    window.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({ status: true, message: 'Retweeted Successfully' }),
+    });
     const repostbtn = getByTestId('123456repost');
     expect(repostbtn).toHaveTextContent('5');
     const innerDiv = repostbtn.querySelector('.Reply');
     expect(innerDiv).not.toHaveClass('text-[#00BA7C]');
     fireEvent.click(repostbtn);
+
+    expect(window.fetch).toHaveBeenCalledWith(
+      `${import.meta.env.VITE_API_DOMAIN}tweets/${data[0].id}/retweet`,
+      expect.objectContaining({
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        method: 'POST',
+      }),
+    );
     expect(repostbtn).toHaveTextContent('6');
+    expect(innerDiv).toHaveClass('text-[#00BA7C]');
   });
 
   it('changes color and count on unrepost ', () => {
@@ -645,6 +688,11 @@ describe('Tweet', () => {
         repliesCount: 3,
       },
     ];
+    window.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({ status: true, message: 'Unretweeted Successfully' }),
+    });
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
         <BrowserRouter>
@@ -663,6 +711,15 @@ describe('Tweet', () => {
     const innerDiv = repostbtn.querySelector('.Reply');
     expect(innerDiv).toHaveClass('text-[#00BA7C]');
     fireEvent.click(repostbtn);
+    expect(window.fetch).toHaveBeenCalledWith(
+      `${import.meta.env.VITE_API_DOMAIN}tweets/${data1[0].id}/deleteRetweet`,
+      expect.objectContaining({
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        method: 'DELETE',
+      }),
+    );
     expect(repostbtn).toHaveTextContent('4');
     expect(innerDiv).not.toHaveClass('text-[#00BA7C]');
   });
