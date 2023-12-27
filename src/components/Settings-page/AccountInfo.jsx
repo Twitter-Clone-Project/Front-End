@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import SettingsHeader from './SettingsHeader';
 import { v4 as uuid4 } from 'uuid';
+import SettingsHeader from './SettingsHeader';
 
 function AccountInfo({ windowWidth }) {
   const list = [

@@ -23,9 +23,11 @@ function AddEmoji({ text, setText }) {
         className="relative flex flex-col justify-start"
         type="button"
       >
-        <button
-          type="submit"
+        <div
+          role="button"
+          tabIndex={-6}
           data-testid="emojiBtn"
+          onKeyDown={handelEmojiPicker}
           onClick={handelEmojiPicker}
         >
           <svg
@@ -37,7 +39,7 @@ function AddEmoji({ text, setText }) {
               className=" fill-blue"
             />
           </svg>
-        </button>
+        </div>
         <div className="absolute  top-5  z-[100] flex scale-75 flex-row justify-center sm:scale-90 md:scale-100">
           {showEmojiPicker && (
             <div

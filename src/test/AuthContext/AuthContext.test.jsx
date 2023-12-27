@@ -17,16 +17,21 @@ describe('Box Card component', () => {
   });
   it('Invoke dispatch with LOGIN action type', () => {
     expect(
-      reducer({}, { type: 'LOGIN', payload: { user: 'test' } }),
+      reducer(
+        {},
+        { type: 'LOGIN', payload: { user: 'test' }, token: 'testToken' },
+      ),
     ).toStrictEqual({
       isAuthenticated: true,
       user: { user: 'test' },
+      token: 'testToken',
     });
   });
   it('Invoke dispatch with LOGOUT action type', () => {
     expect(reducer({}, { type: 'LOGOUT' })).toStrictEqual({
       user: null,
       isAuthenticated: false,
+      token: undefined,
     });
   });
 });

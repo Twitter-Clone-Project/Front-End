@@ -26,7 +26,6 @@ function PopoverUserCard({
   userId,
 }) {
   const { user: curUser } = useAuth();
-  const [localIsFollowed, setLocalIsFollowed] = useState(popoverIsFollowed);
   // Function to handle follow request
 
   const followReq = () => {
@@ -85,7 +84,7 @@ function PopoverUserCard({
 
   const handelButtonClick = () => {
     if (!popoverIsBlocked && !popoverIsMuted) {
-      if (localIsFollowed) {
+      if (popoverIsFollowed) {
         unFollowReq();
       } else {
         followReq();
@@ -153,7 +152,7 @@ function PopoverUserCard({
                     backGroundColor={
                       popoverIsBlocked || popoverIsMuted
                         ? 'warningRed'
-                        : localIsFollowed
+                        : popoverIsFollowed
                         ? isPopoverButtonHovered
                           ? 'red'
                           : 'white'
@@ -162,7 +161,7 @@ function PopoverUserCard({
                     backGroundColorDark={
                       popoverIsBlocked || popoverIsMuted
                         ? 'warningRed'
-                        : localIsFollowed
+                        : popoverIsFollowed
                         ? isPopoverButtonHovered
                           ? 'red'
                           : 'black'
@@ -171,7 +170,7 @@ function PopoverUserCard({
                     borderColor={
                       popoverIsBlocked || popoverIsMuted
                         ? 'none'
-                        : localIsFollowed
+                        : popoverIsFollowed
                         ? isPopoverButtonHovered
                           ? 'red'
                           : 'gray'
@@ -184,7 +183,7 @@ function PopoverUserCard({
                           : 'Blocked'
                         : popoverIsMuted
                         ? 'Muted'
-                        : localIsFollowed
+                        : popoverIsFollowed
                         ? isPopoverButtonHovered
                           ? 'Unfollow'
                           : 'Following'
@@ -193,7 +192,7 @@ function PopoverUserCard({
                     labelColor={
                       popoverIsBlocked || popoverIsMuted
                         ? 'white'
-                        : localIsFollowed
+                        : popoverIsFollowed
                         ? isPopoverButtonHovered
                           ? 'red'
                           : 'black'
@@ -202,7 +201,7 @@ function PopoverUserCard({
                     labelColorDark={
                       popoverIsBlocked || popoverIsMuted
                         ? 'white'
-                        : localIsFollowed
+                        : popoverIsFollowed
                         ? isPopoverButtonHovered
                           ? 'red'
                           : 'white'
@@ -299,9 +298,7 @@ PopoverUserCard.defaultProps = {
   popoverIsMuted: false,
   popoverUserPicture: null,
   popoverDiscription: null,
-  popoverSetLocalIsFollowed: () => {
-    setLocalIsFollowed;
-  },
+  popoverSetLocalIsFollowed: () => {},
 };
 
 PopoverUserCard.propTypes = {

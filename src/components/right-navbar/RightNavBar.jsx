@@ -33,7 +33,7 @@ function RightNavBar() {
     };
   });
 
-  console.log(location.pathname);
+  // console.log(location.pathname);
   if (windowWidth > 1023)
     return (
       <div

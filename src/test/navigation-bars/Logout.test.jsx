@@ -7,6 +7,7 @@ import NavBar from '../../components/navigation-bars/NavBar';
 import AuthProvider from '../../contexts/Auth/AuthProvider';
 import ProtectedRoute from '../../components/ProtectedRoute';
 import { useAuth } from '../../hooks/AuthContext';
+import { ChatProvider } from '../../contexts/ChatProvider';
 
 vi.mock('react-router-dom', async () => {
   const mod = await vi.importActual('react-router-dom');
@@ -55,11 +56,13 @@ describe('Navigation components', () => {
     });
     const { getByTestId } = render(
       <AuthProvider>
-        <BrowserRouter>
-          <ProtectedRoute>
-            <NavBar />
-          </ProtectedRoute>
-        </BrowserRouter>
+        <ChatProvider>
+          <BrowserRouter>
+            <ProtectedRoute>
+              <NavBar />
+            </ProtectedRoute>
+          </BrowserRouter>
+        </ChatProvider>
       </AuthProvider>,
     );
 

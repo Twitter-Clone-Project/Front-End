@@ -23,7 +23,10 @@ function MutedUsers() {
   }, [error]);
 
   return (
-    <div className="w-full">
+    <div
+      data-testid="muted-users-page"
+      className="w-full"
+    >
       {isLoading ? (
         <Spinner />
       ) : (
@@ -42,12 +45,12 @@ function MutedUsers() {
                 following={user.followingsCount}
                 followers={user.followersCount}
                 testID={user.userId}
-                isMuted={true}
+                isMuted
               />
             ))
           ) : (
             <div className="mx-auto flex h-full max-w-lg justify-center px-10">
-              <NoResults title="You didn't Mute any accounts." />
+              <NoResults title="You didn't mute any accounts." />
             </div>
           )}
         </>

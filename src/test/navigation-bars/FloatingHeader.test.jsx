@@ -6,6 +6,7 @@ import NavBar from '../../components/navigation-bars/NavBar';
 import AuthProvider from '../../contexts/Auth/AuthProvider';
 import ProtectedRoute from '../../components/ProtectedRoute';
 import { useAuth } from '../../hooks/AuthContext';
+import { ChatProvider } from '../../contexts/ChatProvider';
 
 vi.mock('../../hooks/AuthContext.js');
 
@@ -44,11 +45,13 @@ describe('Floating Header components', () => {
     });
     const { queryByTestId } = render(
       <AuthProvider>
-        <BrowserRouter>
-          <ProtectedRoute>
-            <NavBar />
-          </ProtectedRoute>
-        </BrowserRouter>
+        <ChatProvider>
+          <BrowserRouter>
+            <ProtectedRoute>
+              <NavBar />
+            </ProtectedRoute>
+          </BrowserRouter>
+        </ChatProvider>
       </AuthProvider>,
     );
 
