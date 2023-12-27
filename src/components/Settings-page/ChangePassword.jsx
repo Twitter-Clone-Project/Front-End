@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -7,6 +8,19 @@ import usePost from './usePost';
 import Spinner from '../Spinner';
 import SaveBtn from './SaveBtn';
 
+/**
+ * ChangePassword component allows users to change their password.
+ * It provides input fields for the current password, new password, and confirm new password.
+ * Users can submit the form to update their password.
+ *
+ * @component
+ * @example
+ * ```jsx
+ * return (
+ *   <ChangePassword />
+ * )
+ * ```
+ */
 function ChangePassword() {
   const [curPassword, setCurPassword] = useState('');
   const [curPasswordError, setCurPasswordError] = useState('');

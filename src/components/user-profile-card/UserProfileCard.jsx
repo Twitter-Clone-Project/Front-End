@@ -1,14 +1,27 @@
+/* eslint-disable max-len */
 import React, { useState } from 'react';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
+import { Skeleton } from '@mui/material';
 import PropTypes from 'prop-types';
 import UserProfileInfo from './UserProfileInfo';
 import 'react-photo-view/dist/react-photo-view.css';
 import UpdateProfileForm from './UpdateProfileForm';
-import { Skeleton } from '@mui/material';
 
+/**
+ * UserProfileCard Component
+ *
+ * This component displays the user profile card, including the user's cover photo, profile information, and an option to update the profile.
+ *
+ * Props:
+ * - user: The user object containing the user's banner URL and username. (Required)
+ *
+ * Usage:
+ * <UserProfileCard user={user} />
+ */
 function UserProfileCard({ user }) {
   const [updateFormOpen, setUpdateFormOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
   return (
     <div
       data-testid={`${user.username}-card`}
@@ -54,10 +67,15 @@ function UserProfileCard({ user }) {
     </div>
   );
 }
+
 UserProfileCard.propTypes = {
+  /**
+   * The user object containing the user's banner URL and username.
+   */
   user: PropTypes.shape({
     bannerUrl: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
   }).isRequired,
 };
+
 export default UserProfileCard;

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import toast from 'react-hot-toast';
@@ -6,6 +7,15 @@ import ChangeEmail from './ChangeEmail';
 import EmailConfirm from '../sign-up/EmailConfirm';
 import { useAuth } from '../../hooks/AuthContext';
 
+/**
+ * Renders the EmailFlow component.
+ *
+ * The EmailFlow component handles the flow for changing the user's email address.
+ * It consists of multiple steps, including verifying the user's password, entering a new email address,
+ * confirming the email change, and displaying a success message.
+ *
+ * @returns {JSX.Element} The rendered EmailFlow component.
+ */
 function EmailFlow() {
   const [step, setStep] = useState(0);
   const [email, setEmail] = useState('');

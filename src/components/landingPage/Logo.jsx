@@ -1,6 +1,12 @@
+/* eslint-disable max-len */
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Logo component displays a logo based on the provided type.
+ * @param {string } [type] - The type of the logo. Possible values: 'bold' or any other value.
+ * @returns {JSX.Element} - The rendered Logo component.
+ */
 function Logo({ type }) {
   return (
     <div className="logo mb-10 flex max-w-[25%] flex-1 basis-2 items-center justify-center align-middle lg:w-full lg:max-w-none ">
@@ -32,11 +38,16 @@ function Logo({ type }) {
     </div>
   );
 }
+
 Logo.defaultProps = {
   type: 'bold',
 };
 
 Logo.propTypes = {
+  /**
+   * The type of the logo.
+   * Possible values: 'bold' or 'light'
+   */
   type: PropTypes.string,
 };
 

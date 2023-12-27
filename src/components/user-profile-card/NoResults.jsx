@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Renders a component to display a message when there are no results.
+ *
+ * @component
+ * @param {string} title - The title to be displayed in the component.
+ * @returns {JSX.Element} - The rendered NoResults component.
+ */
 function NoResults({ title }) {
   return (
     <div
@@ -11,7 +18,12 @@ function NoResults({ title }) {
     </div>
   );
 }
+
 NoResults.propTypes = {
+  /**
+   * The title to be displayed in the component.
+   */
   title: PropTypes.string.isRequired,
 };
+
 export default NoResults;

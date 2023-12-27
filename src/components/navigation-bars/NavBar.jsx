@@ -10,7 +10,16 @@ import FloatingHeader from './FloatingHeader';
 import UserImg from './UserImg';
 import ComposePost from '../compose-popup/ComposePost';
 import { ChatContext } from '../../hooks/ContactContext';
-
+/**
+ * Represents the NavBar main component of the Layout
+ *
+ * @component
+ * @returns {JSX.Element} The rendered component.
+ * @example
+ * ```jsx
+ * <NavBar />
+ * ```
+ */
 function NavBar() {
   const { user } = useAuth();
   const location = useLocation();

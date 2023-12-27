@@ -1,6 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Renders the header component for the popup card.
+ * @component
+ * @param {Object} props - The component props.
+ * @param {React.ReactNode} props.children - The content to be rendered inside the header.
+ * @param {boolean} props.footer - Determines if the header is for the footer section.
+ * @returns {JSX.Element} - The rendered component.
+ */
 function PopupCardHeader({ children, footer }) {
   return (
     <div className="flex h-full w-full items-center">
@@ -16,11 +24,19 @@ function PopupCardHeader({ children, footer }) {
     </div>
   );
 }
+
 PopupCardHeader.defaultProps = {
   footer: false,
 };
+
 PopupCardHeader.propTypes = {
+  /**
+   * The content to be rendered inside the header.
+   */
   children: PropTypes.node.isRequired,
+  /**
+   * Determines if the header is for the footer section.
+   */
   footer: PropTypes.bool,
 };
 

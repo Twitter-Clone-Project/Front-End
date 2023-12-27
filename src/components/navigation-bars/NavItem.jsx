@@ -1,9 +1,20 @@
+/* eslint-disable max-len */
 import PropTypes from 'prop-types';
 import React, { useContext, useRef, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { ChatContext } from '../../hooks/ContactContext';
 import { useAuth } from '../../hooks/AuthContext';
 
+/**
+ * Represents the navigation items component for the Nav Bar.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered component.
+ * @example
+ * ```jsx
+ * <NavItem label="Home"/>
+ * ```
+ */
 function NavItem({ label, outlinedIcon, filledIcon, path, hidden = true }) {
   // eslint-disable-next-line no-unused-vars
   const location = useLocation();
@@ -186,14 +197,32 @@ function NavItem({ label, outlinedIcon, filledIcon, path, hidden = true }) {
     </div>
   );
 }
+
+/**
+ * The prop types for the NavItem component.
+ *
+ * @typedef {Object} PropTypes
+ * @property {string} label - The label for the navigation item.
+ * @property {string} outlinedIcon - The svg path to the outlined icon.
+ * @property {string} filledIcon - The svg path to the filled icon.
+ * @property {string} path - The url path for the navigation item.
+ * @property {boolean} [hidden=true] - Determines if the navigation item label is hidden.
+ */
+
 NavItem.defaultProps = {
   hidden: true,
 };
+
 NavItem.propTypes = {
+  // The label for the navigation item.
   label: PropTypes.string.isRequired,
+  // The svg path to the outlined icon.
   outlinedIcon: PropTypes.string.isRequired,
+  // The svg path to the filled icon.
   filledIcon: PropTypes.string.isRequired,
+  // The url path for the navigation item.
   path: PropTypes.string.isRequired,
+  // Determines if the navigation item label is hidden.
   hidden: PropTypes.bool,
 };
 

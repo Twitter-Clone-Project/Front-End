@@ -1,7 +1,12 @@
+/* eslint-disable max-len */
 import * as React from 'react';
 import { Outlet } from 'react-router-dom';
 import NewAccountForm from './NewAccountForm';
 
+/**
+ * The LandingPage component represents the landing page of the application.
+ * It displays a logo, a headline, a description, and a form for creating a new account.
+ */
 function LandingPage() {
   return (
     <div className="landingPage mx-auto min-h-full overflow-auto dark:bg-pure-black lg:px-16">
@@ -35,5 +40,9 @@ function LandingPage() {
     </div>
   );
 }
+
+LandingPage.propTypes = {
+  // No props required for this component
+};
 
 export default LandingPage;

@@ -5,7 +5,18 @@ import PullToRefresh from 'react-simple-pull-to-refresh';
 import NoResults from './NoResults';
 import TweetList from '../../tweetPage/TweetList';
 import DotLoader from './DotLoader';
-import OwnToaster from '../OwnToaster';
+
+/**
+ * Renders a component that displays the liked tweets of a user.
+ *
+ * @component
+ * @example
+ * ```jsx
+ * return (
+ *   <Likes />
+ * )
+ * ```
+ */
 
 function Likes() {
   const [page, setPage] = useState(2);

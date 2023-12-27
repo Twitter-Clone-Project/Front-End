@@ -1,6 +1,18 @@
 import React from 'react';
 import { useParams } from 'react-router';
 
+/**
+ * Renders a user profile card when the user's profile doesn't exist.
+ *
+ * @component
+ * @example
+ * ```jsx
+ * return (
+ *   <NoProfile />
+ * )
+ * ```
+ */
+
 function NoProfile() {
   const { username: name } = useParams('username');
   return (

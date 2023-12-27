@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import NameInput from '../form-controls/nameInput';
@@ -7,6 +8,18 @@ import SaveBtn from './SaveBtn';
 import usePost from './usePost';
 import Spinner from '../Spinner';
 
+/**
+ * UpdateUsername component allows the user to update their username.
+ * It fetches the necessary data and handles the logic for updating the username.
+ *
+ * @component
+ * @example
+ * ```jsx
+ * return (
+ *   <UpdateUsername />
+ * )
+ * ```
+ */
 function UpdateUsername() {
   const { user, dispatch } = useAuth();
   const { data, error, isLoading, fetchData } = usePost();

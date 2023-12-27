@@ -8,6 +8,24 @@ import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
 import Spinner from '../Spinner';
 
+/**
+ * ChangeEmail component allows the user to change their email address.
+ *
+ * @component
+ * @example
+ * ```jsx
+ * return (
+ *   <ChangeEmail
+ *     onClick={handleClick}
+ *     email={email}
+ *     setEmail={setEmail}
+ *     error={error}
+ *     setError={setError}
+ *   />
+ * )
+ * ```
+ */
+
 function ChangeEmail({ onClick, email, setEmail, error, setError }) {
   const { user } = useAuth();
   const [emailLoading, setEmailLoading] = useState(false);
@@ -126,10 +144,25 @@ function ChangeEmail({ onClick, email, setEmail, error, setError }) {
   );
 }
 ChangeEmail.propTypes = {
+  /**
+   * Function to be called when the user clicks on the "Next" button.
+   */
   onClick: PropTypes.func.isRequired,
+  /**
+   * The current email address of the user.
+   */
   email: PropTypes.string.isRequired,
+  /**
+   * Function to set the new email address.
+   */
   setEmail: PropTypes.func.isRequired,
+  /**
+   * Error message to be displayed if there is an error with the email address.
+   */
   error: PropTypes.string.isRequired,
+  /**
+   * Function to set the error message.
+   */
   setError: PropTypes.func.isRequired,
 };
 

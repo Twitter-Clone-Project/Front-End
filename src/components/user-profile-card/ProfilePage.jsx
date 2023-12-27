@@ -5,9 +5,20 @@ import UserProfileCard from './UserProfileCard';
 import { useAuth } from '../../hooks/AuthContext';
 import ListNav from '../navigation-bars/ListNav';
 import Spinner from '../Spinner';
-import OwnToaster from '../OwnToaster';
 import NoProfile from './NoProfile';
 import SettingsHeader from '../Settings-page/SettingsHeader';
+
+/**
+ * Renders the profile page for a user.
+ *
+ * @component
+ * @example
+ * ```jsx
+ * return (
+ *   <ProfilePage />
+ * )
+ * ```
+ */
 
 function ProfilePage() {
   const { user: curUser, dispatch } = useAuth();

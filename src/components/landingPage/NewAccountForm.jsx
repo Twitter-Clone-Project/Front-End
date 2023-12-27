@@ -2,6 +2,11 @@ import React from 'react';
 import GoogleSignInBtn from '../form-controls/GoogleSignIn';
 import Button from '../form-controls/Button';
 
+/**
+ * Component representing the form for creating a new account.
+ * This component includes sign-in options, account creation button,
+ * and links to terms of service and privacy policy.
+ */
 function NewAccountForm() {
   return (
     <div className="logging flex w-[300px] flex-col">
@@ -35,5 +40,9 @@ function NewAccountForm() {
     </div>
   );
 }
+
+NewAccountForm.propTypes = {
+  // No props required for this component
+};
 
 export default NewAccountForm;

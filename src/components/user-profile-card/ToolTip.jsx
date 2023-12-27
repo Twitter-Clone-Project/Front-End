@@ -1,6 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * ToolTip component displays a tooltip with a label when hovered over.
+ *
+ * @component
+ * @example
+ * ```jsx
+ * return (
+ *   <ToolTip label="Tooltip Label">
+ *     <button>Hover Me</button>
+ *   </ToolTip>
+ * )
+ * ```
+ */
 function ToolTip({ children, label }) {
   return (
     <div
@@ -14,8 +27,15 @@ function ToolTip({ children, label }) {
     </div>
   );
 }
+
 ToolTip.propTypes = {
+  /**
+   * The content to be displayed inside the ToolTip component.
+   */
   children: PropTypes.node.isRequired,
+  /**
+   * The label text to be displayed in the tooltip.
+   */
   label: PropTypes.string.isRequired,
 };
 

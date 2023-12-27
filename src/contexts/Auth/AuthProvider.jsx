@@ -8,6 +8,20 @@ const initialState = {
   isAuthenticated: false,
 };
 
+/**
+ * Provides authentication context to the application.
+ *
+ * @component
+ * @example
+ * ```jsx
+ * return (
+ *   <AuthProvider>
+ *     <App />
+ *   </AuthProvider>
+ * );
+ * ```
+ */
+
 function AuthProvider({ children }) {
   const [{ user, isAuthenticated, token }, dispatch] = useReducer(
     reducer,
@@ -25,10 +39,10 @@ function AuthProvider({ children }) {
   );
 }
 
-AuthProvider.defaultProps = {
-  children: null,
-};
 AuthProvider.propTypes = {
-  children: PropTypes.node,
+  /**
+   * The child components to be wrapped by the AuthProvider.
+   */
+  children: PropTypes.node.isRequired,
 };
 export default AuthProvider;
