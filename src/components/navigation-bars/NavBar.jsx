@@ -271,7 +271,7 @@ function NavBar() {
           ${!show ? 'opacity-30 sm:opacity-100' : ''}`}
         >
           <div className="mb-4 hidden max-w-[230px] p-3 hover:cursor-pointer hover:rounded-full hover:bg-light-hover-layout hover:dark:bg-hover-layout sm:flex">
-            <Link to="/">
+            <Link to="/app">
               <svg
                 className="inline-block w-[1.9rem] fill-pure-black dark:fill-white"
                 viewBox="0 0 24 24"
