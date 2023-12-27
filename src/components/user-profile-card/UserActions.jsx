@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
  * @param {Object} user - The user object.
  * @returns {JSX.Element} The user actions component.
  * @example
- * ```js
+ * ```jsx
  * <UserActions user={user} />
  * ```
  */

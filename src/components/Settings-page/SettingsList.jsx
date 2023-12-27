@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
  * @param {number} props.windowWidth - The width of the window.
  * @returns {JSX.Element|null} The rendered SettingsList component.
  * @example
- * ```js
+ * ```jsx
  * <SettingsList windowWidth={window.outerWidth} />
  * ```
  */
