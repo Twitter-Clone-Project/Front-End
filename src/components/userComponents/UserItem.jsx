@@ -26,6 +26,7 @@ import { useAuth } from '../../hooks/AuthContext';
  * @param {boolean} props.isMuted - Indicates whether the user is muted.
  * @returns {JSX.Element} The rendered UserItem component.
  * @example
+ * ```js
  * <UserItem
  *   isFollowed={true}
  *   isFollowing={false}
@@ -36,8 +37,9 @@ import { useAuth } from '../../hooks/AuthContext';
  *   following={100}
  *   followers={500}
  *   isBlocked={false}
- *   isMuted={true}
+ *   isMuted={false}
  * />
+ * ```
  */
 
 function UserItem({
@@ -418,15 +420,45 @@ UserItem.defaultProps = {
 };
 
 UserItem.propTypes = {
+  /**
+   * indicates whether the user is followed by the current user.
+   */
   isFollowed: PropTypes.bool.isRequired,
+  /**
+   * indicates whether the current user is following the user.
+   */
   isFollowing: PropTypes.bool.isRequired,
+  /**
+   * the URL of the user's profile picture.
+   */
   userPicture: PropTypes.string.isRequired,
+  /**
+   * the name of the user.
+   */
   userName: PropTypes.string.isRequired,
+  /**
+   * the username of the user.
+   */
   userID: PropTypes.string.isRequired,
+  /**
+   * the description of the user.
+   */
   discription: PropTypes.string.isRequired,
+  /**
+   * the number of users the user is following.
+   */
   following: PropTypes.string.isRequired,
+  /**
+   * the number of users following the user.
+   */
   followers: PropTypes.string.isRequired,
+  /**
+   * indicates whether the user is blocked by the current user.
+   */
   isBlocked: PropTypes.bool,
+  /**
+   * indicates whether the user is muted by the current user.
+   */
   isMuted: PropTypes.bool,
 };
 export default UserItem;

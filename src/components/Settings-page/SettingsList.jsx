@@ -12,7 +12,9 @@ import PropTypes from 'prop-types';
  * @param {number} props.windowWidth - The width of the window.
  * @returns {JSX.Element|null} The rendered SettingsList component.
  * @example
+ * ```js
  * <SettingsList windowWidth={window.outerWidth} />
+ * ```
  */
 
 function SettingsList({ windowWidth }) {
@@ -92,6 +94,9 @@ function SettingsList({ windowWidth }) {
 }
 
 SettingsList.propTypes = {
+  /**
+   * The width of the window.
+   */
   windowWidth: PropTypes.number.isRequired,
 };
 

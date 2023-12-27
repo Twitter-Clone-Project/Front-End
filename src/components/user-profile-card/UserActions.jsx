@@ -10,7 +10,9 @@ import PropTypes from 'prop-types';
  * @param {Object} user - The user object.
  * @returns {JSX.Element} The user actions component.
  * @example
+ * ```js
  * <UserActions user={user} />
+ * ```
  */
 
 function UserActions({ user }) {
@@ -409,6 +411,9 @@ function UserActions({ user }) {
 }
 
 UserActions.propTypes = {
+  /**
+   * The user object.
+   */
   user: PropTypes.object.isRequired,
 };
 
