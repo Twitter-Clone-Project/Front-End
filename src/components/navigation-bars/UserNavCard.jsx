@@ -96,18 +96,17 @@ function UserNavCard() {
     </div>
   );
 }
-
 UserNavCard.defaultProps = {
   user: null,
 };
 UserNavCard.propTypes = {
   // The user object containing username, name, imageUrl, followersCount, and followingsCount.
   user: PropTypes.shape({
-    username: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    username: PropTypes.string,
+    name: PropTypes.string,
     imageUrl: PropTypes.string,
-    followersCount: PropTypes.number.isRequired,
-    followingsCount: PropTypes.number.isRequired,
+    followersCount: PropTypes.number,
+    followingsCount: PropTypes.number,
   }),
 };
 

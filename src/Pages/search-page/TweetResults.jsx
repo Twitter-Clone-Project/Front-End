@@ -27,7 +27,6 @@ function TweetResults() {
     setResults([]);
   }, [value, location]);
   const fetchResults = useCallback(async () => {
-    // console.log(value);
     if (isLoading || isDone) return;
     try {
       setIsLoading(true);
@@ -43,7 +42,6 @@ function TweetResults() {
         },
       );
       const data = await response.json();
-      // console.log(data);
       if (!data.status) throw new Error(data.message);
       if (data.data.length === 0) setIsDone(true);
       else setResults((prevResults) => [...prevResults, ...data.data]);
@@ -57,6 +55,7 @@ function TweetResults() {
   }, [isLoading, page, isDone, value]);
 
   useEffect(() => {
+    if (!value) return;
     const getInitialResults = async () => {
       try {
         setIsLoading(true);
@@ -71,10 +70,12 @@ function TweetResults() {
         );
         const data = await response.json();
         // console.log(data);
-        if (data.data.length === 0) setIsDone(true);
-        else setResults(() => [...data.data]);
-        setInitialDone(true);
-        setError('');
+        if (data.status) {
+          if (data.data.length === 0) setIsDone(true);
+          else setResults(() => [...data.data]);
+          setInitialDone(true);
+          setError('');
+        }
       } catch (err) {
         setError(err.message);
       } finally {
@@ -105,8 +106,10 @@ function TweetResults() {
   }, [location]);
   return (
     <div data-testid={`${value}-tweet-results`}>
-      {!initialDone ? (
-        <Spinner />
+      {!initialDone && isLoading ? (
+        <div className="flex justify-center">
+          <Spinner />
+        </div>
       ) : (
         // eslint-disable-next-line react/jsx-no-useless-fragment
         <>
