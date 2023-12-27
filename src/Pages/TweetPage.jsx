@@ -1,3 +1,13 @@
+//  ---------------------------------------------------
+//                TweetPage Documentation
+//  ---------------------------------------------------
+//  TweetPage is major component merging several other components
+//  the tweet page is the elongated version of a tweet in the profile page
+//  or the home page, in which the user can access the tweet with all its
+//  features. Also, the user can reach the list of likes and retweets
+//  and all the replies for this tweet. The user can add a reply to be appened
+//  to the current replies lst.
+
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect, useState } from 'react';
@@ -23,26 +33,6 @@ function TweetPage() {
   const handelBackButton = () => {
     navigate(pastPath.pathname || -1);
   };
-
-  // const fetchReplies = useCallback(async () => {
-  //   try {
-  //     const response = await fetch(
-  //       `${import.meta.env.VITE_API_DOMAIN}tweets/${tweetId}/replies`,
-  //       {
-  //         method: 'GET',
-  //         origin: true,
-  //         credentials: 'include',
-  //         withCredentials: true,
-  //       },
-  //     );
-  //     const data = await response.json();
-  //     if (data.status) {
-  //       setReplies(() => [...data.data]);
-  //     }
-  //   } catch (error) {
-  //     toast(error.message);
-  //   }
-  // }, [tweetId]);
 
   useEffect(() => {
     const getInitialReplies = async () => {
@@ -91,18 +81,6 @@ function TweetPage() {
     };
     getInitialTweet();
   }, [tweetId]);
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const { scrollTop, clientHeight, scrollHeight } =
-  //       document.documentElement;
-  //     if (scrollTop + clientHeight >= scrollHeight - 20) {
-  //       fetchReplies();
-  //     }
-  //   };
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => window.removeEventListener('scroll', handleScroll);
-  // }, [fetchReplies]);
 
   useEffect(() => {
     // console.log('Like changed');

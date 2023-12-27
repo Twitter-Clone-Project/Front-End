@@ -1,3 +1,10 @@
+//  ---------------------------------------------------
+//                LikersList Documentation
+//  ---------------------------------------------------
+//  LikersList is responsible showing the users who liked
+//  a certain tweet, it extracts the tweetId from the url and gets
+//  the users who liked this tweet.
+
 /* eslint-disable react/require-default-props */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
