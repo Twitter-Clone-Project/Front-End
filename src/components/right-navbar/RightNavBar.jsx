@@ -1,7 +1,18 @@
+/* eslint-disable max-len */
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import SearchBar from '../search-bar/SearchBar';
 
+/**
+ * RightNavBar component represents the right navigation bar in the application.
+ * It displays trends and search bar based on window width and current location.
+ *
+ * @returns {JSX.Element|null} The JSX for the right navigation bar or null if conditions aren't met.
+ * @example
+ * ```jsx
+ *  <RightNavBar />
+ * ```
+ */
 function RightNavBar() {
   const [trands, setTrends] = useState([]);
   const [value, setValue] = useState('');
