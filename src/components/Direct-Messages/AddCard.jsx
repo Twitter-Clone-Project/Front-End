@@ -1,6 +1,18 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable max-len */
 import React from 'react';
-
+import PropTypes from 'prop-types';
+/**
+ * AddCard component renders a card with person details and a delete button.
+ * @component
+ * @param {object} person - Object containing person details like id, profile image URL, and screen name.
+ * @param {Function} setDeletePerson - Function to set the person to be deleted.
+ * @returns {JSX.Element} JSX element representing the AddCard component.
+ * @example
+ * ```jsx
+ *  <AddCard person={person} setDeletePerson={setDeletePerson}/>
+ * ```
+ */
 function AddCard({ person, setDeletePerson }) {
   return (
     <div
@@ -30,5 +42,16 @@ function AddCard({ person, setDeletePerson }) {
     </div>
   );
 }
+
+AddCard.propTypes = {
+  /**
+   *  Object containing person details like id, profile image URL, and screen name.
+   */
+  person: PropTypes.object.isRequired,
+  /**
+   *  Function to set the person to be deleted.
+   */
+  setDeletePerson: PropTypes.func.isRequired,
+};
 
 export default AddCard;

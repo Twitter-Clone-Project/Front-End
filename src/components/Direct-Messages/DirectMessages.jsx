@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState, useEffect, useContext, useRef } from 'react';
 // import dayjs from 'dayjs';
 import { Outlet } from 'react-router';
@@ -6,6 +7,16 @@ import ConversationsPage from './ConversationsPage';
 import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
 import { ChatContext } from '../../hooks/ContactContext';
+
+/**
+ * Represents the Direct Messages component for managing chat history and conversation details(messages).
+ * @component
+ * @returns {JSX.Element} JSX for the Compose Page component.
+ * @example
+ * ```jsx
+ *  <DirectMessages />
+ * ```
+ */
 
 function DirectMessages() {
   const { user } = useAuth();

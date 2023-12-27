@@ -1,4 +1,20 @@
+/* eslint-disable max-len */
 import React, { useRef, useState } from 'react';
+
+/**
+ * Renders a password input field with options to show/hide password and error handling.
+ * @param {Object} props - Component props.
+ * @param {string} props.title - The title/label for the input field.
+ * @param {string} props.password - The value of the password input field.
+ * @param {Function} props.setPassword - Function to set the password input value.
+ * @param {string} props.error - The error message to display.
+ * @param {Function} props.setError - Function to set the error message.
+ * @returns {JSX.Element} JSX representing the password input field.
+ * @example
+ * ```jsx
+ *  <PasswordInput title={title} setError={setError} error={error}  setPassword={setPassword} password={password} />
+ * ```
+ */
 
 // eslint-disable-next-line react/prop-types
 function PasswordInput({ title, password, setPassword, error, setError }) {

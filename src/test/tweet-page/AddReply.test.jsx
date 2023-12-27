@@ -150,7 +150,7 @@ describe('AddReply', () => {
     fireEvent.click(getByTestId('reply-submit-button'));
     expect(inputField).toHaveDisplayValue('');
     await waitFor(() => {
-      //   expect(window.fetch).toHaveBeenCalledTimes(1);
+      expect(window.fetch).toHaveBeenCalledTimes(1);
       expect(window.fetch).toHaveBeenCalledWith(
         `${import.meta.env.VITE_API_DOMAIN}tweets/undefined/addReply`,
         {

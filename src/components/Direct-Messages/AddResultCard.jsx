@@ -1,7 +1,22 @@
+/* eslint-disable react/require-default-props */
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable max-len */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+
+/**
+ * AddResultCard component renders a card displaying result details.
+ * @component
+ * @param {Function} setPerson - Function to set the person.
+ * @param {object} result - Object containing result details like id, profile image URL, screen name, and username.
+ * @param {object} deletePerson - Object representing the person to be deleted.
+ * @returns {JSX.Element} JSX element representing the AddResultCard component.
+ * ```jsx
+ *  <AddResultCard setPerson={setPerson} deletePerson={deletePerson} result ={result}/>
+ * ```
+ */
 
 function AddResultCard({ setPerson, result, deletePerson }) {
   const [isclicked, setIsClicked] = useState(false);
@@ -49,4 +64,20 @@ function AddResultCard({ setPerson, result, deletePerson }) {
     </div>
   );
 }
+
 export default AddResultCard;
+
+AddResultCard.propTypes = {
+  /**
+   *  Function to set the person.
+   */
+  setPerson: PropTypes.func.isRequired,
+  /**
+   *  Object representing the person to be deleted.
+   */
+  deletePerson: PropTypes.object,
+  /**
+   * Object containing result details like id, profile image URL, screen name, and username.
+   */
+  result: PropTypes.object.isRequired,
+};

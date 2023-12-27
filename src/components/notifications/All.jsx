@@ -1,8 +1,19 @@
+/* eslint-disable max-len */
 /* eslint-disable no-nested-ternary */
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { ChatContext } from '../../hooks/ContactContext';
 import NotificationCard from './NotificationCard';
+
+/**
+ * Renders notifications based on socket notifications and api notifications.
+ * @component
+ * @returns {JSX.Element} JSX representing the notifications.
+ * @example
+ * ```jsx
+ *  <All />
+ * ```
+ */
 
 export default function All() {
   const { notifications, socketNotifications } = useContext(ChatContext);

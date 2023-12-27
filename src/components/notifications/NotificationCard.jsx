@@ -1,6 +1,23 @@
+/* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
+
+/**
+ * Displays a notification card with specific information.
+ * @param {Object} props - Component props.
+ * @param {string} props.notificationId - The ID of the notification.
+ * @param {string} props.timestamp - The timestamp of the notification.
+ * @param {boolean} props.isSeen - Indicates if the notification has been seen.
+ * @param {string} props.content - The content of the notification.
+ * @param {string} props.senderImgUrl - The URL of the sender's image.
+ * @returns {JSX.Element} JSX representing the notification card.
+ * @example
+ * ```jsx
+ *  <NotificationCard notificationId={notificationId} timestamp={timestamp} isSeen={isSeen} content={content} senderImgUrl={senderImgUrl} />
+ * ```
+ */
 
 function NotificationCard({
   notificationId,
@@ -40,3 +57,25 @@ function NotificationCard({
 }
 
 export default NotificationCard;
+NotificationCard.propTypes = {
+  /**
+   *  The ID of the notification.
+   */
+  notificationId: PropTypes.string.isRequired,
+  /**
+   *  The timestamp of the notification.
+   */
+  timestamp: PropTypes.string.isRequired,
+  /**
+   *  Indicates if the notification has been seen.
+   */
+  isSeen: PropTypes.bool.isRequired,
+  /**
+   *  The content of the notification.
+   */
+  content: PropTypes.string.isRequired,
+  /**
+   *  The URL of the sender's image.
+   */
+  senderImgUrl: PropTypes.string.isRequired,
+};

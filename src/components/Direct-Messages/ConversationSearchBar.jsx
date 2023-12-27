@@ -1,6 +1,20 @@
+/* eslint-disable max-len */
 import * as React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+/**
+ * Represents the search bar component for conversations in the chat interface.
+ * @component
+ * @param {object} props - The props for the ConversationSearchBar component.
+ * @param {function} props.setValue - Function to set the value of the search input.
+ * @param {boolean} props.active - Flag indicating if the search bar is active.
+ * @param {function} props.setActive - Function to set the active state of the search bar.
+ * @returns {JSX.Element} JSX for the ConversationSearchBar component.
+ * @example
+ * ```jsx
+ *  <ConversationSearchBar setValue={setValue} setActive={setActive} active={active}/>
+ * ```
+ */
 
 function ConversationSearchBar({ setValue, active, setActive }) {
   const [isInputFocused, setInputFocused] = useState(false);
@@ -81,8 +95,17 @@ function ConversationSearchBar({ setValue, active, setActive }) {
 }
 
 ConversationSearchBar.propTypes = {
+  /**
+   *  Function to set the value of the search input.
+   */
   setValue: PropTypes.func.isRequired,
+  /**
+   *  Flag indicating if the search bar is active.
+   */
   active: PropTypes.bool.isRequired,
+  /**
+   *  Function to set the active state of the search bar.
+   */
   setActive: PropTypes.func.isRequired,
 };
 

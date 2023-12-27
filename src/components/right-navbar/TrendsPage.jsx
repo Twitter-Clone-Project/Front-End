@@ -1,7 +1,18 @@
+/* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBar from '../search-bar/SearchBar';
 
+/**
+ * TrandsPage component displays trending topics and a search bar.
+ * It fetches trends data from an API and renders the trends along with search functionality.
+ *
+ * @returns {JSX.Element} The JSX for displaying trending topics and a search bar.
+ * @example
+ * ```jsx
+ *  <TrandsPage />
+ * ```
+ */
 function TrandsPage() {
   const [trands, setTrends] = useState([]);
   const [value, setValue] = useState('');

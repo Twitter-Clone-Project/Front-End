@@ -1,13 +1,28 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable max-len */
 /* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useContext } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { ChatContext } from '../../hooks/ContactContext';
 import { useAuth } from '../../hooks/AuthContext';
 
-// eslint-disable-next-line react/prop-types
+/**
+ * Renders a card representing a conversation in a search result.
+ *
+ * Handles click events to manage chat context and emit socket events(open/close).
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Object} props.conversationData - Data related to the conversation.
+ * @returns {JSX.Element} JSX for the search result card.
+ * @example
+ * ```jsx
+ *  <SearchCard conversationData={conversationData} />
+ * ```
+ */
+
 function SearchCard({ conversationData }) {
   const {
     chatContext,
@@ -100,3 +115,9 @@ function SearchCard({ conversationData }) {
 }
 
 export default SearchCard;
+SearchCard.propTypes = {
+  /**
+   *  Data related to the conversation.
+   */
+  conversationData: PropTypes.object.isRequired,
+};

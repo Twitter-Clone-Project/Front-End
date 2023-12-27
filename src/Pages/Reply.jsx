@@ -1,3 +1,9 @@
+//  ---------------------------------------------------
+//                Reply Documentation
+//  ---------------------------------------------------
+//  Reply is responsile for rendering the data of a certain reply on a tweet.
+//  It receives the reply data and shows all the required info.
+
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable max-len */
@@ -9,7 +15,6 @@ import ReactTimeAgo from 'react-time-ago';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
 import { v4 as uuid4 } from 'uuid';
-// import OwnToaster from '../components/OwnToaster';
 import PopoverUserCard from '../components/userComponents/PopoverUserCard';
 import { useAuth } from '../hooks/AuthContext';
 import ReplyMenu from './ReplyMenu';
@@ -37,7 +42,6 @@ function Reply({ data, tweetId, replies, setReplies }) {
           },
         );
         const res = await response.json();
-        // console.log(res.data.users);
         if (res.status) {
           const names = [];
           setFollowersCount(res.data.users.length);
@@ -62,7 +66,6 @@ function Reply({ data, tweetId, replies, setReplies }) {
           },
         );
         const res = await response.json();
-        // console.log(res.data.users.length);
         if (res.status) {
           setFollowingsCount(res.data.users.length);
         }
@@ -147,6 +150,7 @@ function Reply({ data, tweetId, replies, setReplies }) {
             onClick={() => {
               handleUserInfoClick();
             }}
+            data-testid={`${data.replyId}-name-field`}
           >
             <div className="name truncate break-words text-[15px] font-bold dark:text-white">
               {data.screenName}
@@ -223,6 +227,15 @@ function Reply({ data, tweetId, replies, setReplies }) {
     </div>
   );
 }
+
+//  ---------------------------------------------------
+//                Reply PropTypes
+//  ---------------------------------------------------
+//   data: an object conatining all the data for reply on a certain tweetId
+//   tweetId: the Id of the tweet for which we are rendering the reply
+//   replies: the state array containing all the replies for a certain tweet
+//   setReplies: the state function which controls the replies for a
+//   certain tweet to be sent to the reply Component
 
 Reply.propTypes = {
   data: PropTypes.object.isRequired,

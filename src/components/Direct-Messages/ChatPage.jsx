@@ -1,13 +1,23 @@
+/* eslint-disable max-len */
 /* eslint-disable react/prop-types */
 import React, { useState, useRef, useContext, useEffect } from 'react';
-// import PropTypes from 'prop-types';
 import PersonCard from './PersonCard';
 import MessagesInput from './MessagesInput';
 import Messages from './Messages';
 import Header from './Header';
-
 import { ChatContext } from '../../hooks/ContactContext';
 
+/**
+ * Represents the chat page component.
+ *
+ * Displays chat-related components(chat messages and converstion info) based on chat context.
+ * @component
+ * @returns {JSX.Element} The JSX element for the chat page.
+ * @example
+ * ```jsx
+ *  <ChatPage />
+ * ```
+ */
 function ChatPage() {
   const [imgVisible, setImgVisible] = useState(true);
   const { chatContext } = useContext(ChatContext);

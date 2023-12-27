@@ -1,8 +1,26 @@
+/* eslint-disable react/require-default-props */
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable max-len */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable react/prop-types */
+
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import AddResultCard from './AddResultCard';
+
+/**
+ * Renders a list of results based on the provided value.
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Object} props.value - string contains the username to be searched
+ * @param {Function} props.setPerson - Function to set the person.
+ * @param {Object} props.deletePerson - person to be deleted
+ * @returns {JSX.Element} JSX element representing the list of results.
+ *  @example
+ *  ```jsx
+ *  <AddResults value={value} setPerson={setPerson} deletePerson={deletePerson} />
+ * ``
+ */
 
 function AddResults({ value, setPerson, deletePerson }) {
   const [results, setResults] = useState([]);
@@ -51,3 +69,17 @@ function AddResults({ value, setPerson, deletePerson }) {
 }
 
 export default AddResults;
+AddResults.propTypes = {
+  /**
+   *  string contains the username to be searched
+   */
+  value: PropTypes.string.isRequired,
+  /**
+   *  Function to set the person.
+   */
+  setPerson: PropTypes.func.isRequired,
+  /**
+   *  person to be deleted
+   */
+  deletePerson: PropTypes.object,
+};

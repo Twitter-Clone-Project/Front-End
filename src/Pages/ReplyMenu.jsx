@@ -1,6 +1,16 @@
+//  ---------------------------------------------------
+//                ReplyMenu Documentation
+//  ---------------------------------------------------
+//  ReplyMenu is responsible for shwoing all the reply options
+//  that a user can have, if the same user is accessing the replies
+//  of the tweet the delete option will be shown otherwise the will be
+//  no options available.
+
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
+import PropTypes from 'prop-types';
 import { useAuth } from '../hooks/AuthContext';
 
 function ReplyMenu({ userId, tweetId, reply, replies, setReplies }) {
@@ -113,3 +123,22 @@ function ReplyMenu({ userId, tweetId, reply, replies, setReplies }) {
 }
 
 export default ReplyMenu;
+
+//  ---------------------------------------------------
+//                ReplyMenu PropTypes
+//  ---------------------------------------------------
+//   userId: the Id of the authentictaed user to be able to check whether
+//   the reply is for the same authenticated user or another one
+//   tweetId: the Id of the tweet for which we are rendering the reply
+//   reply: an object conatining all the data for reply on a certain tweetId
+//   replies: the state array containing all the replies for a certain tweet
+//   setReplies: the state function which controls the replies for a
+//   certain tweet to be sent to the reply Component
+
+ReplyMenu.propTypes = {
+  userId: PropTypes.string.isRequired,
+  tweetId: PropTypes.string.isRequired,
+  reply: PropTypes.object.isRequired,
+  replies: PropTypes.array.isRequired,
+  setReplies: PropTypes.func.isRequired,
+};
