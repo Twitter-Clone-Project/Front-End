@@ -116,7 +116,7 @@ function LikersList() {
                   userName={userDetails.name}
                   userID={userDetails.screenName}
                   discription=""
-                  following={userDetails.followingsCount}
+                  following={userDetails.followingCount}
                   followers={userDetails.followersCount}
                   testID={index}
                   itemID={userDetails.id}

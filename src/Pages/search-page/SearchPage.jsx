@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate, Outlet } from 'react-router';
 // import OwnToaster from '../../components/OwnToaster';
 import SearchBar from '../../components/search-bar/SearchBar';
