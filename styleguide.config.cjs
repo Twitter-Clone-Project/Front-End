@@ -18,5 +18,6 @@ module.exports = {
     'src/components/**/*.{js,jsx,ts,tsx}',
     'src/app.jsx',
     'src/tweetPage/*.jsx',
+    'src/Pages/**/*.jsx',
   ],
 };
