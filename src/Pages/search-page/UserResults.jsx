@@ -1,3 +1,11 @@
+//  ---------------------------------------------------
+//                UserResults Documentation
+//  ---------------------------------------------------
+//  UserResults is responsible for showing the user results that matched
+//  the current search query entered by the user in the search page.
+//  It extarcts the search query from the URL and fetches the user results
+//  matchig the current query.
+
 /* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router';

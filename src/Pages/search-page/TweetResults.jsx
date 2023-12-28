@@ -1,3 +1,11 @@
+//  ---------------------------------------------------
+//                TweetResults Documentation
+//  ---------------------------------------------------
+//  TweetResults is responsible for showing the tweet results that matched
+//  the current search query entered by the user in the search page.
+//  It extarcts the search query from the URL and fetches the tweet results
+//  matchig the current query.
+
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect, useCallback } from 'react';
