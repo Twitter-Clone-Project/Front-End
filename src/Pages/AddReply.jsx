@@ -1,11 +1,4 @@
-//  ---------------------------------------------------
-//                AddReply Documentation
-//  ---------------------------------------------------
-//  AddReply is responsible providing the interface for the users
-//  to add replies to a certain tweet, this interface includes a text
-//  and an emoji picker, whenver typing the user can then add his reply
-//  to the opened tweet.
-
+/* eslint-disable max-len */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from 'react';
@@ -15,6 +8,28 @@ import toast from 'react-hot-toast';
 import { useAuth } from '../hooks/AuthContext';
 import AddEmoji from '../tweetPage/AddEmoji';
 
+/**
+ * AddReply provides an interface for users to add replies to a tweet.
+ * The interface includes a text field and an emoji picker for users to compose replies.
+ * @param {Object} props - The properties passed to the AddReply component.
+ * @param {Function} props.setReplies - The function controlling the replies for a certain tweet.
+ * @param {string} props.tweetId - The ID of the tweet for which the reply is being added.
+ * @param {string} props.replyFor - The username of the user for whom the current user is replying.
+ * @returns {JSX.Element} The JSX for the interface to add replies to a tweet.
+ * @example
+ * // Rendering AddReply within a parent component
+ * function ParentComponent() {
+ *   return (
+ *     <AddReply
+ *       setReplies={(updatedReplies) => {
+ *         // Logic to update the replies in the parent component
+ *       }}
+ *       tweetId="tweet_123"
+ *       replyFor="example_user"
+ *     />
+ *   );
+ * }
+ */
 function AddReply({ setReplies, tweetId, replyFor }) {
   const { user } = useAuth();
   const [focus, setFocus] = useState(false);
@@ -143,19 +158,19 @@ function AddReply({ setReplies, tweetId, replyFor }) {
   );
 }
 
-export default AddReply;
-
-//  ---------------------------------------------------
-//                AddReply PropTypes
-//  ---------------------------------------------------
-//   setReplies: the state function which controls the replies for a
-//   certain tweet to be sent to the reply Component
-//   tweetId: the Id of the tweet for which we are rendering the reply
-//   replyFor: the username of the user for which the current authenticated
-//   user is opening a tweet for
-
 AddReply.propTypes = {
+  /**
+   * The function controlling the replies for a certain tweet.
+   */
   setReplies: PropTypes.func.isRequired,
+  /**
+   * The ID of the tweet for which the reply is being added.
+   */
   tweetId: PropTypes.string.isRequired,
+  /**
+   * The username of the user for whom the current user is replying.
+   */
   replyFor: PropTypes.string.isRequired,
 };
+
+export default AddReply;

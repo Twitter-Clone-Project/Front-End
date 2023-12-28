@@ -1,10 +1,4 @@
-//  ---------------------------------------------------
-//                LikersList Documentation
-//  ---------------------------------------------------
-//  LikersList is responsible showing the users who liked
-//  a certain tweet, it extracts the tweetId from the url and gets
-//  the users who liked this tweet.
-
+/* eslint-disable max-len */
 /* eslint-disable react/require-default-props */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -17,6 +11,16 @@ import { useAuth } from '../hooks/AuthContext';
 import UserItem from '../components/userComponents/UserItem';
 import ListNav from '../components/navigation-bars/ListNav';
 
+/**
+ * LikersList displays the users who liked a certain tweet.
+ * It fetches the users who liked the tweet based on the tweetId extracted from the URL.
+ * @returns {JSX.Element} The JSX for displaying a list of users who liked the tweet.
+ * @example
+ * // Rendering likersList within React Router in the application:
+ * <Route path="/app/tweets/:tweetId/likes">
+ *   <likersList />
+ * </Route>
+ */
 function LikersList() {
   // Get the past location for Back Button
   const { pathname } = useLocation();

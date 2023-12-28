@@ -1,10 +1,4 @@
-//  ---------------------------------------------------
-//                RetweetersList Documentation
-//  ---------------------------------------------------
-//  RetweetersList is responsible showing the users who retweeted
-//  a certain tweet, it extracts the tweetId from the url and gets
-//  the users who retweeted this tweet.
-
+/* eslint-disable max-len */
 /* eslint-disable react/require-default-props */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -17,6 +11,16 @@ import { useAuth } from '../hooks/AuthContext';
 import UserItem from '../components/userComponents/UserItem';
 import ListNav from '../components/navigation-bars/ListNav';
 
+/**
+ * RetweetersList displays the users who have retweeted a specific tweet.
+ * It extracts the tweetId from the URL and fetches the users who retweeted that tweet.
+ * @returns {JSX.Element} The JSX for displaying the list of users who retweeted a tweet.
+ * @example
+ * // Rendering RetweetersList within React Router in the application:
+ * <Route path="/app/tweets/:tweetId/retweets">
+ *   <RetweetersList />
+ * </Route>
+ */
 function RetweetersList() {
   // Get the past location for Back Button
   const { pathname } = useLocation();

@@ -1,11 +1,4 @@
-//  ---------------------------------------------------
-//                ReplyMenu Documentation
-//  ---------------------------------------------------
-//  ReplyMenu is responsible for shwoing all the reply options
-//  that a user can have, if the same user is accessing the replies
-//  of the tweet the delete option will be shown otherwise the will be
-//  no options available.
-
+/* eslint-disable max-len */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useRef } from 'react';
@@ -13,6 +6,33 @@ import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
 import { useAuth } from '../hooks/AuthContext';
 
+/**
+ * ReplyMenu displays options for a reply, such as deleting it based on the user's permissions.
+ * If the authenticated user accesses replies, the delete option is shown; otherwise, no options are available.
+ * @param {Object} props - The properties passed to the ReplyMenu component.
+ * @param {string} props.userId - The ID of the authenticated user.
+ * @param {string} props.tweetId - The ID of the tweet for which the reply belongs.
+ * @param {Object} props.reply - The reply data object for a certain tweet.
+ * @param {Array} props.replies - The array containing all the replies for a certain tweet.
+ * @param {Function} props.setReplies - The function controlling the replies for a certain tweet.
+ * @returns {JSX.Element} The JSX for displaying reply options.
+ * @example
+ * // Example of using ReplyMenu within another component to display a reply along with the menu
+ * function DisplayReply({ userId, tweetId, reply, replies, setReplies }) {
+ *   return (
+ *     <div className="reply-container">
+ *       <p>{reply.content}</p>
+ *       <ReplyMenu
+ *         userId={userId}
+ *         tweetId={tweetId}
+ *         reply={reply}
+ *         replies={replies}
+ *         setReplies={setReplies}
+ *       />
+ *     </div>
+ *   );
+ * }
+ */
 function ReplyMenu({ userId, tweetId, reply, replies, setReplies }) {
   const { user } = useAuth();
   const [show, toggleShow] = useState(false);
@@ -122,23 +142,27 @@ function ReplyMenu({ userId, tweetId, reply, replies, setReplies }) {
   );
 }
 
-export default ReplyMenu;
-
-//  ---------------------------------------------------
-//                ReplyMenu PropTypes
-//  ---------------------------------------------------
-//   userId: the Id of the authentictaed user to be able to check whether
-//   the reply is for the same authenticated user or another one
-//   tweetId: the Id of the tweet for which we are rendering the reply
-//   reply: an object conatining all the data for reply on a certain tweetId
-//   replies: the state array containing all the replies for a certain tweet
-//   setReplies: the state function which controls the replies for a
-//   certain tweet to be sent to the reply Component
-
 ReplyMenu.propTypes = {
+  /**
+   * The ID of the authenticated user.
+   */
   userId: PropTypes.string.isRequired,
+  /**
+   * The ID of the tweet for which the reply belongs.
+   */
   tweetId: PropTypes.string.isRequired,
+  /**
+   * The reply data object for a certain reply on a tweet.
+   */
   reply: PropTypes.object.isRequired,
+  /**
+   * The state array containing all the replies for a certain tweet.
+   */
   replies: PropTypes.array.isRequired,
+  /**
+   * The state function controlling the replies for a certain tweet.
+   */
   setReplies: PropTypes.func.isRequired,
 };
+
+export default ReplyMenu;

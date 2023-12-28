@@ -1,13 +1,4 @@
-//  ---------------------------------------------------
-//                TweetPage Documentation
-//  ---------------------------------------------------
-//  TweetPage is major component merging several other components
-//  the tweet page is the elongated version of a tweet in the profile page
-//  or the home page, in which the user can access the tweet with all its
-//  features. Also, the user can reach the list of likes and retweets
-//  and all the replies for this tweet. The user can add a reply to be appened
-//  to the current replies lst.
-
+/* eslint-disable max-len */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect, useState } from 'react';
@@ -18,6 +9,18 @@ import Tweet from '../tweetPage/Tweet';
 import AddReply from './AddReply';
 import RepliesList from './RepliesList';
 
+/**
+ * TweetPage is a major component that extends the tweet view, allowing users to access
+ * an elongated version of a tweet with additional features such as viewing likes,
+ * retweets, and replies. Users can add a reply to the current list of replies.
+ * @returns {JSX.Element} The JSX for displaying an individual tweet and its interactions.
+ * @example
+ * // Rendering the TweetPage component with React Router in the application:
+ * // Assume the 'TweetPage' is nested under the '/app/tweets/:tweetId' route.
+ * <Route path="/app/tweets/:tweetId">
+ *   <TweetPage />
+ * </Route>
+ */
 function TweetPage() {
   const location = useLocation();
   const pastPath = location.state?.pastPath;
