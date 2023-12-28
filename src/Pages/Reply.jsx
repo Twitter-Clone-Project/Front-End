@@ -1,9 +1,3 @@
-//  ---------------------------------------------------
-//                Reply Documentation
-//  ---------------------------------------------------
-//  Reply is responsile for rendering the data of a certain reply on a tweet.
-//  It receives the reply data and shows all the required info.
-
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable max-len */
@@ -19,6 +13,42 @@ import PopoverUserCard from '../components/userComponents/PopoverUserCard';
 import { useAuth } from '../hooks/AuthContext';
 import ReplyMenu from './ReplyMenu';
 
+/**
+ * Reply is responsible for rendering the data of a certain reply on a tweet.
+ * It receives the reply data and displays all the required info.
+ * @param {Object} props - The properties passed to the Reply component.
+ * @param {Object} props.data - An object containing all the data for a reply on a certain tweetId.
+ * @param {string} props.tweetId - The ID of the tweet for which the reply is rendered.
+ * @param {Array} props.replies - The state array containing all the replies for a certain tweet.
+ * @param {Function} props.setReplies - The function controlling the replies for a certain tweet to be sent to the Reply component.
+ * @returns {JSX.Element} The JSX for displaying a reply on a tweet.
+ * @example
+ * // Rendering a reply component within a list of replies
+ * const sampleReplies = [
+ *   { replyId: '1', content: 'This is the first reply.' },
+ *   { replyId: '2', content: 'This is the second reply.' },
+ *   // ... other replies
+ * ];
+ *
+ * // Within a parent component
+ * function ParentComponent() {
+ *   const [replies, setReplies] = useState(sampleReplies);
+ *
+ *   return (
+ *     <div>
+ *       {replies.map((reply) => (
+ *         <Reply
+ *           key={reply.replyId}
+ *           data={reply}
+ *           tweetId="tweet_123"
+ *           replies={replies}
+ *           setReplies={setReplies}
+ *         />
+ *       ))}
+ *     </div>
+ *   );
+ * }
+ */
 function Reply({ data, tweetId, replies, setReplies }) {
   const [text, setText] = useState('');
   const [isFollowed, setIsFollowed] = useState(false);
@@ -228,19 +258,22 @@ function Reply({ data, tweetId, replies, setReplies }) {
   );
 }
 
-//  ---------------------------------------------------
-//                Reply PropTypes
-//  ---------------------------------------------------
-//   data: an object conatining all the data for reply on a certain tweetId
-//   tweetId: the Id of the tweet for which we are rendering the reply
-//   replies: the state array containing all the replies for a certain tweet
-//   setReplies: the state function which controls the replies for a
-//   certain tweet to be sent to the reply Component
-
 Reply.propTypes = {
+  /**
+   * An object containing all the data for a reply on a certain tweetId.
+   */
   data: PropTypes.object.isRequired,
+  /**
+   * The ID of the tweet for which the reply is rendered.
+   */
   tweetId: PropTypes.string.isRequired,
+  /**
+   * The state array containing all the replies for a certain tweet.
+   */
   replies: PropTypes.array.isRequired,
+  /**
+   * The state function controlling the replies for a certain tweet to be sent to the Reply component.
+   */
   setReplies: PropTypes.func.isRequired,
 };
 
