@@ -218,40 +218,41 @@ function Reply({ data, tweetId, replies, setReplies }) {
           className="caption"
           dir="auto"
         >
-          {text.split(' ').map((word) => {
-            if (word.length && word.startsWith('#')) {
-              return (
-                <span
-                  key={uuid4()}
-                  className=" text-blue"
-                >
-                  {word.slice(0, 34)}
-                  <br />
-                  {word.slice(35, word.length - 1)}
-                </span>
-              );
-            }
-            if (word.length > 35) {
-              return (
-                <span key={uuid4()}>
-                  {word.slice(0, 34)}
-                  <br />
-                  {word.slice(35, word.length - 1)}
-                </span>
-              );
-            }
-            if (word.startsWith('#')) {
-              return (
-                <span
-                  key={uuid4()}
-                  className=" text-blue"
-                >
-                  {word}
-                </span>
-              );
-            }
-            return `${word} `;
-          })}
+          {text &&
+            text.split(' ').map((word) => {
+              if (word.length && word.startsWith('#')) {
+                return (
+                  <span
+                    key={uuid4()}
+                    className=" text-blue"
+                  >
+                    {word.slice(0, 34)}
+                    <br />
+                    {word.slice(35, word.length - 1)}
+                  </span>
+                );
+              }
+              if (word.length > 35) {
+                return (
+                  <span key={uuid4()}>
+                    {word.slice(0, 34)}
+                    <br />
+                    {word.slice(35, word.length - 1)}
+                  </span>
+                );
+              }
+              if (word.startsWith('#')) {
+                return (
+                  <span
+                    key={uuid4()}
+                    className=" text-blue"
+                  >
+                    {word}
+                  </span>
+                );
+              }
+              return `${word} `;
+            })}
         </div>
       </div>
     </div>
