@@ -68,7 +68,7 @@ function Messages() {
     const lastChatContext = chatContextRef.current;
     const lastMessages = messagesRef.current;
     const lastSocketMessages = socketmessagesRef.current;
-    if (lastChatContext && chatState[lastChatContext.conversationId]) {
+    if (lastChatContext && chatState[lastChatContext.conversationId].inChat) {
       if (lastMessages) {
         const updatedAPIMessages = lastMessages.map((message) => ({
           ...message,

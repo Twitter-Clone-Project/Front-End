@@ -16,7 +16,7 @@ import { ChatContext } from '../../hooks/ContactContext';
  * ```
  */
 function SearchResults({ searchValue }) {
-  const { conversations, setOpenedId } = useContext(ChatContext);
+  const { conversations } = useContext(ChatContext);
 
   const filteredConversations = conversations.filter((conversation) =>
     conversation.contact.name.toLowerCase().includes(searchValue.toLowerCase()),
@@ -34,7 +34,6 @@ function SearchResults({ searchValue }) {
             <SearchCard
               key={conversation.conversationId}
               conversationData={conversation}
-              setOpenedId={setOpenedId}
             />
           ))}
         </div>
