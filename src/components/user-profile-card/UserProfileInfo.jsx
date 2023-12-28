@@ -213,9 +213,9 @@ UserProfileInfo.propTypes = {
     // The image URL of the user
     imageUrl: PropTypes.string,
     // The number of followers of the user
-    followersCount: PropTypes.number,
+    followersCount: PropTypes.string,
     // The number of followings of the user
-    followingsCount: PropTypes.number,
+    followingsCount: PropTypes.string,
     // The bio of the user
     bio: PropTypes.string,
     // The location of the user

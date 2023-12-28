@@ -65,8 +65,12 @@ function PersonCard({ imgRef }) {
               <img
                 className={`h-4 w-4 rounded-full border
                  border-white dark:border-black ${
-                   index !== 0 ? '' : 'absolute right-2'
-                 }`}
+                   index === 1 &&
+                   chatContext.contact.commonFollowers.length === 2
+                     ? 'absolute right-2 top-0'
+                     : ''
+                 }
+                 `}
                 src={follower.imageUrl}
                 alt=""
               />

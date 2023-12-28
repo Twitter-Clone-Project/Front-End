@@ -25,7 +25,7 @@ export default function ComposePage() {
   const [persons, setPersons] = useState([]);
   const [deletePerson, setDeletePerson] = useState(null);
   const [ids, setIds] = useState([]);
-  const { chatContext } = useContext(ChatContext);
+  const { chatContext, setSocketMessages } = useContext(ChatContext);
 
   const [input, setInput] = useState('');
   const [timeoutId, setTimeoutId] = useState(null);
@@ -103,9 +103,10 @@ export default function ComposePage() {
             <button
               data-testid="compose-page-button"
               type="submit"
-              onClick={() =>
-                navigate(`/app/messages/${chatContext.contact.username}`)
-              }
+              onClick={() => {
+                setSocketMessages([]);
+                navigate(`/app/messages/${chatContext.contact.username}`);
+              }}
               className="absolute left-3 top-5 h-[20px] w-[20px]  text-sm "
             >
               <svg
