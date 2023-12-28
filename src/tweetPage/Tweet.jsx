@@ -413,19 +413,20 @@ function UnMemoTweet({
             className="break-words"
             style={{ wordBreak: 'break-word' }}
           >
-            {data.text.split(' ').map((word) => {
-              if (word.startsWith('#')) {
-                return (
-                  <span
-                    key={uuid4()}
-                    className=" text-blue"
-                  >
-                    {word}{' '}
-                  </span>
-                );
-              }
-              return `${word} `;
-            })}
+            {data.text &&
+              data.text.split(' ').map((word) => {
+                if (word.startsWith('#')) {
+                  return (
+                    <span
+                      key={uuid4()}
+                      className=" text-blue"
+                    >
+                      {word}{' '}
+                    </span>
+                  );
+                }
+                return `${word} `;
+              })}
           </p>
         </div>
 
