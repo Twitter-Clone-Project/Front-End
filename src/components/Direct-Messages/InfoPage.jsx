@@ -16,7 +16,8 @@ import Button from '../form-controls/Button';
  * ```
  */
 export default function InfoPage() {
-  const { chatContext, setChatContext } = useContext(ChatContext);
+  const { chatContext, setChatContext, setSocketMessages } =
+    useContext(ChatContext);
   const [user, setUser] = useState(null);
   const [block, isBlock] = useState(false);
   const [leave, isleave] = useState(false);
@@ -112,6 +113,9 @@ export default function InfoPage() {
             <Link
               data-testid="info-page-link"
               className=" hover:no-underline"
+              onClick={() => {
+                setSocketMessages([]);
+              }}
               to={`/app/messages/${chatContext.contact.username}`}
             >
               <div className="flex h-[34px] w-[34px] items-center justify-center rounded-full hover:bg-[#e7e7e7] dark:hover:bg-[#181919]">
