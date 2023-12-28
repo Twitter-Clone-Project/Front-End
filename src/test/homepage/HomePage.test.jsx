@@ -665,11 +665,7 @@ describe('HomePage', () => {
           withCredentials: true,
         }),
       );
-    });
-
-    fireEvent.scroll(window, { target: { scrollY: 20000 } });
-
-    await waitFor(() => {
+      fireEvent.scroll(window, { target: { scrollY: 20000 } });
       expect(window.fetch).toHaveBeenCalledWith(
         `${import.meta.env.VITE_API_DOMAIN}users/2/timeline`,
         expect.objectContaining({

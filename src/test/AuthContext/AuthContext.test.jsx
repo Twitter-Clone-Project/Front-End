@@ -4,6 +4,18 @@ import { describe, expect, it } from 'vitest';
 import { useAuth } from '../../hooks/AuthContext';
 import reducer from '../../contexts/Auth/reducer';
 
+global.localStorage = {
+  state: {
+    'access-token': 'superHashedString',
+  },
+  setItem(key, item) {
+    this.state[key] = item;
+  },
+  getItem(key) {
+    return this.state[key];
+  },
+};
+
 describe('Box Card component', () => {
   it('Invoke useAuth hook with no context', () => {
     expect(() => renderHook(useAuth)).toThrowError(
@@ -28,7 +40,9 @@ describe('Box Card component', () => {
     });
   });
   it('Invoke dispatch with LOGOUT action type', () => {
-    expect(reducer({}, { type: 'LOGOUT' })).toStrictEqual({
+    expect(
+      reducer({ isAuthenticated: true }, { type: 'LOGOUT' }),
+    ).toStrictEqual({
       user: null,
       isAuthenticated: false,
       token: undefined,

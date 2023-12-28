@@ -30,7 +30,10 @@ function AppLayout() {
   }, []);
 
   return (
-    <div className="min-h-full w-full">
+    <div
+      data-testid="app-layout"
+      className="min-h-full w-full"
+    >
       <div className="layout mx-auto flex  h-full w-full min-w-[250px] flex-1 justify-center">
         <div className="relative">
           <NavBar />
