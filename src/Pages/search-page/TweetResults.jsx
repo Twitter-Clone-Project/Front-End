@@ -1,11 +1,3 @@
-//  ---------------------------------------------------
-//                TweetResults Documentation
-//  ---------------------------------------------------
-//  TweetResults is responsible for showing the tweet results that matched
-//  the current search query entered by the user in the search page.
-//  It extarcts the search query from the URL and fetches the tweet results
-//  matchig the current query.
-
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect, useCallback } from 'react';
@@ -16,6 +8,16 @@ import Spinner from '../../components/Spinner';
 import NoSearchResults from './NoSearchResults';
 import DotLoader from '../../components/user-profile-card/DotLoader';
 
+/**
+ * TweetResults displays tweet results matching the user's search query.
+ * It fetches tweet results based on the query extracted from the URL.
+ * @returns {JSX.Element} The JSX for displaying tweet search results.
+ * @example
+ * // Usage inside the SearchPage component or as a nested route:
+ * <Route path="/app/search/tweets">
+ *   <TweetResults />
+ * </Route>
+ */
 function TweetResults() {
   const location = useLocation();
   const [value, setValue] = useState(

@@ -1,10 +1,4 @@
-//  ---------------------------------------------------
-//                SearchBar Documentation
-//  ---------------------------------------------------
-//  SearchBar is the field through which the user can search for any query
-//  all over the application, this component also has a results conatainer
-//  show a user results list matching the user's current query.
-
+/* eslint-disable max-len */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState } from 'react';
@@ -13,6 +7,23 @@ import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
 import ResultsList from './ResultsList';
 
+/**
+ *  SearchBar is the field through which the user can search for any query
+ *  all over the application, this component also has a results conatainer
+ *  show a user results list matching the user's current query.
+ * @returns {JSX.Element} The JSX for displaying search bar and its results.
+ * @component
+ * @param {Object} props - The component props.
+ * @param {string} props.value - The state containing the search query entered by the user.
+ * @param {Function} props.setValue - The state function controlling the current query value.
+ * @example
+ * ```jsx
+ * <SearchBar
+ *   value="test"
+ *   setValue={setValueFunction}
+ * />
+ * ```
+ */
 function SearchBar({ value, setValue }) {
   const [fill, setFill] = useState('#AAB8C2');
   const [focus, setFoucs] = useState(false);
@@ -56,7 +67,6 @@ function SearchBar({ value, setValue }) {
             },
           );
           const data = await res.json();
-          console.log(data);
           if (data.status === false) throw new Error(data.message);
           else if (data.data) {
             if (data.data.length > 10) {
@@ -197,15 +207,14 @@ function SearchBar({ value, setValue }) {
   );
 }
 
-//  ---------------------------------------------------
-//                SearchBar PropTypes
-//  ---------------------------------------------------
-//  value: the state containing the serach query entered by the user
-//  setValue: the state function contolling the current query value
-//  entered by the user
-
 SearchBar.propTypes = {
+  /**
+   * the state containing the serach query entered by the user
+   */
   value: PropTypes.string.isRequired,
+  /**
+   * the state function contolling the current query value
+   */
   setValue: PropTypes.func.isRequired,
 };
 

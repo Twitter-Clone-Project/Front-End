@@ -1,12 +1,4 @@
-//  ---------------------------------------------------
-//                ResultsList Documentation
-//  ---------------------------------------------------
-//  ResultsList is responsible for showing the users results who matched
-//  the current search query entered by the user, if no users match
-//  the user will still have the option to search for the same query value
-//  and get the tweet results, also can head to the profile page of the user
-//  having a username exactly as the current search query.
-
+/* eslint-disable max-len */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/forbid-prop-types */
@@ -17,6 +9,27 @@ import { useNavigate, useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 import SearchResult from './SearchResult';
 
+/**
+ *  ResultsList is responsible for showing the users results who matched
+ *  the current search query entered by the user, if no users match
+ *  the user will still have the option to search for the same query value
+ *  and get the tweet results, also can head to the profile page of the user
+ *  having a username exactly as the current search query.
+ * @returns {JSX.Element} The JSX for displaying search bar results list.
+ * @component
+ * @param {Object} props - The component props.
+ * @param {string} value - The search query
+ * @param {array} results - The search results
+ * @param {boolean} searchPage - The behaviour of the search bar after submitting a query
+ * @example
+ * ```jsx
+ *  <ResultsList
+ *   value="test"
+ *   results=[{username:"test-name-1",id:"1"},
+ *   {username:"test-name-2",id:"2"}]
+ *  />
+ * ```
+ */
 function ResultsList({ value, results, setFocus }) {
   const location = useLocation();
   const navigate = useNavigate();
@@ -74,19 +87,21 @@ function ResultsList({ value, results, setFocus }) {
   );
 }
 
-//  ---------------------------------------------------
-//                ResultsList PropTypes
-//  ---------------------------------------------------
-//  value: the state value containing the serach query entered by the user
-//  results: the state array containing all the results for a current query
-//  setFoucs: an optional parameter which represents a certain fucntion that
-//  that can be called after the user searches for a certain query in the
-//  search page typically used for bluring the focus from the search bar
-//  after submitting the query
-
 ResultsList.propTypes = {
+  /**
+   * the state value containing the serach query entered by the user
+   */
   value: PropTypes.string.isRequired,
+  /**
+   * the state array containing all the results for a current query
+   */
   results: PropTypes.array.isRequired,
+  /**
+   * an optional parameter which represents a certain fucntion that
+   * that can be called after the user searches for a certain query in the
+   * search page typically used for bluring the focus from the search bar
+   * after submitting the query
+   */
   setFocus: PropTypes.func,
 };
 

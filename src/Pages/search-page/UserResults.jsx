@@ -1,11 +1,3 @@
-//  ---------------------------------------------------
-//                UserResults Documentation
-//  ---------------------------------------------------
-//  UserResults is responsible for showing the user results that matched
-//  the current search query entered by the user in the search page.
-//  It extarcts the search query from the URL and fetches the user results
-//  matchig the current query.
-
 /* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router';
@@ -14,6 +6,17 @@ import SearchResult from '../../components/search-bar/SearchResult';
 import Spinner from '../../components/Spinner';
 import NoSearchResults from './NoSearchResults';
 import DotLoader from '../../components/user-profile-card/DotLoader';
+
+/**
+ * UserResults displays user results matching the user's search query.
+ * It fetches user results based on the query extracted from the URL.
+ * @returns {JSX.Element} The JSX for displaying user search results.
+ * @example
+ * // Usage inside the SearchPage component or as a nested route:
+ * <Route path="/app/search/users">
+ *   <UserResults />
+ * </Route>
+ */
 
 function UserResults() {
   const location = useLocation();

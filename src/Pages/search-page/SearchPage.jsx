@@ -1,18 +1,20 @@
-//  ---------------------------------------------------
-//                SearchPage Documentation
-//  ---------------------------------------------------
-//  TweetResults is a major component responsible for merging several
-//  other compeontnets. It has a search field through which the user can
-//  search for any desired query. Also, it shows the tweet results and the user
-//   results matching the current query, and the user can interchangeably
-//  switch between the two types of results.
-
+/* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, Outlet } from 'react-router';
 // import OwnToaster from '../../components/OwnToaster';
 import SearchBar from '../../components/search-bar/SearchBar';
 import ListNav from '../../components/navigation-bars/ListNav';
 
+/**
+ * SearchPage is a major component responsible for merging other components.
+ * It contains a search field for querying tweets and users, displaying results accordingly.
+ * @returns {JSX.Element} The JSX for the search page.
+ * @example
+ * // Usage inside a Route component:
+ * <Route path="/app/search">
+ *   <SearchPage />
+ * </Route>
+ */
 function SearchPage() {
   const location = useLocation();
   const pastPath = location.state?.pastPath;

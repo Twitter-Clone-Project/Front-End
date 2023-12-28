@@ -1,11 +1,4 @@
-//  ---------------------------------------------------
-//                SearchResult Documentation
-//  ---------------------------------------------------
-//  SearchResult is responsible for showing a single user result who matched
-//  the current search query entered by the user, the UI for this component
-//  may differ based on the search result is being shown in the search bar
-//  or the in the search page.
-
+/* eslint-disable max-len */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/jsx-no-duplicate-props */
 /* eslint-disable no-nested-ternary */
@@ -18,8 +11,33 @@ import toast from 'react-hot-toast';
 import PopoverUserCard from '../userComponents/PopoverUserCard';
 import Button from '../form-controls/Button';
 import { useAuth } from '../../hooks/AuthContext';
-// import toast from 'react-hot-toast';
 
+/**
+ *  SearchResult is responsible for showing a single user result who matched
+ *  the current search query entered by the user, the UI for this component
+ *  may differ based on the search result is being shown in the search bar
+ *  or the in the search page.
+ * @returns {JSX.Element} The JSX for displaying search results.
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Object} props.data - An object containing the data of a user that matched the current search query.
+ * @param {boolean} [props.searchPage=false] - An optional boolean to check whether the search result is shown in the search bar or in the search page.
+ * @example
+ * ```jsx
+ * <SearchResult
+ *   data={{
+ *     id: "1",
+ *     username: "test-user",
+ *     screenName: "Test User",
+ *     isFollowed: false,
+ *     profileImageURL: "https://example.com/profile.jpg",
+ *     followingCount: 100,
+ *     followersCount: 500
+ *   }}
+ *   searchPage={true}
+ * />
+ * ```
+ */
 function SearchResult({ data, searchPage }) {
   const { user: curUser } = useAuth();
   const [popoverIsBlocked, setPopoverIsBlocked] = useState(false);
@@ -238,16 +256,14 @@ function SearchResult({ data, searchPage }) {
   );
 }
 
-//  ---------------------------------------------------
-//                ResultsList PropTypes
-//  ---------------------------------------------------
-//  data: an object containing the data of a user that matched the current
-//  search query
-//  searchPage: an optional boolean to check whether the search result is shown
-//  in the search bar or in the search page
-
 SearchResult.propTypes = {
+  /**
+   * an object containing the data of a user that matched the current search query
+   */
   data: PropTypes.object.isRequired,
+  /**
+   * an optional boolean to check whether the search result is shown in the search bar or in the search page
+   */
   searchPage: PropTypes.bool,
 };
 
