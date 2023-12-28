@@ -1,21 +1,31 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable react/prop-types */
 /* eslint-disable max-len */
-/* eslint-disable react/forbid-prop-types */
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import ReactTimeAgo from 'react-time-ago';
 import PropTypes from 'prop-types';
 import { v4 as uuid4 } from 'uuid';
 import toast from 'react-hot-toast';
 import ReactButtons from './reactButtons';
 import Media from './Media';
-import OwnToaster from '../components/OwnToaster';
 import ActionsMenu from './ActionsMenu';
 import PopoverUserCard from '../components/userComponents/PopoverUserCard';
-
+/**
+ * Component for displaying a single tweet.
+ * @Component
+ *    @example
+ * ```jsx
+    <Tweet
+          key={`${tweetItem.id}-${tweetItem.isRetweet}`}
+          data={tweetItem}
+          tweets={data}
+          setTweets={setTweets}
+        />
+ * ```
+ * @returns {JSX.Element} - The rendered component.
+ */
 function UnMemoTweet({
   data,
   tweets,
@@ -41,7 +51,7 @@ function UnMemoTweet({
   const [followingsCount, setFollowingsCount] = useState(
     data.user.followingCount,
   );
-  // const { user: curUser } = useAuth();
+
   const location = useLocation();
   const [images, setImages] = useState();
   useEffect(() => {
@@ -474,13 +484,49 @@ function UnMemoTweet({
     </div>
   );
 }
-
-const Tweet = React.memo(UnMemoTweet);
-Tweet.propTypes = {
+UnMemoTweet.propTypes = {
   // eslint-disable-next-line no-undef
   data: PropTypes.object.isRequired,
+  setFetchLikes: PropTypes.func.isRequired,
+  setFetchRetweets: PropTypes.func.isRequired,
+  tweets: PropTypes.array.isRequired,
+  setTweets: PropTypes.func.isRequired,
+};
+
+const Tweet = React.memo(UnMemoTweet);
+/**
+ * @Component
+ * @param {Object} props - The component props.
+ * @param {Object} props.data - The tweet data.
+ * @param {function} props.setFetchLikes - The function to fetch likes.
+ * @param {function} props.setFetchRetweets - The function to fetch retweets.
+ * @param {Array} props.tweets - The array of tweets.
+ * @param {function} props.setTweets - The function to update tweets.
+ */
+Tweet.propTypes = {
+  /**
+   * The tweet data.
+   */
+  data: PropTypes.object.isRequired,
+  /**
+   * The function to fetch likes.
+   * @param {boolean} fetchLikes - Indicates whether to fetch likes.
+   */
   setFetchLikes: PropTypes.func,
+  /**
+   * The function to fetch retweets.
+   * @param {boolean} fetchRetweets - Indicates whether to fetch retweets.
+   */
   setFetchRetweets: PropTypes.func,
+  /**
+   * The array of tweets.
+   */
+  tweets: PropTypes.array.isRequired,
+  /**
+   * The function to update tweets.
+   * @param {Array} updatedTweets - The updated array of tweets.
+   */
+  setTweets: PropTypes.func.isRequired,
 };
 
 Tweet.defaultProps = {

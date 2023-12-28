@@ -1,7 +1,22 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable react/forbid-prop-types */
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { v4 as uuid4 } from 'uuid';
 
+/**
+ * Component for removing media during adding post.
+*  @Component
+ * @example
+ * ```jsx
+ *  <MediaRemove
+            filesURLs={filesURLs}
+            setFilesURLs={setFilesURLs}
+            files={files}
+            setFiles={setFiles}
+          />
+ * `
+ * @returns {JSX.Element} - The rendered component.
+ */
 function MediaRemove({ filesURLs, setFilesURLs, files, setFiles }) {
   const [isVideo, setIsVideo] = useState(false);
   useEffect(() => {
@@ -149,5 +164,42 @@ function MediaRemove({ filesURLs, setFilesURLs, files, setFiles }) {
     </div>
   );
 }
+
+/**
+ * @Component
+ * @param {Object} props - The component props.
+ * @param {Array} props.filesURLs - The array of files URLs.
+ * @param {function} props.setFilesURLs - The function to update the files URLs.
+ * @param {Array} props.files - The array of files.
+ * @param {function} props.setFiles - The function to update the files.
+ */
+MediaRemove.propTypes = {
+  /**
+   * The array of files URLs.
+   */
+  filesURLs: PropTypes.array,
+  /**
+   * The function to update the files URLs.
+   * @param {Array} updatedFilesURLs - The updated array of files URLs.
+   */
+  setFilesURLs: PropTypes.func,
+  /**
+   * The array of files.
+   */
+  files: PropTypes.array,
+  /**
+   * The function to update the files.
+   * @param {Array} updatedFiles - The updated array of files.
+   */
+  setFiles: PropTypes.func,
+};
+
+MediaRemove.defaultProps = {
+  filesURLs: [],
+  files: [],
+  setFilesURLs: () => {},
+  setFiles: () => {},
+};
+
 const MediaMemorized = React.memo(MediaRemove);
 export default MediaMemorized;

@@ -1,9 +1,20 @@
-/* eslint-disable react/prop-types */
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import OutsideClickHandler from 'react-outside-click-handler';
 
+/**
+ * Component for adding emojis to a text.
+ * @component
+ * @returns {JSX.Element} The rendered component.
+ * @example
+ * ```jsx
+  <AddEmoji text={text}
+                setText={setText}
+              />
+ * ```
+ */
 function AddEmoji({ text, setText }) {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const handleEmojiSelect = (emoji) => {
@@ -57,5 +68,22 @@ function AddEmoji({ text, setText }) {
     </OutsideClickHandler>
   );
 }
+/**
+ * @Component
+ * @param {Object} props - The component props.
+ * @param {string} props.text - The current text value.
+ * @param {function} props.setText - The function to update the text value.
+ */
+AddEmoji.propTypes = {
+  /**
+   * The current text value.
+   */
+  text: PropTypes.string.isRequired,
+  /**
+   * The function to update the text value.
+   * @param {string} updatedText - The updated text value.
+   */
+  setText: PropTypes.func.isRequired,
+};
 
 export default AddEmoji;

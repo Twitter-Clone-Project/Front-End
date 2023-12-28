@@ -31,8 +31,8 @@ const data = [
       bio: "I'm a retweeted user.",
       followersCount: 1000,
       followingCount: 500,
-      isFollowed: true,
-      isFollowing: true,
+      isFollowed: false,
+      isFollowing: false,
     },
     user: {
       userId: '123',
@@ -42,8 +42,8 @@ const data = [
       bio: "I'm the original user.",
       followersCount: 2000,
       followingCount: 1000,
-      isFollowed: true,
-      isFollowing: true,
+      isFollowed: false,
+      isFollowing: false,
     },
     isLiked: true,
     isRetweeted: false,
@@ -498,7 +498,7 @@ describe('Tweet', () => {
       expect.any(Object),
     );
   });
-  it('changes color and count on unlike ', () => {
+  it('changes color and count on unlike and call api ', () => {
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
         <BrowserRouter>
@@ -511,17 +511,30 @@ describe('Tweet', () => {
         </BrowserRouter>
       </AuthProvider>,
     );
-
+    window.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({ status: true, message: 'Unliked Successfully' }),
+    });
     const likebtn = getByTestId('123456like');
     expect(likebtn).toHaveTextContent('10');
     const innerDiv = likebtn.querySelector('.Reply');
     expect(innerDiv).toHaveClass('text-[#F91880]');
     fireEvent.click(likebtn);
+    expect(window.fetch).toHaveBeenCalledWith(
+      `${import.meta.env.VITE_API_DOMAIN}tweets/${data[0].id}/deleteLike`,
+      expect.objectContaining({
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        method: 'DELETE',
+      }),
+    );
     expect(likebtn).not.toHaveClass('text-[#F91880]');
     expect(likebtn).toHaveTextContent('9');
   });
 
-  it('changes color and count on like ', () => {
+  it('changes color and count on like and call api ', async () => {
     const data1 = [
       {
         id: '123456',
@@ -562,6 +575,11 @@ describe('Tweet', () => {
         repliesCount: 3,
       },
     ];
+    window.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({ status: true, message: 'Liked Successfully' }),
+    });
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
         <BrowserRouter>
@@ -580,9 +598,19 @@ describe('Tweet', () => {
     const innerDiv = likebtn.querySelector('.Reply');
     expect(innerDiv).not.toHaveClass('text-[#F91880]');
     fireEvent.click(likebtn);
+    expect(window.fetch).toHaveBeenCalledWith(
+      `${import.meta.env.VITE_API_DOMAIN}tweets/${data1[0].id}/addlike`,
+      expect.objectContaining({
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        method: 'POST',
+      }),
+    );
+    expect(innerDiv).toHaveClass('text-[#F91880]');
     expect(likebtn).toHaveTextContent('11');
   });
-  it('changes color and count on repost ', () => {
+  it('changes color and count on repost and call api ', () => {
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
         <BrowserRouter>
@@ -595,13 +623,28 @@ describe('Tweet', () => {
         </BrowserRouter>
       </AuthProvider>,
     );
-
+    window.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({ status: true, message: 'Retweeted Successfully' }),
+    });
     const repostbtn = getByTestId('123456repost');
     expect(repostbtn).toHaveTextContent('5');
     const innerDiv = repostbtn.querySelector('.Reply');
     expect(innerDiv).not.toHaveClass('text-[#00BA7C]');
     fireEvent.click(repostbtn);
+
+    expect(window.fetch).toHaveBeenCalledWith(
+      `${import.meta.env.VITE_API_DOMAIN}tweets/${data[0].id}/retweet`,
+      expect.objectContaining({
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        method: 'POST',
+      }),
+    );
     expect(repostbtn).toHaveTextContent('6');
+    expect(innerDiv).toHaveClass('text-[#00BA7C]');
   });
 
   it('changes color and count on unrepost ', () => {
@@ -645,6 +688,11 @@ describe('Tweet', () => {
         repliesCount: 3,
       },
     ];
+    window.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({ status: true, message: 'Unretweeted Successfully' }),
+    });
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
         <BrowserRouter>
@@ -663,12 +711,26 @@ describe('Tweet', () => {
     const innerDiv = repostbtn.querySelector('.Reply');
     expect(innerDiv).toHaveClass('text-[#00BA7C]');
     fireEvent.click(repostbtn);
+    expect(window.fetch).toHaveBeenCalledWith(
+      `${import.meta.env.VITE_API_DOMAIN}tweets/${data1[0].id}/deleteRetweet`,
+      expect.objectContaining({
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        method: 'DELETE',
+      }),
+    );
     expect(repostbtn).toHaveTextContent('4');
     expect(innerDiv).not.toHaveClass('text-[#00BA7C]');
   });
   it('should send a request to follow user', async () => {
     const user = userEvent.setup({
       advanceTimers: (ms) => vi.advanceTimersByTime(ms),
+    });
+    window.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({ status: true, message: 'Followed Successfully' }),
     });
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
@@ -691,27 +753,126 @@ describe('Tweet', () => {
     });
     const followBtn = getByTestId('follow');
     expect(followBtn).toBeInTheDocument();
-    // await user.click(muteBtn);
-    // vi.advanceTimersByTime(700);
-    // await waitFor(() => {
-    //   expect(window.fetch).toHaveBeenCalledTimes(1);
-    //   expect(window.fetch).toHaveBeenCalledWith(
-    //     `${import.meta.env.VITE_API_DOMAIN}users/${tweet.user.username}/block`,
-    //     expect.objectContaining({
-    //       method: 'POST',
-    //       credentials: 'include',
-    //       withCredentials: true,
-    //       body: JSON.stringify({
-    //         userName: data[0].user.username,
-    //       }),
-    //     }),
-    //   );
-    // });
+    fireEvent.click(followBtn);
+
+    expect(window.fetch).toHaveBeenCalledTimes(1);
+    expect(window.fetch).toHaveBeenCalledWith(
+      `${import.meta.env.VITE_API_DOMAIN}users/${data[0].user.username}/follow`,
+      expect.objectContaining({
+        method: 'POST',
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userName: data[0].user.username,
+        }),
+      }),
+    );
+  });
+
+  it('should send a request to unfollow user', async () => {
+    const data1 = [
+      {
+        id: '123456',
+        isRetweet: true,
+        text: 'This is a retweet!',
+        createdAt: '2023-11-29T21:33',
+        attachmentsURL: [
+          'https://example.com/image.jpg',
+          'https://example.com/image.jpg',
+        ],
+        retweetedUser: {
+          userId: '789',
+          username: 'johndoe',
+          screenName: 'John Doe',
+          imageUrl: 'https://example.com/profile.jpg',
+          bio: "I'm a retweeted user.",
+          followersCount: 1000,
+          followingCount: 500,
+          isFollowed: true,
+          isFollowing: true,
+        },
+        user: {
+          userId: '123',
+          username: 'janesmith',
+          screenName: 'Jane Smith',
+          imageUrl: 'https://example.com/profile.jpg',
+          bio: "I'm the original user.",
+          followersCount: 2000,
+          followingCount: 1000,
+          isFollowed: true,
+          isFollowing: true,
+        },
+        isLiked: true,
+        isRetweeted: false,
+        isReplied: true,
+        likesCount: 10,
+        retweetsCount: 5,
+        repliesCount: 3,
+      },
+    ];
+    window.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({ status: true, message: 'UnFollowed Successfully' }),
+    });
+    const user = userEvent.setup({
+      advanceTimers: (ms) => vi.advanceTimersByTime(ms),
+    });
+    const { getByTestId } = render(
+      <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
+        <BrowserRouter>
+          <ActionsMenu
+            userId={1}
+            tweet={data1[0]}
+            setTweets={setTweets}
+            tweets={data1}
+          />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+
+    const menubtn = getByTestId('123456menubtn');
+    await user.click(menubtn);
+    vi.advanceTimersByTime(700);
+    await waitFor(() => {
+      expect(getByTestId('123456menu')).toBeInTheDocument();
+    });
+    const followBtn = getByTestId('follow');
+    expect(followBtn).toBeInTheDocument();
+    fireEvent.click(followBtn);
+
+    expect(window.fetch).toHaveBeenCalledTimes(1);
+    expect(window.fetch).toHaveBeenCalledWith(
+      `${import.meta.env.VITE_API_DOMAIN}users/${
+        data1[0].user.username
+      }/unfollow`,
+      expect.objectContaining({
+        method: 'DELETE',
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userid: data1[0].user.username,
+        }),
+      }),
+    );
   });
 
   it('should send a request to block user', async () => {
     const user = userEvent.setup({
       advanceTimers: (ms) => vi.advanceTimersByTime(ms),
+    });
+    window.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({ status: true, message: 'Blocked Successfully' }),
     });
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
@@ -734,27 +895,29 @@ describe('Tweet', () => {
     });
     const blockBtn = getByTestId('block');
     expect(blockBtn).toBeInTheDocument();
-    // await user.click(muteBtn);
-    // vi.advanceTimersByTime(700);
-    // await waitFor(() => {
-    //   expect(window.fetch).toHaveBeenCalledTimes(1);
-    //   expect(window.fetch).toHaveBeenCalledWith(
-    //     `${import.meta.env.VITE_API_DOMAIN}users/${tweet.user.username}/block`,
-    //     expect.objectContaining({
-    //       method: 'POST',
-    //       credentials: 'include',
-    //       withCredentials: true,
-    //       body: JSON.stringify({
-    //         userName: data[0].user.username,
-    //       }),
-    //     }),
-    //   );
-    // });
+    fireEvent.click(blockBtn);
+    expect(window.fetch).toHaveBeenCalledTimes(1);
+    expect(window.fetch).toHaveBeenCalledWith(
+      `${import.meta.env.VITE_API_DOMAIN}users/${data[0].user.username}/block`,
+      expect.objectContaining({
+        method: 'POST',
+        credentials: 'include',
+        withCredentials: true,
+        body: JSON.stringify({
+          userName: data[0].user.username,
+        }),
+      }),
+    );
   });
 
   it('should send a request to mute user', async () => {
     const user = userEvent.setup({
       advanceTimers: (ms) => vi.advanceTimersByTime(ms),
+    });
+    window.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({ status: true, message: 'Muted Successfully' }),
     });
     const { getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: false }}>
@@ -777,22 +940,19 @@ describe('Tweet', () => {
     });
     const muteBtn = getByTestId('mute');
     expect(muteBtn).toBeInTheDocument();
-    // await user.click(muteBtn);
-    // vi.advanceTimersByTime(700);
-    // await waitFor(() => {
-    //   expect(window.fetch).toHaveBeenCalledTimes(1);
-    //   expect(window.fetch).toHaveBeenCalledWith(
-    //     `${import.meta.env.VITE_API_DOMAIN}users/${tweet.user.username}/mute`,
-    //     expect.objectContaining({
-    //       method: 'POST',
-    //       credentials: 'include',
-    //       withCredentials: true,
-    //       body: JSON.stringify({
-    //         userName: data[0].user.username,
-    //       }),
-    //     }),
-    //   );
-    // });
+    fireEvent.click(muteBtn);
+    expect(window.fetch).toHaveBeenCalledTimes(1);
+    expect(window.fetch).toHaveBeenCalledWith(
+      `${import.meta.env.VITE_API_DOMAIN}users/${data[0].user.username}/mute`,
+      expect.objectContaining({
+        method: 'POST',
+        credentials: 'include',
+        withCredentials: true,
+        body: JSON.stringify({
+          userName: data[0].user.username,
+        }),
+      }),
+    );
   });
   it('should send a request to delete tweet', async () => {
     const user = userEvent.setup({
@@ -819,21 +979,15 @@ describe('Tweet', () => {
     });
     const deleteBtn = getByTestId('delete');
     expect(deleteBtn).toBeInTheDocument();
-    // await user.click(deleteBtn);
-    // vi.advanceTimersByTime(700);
-    // await waitFor(() => {
-    //   expect(window.fetch).toHaveBeenCalledTimes(1);
-    //   expect(window.fetch).toHaveBeenCalledWith(
-    //     `${import.meta.env.VITE_API_DOMAIN}tweets/${data[0].id}/deleteTweet`,
-    //     expect.objectContaining({
-    //       method: 'POST',
-    //       credentials: 'include',
-    //       withCredentials: true,
-    //       body: JSON.stringify({
-    //         userName: data[0].user.username,
-    //       }),
-    //     }),
-    //   );
-    // });
+    fireEvent.click(deleteBtn);
+    expect(window.fetch).toHaveBeenCalledWith(
+      `${import.meta.env.VITE_API_DOMAIN}tweets/${data[0].id}/deleteTweet`,
+      expect.objectContaining({
+        origin: true,
+        credentials: 'include',
+        withCredentials: true,
+        method: 'DELETE',
+      }),
+    );
   });
 });

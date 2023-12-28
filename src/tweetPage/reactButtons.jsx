@@ -1,8 +1,21 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-nested-ternary */
+import PropTypes from 'prop-types';
 import React from 'react';
-
+/**
+ * Component for rendering React buttons.
+ * @Component
+ *  * @example
+ * ```jsx
+ *    <ReactButtons
+              type="Repost"
+              data={repostsCount}
+              clicked={repost}
+            />
+ * `
+ * @returns {JSX.Element} - The rendered component.
+ */
 function reactButtons({ type, data, clicked }) {
   if (clicked) {
     return (
@@ -94,5 +107,29 @@ function reactButtons({ type, data, clicked }) {
     </div>
   );
 }
-
+/**
+ * @Component
+ * @param {Object} props - The component props.
+ * @param {string} props.type - The type of the button.
+ * @param {string} props.data - The data associated with the button.
+ * @param {bool} props.clicked - The clicked object.
+ */
+reactButtons.propTypes = {
+  /**
+   * The type of the button.
+   */
+  type: PropTypes.string.isRequired,
+  /**
+   * The data associated with the button.
+   */
+  data: PropTypes.string.isRequired,
+  /**
+   * The clicked object.
+   */
+  // eslint-disable-next-line react/forbid-prop-types
+  clicked: PropTypes.bool,
+};
+reactButtons.defaultProps = {
+  clicked: false,
+};
 export default reactButtons;

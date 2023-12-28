@@ -14,5 +14,9 @@ module.exports = {
       ],
     },
   },
-  components: ['src/components/**/*.{js,jsx,ts,tsx}', 'src/app.jsx'],
+  components: [
+    'src/components/**/*.{js,jsx,ts,tsx}',
+    'src/app.jsx',
+    'src/tweetPage/*.jsx',
+  ],
 };

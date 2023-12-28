@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+import PropTypes from 'prop-types';
 import React, { useState, useRef, useEffect } from 'react';
 import Editor from '@draft-js-plugins/editor';
 import createHashtagPlugin from '@draft-js-plugins/hashtag';
@@ -9,6 +9,18 @@ import 'draft-js/dist/Draft.css';
 const hashtagPlugin = createHashtagPlugin();
 const plugins = [hashtagPlugin];
 
+/**
+ * Component for rendering a text field.
+ * @component
+ * @example
+ * ```jsx
+ *   <TextField
+              text={text}
+              setText={setText}
+            />
+ * `
+ * @returns {JSX.Element} - The rendered component.
+ */
 function TextField({ text, setText }) {
   const [editorState, setEditorState] = useState(
     EditorState.createWithContent(ContentState.createFromText(text)),
@@ -51,4 +63,22 @@ function TextField({ text, setText }) {
     </div>
   );
 }
+/**
+ * @Component
+ * @param {Object} props - The component props.
+ * @param {string} props.text - The current text value.
+ * @param {function} props.setText - The function to update the text value.
+ */
+
+TextField.propTypes = {
+  /**
+   * The current text value.
+   */
+  text: PropTypes.string.isRequired,
+  /**
+   * The function to update the text value.
+   * @param {string} updatedText - The updated text value.
+   */
+  setText: PropTypes.func.isRequired,
+};
 export default TextField;

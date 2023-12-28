@@ -1,9 +1,25 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable react/forbid-prop-types */
 import React, { useState, useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import PropTypes from 'prop-types';
 import { useAuth } from '../hooks/AuthContext';
 
+/**
+ * Component for three dots actions menu.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered component.
+ * @example
+ * ```jsx
+ *  <ActionsMenu
+              userId={data.user.userId}
+              tweet={data}
+              setTweets={setTweets}
+              tweets={tweets}
+            />
+ * ```
+ */
 function ActionsMenu({ userId, tweet, tweets, setTweets }) {
   const { user } = useAuth();
   const [show, toggleShow] = useState(false);
@@ -398,5 +414,32 @@ function ActionsMenu({ userId, tweet, tweets, setTweets }) {
     </DropdownMenu.Root>
   );
 }
+/**
+ * @Component
+ * @param {Object} props - The component props.
+ * @param {string} props.userId - The user ID.
+ * @param {Object} props.tweet - The tweet object.
+ * @param {function} props.setTweets - The function to update the tweets.
+ * @param {Array} props.tweets - The array of tweets.
+ */
 
+ActionsMenu.propTypes = {
+  /**
+   * The ID of the user.
+   */
+  userId: PropTypes.string.isRequired,
+  /**
+   * The tweet object.
+   */
+  tweet: PropTypes.object.isRequired,
+  /**
+   * The function to update the tweets.
+   * @param {Array} updatedTweets - The updated array of tweets.
+   */
+  setTweets: PropTypes.func.isRequired,
+  /**
+   * The array of tweets.
+   */
+  tweets: PropTypes.array.isRequired,
+};
 export default ActionsMenu;
