@@ -61,10 +61,11 @@ function SearchPage() {
           <div className="flex h-full items-center">
             <div
               className="mb-2 mt-[9px] flex h-7 w-7 items-center justify-center rounded-full hover:bg-x-light-gray hover:dark:bg-light-thin"
-              data-testid="tweet-page-backbtn"
+              data-testid="search-page-backbtn"
             >
               <svg
                 viewBox="0 0 24 24"
+                data-testid="search-page-backbtn-svg"
                 aria-hidden="true"
                 className=" h-5 w-5 cursor-pointer dark:text-x-light-gray"
                 onClick={handelBackButton}
@@ -79,7 +80,10 @@ function SearchPage() {
             </div>
           </div>
         </div>
-        <div className="flex w-[80%] justify-center">
+        <div
+          className="flex w-[80%] justify-center"
+          data-testid="search-bar-search-page"
+        >
           <SearchBar
             value={value}
             setValue={setValue}

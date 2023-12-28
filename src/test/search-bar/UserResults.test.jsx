@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-expressions */
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import React from 'react';
 import * as router from 'react-router';
@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import ProtectedRoute from '../../components/ProtectedRoute';
 import AuthProvider from '../../contexts/Auth/AuthProvider';
 import { useAuth } from '../../hooks/AuthContext';
-import TweetResults from '../../Pages/search-page/TweetResults';
+import UserResults from '../../Pages/search-page/UserResults';
 
 const data = [
   {
@@ -76,101 +76,21 @@ afterEach(() => {
   window.fetch.mockRestore();
 });
 
-describe('TweetResults', () => {
+describe('UserResults', () => {
   it('renders the component successfully', () => {
     const { getByText, getByTestId } = render(
       <AuthProvider value={{ dispatch, user: null, isAuthenticated: true }}>
         <BrowserRouter>
           <ProtectedRoute>
-            <TweetResults />
+            <UserResults />
           </ProtectedRoute>
         </BrowserRouter>
       </AuthProvider>,
     );
 
-    expect(getByTestId('-tweet-results')).to.exist;
+    expect(getByTestId('-user-results')).to.exist;
     expect(getByText(`No results for ""`)).toBeInTheDocument();
   });
-
-  // it('test request tweets from API', async () => {
-  //   // Set up useLocation mock to return the correct search query
-  //   const searchQuery = ''; // Replace with your desired search query
-  //   vi.spyOn(router, 'useLocation').mockImplementation(() => ({
-  //     search: `?q=${searchQuery}`, // Simulate the search query in the URL
-  //   }));
-
-  //   window.fetch.mockResolvedValueOnce({
-  //     ok: true,
-  //     json: () =>
-  //       Promise.resolve({
-  //         status: true,
-  //         data: {
-  //           status: 'true',
-  //           data: [
-  //             {
-  //               id: '123456',
-  //               isRetweet: true,
-  //               text: 'This is a retweet!',
-  //               createdAt: '2023-11-29T21:33',
-  //               attachmentsURL: ['https://example.com/image.jpg'],
-  //               retweetedUser: {
-  //                 userId: '789',
-  //                 username: 'johndoe',
-  //                 screenName: 'John Doe',
-  //                 profileImageURL: 'https://example.com/profile.jpg',
-  //                 bio: "I'm a retweeted user.",
-  //                 followersCount: 1000,
-  //                 followingCount: 500,
-  //                 isFollowed: true,
-  //                 isFollowing: true,
-  //               },
-  //               user: {
-  //                 userId: '123',
-  //                 username: 'janesmith',
-  //                 screenName: 'Jane Smith',
-  //                 profileImageURL: 'https://example.com/profile.jpg',
-  //                 bio: "I'm the original user.",
-  //                 followersCount: 2000,
-  //                 followingCount: 1000,
-  //                 isFollowed: true,
-  //                 isFollowing: true,
-  //               },
-  //               isLiked: true,
-  //               isRetweeted: false,
-  //               isReplied: true,
-  //               likesCount: 10,
-  //               retweetsCount: 5,
-  //               repliesCount: 3,
-  //             },
-  //           ],
-  //         },
-  //       }),
-  //   });
-
-  //   render(
-  //     <AuthProvider>
-  //       <BrowserRouter>
-  //         <ProtectedRoute>
-  //           <TweetResults />
-  //         </ProtectedRoute>
-  //       </BrowserRouter>
-  //     </AuthProvider>,
-  //   );
-
-  //   await waitFor(() => {
-  //     expect(window.fetch).toHaveBeenCalledWith(
-  //       `${
-  //         import.meta.env.VITE_API_DOMAIN
-  //       }tweets/search/1?query=${searchQuery}`,
-  //       {
-  //         method: 'GET',
-  //         origin: true,
-  //         credentials: 'include',
-  //         withCredentials: true,
-  //       },
-  //     );
-  //   });
-  // });
 
   //   it('shows the component successfully', () => {
   //     // Set up useLocation mock to return the correct pastPath
@@ -181,7 +101,7 @@ describe('TweetResults', () => {
   //       <AuthProvider value={{ dispatch, user: null, isAuthenticated: true }}>
   //         <BrowserRouter>
   //           <ProtectedRoute>
-  //             <TweetResults />
+  //             <UserResults />
   //           </ProtectedRoute>
   //         </BrowserRouter>
   //       </AuthProvider>,
